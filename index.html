@@ -898,6 +898,15 @@ p.copy.ph { display: block; }
 .iter-tri { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .iter-tri figure { margin: 0; display: flex; flex-direction: column; }
 .iter-tri figcaption { margin-top: auto; padding-top: 10px; font-size: 12px; line-height: 18px; color: var(--cs-mute); }
+/* the three cadence stills are different natural heights. The image is taken
+   out of flow so it can't push the box taller than its ratio — each then fits
+   to one common height, scaled, never cropped. */
+.iter-tri .shot { position: relative; aspect-ratio: 1 / 1; }
+.iter-tri .shot img {
+  position: absolute; inset: 0; margin: auto;
+  width: auto; height: auto; max-width: 100%; max-height: 100%;
+  display: block;
+}
 /* a still and a clip stacked in one media column */
 .iter-duo { display: grid; grid-template-columns: 1fr; gap: 16px; }
 
@@ -2306,15 +2315,15 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             <p class="t-12">Cadence — the layouts explored, and the one that stuck.</p>
             <div class="iter-tri">
               <figure>
-                <img class="cs-img" src="assets/gd/cad-4a.png" alt="Cadence option 4A — mode moves into the header, channels become chips" loading="lazy">
+                <div class="shot"><img src="assets/gd/cad-4a.png" alt="Cadence option 4A — mode moves into the header, channels become chips" loading="lazy"></div>
                 <figcaption class="ph">4A — mode in the header, chip-style channels</figcaption>
               </figure>
               <figure>
-                <img class="cs-img" src="assets/gd/cad-4b.png" alt="Cadence option 4B — a ladder connector added to the existing rows" loading="lazy">
+                <div class="shot"><img src="assets/gd/cad-4b.png" alt="Cadence option 4B — a ladder connector added to the existing rows" loading="lazy"></div>
                 <figcaption class="ph">4B — a ladder connector down the existing rows</figcaption>
               </figure>
               <figure>
-                <img class="cs-img" src="assets/gd/cad-4c.png" alt="Cadence option 4C — tighter rows so more fits without scrolling" loading="lazy">
+                <div class="shot"><img src="assets/gd/cad-4c.png" alt="Cadence option 4C — tighter rows so more fits without scrolling" loading="lazy"></div>
                 <figcaption class="ph">4C — tighter rows, more fits without scrolling</figcaption>
               </figure>
             </div>
