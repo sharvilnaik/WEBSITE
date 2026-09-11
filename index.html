@@ -875,10 +875,10 @@ p.copy.ph { display: block; }
 @media (max-width: 860px) { .flaw-pair { grid-template-columns: 1fr; } }
 
 /* 05.1 — iteration rows: media and copy trading sides down the page */
-.iters { display: flex; flex-direction: column; gap: 104px; }
+.iters { display: flex; flex-direction: column; gap: 128px; }
 .iter {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 32px 56px; align-items: center;
+  gap: 64px 56px; align-items: center;
 }
 .iter.flip .iter-media { order: 2; }
 .iter.flip .iter-copy { order: 1; }
@@ -892,21 +892,16 @@ p.copy.ph { display: block; }
   font-size: 12px; line-height: 16px; letter-spacing: 0.1em;
   text-transform: uppercase; font-weight: 400; color: var(--cs-blue);
 }
-/* the extra row under an iteration — explorations, alternates */
-.iter-extra { grid-column: 1 / -1; }
-.iter-extra > .t-12 { margin-bottom: 14px; }
-.iter-tri { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+/* the extra row under an iteration — explorations, alternates.
+   order:3 keeps it last even on .flip, where copy/media are reordered */
+.iter-extra { grid-column: 1 / -1; order: 3; }
+.iter-extra > .t-12 { margin-bottom: 20px; }
+.iter-tri { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
 .iter-tri figure { margin: 0; display: flex; flex-direction: column; }
-.iter-tri figcaption { margin-top: auto; padding-top: 10px; font-size: 12px; line-height: 18px; color: var(--cs-mute); }
-/* the three cadence stills are different natural heights. The image is taken
-   out of flow so it can't push the box taller than its ratio — each then fits
-   to one common height, scaled, never cropped. */
-.iter-tri .shot { position: relative; aspect-ratio: 1 / 1; }
-.iter-tri .shot img {
-  position: absolute; inset: 0; margin: auto;
-  width: auto; height: auto; max-width: 100%; max-height: 100%;
-  display: block;
-}
+.iter-tri figcaption { margin-top: 14px; font-size: 12px; line-height: 18px; color: var(--cs-mute); }
+/* the three cadence stills are cropped to one identical size, so they just
+   sit at full width and line up on their own */
+.iter-tri .shot img { width: 100%; height: auto; display: block; }
 /* a still and a clip stacked in one media column */
 .iter-duo { display: grid; grid-template-columns: 1fr; gap: 16px; }
 
@@ -930,7 +925,7 @@ p.copy.ph { display: block; }
 .iter-final .nf-vid { background: none; }
 
 @media (max-width: 900px) {
-  .iters { gap: 64px; }
+  .iters { gap: 72px; }
   .iter { grid-template-columns: 1fr; gap: 24px; }
   .iter.flip .iter-media, .iter.flip .iter-copy { order: 0; }
   .iter-copy h3 { font-size: 22px; line-height: 30px; }
@@ -1173,6 +1168,41 @@ p.copy.ph { display: block; }
 }
 .vid-ctrls button svg { width: 10px; height: 10px; display: block; fill: currentColor; }
 .vid-ctrls button[disabled] { opacity: 0.45; cursor: default; }
+
+/* long-form clips: controls appear on hover, with a scrubber and 5s jumps */
+.vid.is-scrub .vid-ctrls {
+  left: 12px; right: 12px; bottom: 12px;
+  align-items: center; gap: 8px;
+  opacity: 0; pointer-events: none;
+}
+.vid.is-scrub:hover .vid-ctrls,
+.vid.is-scrub:focus-within .vid-ctrls { opacity: 1; pointer-events: auto; }
+@media (hover: none), (pointer: coarse) {
+  .vid.is-scrub .vid-ctrls { opacity: 0.92; pointer-events: auto; }
+}
+.vid-ctrls button.skip { padding: 0 10px; font-size: 11px; letter-spacing: 0.02em; }
+.vid-ctrls .vid-time {
+  flex: none; font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,0.75);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.vid-seek {
+  flex: 1 1 auto; min-width: 48px; height: 28px; margin: 0;
+  -webkit-appearance: none; appearance: none; background: none; cursor: pointer;
+}
+.vid-seek::-webkit-slider-runnable-track {
+  height: 3px; border-radius: 3px; background: rgba(255,255,255,0.3);
+}
+.vid-seek::-moz-range-track { height: 3px; border-radius: 3px; background: rgba(255,255,255,0.3); }
+.vid-seek::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; margin-top: -4.5px;
+  width: 12px; height: 12px; border-radius: 50%; background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+.vid-seek::-moz-range-thumb {
+  width: 12px; height: 12px; border: 0; border-radius: 50%; background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+.vid-seek:focus-visible { outline: 2px solid var(--acid); outline-offset: 3px; }
 @media (hover: hover) and (pointer: fine) {
   .vid-ctrls button:not([disabled]):hover { background: var(--acid); color: var(--ink); border-color: var(--acid); }
 }
@@ -1681,7 +1711,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 
     <div class="quests-reel">
       <figure class="qv">
-        <div class="qv-media"><video data-audio="true" src="assets/sq/handtracking.mp4" poster="assets/sq/handtracking.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Hand-tracking masks in TouchDesigner"></video></div>
+        <div class="qv-media"><video data-audio="true" src="assets/sq/handtracking.mp4" data-scrub poster="assets/sq/handtracking.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Hand-tracking masks in TouchDesigner"></video></div>
         <figcaption><b>Hand-tracking masks</b><span>TouchDesigner</span></figcaption>
       </figure>
       <figure class="qv">
@@ -2289,7 +2319,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 
       <div class="iters">
 
-        <!-- ITERATION 01 — media left, copy right -->
+        <!-- EXISTING UI — media left, copy right -->
         <div class="iter">
           <div class="iter-media">
             <div class="flaw-img">
@@ -2300,7 +2330,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             </div>
           </div>
           <div class="iter-copy">
-            <span class="iter-step">Iteration 01</span>
+            <span class="iter-step">Existing UI</span>
             <h3>What was wrong with it</h3>
             <p class="t-16 ph">a line on how you read the existing layout before touching it</p>
             <ol class="flaws">
@@ -2317,7 +2347,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             <img class="cs-img" src="assets/gd/v1-one-modal.png" alt="Version one of the New Appointment modal — one modal carrying everything the edit screen could do, with the confirmation cadence preset open" loading="lazy">
           </div>
           <div class="iter-copy">
-            <span class="iter-step">Iteration 02</span>
+            <span class="iter-step">Iteration 01</span>
             <h3>Complementing Edit Appointment Modal and Adding Cadences</h3>
             <p class="t-20 ph">two changes in one pass: New Appointment was rebuilt to match Edit Appointment, so the two screens finally agreed on what an appointment is — and cadence arrived at creation, so booking a visit and chasing the client stopped being separate jobs</p>
           </div>
@@ -2347,7 +2377,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             <img class="cs-img" src="assets/gd/treatment-plan.png" alt="Add Treatment Plan Step — treatment types with a provider each, visits, frequency and duration, and the appointments generated from them" loading="lazy">
           </div>
           <div class="iter-copy">
-            <span class="iter-step">Iteration 03</span>
+            <span class="iter-step">Iteration 02</span>
             <h3>Adding Treatment Plan</h3>
             <p class="t-20 ph">a client in treatment attends a course of visits, not one — so the modal learned to describe the course and generate the appointments from it</p>
           </div>
@@ -2356,7 +2386,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
         <!-- ITERATION 04 — the version that shipped, three up -->
         <div class="iter full">
           <div class="iter-copy">
-            <span class="iter-step">Iteration 04</span>
+            <span class="iter-step">Iteration 03</span>
             <h3>Final Version</h3>
             <p class="t-20 ph">what it collapsed down to — two modes in one form, scheduling ahead or recording a visit that already happened</p>
           </div>
@@ -2366,12 +2396,12 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
               <div class="shot"><img src="assets/gd/final-schedule.jpg" alt="The final New Appointment modal, scheduling ahead" loading="lazy"></div>
             </figure>
             <figure>
-              <div class="shot"><img src="assets/gd/final-log-visit.jpg" alt="The final modal in Log a Visit mode, with an outcome and notes" loading="lazy"></div>
+              <div class="shot nf-vid">
+                <video src="assets/gd/final-walkthrough.mp4" data-scrub poster="assets/gd/final-walkthrough-poster.jpg" muted playsinline preload="none" data-noautoplay data-audio="false" aria-label="The shipped New Appointment modal, driven end to end"></video>
+              </div>
             </figure>
             <figure>
-              <div class="shot nf-vid">
-                <video src="assets/gd/final-walkthrough.mp4" poster="assets/gd/final-walkthrough-poster.jpg" muted playsinline preload="none" data-noautoplay data-audio="false" aria-label="The shipped New Appointment modal, driven end to end"></video>
-              </div>
+              <div class="shot"><img src="assets/gd/final-log-visit.jpg" alt="The final modal in Log a Visit mode, with an outcome and notes" loading="lazy"></div>
             </figure>
           </div>
         </div>
@@ -2673,7 +2703,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       <div class="sq-label"><b id="sq-motion">Motion</b><span>TouchDesigner, After Effects, paper</span></div>
 
       <div class="sq-feature">
-        <div class="sq-media"><video data-audio="true" src="assets/sq/handtracking.mp4" poster="assets/sq/handtracking.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+        <div class="sq-media"><video data-audio="true" src="assets/sq/handtracking.mp4" data-scrub poster="assets/sq/handtracking.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
         <div class="sq-cap">
           <p>Live hand-tracking masks with pixelate and halftone effects. Made in TouchDesigner.</p>
           <time>June 2026</time>
@@ -2681,7 +2711,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       </div>
 
       <div class="sq-feature">
-        <div class="sq-media sq-4x3"><video data-audio="true" src="assets/sq/stopmotion.mp4" poster="assets/sq/stopmotion.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+        <div class="sq-media sq-4x3"><video data-audio="false" src="assets/sq/stopmotion.mp4" poster="assets/sq/stopmotion.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
         <div class="sq-cap">
           <p>Stop-motion animation made by hand-drawing 37 frames on sticky notes.</p>
           <time>December 2026</time>
@@ -2701,7 +2731,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 
       <div class="sq-pair">
         <figure>
-          <div class="sq-media"><video data-audio="true" src="assets/sq/tetris.mp4" poster="assets/sq/tetris.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+          <div class="sq-media"><video data-audio="false" src="assets/sq/tetris.mp4" poster="assets/sq/tetris.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
           <figcaption class="sq-cap"><p>Animated the gameplay of Tetris in the calendar app. Helped me understand motion and framing a letter better.</p></figcaption>
         </figure>
         <figure>
@@ -2729,7 +2759,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
   <section class="sq-section" aria-labelledby="sq-spot">
     <div class="in">
       <div class="sq-label"><b id="sq-spot">Spotify, on a CRT</b><span class="ph">one line on what this is</span></div>
-      <div class="sq-media" style="aspect-ratio: 4 / 3"><video data-audio="true" src="assets/sq/spotify.mp4" poster="assets/sq/spotify.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+      <div class="sq-media" style="aspect-ratio: 4 / 3"><video data-audio="true" src="assets/sq/spotify.mp4" data-scrub poster="assets/sq/spotify.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
     </div>
   </section>
 
@@ -2994,37 +3024,87 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
   showView();
 
 
-  // ---- Video controls: play/pause + mute on every video ------------
+  // ---- Video controls ----------------------------------------------
   const ICON = {
     play:  '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1l7 4-7 4z"/></svg>',
     pause: '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1h2.5v8H1.5zM6 1h2.5v8H6z"/></svg>',
     sound: '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3.5h2l2.5-2v7L3 6.5H1z"/><path d="M7 3.2a2.4 2.4 0 010 3.6" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>',
     muted: '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3.5h2l2.5-2v7L3 6.5H1z"/><path d="M6.6 3.6l2.6 2.8M9.2 3.6L6.6 6.4" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>'
   };
+  const mmss = t => {
+    if (!isFinite(t)) return '0:00';
+    const m = Math.floor(t / 60), sec = Math.floor(t % 60);
+    return m + ':' + String(sec).padStart(2, '0');
+  };
+
   document.querySelectorAll('video:not([data-nocontrols])').forEach(v => {
     const box = v.parentElement; box.classList.add('vid');
+    const scrub = v.hasAttribute('data-scrub');
+    // the file is the authority on audio — no point offering a control that does nothing
+    const hasAudio = v.dataset.audio === 'true';
+    if (scrub) box.classList.add('is-scrub');
+
     const bar = document.createElement('div'); bar.className = 'vid-ctrls';
     const play = document.createElement('button'); play.type = 'button';
-    const mute = document.createElement('button'); mute.type = 'button';
-    bar.append(play, mute); box.append(bar);
+    bar.append(play);
 
-    const hasAudio = () =>
-      v.mozHasAudio || (v.webkitAudioDecodedByteCount > 0) || (v.audioTracks && v.audioTracks.length > 0) || v.dataset.audio === 'true';
+    let seek, back, fwd, time;
+    if (scrub) {
+      back = document.createElement('button'); back.type = 'button';
+      back.className = 'skip'; back.textContent = '\u22125s';
+      back.setAttribute('aria-label', 'Back five seconds');
+      fwd = document.createElement('button'); fwd.type = 'button';
+      fwd.className = 'skip'; fwd.textContent = '+5s';
+      fwd.setAttribute('aria-label', 'Forward five seconds');
+      seek = document.createElement('input');
+      seek.type = 'range'; seek.className = 'vid-seek';
+      seek.min = 0; seek.max = 1000; seek.value = 0; seek.step = 1;
+      seek.setAttribute('aria-label', 'Seek');
+      time = document.createElement('span'); time.className = 'vid-time'; time.textContent = '0:00';
+      bar.append(back, seek, fwd, time);
+    }
+
+    let mute;
+    if (hasAudio) {
+      mute = document.createElement('button'); mute.type = 'button';
+      bar.append(mute);
+    }
+    box.append(bar);
+
+    let dragging = false;
     const render = () => {
       const playing = !v.paused && !v.ended;
       play.innerHTML = (playing ? ICON.pause : ICON.play) + (playing ? 'Pause' : 'Play');
       play.setAttribute('aria-label', playing ? 'Pause video' : 'Play video');
-      const audio = hasAudio();
-      mute.disabled = !audio;
-      mute.innerHTML = (v.muted ? ICON.muted : ICON.sound) + (audio ? (v.muted ? 'Unmute' : 'Mute') : 'No audio');
-      mute.setAttribute('aria-label', audio ? (v.muted ? 'Unmute video' : 'Mute video') : 'This video has no audio');
+      if (mute) {
+        mute.innerHTML = (v.muted ? ICON.muted : ICON.sound) + (v.muted ? 'Unmute' : 'Mute');
+        mute.setAttribute('aria-label', v.muted ? 'Unmute video' : 'Mute video');
+      }
+      if (seek && !dragging && v.duration) {
+        seek.value = Math.round((v.currentTime / v.duration) * 1000);
+        time.textContent = mmss(v.currentTime) + ' / ' + mmss(v.duration);
+      }
     };
+
     play.addEventListener('click', () => { v.paused ? v.play().catch(() => {}) : v.pause(); });
-    mute.addEventListener('click', () => { v.muted = !v.muted; if (!v.muted) v.volume = 1; render(); });
+    if (mute) mute.addEventListener('click', () => { v.muted = !v.muted; if (!v.muted) v.volume = 1; render(); });
+    if (scrub) {
+      const nudge = d => { if (v.duration) v.currentTime = Math.min(v.duration, Math.max(0, v.currentTime + d)); };
+      back.addEventListener('click', () => nudge(-5));
+      fwd.addEventListener('click', () => nudge(5));
+      const scrubTo = () => { if (v.duration) v.currentTime = (seek.value / 1000) * v.duration; };
+      seek.addEventListener('pointerdown', () => { dragging = true; });
+      seek.addEventListener('input', () => { dragging = true; scrubTo(); });
+      seek.addEventListener('change', () => { scrubTo(); dragging = false; });
+      ['pointerup', 'pointercancel', 'blur'].forEach(ev => seek.addEventListener(ev, () => { dragging = false; }));
+      v.addEventListener('timeupdate', render);
+      v.addEventListener('durationchange', render);
+      // a scrubbed clip is one you watch on purpose — don't loop it out from under the viewer
+      v.removeAttribute('loop');
+    }
     ['play', 'pause', 'ended', 'volumechange', 'loadedmetadata', 'loadeddata'].forEach(ev => v.addEventListener(ev, render));
     render();
   });
-
 
 
   // ---- Case-study: before/after toggle -----------------------------
