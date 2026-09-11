@@ -380,18 +380,15 @@ body.menu-open .menu li:nth-child(3) { transition-delay: 160ms; }
 .quests-head { text-align: center; max-width: 640px; margin: 0 auto 44px; }
 .quests-head h2 { color: var(--acid); font-size: clamp(56px, 8vw, 96px); line-height: 1.02; text-transform: uppercase; }
 .quests-head .tag { margin-top: 18px; font-size: 16px; color: var(--paper); }
-.quests-reel { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.quests-reel { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
 .qv { margin: 0; }
-.qv-media { aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden; background: #0c0c0c; }
-.qv-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* square tiles, and `contain` — these clips run 16:9, 1:1, 4:3 and 9:16,
+   so anything that crops to fill zooms the portrait ones to pieces */
+.qv-media { aspect-ratio: 1 / 1; border-radius: 14px; overflow: hidden; background: #0c0c0c; }
+.qv-media video { width: 100%; height: 100%; object-fit: contain; display: block; }
 .qv figcaption { margin-top: 14px; display: flex; flex-direction: column; gap: 3px; }
 .qv figcaption b { font-weight: 400; font-size: 15px; color: var(--paper); }
 .qv figcaption span { font-size: 12px; color: var(--paper-50); text-transform: uppercase; letter-spacing: 0.04em; }
-.quests-peek { display: grid; grid-template-columns: repeat(2, minmax(0, 286px)); justify-content: center; gap: 12px; margin-top: 20px; }
-.quests-peek .qp { aspect-ratio: 1 / 1; border-radius: 10px; overflow: hidden; background: #0c0c0c; position: relative; }
-.quests-peek .qp video, .quests-peek .qp img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.quests-peek .qp::after { content: ""; position: absolute; inset: 0; background: rgba(13,13,14,0.35); transition: background 240ms var(--ease-out); }
-@media (hover: hover) and (pointer: fine) { .quests-peek .qp:hover::after { background: transparent; } }
 .quests-cta { display: flex; flex-direction: column; align-items: center; gap: 22px; margin-top: 56px; }
 /* the display face is heavy — it needs real room inside the pill */
 .quests-cta .btn-pill { height: 52px; padding: 0 32px; font-size: 15px; letter-spacing: 0; }
@@ -491,7 +488,6 @@ body.menu-open .menu li:nth-child(3) { transition-delay: 160ms; }
   .quests { grid-template-columns: 1fr; padding: 40px 32px 100px; justify-items: center; }
   .quests { padding: 32px 20px 80px; }
   .quests-reel { grid-template-columns: 1fr; gap: 16px; }
-  .quests-peek { grid-template-columns: repeat(2, 1fr); }
   .quests-copy { padding: 0; }
   .creativity-grid { grid-template-columns: 1fr; }
   .scope { justify-self: center; margin-right: 0; }
@@ -1636,11 +1632,10 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
         <div class="qv-media"><video data-audio="false" src="assets/sq/shine.mp4" poster="assets/sq/shine.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Shine your light — After Effects expression piece"></video></div>
         <figcaption><b>Shine Your Light</b><span>After Effects · scripted</span></figcaption>
       </figure>
-    </div>
-
-    <div class="quests-peek" aria-hidden="true">
-      <div class="qp"><video src="assets/sq/stopmotion.mp4" poster="assets/sq/stopmotion.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
-      <div class="qp"><video src="assets/sq/pendulum.mp4" poster="assets/sq/pendulum.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+      <figure class="qv">
+        <div class="qv-media"><video data-audio="false" src="assets/sq/stopmotion.mp4" poster="assets/sq/stopmotion.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Hand-drawn stop-motion animation"></video></div>
+        <figcaption><b>Stop Motion</b><span>Hand-drawn · frame by frame</span></figcaption>
+      </figure>
     </div>
 
     <div class="quests-cta">
