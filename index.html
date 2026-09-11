@@ -1102,6 +1102,31 @@ p.copy.ph { display: block; }
 }
 .lm-drop.is-on { opacity: 1; }
 .lm-drop img { display: block; width: 100%; height: auto; }
+
+/* ---- Personas ---- */
+.personas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; align-items: start; }
+.persona {
+  border: 1px solid var(--cs-line); padding: 34px 32px 30px;
+  display: flex; flex-direction: column;
+}
+.pr-role {
+  font-size: 12px; line-height: 16px; letter-spacing: 0.1em;
+  text-transform: uppercase; font-weight: 400; color: var(--cs-blue);
+}
+.pr-name {
+  margin: 14px 0 0; font-size: 26px; line-height: 34px;
+  letter-spacing: -0.02em; font-weight: 300; color: var(--cs-text);
+}
+.pr-quote {
+  margin: 18px 0 0; font-size: 19px; line-height: 30px;
+  font-weight: 300; color: var(--cs-text-2); font-style: italic;
+}
+.pr-ctx { margin: 18px 0 0; font-size: 16px; line-height: 27px; font-weight: 300; color: var(--cs-text-3); }
+.pr-rows { margin-top: 26px; border-top: 1px solid var(--cs-line-2); }
+.pr-row { display: grid; grid-template-columns: 150px 1fr; gap: 18px; padding: 16px 0; border-bottom: 1px solid var(--cs-line); }
+.pr-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.pr-k { font-size: 12px; line-height: 22px; color: var(--cs-label); }
+.pr-v { margin: 0; font-size: 15px; line-height: 24px; font-weight: 300; color: var(--cs-text-2); }
 /* a still and a clip stacked in one media column */
 .iter-duo { display: grid; grid-template-columns: 1fr; gap: 16px; }
 
@@ -1138,6 +1163,8 @@ p.copy.ph { display: block; }
   .lead-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .lead-pair { grid-template-columns: 1fr; }
   .lead-tri { grid-template-columns: 1fr; }
+  .personas { grid-template-columns: 1fr; }
+  .pr-row { grid-template-columns: 1fr; gap: 4px; }
 }
 
 /* 05.x — before · exploration · final */
@@ -2015,6 +2042,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
     <a href="#cs-context" data-sec="cs-context"><span class="tick"></span><span class="lbl">Context</span></a>
     <a href="#cs-approach" data-sec="cs-approach"><span class="tick"></span><span class="lbl">Approach</span></a>
     <a href="#cs-competitors" data-sec="cs-competitors"><span class="tick"></span><span class="lbl">Competitors</span></a>
+    <a href="#cs-personas" data-sec="cs-personas"><span class="tick"></span><span class="lbl">Personas</span></a>
     <a href="#cs-journey" data-sec="cs-journey"><span class="tick"></span><span class="lbl">Journey</span></a>
     <a href="#cs-ia" data-sec="cs-ia"><span class="tick"></span><span class="lbl">Architecture</span></a>
     <a href="#cs-problems" data-sec="cs-problems"><span class="tick"></span><span class="lbl">Problems</span></a>
@@ -2163,6 +2191,47 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
         <video class="cs-hover-video" src="assets/competitors-scroll.mp4" muted loop playsinline preload="metadata" data-nocontrols aria-hidden="true" tabindex="-1"></video>
         <figcaption class="t-16 cs-read"><a class="cs-cta cs-cta-pill" href="#comp-figure" data-hover-video>Hover to View More</a></figcaption>
       </figure>
+    </div>
+  </section>
+
+
+  <!-- 03.5 — Understand · Personas -->
+  <section aria-labelledby="cs-personas">
+    <div class="in">
+      <h2 class="h-40" id="cs-personas">User Personas</h2>
+      <div class="sp-30"></div>
+      <div class="copy">
+        <p class="t-20">Two people use this product all day, and neither of them is the person who buys it. The buyer is a managing attorney who wants fewer missed calls and faster demands. The users are judged on throughput, and they log in mainly to check whether the AI got it right.</p>
+        <p class="t-20 s">Proto-personas, built from onboarding calls with the firms we were signing and from the call transcripts the product was already collecting. Held loosely, and corrected as we learned. Everything after this point in the case study is built for these two.</p>
+      </div>
+      <div class="sp-52"></div>
+      <div class="personas">
+        <article class="persona">
+          <span class="pr-role">Primary user</span>
+          <h3 class="pr-name">Dana Reyes, Case Manager</h3>
+          <p class="pr-quote">“I’m not paid to read the file. I’m paid to move it.”</p>
+          <p class="pr-ctx">Eleven years in personal injury, the last four at a twelve-attorney firm. Carries about ninety open matters. Most of her day is the phone — a records desk, a client who missed an appointment, an adjuster who hasn’t called back in two weeks.</p>
+          <div class="pr-rows">
+            <div class="pr-row"><span class="pr-k">Judged on</span><p class="pr-v">Cases moving. Treatment gaps closed, records in, demands out on time.</p></div>
+            <div class="pr-row"><span class="pr-k">In Gideon</span><p class="pr-v">Logs in two or three times a day to see what the AI did overnight and pick up whatever it escalated.</p></div>
+            <div class="pr-row"><span class="pr-k">Trusts it when</span><p class="pr-v">She can see the call, the transcript and what changed — in that order, without leaving the row.</p></div>
+            <div class="pr-row"><span class="pr-k">Loses trust when</span><p class="pr-v">A task says “in progress” and nothing on the screen says by whom, since when, or what happens next.</p></div>
+          </div>
+        </article>
+
+        <article class="persona">
+          <span class="pr-role">Secondary user</span>
+          <h3 class="pr-name">Priya Raman, Pre-Litigation Paralegal</h3>
+          <p class="pr-quote">“Every day the demand sits here is a day the client waits.”</p>
+          <p class="pr-ctx">Six years in pre-lit at the same firm. Owns the back half of the case — records complete, specials computed, the demand package assembled, then the long back-and-forth with the adjuster.</p>
+          <div class="pr-rows">
+            <div class="pr-row"><span class="pr-k">Judged on</span><p class="pr-v">Time from treatment complete to demand sent, and what the case settles for against the first offer.</p></div>
+            <div class="pr-row"><span class="pr-k">In Gideon</span><p class="pr-v">Lives in Settlements. Needs the record trail assembled and the counter history in one place.</p></div>
+            <div class="pr-row"><span class="pr-k">Trusts it when</span><p class="pr-v">Every number in the demand traces back to a document she can open.</p></div>
+            <div class="pr-row"><span class="pr-k">Loses trust when</span><p class="pr-v">A step is locked and nothing tells her what unlocks it.</p></div>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -2526,7 +2595,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <h3 class="h-28" id="cs-p1a">The New Appointment Modal</h3>
         </div>
       <div class="sp-48"></div>
-      <p class="t-20 copy ph">one or two lines framing what was wrong and where the five iterations landed</p>
+      <p class="t-20 copy">Booking a visit took twenty fields for something that needed six, and the chasing that follows a booking lived somewhere else entirely. Five passes later the same form writes the visit, sets the follow-up cadence, and can create a client, a provider or a treatment type without ever leaving it.</p>
       <div class="sp-56"></div>
 
       <div class="iters">
@@ -2544,7 +2613,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <div class="iter-copy">
             <span class="iter-step">Existing UI</span>
             <h3>What was wrong with it</h3>
-            <p class="t-16 ph">a line on how you read the existing layout before touching it</p>
+            <p class="t-16">I filled it in the way a case manager would — once for each kind of visit — and marked every field I could not answer without leaving the screen.</p>
             <ol class="flaws">
               <li>
                 <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-1">
@@ -2582,7 +2651,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <div class="iter-copy">
             <span class="iter-step">Iteration 01</span>
             <h3>Complementing Edit Appointment Modal and Adding Cadences</h3>
-            <p class="t-20 ph">two changes in one pass: New Appointment was rebuilt to match Edit Appointment, so the two screens finally agreed on what an appointment is — and cadence arrived at creation, so booking a visit and chasing the client stopped being separate jobs</p>
+            <p class="t-20">Two changes in one pass: New Appointment was rebuilt to match Edit Appointment, so the two screens finally agreed on what an appointment is — and cadence arrived at creation, so booking a visit and chasing the client stopped being separate jobs</p>
           </div>
 
           <div class="iter-extra">
@@ -2612,7 +2681,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <div class="iter-copy">
             <span class="iter-step">Iteration 02</span>
             <h3>Adding Treatment Plan</h3>
-            <p class="t-20 ph">a client in treatment attends a course of visits, not one — so the modal learned to describe the course and generate the appointments from it</p>
+            <p class="t-20">A client in treatment attends a course of visits, not one — so the modal learned to describe the course and generate the appointments from it</p>
           </div>
         </div>
 
@@ -3107,7 +3176,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       </div>
       <div class="prob-body" id="prob-3"><div>
         <div class="sp-30"></div>
-        <p class="t-20 copy ph">the smaller surfaces — what changed across the rest of the app</p>
+        <p class="t-20 copy">The modals were the loudest problems, not the only ones. These are the smaller surfaces — the dashboard, intake, treatment and settings — where the same rule applied: show the state of the work, and put the next action beside it.</p>
         <div class="sp-48"></div>
           <div class="ba-grid">
             <figure class="ba-card" data-ba>
@@ -3172,7 +3241,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
     <div class="in">
       <h2 class="h-56" id="cs-decisions">Product Decisions</h2>
       <div class="sp-30"></div>
-      <p class="t-20 copy ph">Four decisions that shaped the product more … — full sentence goes here</p>
+      <p class="t-20 copy">Four decisions shaped the product more than any single screen did. Each one started as a question about what the software was actually for, and ended as something you can point at in the build.</p>
       <div class="sp-56"></div>
 
       <div class="decisions">
@@ -3323,9 +3392,9 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       <div class="sp-36"></div>
       <div class="pivot">
         <div class="a">
-          <p class="t-20 ph">The original bet was that PI firms would … — full paragraph goes here</p>
-          <p class="t-20 s ph">The company concluded the market and product … — full paragraph goes here</p>
-          <p class="t-20 s ph">It taught me something I’d rather have learned … — full paragraph goes here</p>
+          <p class="t-20">The original bet was that plaintiff personal-injury firms would hand the phones to an AI receptionist — that if a system could answer, qualify and sign a lead, then spend months chasing providers, records and adjusters afterwards, firms would let it. That is a great deal of trust to ask for on a matter worth a year of someone’s income.</p>
+          <p class="t-20 s">The company concluded that the market and the product were not going to meet in time. The firms that wanted the automation wanted it inside the case management system they already pay for. The ones who wanted a product of their own wanted a person behind it. Rather than keep building toward a middle neither side was asking for, we stopped.</p>
+          <p class="t-20 s">It taught me something I would rather have learned later. A design system, an information architecture and a clean journey map do not protect you from the question of whether the thing should exist at all. I got good at making the product coherent while that question was still open. Next time I want to be the one asking it out loud, early, before the foundations go in.</p>
         </div>
       </div>
     </div>
@@ -3339,10 +3408,10 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       <p class="h-40">Two months. One product that didn’t survive its market, and a way of working that did. Gideon taught me to name a thing before drawing it, to design for people who log in to check work rather than do it, and to carry my own decisions through to merged code instead of handing them over.</p>
       <div class="sp-56"></div>
       <div class="colophon">
-        <div class="cl"><div class="rule-cs soft"></div><span class="eyebrow">Role</span><p class="t-12 ph">Product Designer — structure, IA, journey … — complete this line</p></div>
-        <div class="cl"><div class="rule-cs soft"></div><span class="eyebrow">Tools</span><p class="t-12 ph">Figma · FigJam · Figma Slides · Claude Code … — complete this line</p></div>
-        <div class="cl"><div class="rule-cs soft"></div><span class="eyebrow">Credit</span><p class="t-12 ph">Product and design decisions mine. Implementation … — complete this line</p></div>
-        <div class="cl"><div class="rule-cs soft"></div><span class="eyebrow">Contact</span><p class="t-12">Sharvil Naik · <a href="mailto:sharvilnaik17@gmail.com">sharvilnaik17@gmail.com</a> · <span class="ph">portfolio URL</span></p></div>
+        <div class="cl"><div class="rule-cs soft"></div><span class="eyebrow">Role</span><p class="t-12">Product Designer — product planning, information architecture, journey, design foundations and the UI across the product.</p></div>
+        <div class="cl"><div class="rule-cs soft"></div><span class="eyebrow">Tools</span><p class="t-12">Figma · FigJam · Figma Slides · Claude Code · After Effects</p></div>
+        <div class="cl"><div class="rule-cs soft"></div><span class="eyebrow">Credit</span><p class="t-12">Product and design decisions mine. Implementation with the CTO and part-time full-stack engineers — and a fair amount of it written and merged by me through Claude Code.</p></div>
+        <div class="cl"><div class="rule-cs soft"></div><span class="eyebrow">Contact</span><p class="t-12">Sharvil Naik · <a href="mailto:sharvilnaik17@gmail.com">sharvilnaik17@gmail.com</a></p></div>
       </div>
       <div class="sp-56"></div>
       <div class="cs-end">
@@ -3412,11 +3481,11 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       <div class="sq-pair" style="margin-top:56px">
         <figure>
           <div class="sq-media sq-tall"><video data-audio="false" src="assets/sq/stretchy.mp4" poster="assets/sq/stretchy.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
-          <figcaption class="sq-cap"><p class="ph">Kinetic type test — one line on what this is</p></figcaption>
+          <figcaption class="sq-cap"><p>Pulled a word until it stopped reading as letters and started reading as material. Made to find out how far type survives before meaning goes.</p></figcaption>
         </figure>
         <figure>
           <div class="sq-media sq-tall"><video data-audio="false" src="assets/sq/pendulum.mp4" poster="assets/sq/pendulum.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
-          <figcaption class="sq-cap"><p class="ph">3D render test — one line on what this is</p></figcaption>
+          <figcaption class="sq-cap"><p>A pendulum left running to test lighting and falloff. The shadow was the point; the object was just something to cast it.</p></figcaption>
         </figure>
       </div>
 
@@ -3449,7 +3518,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
   <!-- Spotify -->
   <section class="sq-section" aria-labelledby="sq-spot">
     <div class="in">
-      <div class="sq-label"><b id="sq-spot">Spotify, on a CRT</b><span class="ph">one line on what this is</span></div>
+      <div class="sq-label"><b id="sq-spot">Spotify, on a CRT</b><span>What the player might have looked like in 1984 — scanlines, phosphor glow and all</span></div>
       <div class="sq-media" style="aspect-ratio: 4 / 3"><video data-audio="true" src="assets/sq/spotify.mp4" data-scrub poster="assets/sq/spotify.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
     </div>
   </section>
@@ -3595,7 +3664,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
         <h1>Apparatus</h1>
         <div class="nf-meta">
           <span><b>Role</b>Editorial design, art direction, writing</span>
-          <span><b>Timeline</b><span class="ph">dates</span></span>
+          <span><b>Timeline</b>February – April 2026</span>
           <span><b>Type</b>Self-initiated — Issue #1</span>
         </div>
       </div>
@@ -3610,11 +3679,11 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       <h2>About the Issue</h2>
       <p>Apparatus is a print magazine about the objects film history remembers — the lightsaber, the DeLorean, the Batpod, a satin jacket with a scorpion on the back. Issue #1 is built around one question: how did the thing on screen actually get made, and who made it?</p>
       <h2>Editorial Approach</h2>
-      <p class="ph">how the stories were chosen, researched and written — the angle that holds the issue together</p>
+      <p>Every object had to earn its place twice — once in the film, and once after it. I looked for the ones that left the screen and became something people build, collect or argue about, then wrote each story from the making rather than the plot: who fabricated it, what it was actually made of, and what it cost the production to get it on camera.</p>
       <h2>Design</h2>
-      <p class="ph">grid, typography, colour per story, and how the pacing was built spread to spread</p>
+      <p>A four-column grid that every spread inherits and most of them break. One type family carries the whole issue, with the display weight doing the arguing. Each story takes a single colour pulled from its object, and the pacing alternates full-bleed image with dense text so the issue breathes between subjects.</p>
       <h2>Scope of Work</h2>
-      <p class="ph">writing, layout, image treatment, production and print specs</p>
+      <p>Writing, editing, layout, image treatment and retouching, cover design, and the print-ready artwork.</p>
     </section>
 
     <div class="nf-stack">
@@ -3631,7 +3700,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       <div>
         <dl>
           <dt>Project By</dt><dd>Sharvil Naik</dd>
-          <dt>Timeline</dt><dd class="ph">dates</dd>
+          <dt>Timeline</dt><dd>February – April 2026</dd>
         </dl>
         <p>Film stills and other imagery remain the property of their respective copyright holders and are used for educational and editorial purposes only. Additional graphic assets are credited to their original creators and licensed sources where applicable. This project was developed to showcase design skills and is not affiliated with any film studio or production company. &#169; 2026 All rights reserved.</p>
       </div>
@@ -3977,10 +4046,16 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 
     const drop = document.createElement('div');
     drop.className = 'lm-drop';
-    const img = document.createElement('img');
-    img.alt = '';
-    drop.append(img);
     frame.append(drop);
+    // the img is made on first use, so nothing sits in the page with an empty src
+    let img = null;
+    const ensure = () => {
+      if (img) return img;
+      img = document.createElement('img');
+      img.alt = '';
+      drop.append(img);
+      return img;
+    };
 
     // pull every shot in before the first hover, so nothing flashes empty
     let warmed = false;
@@ -4002,10 +4077,11 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       };
       const show = () => {
         warm();
-        img.alt = m.dataset.label + ', expanded';
-        if (img.getAttribute('src') !== m.dataset.shot) {
-          img.addEventListener('load', place, { once: true });
-          img.src = m.dataset.shot;
+        const el = ensure();
+        el.alt = m.dataset.label + ', expanded';
+        if (el.getAttribute('src') !== m.dataset.shot) {
+          el.addEventListener('load', place, { once: true });
+          el.src = m.dataset.shot;
         }
         place();
         drop.classList.add('is-on');
