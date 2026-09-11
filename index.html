@@ -635,14 +635,16 @@ body.view-gideon { background: var(--cs-bg); }
 .cs .in { width: min(1220px, calc(100% - 2 * var(--cs-gutter))); margin: 0 auto; }
 
 .cs-back {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 12px; line-height: 20px; font-weight: 400; color: var(--cs-text-3);
-  padding: 2px 0; border-bottom: 1px solid var(--cs-line-2);
-  transition: color 200ms ease, border-color 200ms ease;
+  display: inline-flex; align-items: center; gap: 10px;
+  height: 42px; padding: 0 22px; border-radius: 100px;
+  font-size: 14px; line-height: 1; font-weight: 400; color: var(--cs-text-2);
+  border: 1px solid var(--cs-line-2); background: none;
+  transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease, transform 100ms var(--ease-out);
 }
-.cs-back svg { width: 12px; height: 12px; }
+.cs-back svg { width: 14px; height: 14px; }
+.cs-back:active { transform: scale(0.98); }
 @media (hover: hover) and (pointer: fine) {
-  .cs-back:hover { color: var(--cs-text); border-color: var(--cs-text-3); }
+  .cs-back:hover { color: var(--cs-text); border-color: var(--cs-text-3); background: rgba(255,255,255,0.05); }
 }
 
 /* section rail */
@@ -875,6 +877,41 @@ p.copy.ph { display: block; }
 .flaws li .t-20 { color: var(--cs-text); }
 .flaws li .t-16 { margin-top: 4px; }
 @media (max-width: 860px) { .flaw-pair { grid-template-columns: 1fr; } }
+
+/* 05.1 — iteration rows: media and copy trading sides down the page */
+.iters { display: flex; flex-direction: column; gap: 104px; }
+.iter {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 32px 56px; align-items: center;
+}
+.iter.flip .iter-media { order: 2; }
+.iter.flip .iter-copy { order: 1; }
+.iter-media { min-width: 0; }
+.iter-media > .cs-img, .iter-media > .flaw-img img { width: 100%; height: auto; }
+.iter-copy { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.iter-copy h3 { margin: 0; font-size: 28px; line-height: 36px; letter-spacing: -0.02em; font-weight: 300; color: var(--cs-text); }
+.iter-copy p { margin: 0; }
+.iter-copy .flaws { margin-top: 4px; }
+.iter-step {
+  font-size: 12px; line-height: 16px; letter-spacing: 0.1em;
+  text-transform: uppercase; font-weight: 400; color: var(--cs-blue);
+}
+/* the extra row under an iteration — explorations, alternates */
+.iter-extra { grid-column: 1 / -1; }
+.iter-extra > .t-12 { margin-bottom: 14px; }
+.iter-tri { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.iter-tri figure { margin: 0; }
+.iter-tri figcaption { margin-top: 10px; font-size: 12px; line-height: 18px; color: var(--cs-mute); }
+/* a still and a clip stacked in one media column */
+.iter-duo { display: grid; grid-template-columns: 1fr; gap: 16px; }
+
+@media (max-width: 900px) {
+  .iters { gap: 64px; }
+  .iter { grid-template-columns: 1fr; gap: 24px; }
+  .iter.flip .iter-media, .iter.flip .iter-copy { order: 0; }
+  .iter-copy h3 { font-size: 22px; line-height: 30px; }
+  .iter-tri { grid-template-columns: 1fr; }
+}
 
 /* 05.x — before · exploration · final */
 .tri { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -1368,6 +1405,13 @@ p.copy.ph { display: block; }
   .nf-swatch { padding: 10px; font-size: 10px; aspect-ratio: 1 / 2.2; }
 }
 
+/* ------------------------------------------------------------------
+   APPARATUS — reuses the festival page's editorial frame
+------------------------------------------------------------------ */
+.ap { --ap-accent: #F2C14E; }
+.ap .ap-flip { margin-top: 20px; }
+.ap .nf-text h2 { color: var(--ap-accent); }
+
 .nf-footer, article .footer { border-top: 1px solid var(--paper-12); margin-top: 40px; }
 .cs .footer, .nf .footer { padding-left: var(--cs-gutter, 110px); padding-right: var(--cs-gutter, 110px); }
 /* ------------------------------------------------------------------
@@ -1425,7 +1469,8 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 /* 5 — Before / after toggle */
 .cs-ba { border: 1px solid var(--cs-line-2); border-radius: 12px; overflow: hidden; }
 .cs-ba-stage { position: relative; aspect-ratio: 16 / 9; background: var(--cs-panel); }
-.cs-ba-stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 320ms var(--ease-out); }
+/* contain, not cover — these are UI screenshots and cropping loses the point */
+.cs-ba-stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity 320ms var(--ease-out); }
 .cs-ba-stage img.show { opacity: 1; }
 .cs-ba-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px; border-top: 1px solid var(--cs-line-2); }
 .cs-ba-bar .cap { font-size: 12px; line-height: 18px; color: var(--cs-text-3); }
@@ -1542,7 +1587,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       </div>
     </a>
 
-    <a class="project" href="#work" data-cursor="View Magazine" aria-label="Apparatus magazine">
+    <a class="project" href="#apparatus" data-cursor="View Magazine" aria-label="Apparatus magazine">
       <div class="project-art art-apparatus">
         <img class="art-img" src="assets/apparatus.jpg" alt="Apparatus magazine, issue #1, on a wire chair">
       </div>
@@ -1671,7 +1716,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
   <!-- 01 — Project Context -->
   <section class="cs-context lg" aria-labelledby="cs-context">
     <div class="in">
-      <a class="cs-back" href="#work"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4"/></svg>Back to Work</a>
+      <a class="cs-back" href="#work"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4"/></svg>Back</a>
 
       <img class="cover-img" src="assets/gideon-cover.jpg" alt="Gideon">
 
@@ -2137,79 +2182,143 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
     </div>
   </section>
 
-  <!-- 05 — Identify · Problems Solved -->
+  <!-- 05 — Identify · Problem Solving -->
   <section class="lg" style="padding-bottom:56px" aria-labelledby="cs-problems">
     <div class="in">
-      <h2 class="h-56" id="cs-problems">Problems Solved</h2>
+      <h2 class="h-56" id="cs-problems">Problem Solving</h2>
       <div class="sp-30"></div>
-      <p class="t-20 copy">Three problems I took from diagnosis through to a shipped change. Each one arrived as a layout question and turned out to be something structural underneath.</p>
-    </div>
-  </section>
-
-  <!-- 05.1 — Problem One: the appointment modals -->
-  <section aria-labelledby="cs-p1">
-    <div class="in">
-      <h2 class="h-40" id="cs-p1">Two Modals, One Appointment</h2>
-      <div class="sp-30"></div>
-      <p class="t-20 copy">Creating an appointment and editing one were two different screens that looked like they came from two different products. New Appointment asked for five things. Edit Appointment exposed around twenty, most of them unconnected to each other, with no way to tell where an edit went or how to find it again. The extra options created confusion, not freedom — and the things that actually mattered weren’t there at all.</p>
-      <div class="sp-48"></div>
-
-      <div class="flaw-pair">
-        <figure class="flaw-fig">
-          <div class="flaw-img">
-            <img src="assets/old-new-appointment.jpg" alt="The old New Appointment modal: client, date, time, duration, type, location and notes" loading="lazy">
-            <span class="mk" style="left:39%;top:9%">1</span>
-            <span class="mk" style="left:95%;top:41%">2</span>
-            <span class="mk" style="left:33%;top:70%">5</span>
-          </div>
-          <figcaption>New Appointment — old interface. Five fields.</figcaption>
-        </figure>
-        <figure class="flaw-fig">
-          <div class="flaw-img">
-            <img src="assets/old-edit-appointment.jpg" alt="The old Edit Appointment modal: six panels of fields, most of them empty, and a row of six actions" loading="lazy">
-            <span class="mk" style="left:61%;top:6%">1</span>
-            <span class="mk" style="left:52%;top:14%">2</span>
-            <span class="mk" style="left:95%;top:58%">3</span>
-            <span class="mk" style="left:45%;top:88.5%">4</span>
-            <span class="mk" style="left:95%;top:26%">5</span>
-          </div>
-          <figcaption>Edit Appointment — old interface. Around twenty.</figcaption>
-        </figure>
+      <div class="copy">
+        <p class="t-20">A personal-injury case runs on treatment. The client sees a doctor, a chiropractor, an imaging centre — often for months — and every one of those visits has to be booked, confirmed, chased when it slips, and written down. That record <em>is</em> the case: when the appointment was made, what kind it was, when and where it happens, which provider it is with, and what happened afterwards.</p>
+        <p class="t-20 s">All of it has to live somewhere. Gideon is that somewhere — the CRM and the database the firm works out of, which is also what makes the automation possible. Two surfaces do the writing: <b>New Appointment</b> and <b>Edit Appointment</b>. Both were mine to fix, and this is where the work went.</p>
       </div>
 
-      <div class="sp-48"></div>
-      <ol class="flaws">
-        <li><span class="mk">1</span><div><p class="t-20">Two designs for one object.</p><p class="t-16">Different layout, different fields, different logic — depending on whether you were creating or editing.</p></div></li>
-        <li><span class="mk">2</span><div><p class="t-20">Five fields in, twenty fields out.</p><p class="t-16">What you could set at creation and what you could change later didn’t match, so a record was only ever complete after a second pass.</p></div></li>
-        <li><span class="mk">3</span><div><p class="t-20">Edits with no home.</p><p class="t-16">Fields weren’t tied to anything visible, so an edit went somewhere in the database with no way to find it or change it again from the appointment or the client.</p></div></li>
-        <li><span class="mk">4</span><div><p class="t-20">More options, less clarity.</p><p class="t-16">Twenty controls read as noise. Nothing signalled which mattered.</p></div></li>
-        <li><span class="mk">5</span><div><p class="t-20">The important things were missing.</p><p class="t-16">No cadences, no treatment plan, no way to choose the channel a reminder would go out on.</p></div></li>
-      </ol>
-      <div class="sp-48"></div>
+      <div class="sp-52"></div>
+
+      <p class="t-12">The two modals as I inherited them — switch between them.</p>
+      <div class="sp-18"></div>
       <div class="cs-ba" data-ba>
         <div class="cs-ba-stage">
-          <img class="ba-img show" data-ba-img="a" src="assets/old-new-appointment.jpg" alt="New Appointment — five fields">
-          <img class="ba-img" data-ba-img="b" src="assets/old-edit-appointment.jpg" alt="Edit Appointment — around twenty fields">
+          <img class="ba-img show" data-ba-img="a" src="assets/old-new-appointment.jpg" alt="The old New Appointment modal: client, date, time, duration, type, location and notes">
+          <img class="ba-img" data-ba-img="b" src="assets/old-edit-appointment.jpg" alt="The old Edit Appointment modal: six panels of fields, most of them empty, and a row of six actions">
         </div>
         <div class="cs-ba-bar">
           <span class="cap" data-ba-cap>New Appointment — five fields, no cadence, no plan.</span>
-          <span class="cs-ba-toggle" role="group" aria-label="Compare modals">
-            <button type="button" data-ba-set="a" aria-pressed="true">Create</button>
-            <button type="button" data-ba-set="b" aria-pressed="false">Edit</button>
+          <span class="cs-ba-toggle" role="group" aria-label="Compare the two modals">
+            <button type="button" data-ba-set="a" aria-pressed="true">New Appointment</button>
+            <button type="button" data-ba-set="b" aria-pressed="false">Edit Appointment</button>
           </span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 05.2 -->
+  <!-- 05.1 — Problem One: the New Appointment modal, iteration by iteration -->
+  <section aria-labelledby="cs-p1">
+    <div class="in">
+      <div class="rail"><div class="rail-row"><span>[05.1]</span><span>Problem One</span><span>[New Appointment]</span></div><div class="rule-cs"></div></div>
+      <div class="sp-56"></div>
+      <h2 class="h-40" id="cs-p1">The New Appointment Modal</h2>
+      <div class="sp-30"></div>
+      <p class="t-20 copy ph">one or two lines framing what was wrong and where the five iterations landed</p>
+      <div class="sp-56"></div>
+
+      <div class="iters">
+
+        <!-- ITERATION 01 — media left, copy right -->
+        <div class="iter">
+          <div class="iter-media">
+            <div class="flaw-img">
+              <img class="cs-img" src="assets/old-new-appointment.jpg" alt="The old New Appointment modal with its problems marked" loading="lazy">
+              <span class="mk" style="left:39%;top:9%">1</span>
+              <span class="mk" style="left:95%;top:41%">2</span>
+              <span class="mk" style="left:33%;top:70%">5</span>
+            </div>
+          </div>
+          <div class="iter-copy">
+            <span class="iter-step">Iteration 01</span>
+            <h3>What was wrong with it</h3>
+            <p class="t-16 ph">a line on how you read the existing layout before touching it</p>
+            <ol class="flaws">
+              <li><span class="mk">1</span><div><p class="t-20">Two designs for one object.</p><p class="t-16">Different layout, different fields, different logic — depending on whether you were creating or editing.</p></div></li>
+              <li><span class="mk">2</span><div><p class="t-20">Five fields in, twenty fields out.</p><p class="t-16">What you could set at creation and what you could change later didn’t match, so a record was only ever complete after a second pass.</p></div></li>
+              <li><span class="mk">5</span><div><p class="t-20">The important things were missing.</p><p class="t-16">No cadences, no treatment plan, no way to choose the channel a reminder would go out on.</p></div></li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- ITERATION 02 — copy left, media right -->
+        <div class="iter flip">
+          <div class="iter-media">
+            <div class="media r620" role="img" aria-label="Iteration two"><span>Drop media</span><span>Iteration 02 — New Appointment rebuilt to match Edit Appointment</span></div>
+          </div>
+          <div class="iter-copy">
+            <span class="iter-step">Iteration 02</span>
+            <h3 class="ph">matching Edit Appointment</h3>
+            <p class="t-20 ph">I brought New Appointment up to the same shape as Edit Appointment so the two read as one object — more options and input fields at the point of creation. Replace with your own account of what you added and why.</p>
+          </div>
+        </div>
+
+        <!-- ITERATION 03 — media left, copy right, plus the three layout explorations -->
+        <div class="iter">
+          <div class="iter-media">
+            <div class="media r620" role="img" aria-label="Iteration three"><span>Drop media</span><span>Iteration 03 — cadences</span></div>
+          </div>
+          <div class="iter-copy">
+            <span class="iter-step">Iteration 03</span>
+            <h3 class="ph">adding cadences</h3>
+            <p class="t-20 ph">what a cadence is, why it belonged at creation rather than after, and what it changed for the case manager</p>
+          </div>
+
+          <div class="iter-extra">
+            <p class="t-12">Layout options explored for adding a cadence.</p>
+            <div class="iter-tri">
+              <figure><div class="media" style="aspect-ratio: 4 / 3" role="img" aria-label="Cadence layout option A"><span>Drop media</span><span>Option A</span></div><figcaption class="ph">what this one did</figcaption></figure>
+              <figure><div class="media" style="aspect-ratio: 4 / 3" role="img" aria-label="Cadence layout option B"><span>Drop media</span><span>Option B</span></div><figcaption class="ph">what this one did</figcaption></figure>
+              <figure><div class="media" style="aspect-ratio: 4 / 3" role="img" aria-label="Cadence layout option C"><span>Drop media</span><span>Option C</span></div><figcaption class="ph">what this one did, and why you picked the one you picked</figcaption></figure>
+            </div>
+          </div>
+        </div>
+
+        <!-- ITERATION 04 — copy left, media right -->
+        <div class="iter flip">
+          <div class="iter-media">
+            <div class="media r620" role="img" aria-label="Iteration four"><span>Drop media</span><span>Iteration 04 — treatment plan</span></div>
+          </div>
+          <div class="iter-copy">
+            <span class="iter-step">Iteration 04</span>
+            <h3 class="ph">adding the treatment plan</h3>
+            <p class="t-20 ph">a plan is a course of visits, not one appointment — what that meant for the modal and for the record behind it</p>
+          </div>
+        </div>
+
+        <!-- ITERATION 05 — media left (still + motion), copy right -->
+        <div class="iter">
+          <div class="iter-media iter-duo">
+            <div class="media r620" role="img" aria-label="Iteration five — the simplified modal"><span>Drop media</span><span>Iteration 05 — the simplified modal</span></div>
+            <!-- swap this placeholder for the real clip:
+            <div class="nf-vid"><video src="assets/new-appointment-final.mp4" poster="assets/new-appointment-final.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="The simplified New Appointment modal in use"></video></div>
+            -->
+            <div class="media r620" role="img" aria-label="Iteration five — the modal in use"><span>Drop .mp4</span><span>Iteration 05 — the modal in use</span></div>
+          </div>
+          <div class="iter-copy">
+            <span class="iter-step">Iteration 05</span>
+            <h3 class="ph">the simplified version</h3>
+            <p class="t-20 ph">how it collapsed back down — what you took out, what you kept, and what the modal asks for now</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 05.2 — Problem Two: the Edit Appointment modal (structure to come) -->
   <section aria-labelledby="cs-p2">
     <div class="in">
-      <h2 class="h-40" id="cs-p2">Problem Two</h2>
+      <div class="rail"><div class="rail-row"><span>[05.2]</span><span>Problem Two</span><span>[Edit Appointment]</span></div><div class="rule-cs"></div></div>
+      <div class="sp-56"></div>
+      <h2 class="h-40" id="cs-p2">The Edit Appointment Modal</h2>
       <div class="sp-30"></div>
-      <p class="t-20 copy ph">Problem statement goes here — what was happening, who it affected, why the existing experience created friction, and what I changed.</p>
-      <div class="sp-48"></div>
-      <div class="media r620" role="img" aria-label="Problem two media placeholder"><span>Drop media</span><span>Problem two — before · exploration · final</span></div>
+      <p class="t-20 copy ph">same shape as Problem One — context, then the iterations. Nothing built here yet.</p>
     </div>
   </section>
 
@@ -2445,7 +2554,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       </div>
       <div class="sp-56"></div>
       <div class="cs-end">
-        <a class="cs-back" href="#work"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4"/></svg>Back to Work</a>
+        <a class="cs-back" href="#work"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4"/></svg>Back</a>
         <a class="cs-back" href="#connect">Get in Touch</a>
       </div>
     </div>
@@ -2554,7 +2663,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
   </section>
 
   <div class="sq-end">
-    <a class="btn-pill" href="#work">Back to Work</a>
+    <a class="btn-pill" href="#work">Back</a>
   </div>
 
 </article>
@@ -2592,7 +2701,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
   <div class="in">
 
     <header class="nf-head">
-      <a class="cs-back" href="#work"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4"/></svg>Back to Work</a>
+      <a class="cs-back" href="#work"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4"/></svg>Back</a>
       <div class="nf-title">
         <h1>Noir Film Festival</h1>
         <div class="nf-meta">
@@ -2664,7 +2773,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
     <img class="nf-img" src="assets/nf/fin.jpg" alt="Fin" loading="lazy">
 
     <div class="nf-end">
-      <a class="cs-back" href="#work"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4"/></svg>Back to Work</a>
+      <a class="cs-back" href="#work"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4"/></svg>Back</a>
       <a class="cs-back" href="#connect">Get in Touch</a>
     </div>
 
@@ -2678,6 +2787,79 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       <li><a href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener">Instagram</a></li>
     </ul>
     <p class="copy display">2026 ® Sharvil Naik</p>
+  </footer>
+</article>
+
+<!-- ================================================================
+     APPARATUS — magazine (view: #apparatus)
+     Copy marked .ph is placeholder — drop the class once it's written.
+================================================================ -->
+<article class="nf ap" id="apparatus" hidden data-title="Apparatus" aria-label="Apparatus — magazine">
+  <div class="in">
+
+    <header class="nf-head">
+      <a class="cs-back" href="#work"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4"/></svg>Back</a>
+      <div class="nf-title">
+        <h1>Apparatus</h1>
+        <div class="nf-meta">
+          <span><b>Role</b>Editorial design, art direction, writing</span>
+          <span><b>Timeline</b><span class="ph">dates</span></span>
+          <span><b>Type</b>Self-initiated — Issue #1</span>
+        </div>
+      </div>
+      <img class="nf-img" src="assets/ap/ap-cover.jpg" alt="Apparatus Issue #1 on a wire magazine rack">
+    </header>
+
+    <div class="nf-vid ap-flip">
+      <video src="assets/ap/ap-flip.mp4" poster="assets/ap/ap-flip-poster.jpg" autoplay muted loop playsinline preload="metadata" data-audio="true" aria-label="Apparatus, flipped through end to end"></video>
+    </div>
+
+    <section class="nf-text" aria-label="About">
+      <h2>About the Issue</h2>
+      <p>Apparatus is a print magazine about the objects film history remembers — the lightsaber, the DeLorean, the Batpod, a satin jacket with a scorpion on the back. Issue #1 is built around one question: how did the thing on screen actually get made, and who made it?</p>
+      <h2>Editorial Approach</h2>
+      <p class="ph">how the stories were chosen, researched and written — the angle that holds the issue together</p>
+      <h2>Design</h2>
+      <p class="ph">grid, typography, colour per story, and how the pacing was built spread to spread</p>
+      <h2>Scope of Work</h2>
+      <p class="ph">writing, layout, image treatment, production and print specs</p>
+    </section>
+
+    <div class="nf-stack">
+      <img class="nf-img" src="assets/ap/ap-lightsaber.jpg" alt="The lightsaber story — spread on a table" loading="lazy">
+      <img class="nf-img" src="assets/ap/ap-drive.jpg" alt="Cover beside the Drive scorpion-jacket spread" loading="lazy">
+      <img class="nf-img" src="assets/ap/ap-bttf.jpg" alt="The Back to the Future DeLorean spread" loading="lazy">
+      <img class="nf-img" src="assets/ap/ap-batpod-blue.jpg" alt="Nathan Crowley and Chris Corbould — the Batpod spread" loading="lazy">
+      <img class="nf-img" src="assets/ap/ap-batpod-yellow.jpg" alt="The price of legend — Batpod stunts and auction spread" loading="lazy">
+      <img class="nf-img" src="assets/ap/ap-spreads.jpg" alt="The issue laid out spread by spread" loading="lazy">
+    </div>
+
+    <section class="nf-credits" aria-label="Credits">
+      <h2>Credits</h2>
+      <div>
+        <dl>
+          <dt>Project By</dt><dd>Sharvil Naik</dd>
+          <dt>Timeline</dt><dd class="ph">dates</dd>
+        </dl>
+        <p>Film stills and other imagery remain the property of their respective copyright holders and are used for educational and editorial purposes only. Additional graphic assets are credited to their original creators and licensed sources where applicable. This project was developed to showcase design skills and is not affiliated with any film studio or production company. &#169; 2026 All rights reserved.</p>
+      </div>
+    </section>
+
+    <div class="nf-end">
+      <a class="cs-back" href="#work"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4"/></svg>Back</a>
+      <a class="cs-back" href="#connect">Get in Touch</a>
+    </div>
+
+  </div>
+
+  <footer class="footer nf-footer">
+    <ul>
+      <li><a href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener">Behance</a></li>
+      <li><a href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://x.com/sharvil_naik" target="_blank" rel="noopener">Twitter (X)</a></li>
+      <li><a href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener">Instagram</a></li>
+    </ul>
+    <p class="copy display">2026 &#174; Sharvil Naik</p>
   </footer>
 </article>
 
@@ -2707,6 +2889,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
     '#side-quests': document.getElementById('side-quests'),
     '#connect': document.getElementById('connect'),
     '#noir': document.getElementById('noir'),
+    '#apparatus': document.getElementById('apparatus'),
   };
   views['#gideon'].dataset.title = 'Gideon — UX Case Study';
   const baseTitle = document.title;
