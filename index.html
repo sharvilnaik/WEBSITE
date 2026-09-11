@@ -1071,6 +1071,23 @@ p.copy.ph { display: block; }
 /* the three cadence stills are cropped to one identical size, so they just
    sit at full width and line up on their own */
 .iter-tri .shot img { width: 100%; height: auto; display: block; }
+
+/* ---- Lead Modal ---- */
+/* the six original stage screens, shown small and together: the point is the
+   count, not the detail of any one of them */
+.lead-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 34px 28px; }
+.lead-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; }
+.lead-grid figure, .lead-pair figure { margin: 0; display: flex; flex-direction: column; }
+.lead-grid img, .lead-pair img { display: block; width: 100%; height: auto; border: 1px solid var(--cs-line); }
+.lead-grid figcaption, .lead-pair figcaption {
+  margin-top: auto; padding-top: 12px; font-size: 12px; line-height: 18px; color: var(--cs-mute);
+}
+.lead-tri { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; align-items: stretch; }
+.lead-tri figure { margin: 0; display: flex; flex-direction: column; }
+.lead-tri img { display: block; width: 100%; height: auto; border: 1px solid var(--cs-line); }
+/* the expanded cards are genuinely different heights, so the caption is pushed
+   to the bottom of the row instead of sitting ragged under each shot */
+.lead-tri figcaption { margin-top: auto; padding-top: 12px; font-size: 12px; line-height: 18px; color: var(--cs-mute); }
 /* a still and a clip stacked in one media column */
 .iter-duo { display: grid; grid-template-columns: 1fr; gap: 16px; }
 
@@ -1104,6 +1121,9 @@ p.copy.ph { display: block; }
   .iter.flip .iter-media, .iter.flip .iter-copy { order: 0; }
   .iter-copy h3 { font-size: 22px; line-height: 30px; }
   .iter-tri { grid-template-columns: 1fr; }
+  .lead-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lead-pair { grid-template-columns: 1fr; }
+  .lead-tri { grid-template-columns: 1fr; }
 }
 
 /* 05.x — before · exploration · final */
@@ -2879,9 +2899,192 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       </div>
       <div class="prob-body" id="prob-2"><div>
         <div class="sp-30"></div>
-        <p class="t-20 copy ph">what the Lead Modal is, what was wrong with it, and what changed</p>
+        <div class="copy">
+          <p class="t-20">The Lead Modal is the client. Everything the firm knows about a case lives in it — accident type, contact details, treatment, case number, calls and their transcripts, appointments, and where the matter currently stands. It is also reachable from more places than anything else in the product.</p>
+          <p class="t-20 s">That reach is what made it urgent. A confusing screen you visit once a week costs you a minute. A confusing screen you land on from everywhere costs you that minute every time, all day, on every case. Its complexity is not paid for once — it is paid for everywhere.</p>
+        </div>
+
+        <div class="sp-64"></div>
+
+        <div class="prob-sub-head">
+          <span class="prob-sub-mark">A</span>
+          <h3 class="h-28" id="cs-p2a">The Modal I Inherited</h3>
+        </div>
         <div class="sp-48"></div>
-        <div class="media r620" role="img" aria-label="Lead Modal placeholder"><span>Drop media</span><span>Lead Modal — before and after</span></div>
+
+        <div class="iters">
+          <div class="iter wide-media">
+            <div class="iter-media">
+              <div class="flaw-img">
+                <img class="cs-img" src="assets/gd/lead/orig-intake.jpg" alt="The original Lead Modal — ten tabs across the top, six stages beneath, and nested field groups inside those" loading="lazy">
+                <span class="mk" style="left:70%;top:10.6%">1</span>
+                <span class="mk" style="left:56.5%;top:17.6%">2</span>
+                <span class="mk" style="left:61%;top:57%">3</span>
+                <span class="mk" style="left:79.5%;top:29.5%">4</span>
+                <span class="mk" style="left:61%;top:95.5%">5</span>
+              </div>
+            </div>
+            <div class="iter-copy">
+              <span class="iter-step">UX Audit</span>
+              <h3>What the audit found</h3>
+              <ol class="flaws">
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="lm-1">
+                  <span class="mk">1</span>
+                  <span class="flaw-title">Ten tabs before you start.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="lm-1" role="region"><div><p class="t-16">Overview, Preview, Memory, Data, Activity, Tasks, Workflow, People, Case and Documents. Ten places a fact could live, and nothing on the screen telling you which one to open.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="lm-2">
+                  <span class="mk">2</span>
+                  <span class="flaw-title">Six stages inside one of them.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="lm-2" role="region"><div><p class="t-16">Intake, Onboarding, Treatment, Demand, Negotiation and Settlement — each its own screen with its own banner, counters and groups. The stage you needed was rarely the one you were standing on.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="lm-3">
+                  <span class="mk">3</span>
+                  <span class="flaw-title">And a third layer under that.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="lm-3" role="region"><div><p class="t-16">Field groups nested inside stages, incident and medical split across separate tabs, records and authorisations in their own accordions. Finding a single fact meant already knowing where somebody had filed it.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="lm-4">
+                  <span class="mk">4</span>
+                  <span class="flaw-title">No visual system underneath it.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="lm-4" role="region"><div><p class="t-16">Colour, type and spacing were decided screen by screen, so nothing carried meaning consistently. It read as generated rather than designed — and an interface that looks unconsidered is a hard thing to trust with somebody’s case.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="lm-5">
+                  <span class="mk">5</span>
+                  <span class="flaw-title">It never said what to do next.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="lm-5" role="region"><div><p class="t-16">Everything was displayed and nothing was prioritised. Anyone opening this had to reconstruct the state of the matter for themselves, every single time.</p></div></div>
+              </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="sp-56"></div>
+        <p class="t-12">Six stages, each a screen of its own — and this is one tab of ten.</p>
+        <div class="sp-18"></div>
+        <div class="lead-grid">
+          <figure>
+            <img src="assets/gd/lead/orig-intake.jpg" alt="The original Lead Modal, intake stage" loading="lazy">
+            <figcaption>Intake</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/gd/lead/orig-onboarding.jpg" alt="The original Lead Modal, onboarding stage" loading="lazy">
+            <figcaption>Onboarding</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/gd/lead/orig-treatment.jpg" alt="The original Lead Modal, treatment stage" loading="lazy">
+            <figcaption>Treatment</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/gd/lead/orig-demand.jpg" alt="The original Lead Modal, demand stage" loading="lazy">
+            <figcaption>Demand</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/gd/lead/orig-negotiation.jpg" alt="The original Lead Modal, negotiation stage" loading="lazy">
+            <figcaption>Negotiation</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/gd/lead/orig-settlement.jpg" alt="The original Lead Modal, settlement stage" loading="lazy">
+            <figcaption>Settlement</figcaption>
+          </figure>
+        </div>
+
+        <div class="sp-64"></div>
+        <div class="rule-cs soft"></div>
+        <div class="sp-64"></div>
+
+        <div class="prob-sub-head">
+          <span class="prob-sub-mark">B</span>
+          <h3 class="h-28" id="cs-p2b">The Middle Pass</h3>
+        </div>
+        <div class="sp-48"></div>
+        <p class="t-20 copy">The first rebuild cut the tabs to four and the stages to three, and gave every task a status you could actually set. A large improvement, and still not right: tasks collapsed into uppercase rows that all looked alike, and the settlement side stacked locked items you could see but not act on — visible progress, unclear next move.</p>
+        <div class="sp-48"></div>
+        <div class="lead-pair">
+          <figure>
+            <img src="assets/gd/lead/mid-intake.jpg" alt="The middle pass — Intake collapsed into uniform uppercase rows" loading="lazy">
+            <figcaption>Intake — every task the same weight</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/gd/lead/mid-settlements.jpg" alt="The middle pass — Settlements with locked items stacked under each group" loading="lazy">
+            <figcaption>Settlements — locked items you cannot act on</figcaption>
+          </figure>
+        </div>
+
+        <div class="sp-64"></div>
+        <div class="rule-cs soft"></div>
+        <div class="sp-64"></div>
+
+        <div class="prob-sub-head">
+          <span class="prob-sub-mark">C</span>
+          <h3 class="h-28" id="cs-p2c">What Shipped</h3>
+        </div>
+        <div class="sp-48"></div>
+        <div class="copy">
+          <p class="t-20">The version that shipped treats the modal as a list of work with the evidence attached, rather than a database with a viewer on top. Four tabs. Three stages. Every task carries who owns it — Sofia or a named person — what is attached to it, and a status you can change without leaving the row.</p>
+          <p class="t-20 s">Open one and you get exactly what that step needs: the notes, the files, and the few fields that belong to it. Nothing else competes for the space. It was not finished when the company changed direction — but Overview was, and Overview is the part that tells a case manager what to do next.</p>
+        </div>
+        <div class="sp-48"></div>
+        <div class="lead-pair">
+          <figure>
+            <img src="assets/gd/lead/new-intake.jpg" alt="The Lead Modal that shipped — Intake tasks with owner, attachments and an editable status" loading="lazy">
+            <figcaption>Intake — six tasks, each with an owner and a status</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/gd/lead/new-settlements.jpg" alt="The Lead Modal that shipped — Settlement stages" loading="lazy">
+            <figcaption>Settlements — four stages, same pattern</figcaption>
+          </figure>
+        </div>
+
+        <div class="sp-56"></div>
+        <p class="t-12">Intake — a task opened.</p>
+        <div class="sp-18"></div>
+        <div class="lead-tri">
+            <figure>
+              <img src="assets/gd/lead/new-intake-a.jpg" alt="Complete Intake Call, expanded" loading="lazy">
+              <figcaption>Complete Intake Call</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/gd/lead/new-intake-b.jpg" alt="Get Case Details, expanded" loading="lazy">
+              <figcaption>Get Case Details</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/gd/lead/new-intake-c.jpg" alt="Lead Qualification, expanded" loading="lazy">
+              <figcaption>Lead Qualification</figcaption>
+            </figure>
+        </div>
+
+        <div class="sp-48"></div>
+        <p class="t-12">Settlements — a stage opened.</p>
+        <div class="sp-18"></div>
+        <div class="lead-tri">
+            <figure>
+              <img src="assets/gd/lead/new-settle-a.jpg" alt="Demand Package, expanded" loading="lazy">
+              <figcaption>Demand Package</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/gd/lead/new-settle-b.jpg" alt="Carrier Negotiation, expanded" loading="lazy">
+              <figcaption>Carrier Negotiation</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/gd/lead/new-settle-c.jpg" alt="Settlement and Disbursement, expanded" loading="lazy">
+              <figcaption>Settlement & Disbursement</figcaption>
+            </figure>
+        </div>
       </div></div>
     </div>
   </section>
