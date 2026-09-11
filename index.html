@@ -886,13 +886,57 @@ p.copy.ph { display: block; }
   background: var(--g-blue); color: #fff; font-family: var(--font-geist); font-size: 12px; font-weight: 400; line-height: 1;
   box-shadow: 0 0 0 2px var(--cs-bg);
 }
-.flaw-img .mk { position: absolute; transform: translate(-50%, -50%); box-shadow: 0 0 0 2px #fff, 0 6px 16px rgba(0,0,0,0.35); }
+.flaw-img, .shot.is-marked { position: relative; }
+.flaw-img .mk, .shot.is-marked .mk {
+  position: absolute; z-index: 2; transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 2px #fff, 0 6px 16px rgba(0,0,0,0.35);
+  cursor: help; transition: transform 170ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .flaw-img .mk:hover, .shot.is-marked .mk:hover { transform: translate(-50%, -50%) scale(1.18); }
+}
+.iter-subrow { margin: 28px 0 16px; }
 .flaws { list-style: none; margin: 0; padding: 0; max-width: 880px; }
-.flaws li { display: flex; gap: 18px; align-items: flex-start; padding: 18px 0; border-bottom: 1px solid var(--cs-line); }
-.flaws li:first-child { padding-top: 0; }
-.flaws li .mk { margin-top: 2px; }
-.flaws li .t-20 { color: var(--cs-text); }
-.flaws li .t-16 { margin-top: 4px; }
+.flaws li { display: block; border-bottom: 1px solid var(--cs-line); }
+/* the number and the claim are the row; the detail opens underneath */
+.flaw-head {
+  width: 100%; display: flex; align-items: center; gap: 16px;
+  padding: 17px 0; text-align: left; cursor: pointer;
+}
+.flaws li:first-child .flaw-head { padding-top: 0; }
+.flaw-head .mk { flex: none; }
+.flaw-title {
+  flex: 1 1 auto; font-size: 20px; line-height: 28px;
+  font-weight: 300; letter-spacing: -0.01em; color: var(--cs-text);
+}
+.flaw-icon {
+  flex: none; width: 22px; height: 22px; border-radius: 50%;
+  border: 1px solid var(--cs-line-2); display: grid; place-items: center;
+  font-size: 12px; line-height: 1; color: var(--cs-text-3);
+  transition: transform 220ms var(--ease-out), background-color 220ms ease, color 220ms ease, border-color 220ms ease;
+}
+.flaws li.is-open .flaw-icon { transform: rotate(45deg); background: var(--cs-text); color: var(--cs-bg); border-color: var(--cs-text); }
+@media (hover: hover) and (pointer: fine) {
+  .flaw-head:hover .flaw-icon { border-color: var(--cs-text-3); color: var(--cs-text); }
+}
+.flaw-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 260ms var(--ease-out); }
+.flaws li.is-open .flaw-body { grid-template-rows: 1fr; }
+.flaw-body > div { overflow: hidden; }
+.flaw-body p { margin: 0; padding: 0 0 20px 42px; }
+
+/* hovering a number on a screenshot reads the point back */
+.mk-tip {
+  position: fixed; left: 0; top: 0; z-index: 80;
+  width: max-content; max-width: 320px; padding: 13px 15px;
+  background: #14141a; border: 1px solid var(--cs-line-2); border-radius: 10px;
+  box-shadow: 0 18px 46px rgba(0,0,0,0.6);
+  pointer-events: none; opacity: 0;
+  transition: opacity 160ms var(--ease-out);
+}
+.mk-tip.is-on { opacity: 1; }
+.mk-tip b { display: block; font-size: 15px; line-height: 22px; font-weight: 400; color: var(--cs-text); }
+.mk-tip span { display: block; margin-top: 6px; font-size: 13px; line-height: 20px; color: var(--cs-text-3); }
+@media (hover: none), (pointer: coarse) { .mk-tip { display: none; } }
 @media (max-width: 860px) { .flaw-pair { grid-template-columns: 1fr; } }
 
 /* 05.2 — the status flow an appointment moves through */
@@ -925,7 +969,7 @@ p.copy.ph { display: block; }
 .iters { display: flex; flex-direction: column; gap: 128px; }
 .iter {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 64px 56px; align-items: center;
+  gap: 64px 56px; align-items: start;   /* the step label lines up with the top of the image */
 }
 /* marked-up screenshots need the room — the callout numbers have to be legible */
 .iter.wide-media { grid-template-columns: 1.34fr 1fr; }
@@ -968,8 +1012,13 @@ p.copy.ph { display: block; }
   display: grid; place-items: center;
   overflow: hidden;
 }
+/* media is taken out of flow so its intrinsic size can't fight the cell ratio;
+   contain then fits it whole, never cropped */
+.iter-final .shot { position: relative; }
 .iter-final .shot > img,
+.iter-final .shot > .media,
 .iter-final .shot video {
+  position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: contain;
   display: block;
@@ -2380,7 +2429,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
               <img class="cs-img" src="assets/old-new-appointment.jpg" alt="The old New Appointment modal with its problems marked" loading="lazy">
               <span class="mk" style="left:39%;top:9%">1</span>
               <span class="mk" style="left:95%;top:41%">2</span>
-              <span class="mk" style="left:33%;top:70%">5</span>
+              <span class="mk" style="left:33%;top:70%">3</span>
             </div>
           </div>
           <div class="iter-copy">
@@ -2388,9 +2437,30 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             <h3>What was wrong with it</h3>
             <p class="t-16 ph">a line on how you read the existing layout before touching it</p>
             <ol class="flaws">
-              <li><span class="mk">1</span><div><p class="t-20">Two designs for one object.</p><p class="t-16">Different layout, different fields, different logic — depending on whether you were creating or editing.</p></div></li>
-              <li><span class="mk">2</span><div><p class="t-20">Five fields in, twenty fields out.</p><p class="t-16">What you could set at creation and what you could change later didn’t match, so a record was only ever complete after a second pass.</p></div></li>
-              <li><span class="mk">5</span><div><p class="t-20">The important things were missing.</p><p class="t-16">No cadences, no treatment plan, no way to choose the channel a reminder would go out on.</p></div></li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-1">
+                  <span class="mk">1</span>
+                  <span class="flaw-title">Two designs for one object.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="flp-1" role="region"><div><p class="t-16">Different layout, different fields, different logic — depending on whether you were creating or editing.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-2">
+                  <span class="mk">2</span>
+                  <span class="flaw-title">Five fields in, twenty fields out.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="flp-2" role="region"><div><p class="t-16">What you could set at creation and what you could change later didn’t match, so a record was only ever complete after a second pass.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-3">
+                  <span class="mk">3</span>
+                  <span class="flaw-title">The important things were missing.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="flp-3" role="region"><div><p class="t-16">No cadences, no treatment plan, no way to choose the channel a reminder would go out on.</p></div></div>
+              </li>
             </ol>
           </div>
         </div>
@@ -2437,25 +2507,105 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           </div>
         </div>
 
-        <!-- ITERATION 04 — the version that shipped, three up -->
+        <!-- ITERATION 04 — the version that shipped, marked -->
         <div class="iter full">
           <div class="iter-copy">
             <span class="iter-step">Iteration 03</span>
             <h3>Final Version</h3>
-            <p class="t-20 ph">what it collapsed down to — two modes in one form, scheduling ahead or recording a visit that already happened</p>
+            <ol class="flaws">
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="na-1">
+                  <span class="mk">1</span>
+                  <span class="flaw-title">Two modes in one form.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="na-1" role="region"><div><p class="t-16">Schedule a visit ahead, or record one that already happened — New Appointment and Log a Visit are the same screen with the same fields, not two places to learn.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="na-2">
+                  <span class="mk">2</span>
+                  <span class="flaw-title">Send the confirmation now.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="na-2" role="region"><div><p class="t-16">Send Confirmation Now stages the call against this appointment immediately; it goes out shortly after you save, tagged so you can see it is queued rather than guessing.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="na-3">
+                  <span class="mk">3</span>
+                  <span class="flaw-title">Add a client without leaving.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="na-3" role="region"><div><p class="t-16">Name, phone and email is all a new client needs here. Everything else belongs on the client record, so booking never stalls on a form.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="na-4">
+                  <span class="mk">4</span>
+                  <span class="flaw-title">Add a provider the same way.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="na-4" role="region"><div><p class="t-16">Providers are searched and created inline, so an unfamiliar clinic does not become a reason to stop and go somewhere else.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="na-5">
+                  <span class="mk">5</span>
+                  <span class="flaw-title">Treatment types you can add.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="na-5" role="region"><div><p class="t-16">Search the ones already in use, or add a new one on the spot — no fixed list to petition someone to extend.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="na-6">
+                  <span class="mk">6</span>
+                  <span class="flaw-title">Notes that travel with the visit.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="na-6" role="region"><div><p class="t-16">Referral detail, script and instructions stay attached to the appointment and to the client, so the next person picking it up has the context.</p></div></div>
+              </li>
+            </ol>
           </div>
 
           <div class="iter-tri iter-final">
             <figure>
-              <div class="shot"><img src="assets/gd/final-schedule.jpg" alt="The final New Appointment modal, scheduling ahead" loading="lazy"></div>
-            </figure>
-            <figure>
-              <div class="shot nf-vid">
-                <video src="assets/gd/final-walkthrough.mp4" data-scrub poster="assets/gd/final-walkthrough-poster.jpg" muted playsinline preload="none" data-noautoplay data-audio="false" aria-label="The shipped New Appointment modal, driven end to end"></video>
+              <div class="shot is-marked">
+                <img src="assets/gd/final-schedule.jpg" alt="The final New Appointment modal, scheduling ahead" loading="lazy">
+                <span class="mk" style="left:20%;top:12%">1</span>
+                <span class="mk" style="left:78%;top:74%">2</span>
+                <span class="mk" style="left:50%;top:58%">6</span>
               </div>
             </figure>
             <figure>
-              <div class="shot"><img src="assets/gd/final-log-visit.jpg" alt="The final modal in Log a Visit mode, with an outcome and notes" loading="lazy"></div>
+              <div class="shot nf-vid">
+                <video src="assets/gd/final-walkthrough.mp4" poster="assets/gd/final-walkthrough-poster.jpg" muted playsinline preload="none" data-scrub data-noautoplay data-audio="false" aria-label="The shipped New Appointment modal, driven end to end"></video>
+              </div>
+            </figure>
+            <figure>
+              <div class="shot is-marked">
+                <img src="assets/gd/final-log-visit.jpg" alt="The final modal in Log a Visit mode, with an outcome and notes" loading="lazy">
+                <span class="mk" style="left:20%;top:5%">1</span>
+                <span class="mk" style="left:50%;top:84%">6</span>
+              </div>
+            </figure>
+          </div>
+
+          <p class="t-12 iter-subrow">Adding what the modal did not have: a client, a provider, a treatment type — each without leaving the form.</p>
+          <div class="iter-tri iter-final">
+            <figure>
+              <div class="shot is-marked">
+                <div class="media" role="img" aria-label="Adding a new client from inside the modal"><span>Drop media</span><span>Adding a new client from inside the modal</span></div>
+                <span class="mk" style="left:50%;top:45%">3</span>
+              </div>
+            </figure>
+            <figure>
+              <div class="shot is-marked">
+                <div class="media" role="img" aria-label="Adding a new provider from inside the modal"><span>Drop media</span><span>Adding a new provider from inside the modal</span></div>
+                <span class="mk" style="left:50%;top:45%">4</span>
+              </div>
+            </figure>
+            <figure>
+              <div class="shot is-marked">
+                <div class="media" role="img" aria-label="Adding a new treatment type from inside the modal"><span>Drop media</span><span>Adding a new treatment type from inside the modal</span></div>
+                <span class="mk" style="left:50%;top:45%">5</span>
+              </div>
             </figure>
           </div>
         </div>
@@ -2514,12 +2664,54 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             <span class="iter-step">Existing UI</span>
             <h3>What was wrong with it</h3>
             <ol class="flaws">
-              <li><span class="mk">1</span><div><p class="t-20">Twenty fields for a visit that needs six.</p><p class="t-16">Six panels of inputs, most of them empty on every record. The handful that mattered were buried among the ones that never got filled.</p></div></li>
-              <li><span class="mk">2</span><div><p class="t-20">Cadence you could not actually set.</p><p class="t-16">Reminders were fixed presets. No way to name a date and time, no way to add an attempt, no way to see what had already gone out.</p></div></li>
-              <li><span class="mk">3</span><div><p class="t-20">Channels the product could not send on.</p><p class="t-16">SMS and email sat in the form as if they worked. Only calls were wired up, so choosing anything else silently did nothing.</p></div></li>
-              <li><span class="mk">4</span><div><p class="t-20">A different screen from the one that created it.</p><p class="t-16">Different layout, different fields, different order. You learned the product twice, and still could not tell what was editable or why.</p></div></li>
-              <li><span class="mk">5</span><div><p class="t-20">Status was read-only.</p><p class="t-16">The one thing a supervisor needs to correct — where this appointment actually stands — was the one thing they could not touch.</p></div></li>
-              <li><span class="mk">6</span><div><p class="t-20">Nothing could be sent from here.</p><p class="t-16">If a client needed chasing right now, the modal had no way to do it. You saved, left, and went looking for another surface.</p></div></li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-4">
+                  <span class="mk">1</span>
+                  <span class="flaw-title">Twenty fields for a visit that needs six.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="flp-4" role="region"><div><p class="t-16">Six panels of inputs, most of them empty on every record. The handful that mattered were buried among the ones that never got filled.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-5">
+                  <span class="mk">2</span>
+                  <span class="flaw-title">Cadence you could not actually set.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="flp-5" role="region"><div><p class="t-16">Reminders were fixed presets. No way to name a date and time, no way to add an attempt, no way to see what had already gone out.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-6">
+                  <span class="mk">3</span>
+                  <span class="flaw-title">Channels the product could not send on.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="flp-6" role="region"><div><p class="t-16">SMS and email sat in the form as if they worked. Only calls were wired up, so choosing anything else silently did nothing.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-7">
+                  <span class="mk">4</span>
+                  <span class="flaw-title">A different screen from the one that created it.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="flp-7" role="region"><div><p class="t-16">Different layout, different fields, different order. You learned the product twice, and still could not tell what was editable or why.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-8">
+                  <span class="mk">5</span>
+                  <span class="flaw-title">Status was read-only.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="flp-8" role="region"><div><p class="t-16">The one thing a supervisor needs to correct — where this appointment actually stands — was the one thing they could not touch.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-9">
+                  <span class="mk">6</span>
+                  <span class="flaw-title">Nothing could be sent from here.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="flp-9" role="region"><div><p class="t-16">If a client needed chasing right now, the modal had no way to do it. You saved, left, and went looking for another surface.</p></div></div>
+              </li>
             </ol>
           </div>
         </div>
@@ -2541,12 +2733,54 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             <span class="iter-step">Final Version</span>
             <h3>What it became</h3>
             <ol class="flaws">
-              <li><span class="mk">1</span><div><p class="t-20">Only what a visit is made of.</p><p class="t-16">When, client, provider, treatment type. Everything that was never filled came out, and what is left reads in one pass.</p></div></li>
-              <li><span class="mk">2</span><div><p class="t-20">Cadence as attempts you control.</p><p class="t-16">Each attempt carries a real date and time you can set, and you can add as many as the case needs. What has already gone out is shown back, with its result.</p></div></li>
-              <li><span class="mk">3</span><div><p class="t-20">Calls only, honestly labelled.</p><p class="t-16">SMS and email came out until they work. The form no longer offers a choice the product cannot keep.</p></div></li>
-              <li><span class="mk">4</span><div><p class="t-20">The same screen as New Appointment.</p><p class="t-16">Identical layout and field order, so creating and editing are one thing learned once — and what is editable is obvious because it never moves.</p></div></li>
-              <li><span class="mk">5</span><div><p class="t-20">Status is editable, and it drives the modal.</p><p class="t-16">Set where the appointment stands and the rest responds: confirmation disappears once a visit has happened, follow-up appears in its place.</p></div></li>
-              <li><span class="mk">6</span><div><p class="t-20">Send it now, from here.</p><p class="t-16">Send Confirmation Now and Get Follow-Up Now stage a call against this appointment immediately, without leaving the record.</p></div></li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-10">
+                  <span class="mk">1</span>
+                  <span class="flaw-title">Only what a visit is made of.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="flp-10" role="region"><div><p class="t-16">When, client, provider, treatment type. Everything that was never filled came out, and what is left reads in one pass.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-11">
+                  <span class="mk">2</span>
+                  <span class="flaw-title">Cadence as attempts you control.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="flp-11" role="region"><div><p class="t-16">Each attempt carries a real date and time you can set, and you can add as many as the case needs. What has already gone out is shown back, with its result.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-12">
+                  <span class="mk">3</span>
+                  <span class="flaw-title">Calls only, honestly labelled.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="flp-12" role="region"><div><p class="t-16">SMS and email came out until they work. The form no longer offers a choice the product cannot keep.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-13">
+                  <span class="mk">4</span>
+                  <span class="flaw-title">The same screen as New Appointment.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="flp-13" role="region"><div><p class="t-16">Identical layout and field order, so creating and editing are one thing learned once — and what is editable is obvious because it never moves.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-14">
+                  <span class="mk">5</span>
+                  <span class="flaw-title">Status is editable, and it drives the modal.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="flp-14" role="region"><div><p class="t-16">Set where the appointment stands and the rest responds: confirmation disappears once a visit has happened, follow-up appears in its place.</p></div></div>
+              </li>
+              <li>
+                <button class="flaw-head" type="button" aria-expanded="false" aria-controls="flp-15">
+                  <span class="mk">6</span>
+                  <span class="flaw-title">Send it now, from here.</span>
+                  <span class="flaw-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="flaw-body" id="flp-15" role="region"><div><p class="t-16">Send Confirmation Now and Get Follow-Up Now stage a call against this appointment immediately, without leaving the record.</p></div></div>
+              </li>
             </ol>
           </div>
         </div>
@@ -3317,6 +3551,58 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       });
       // a hash change can pull the card out from under the cursor
       window.addEventListener('hashchange', () => pill.classList.remove('is-on'));
+    }
+  }
+
+  // ---- Numbered points: collapse the detail, and read it off the marker ----
+  document.querySelectorAll('.flaws').forEach(list => {
+    list.querySelectorAll('.flaw-head').forEach(head => {
+      head.addEventListener('click', () => {
+        const li = head.closest('li');
+        const open = li.classList.toggle('is-open');
+        head.setAttribute('aria-expanded', String(open));
+      });
+    });
+  });
+
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const marks = [...document.querySelectorAll('.flaw-img .mk, .shot.is-marked .mk')];
+    if (marks.length) {
+      const tip = document.createElement('div');
+      tip.className = 'mk-tip'; tip.setAttribute('aria-hidden', 'true');
+      document.body.append(tip);
+      let x = 0, y = 0, queued = false;
+      const paint = () => {
+        queued = false;
+        const w = tip.offsetWidth, h = tip.offsetHeight;
+        let nx = x + 20, ny = y - h - 14;            // to the right, and above the cursor
+        if (nx + w > window.innerWidth - 12) nx = x - w - 20;
+        if (ny < 12) ny = y + 24;
+        tip.style.transform = `translate3d(${nx}px, ${ny}px, 0)`;
+      };
+      const track = e => { x = e.clientX; y = e.clientY; if (!queued) { queued = true; requestAnimationFrame(paint); } };
+
+      marks.forEach(mk => {
+        const row = mk.closest('.iter') || mk.closest('section');
+        if (!row) return;
+        const n = mk.textContent.trim();
+        const src = [...row.querySelectorAll('.flaws > li')]
+          .find(li => { const m = li.querySelector('.mk'); return m && m.textContent.trim() === n; });
+        if (!src) return;
+        mk.addEventListener('pointerenter', e => {
+          const title = src.querySelector('.flaw-title');
+          const body = src.querySelector('.flaw-body p');
+          tip.textContent = '';
+          const b = document.createElement('b'); b.textContent = title ? title.textContent : '';
+          const sp = document.createElement('span'); sp.textContent = body ? body.textContent : '';
+          tip.append(b, sp);
+          track(e); paint();
+          tip.classList.add('is-on');
+        });
+        mk.addEventListener('pointermove', track);
+        mk.addEventListener('pointerleave', () => tip.classList.remove('is-on'));
+      });
+      window.addEventListener('hashchange', () => tip.classList.remove('is-on'));
     }
   }
 
