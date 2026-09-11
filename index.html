@@ -969,9 +969,8 @@ p.copy.ph { display: block; }
   display: grid; grid-template-rows: auto 1fr auto;
   overflow: hidden;
 }
-.dp-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.dp-head { display: flex; align-items: baseline; }
 .dp-mark { font-size: 13px; line-height: 20px; font-weight: 400; letter-spacing: -0.01em; color: var(--cs-text); }
-.dp-tag { font-size: 10px; line-height: 20px; letter-spacing: 0.08em; color: var(--cs-text-3); }
 
 .dp-art { min-height: 0; display: grid; place-items: center; padding: 26px 10px; }
 .dp-art svg { width: 100%; height: 100%; max-height: 100%; display: block; }
@@ -980,11 +979,6 @@ p.copy.ph { display: block; }
   margin: 0; max-width: 88%;
   font-size: 30px; line-height: 1.06; letter-spacing: -0.035em;
   font-weight: 300; color: var(--cs-text); text-transform: lowercase;
-}
-.dp-edge {
-  position: absolute; right: 11px; bottom: 24px;
-  writing-mode: vertical-rl;
-  font-size: 9px; letter-spacing: 0.1em; color: var(--cs-label);
 }
 
 @media (max-width: 1000px) {
@@ -1537,6 +1531,21 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 }
 .cs-ba-toggle button[aria-pressed="true"] { background: var(--cs-text); color: var(--cs-bg); }
 .cs-ba-toggle button:focus-visible { outline: 2px solid var(--cs-blue); outline-offset: 2px; }
+
+/* 06 — before / after grid under the last decision */
+.ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.ba-card { margin: 0; border: 1px solid var(--cs-line-2); background: var(--cs-bg); overflow: hidden; }
+.ba-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 13px 14px; border-bottom: 1px solid var(--cs-line-2);
+}
+.ba-head h4 { margin: 0; font-size: 16px; line-height: 24px; font-weight: 400; color: var(--cs-text); }
+.ba-stage { position: relative; aspect-ratio: 16 / 10; background: var(--cs-panel); }
+.ba-slot { position: absolute; inset: 0; opacity: 0; transition: opacity 320ms var(--ease-out); }
+.ba-slot.show { opacity: 1; }
+.ba-slot img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.ba-slot .media { height: 100%; border: 0; }
+@media (max-width: 900px) { .ba-grid { grid-template-columns: 1fr; } }
 
 /* 6 — Pros / cons */
 .cs-forks { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -2250,7 +2259,9 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 
       <p class="t-12">The two modals as I inherited them — switch between them.</p>
       <div class="sp-18"></div>
-      <div class="cs-ba" data-ba>
+      <div class="cs-ba" data-ba
+        data-cap-a="New Appointment — five fields, no cadence, no plan."
+        data-cap-b="Edit Appointment — around twenty fields, most unconnected.">
         <div class="cs-ba-bar">
           <span class="cap" data-ba-cap>New Appointment — five fields, no cadence, no plan.</span>
           <span class="cs-ba-toggle" role="group" aria-label="Compare the two modals">
@@ -2393,18 +2404,16 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
         <div class="dec">
           <div class="a">
             <span class="num">01</span>
-            <h3 class="h-28">Deciding What the App Should Actually Be</h3>
-            <p class="t-16 ph">Before anything visual, the question was … — full paragraph goes here</p>
+            <h3 class="h-28">Setting Up the Design Foundations</h3>
+            <p class="t-16">Before any screen, the product needed something to stand on. I ran the competitor analysis, mapped the information architecture — separating the product tree from the state machines — and wrote the user personas and the end-to-end journey map. Then the system underneath it: tokens and variables for colour, type and spacing, and the components every surface downstream was assembled from.</p>
           </div>
           <div class="b2">
             <figure class="dec-poster">
               <div class="dp-head">
                 <span class="dp-mark">Decision 01</span>
-                <span class="dp-tag">Gideon</span>
               </div>
               <div class="dp-art"><svg viewBox="0 0 360 270" fill="none" stroke="var(--cs-text)" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="45" cy="45" r="45"/><circle cx="135" cy="45" r="45" fill="#F2F1EE"/><circle cx="225" cy="45" r="45"/><circle cx="315" cy="45" r="45"/><circle cx="45" cy="135" r="45"/><circle cx="135" cy="135" r="45" fill="#BFBDB8"/><circle cx="225" cy="135" r="45"/><circle cx="315" cy="135" r="45"/><circle cx="45" cy="225" r="45"/><circle cx="135" cy="225" r="45"/><circle cx="225" cy="225" r="45"/><circle cx="315" cy="225" r="45"/></svg></div>
-              <figcaption class="dp-title">deciding what the app should be</figcaption>
-              <span class="dp-edge" aria-hidden="true">2026</span>
+              <figcaption class="dp-title">setting up the design foundations</figcaption>
             </figure>
           </div>
         </div>
@@ -2419,11 +2428,9 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             <figure class="dec-poster">
               <div class="dp-head">
                 <span class="dp-mark">Decision 02</span>
-                <span class="dp-tag">Gideon</span>
               </div>
               <div class="dp-art"><svg viewBox="0 0 400 320" fill="none" stroke="var(--cs-text)" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="96.2" cy="291.6" r="65.0" opacity="0.103"/><circle cx="110.8" cy="276.4" r="65.8" opacity="0.172"/><circle cx="125.4" cy="261.2" r="66.7" opacity="0.241"/><circle cx="140.0" cy="246.0" r="67.5" opacity="0.31"/><circle cx="154.6" cy="230.8" r="68.3" opacity="0.379"/><circle cx="169.2" cy="215.6" r="69.2" opacity="0.448"/><circle cx="183.8" cy="200.4" r="70.0" opacity="0.517"/><circle cx="198.4" cy="185.2" r="70.9" opacity="0.586"/><circle cx="213.0" cy="170.0" r="71.8" opacity="0.655"/><circle cx="227.6" cy="154.8" r="72.6" opacity="0.724"/><circle cx="242.2" cy="139.6" r="73.5" opacity="0.793"/><circle cx="256.8" cy="124.4" r="74.3" opacity="0.862"/><circle cx="271.4" cy="109.2" r="75.2" opacity="0.931"/><circle cx="286.0" cy="94.0" r="76.0" opacity="1.0"/></svg></div>
               <figcaption class="dp-title">rebuilding the lead modal</figcaption>
-              <span class="dp-edge" aria-hidden="true">2026</span>
             </figure>
           </div>
         </div>
@@ -2431,7 +2438,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
         <div class="dec">
           <div class="a">
             <span class="num">03</span>
-            <h3 class="h-28">Collapsing the Appointment Modals Into One</h3>
+            <h3 class="h-28">Simplifying Creating and Editing Appointments</h3>
             <p class="t-16">Two modals for one object meant two designs, two field sets, and edits with no clear home. Rather than align them, I rebuilt both as a single modal with a Create and an Edit mode — identical layout, one data model underneath.</p>
             <div class="sp-30"></div>
             <div class="cs-forks">
@@ -2459,11 +2466,9 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             <figure class="dec-poster">
               <div class="dp-head">
                 <span class="dp-mark">Decision 03</span>
-                <span class="dp-tag">Gideon</span>
               </div>
               <div class="dp-art"><svg viewBox="0 0 400 320" fill="none" stroke="var(--cs-text)" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="200" cy="108" r="95"/><circle cx="200" cy="212" r="95"/></svg></div>
-              <figcaption class="dp-title">two appointment modals into one</figcaption>
-              <span class="dp-edge" aria-hidden="true">2026</span>
+              <figcaption class="dp-title">simplifying creating and editing appointments</figcaption>
             </figure>
           </div>
         </div>
@@ -2471,20 +2476,73 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
         <div class="dec">
           <div class="a">
             <span class="num">04</span>
-            <h3 class="h-28">Structure for Appointment Cards, Task States and the Calendar</h3>
-            <p class="t-16 ph">Appointment cards and approval tasks both … — full paragraph goes here</p>
+            <h3 class="h-28">UI Design and UX Foundations for Other Sections of the App</h3>
           </div>
           <div class="b2">
             <figure class="dec-poster">
               <div class="dp-head">
                 <span class="dp-mark">Decision 04</span>
-                <span class="dp-tag">Gideon</span>
               </div>
               <div class="dp-art"><svg viewBox="0 0 404 302" fill="none" stroke="var(--cs-text)" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="80" cy="90" r="68"/><circle cx="202" cy="90" r="68"/><circle cx="324" cy="90" r="68"/><circle cx="80" cy="212" r="68"/><circle cx="202" cy="212" r="68"/><circle cx="324" cy="212" r="68"/></svg></div>
-              <figcaption class="dp-title">cards, states and the calendar</figcaption>
-              <span class="dp-edge" aria-hidden="true">2026</span>
+              <figcaption class="dp-title">ui design and ux foundations</figcaption>
             </figure>
           </div>
+        </div>
+
+        <div class="sp-56"></div>
+        <div class="ba-grid">
+          <figure class="ba-card" data-ba>
+            <figcaption class="ba-head">
+              <h4>Dashboard</h4>
+              <span class="cs-ba-toggle" role="group" aria-label="Dashboard — before and after">
+                <button type="button" data-ba-set="a" aria-pressed="true">Before</button>
+                <button type="button" data-ba-set="b" aria-pressed="false">After</button>
+              </span>
+            </figcaption>
+            <div class="ba-stage">
+              <div class="ba-slot show" data-ba-img="a"><div class="media" role="img" aria-label="Dashboard, before"><span>Drop media</span><span>Dashboard — before</span></div></div>
+              <div class="ba-slot" data-ba-img="b"><div class="media" role="img" aria-label="Dashboard, after"><span>Drop media</span><span>Dashboard — after</span></div></div>
+            </div>
+          </figure>
+          <figure class="ba-card" data-ba>
+            <figcaption class="ba-head">
+              <h4>Intake</h4>
+              <span class="cs-ba-toggle" role="group" aria-label="Intake — before and after">
+                <button type="button" data-ba-set="a" aria-pressed="true">Before</button>
+                <button type="button" data-ba-set="b" aria-pressed="false">After</button>
+              </span>
+            </figcaption>
+            <div class="ba-stage">
+              <div class="ba-slot show" data-ba-img="a"><div class="media" role="img" aria-label="Intake, before"><span>Drop media</span><span>Intake — before</span></div></div>
+              <div class="ba-slot" data-ba-img="b"><div class="media" role="img" aria-label="Intake, after"><span>Drop media</span><span>Intake — after</span></div></div>
+            </div>
+          </figure>
+          <figure class="ba-card" data-ba>
+            <figcaption class="ba-head">
+              <h4>Treatment</h4>
+              <span class="cs-ba-toggle" role="group" aria-label="Treatment — before and after">
+                <button type="button" data-ba-set="a" aria-pressed="true">Before</button>
+                <button type="button" data-ba-set="b" aria-pressed="false">After</button>
+              </span>
+            </figcaption>
+            <div class="ba-stage">
+              <div class="ba-slot show" data-ba-img="a"><div class="media" role="img" aria-label="Treatment, before"><span>Drop media</span><span>Treatment — before</span></div></div>
+              <div class="ba-slot" data-ba-img="b"><div class="media" role="img" aria-label="Treatment, after"><span>Drop media</span><span>Treatment — after</span></div></div>
+            </div>
+          </figure>
+          <figure class="ba-card" data-ba>
+            <figcaption class="ba-head">
+              <h4>Settings</h4>
+              <span class="cs-ba-toggle" role="group" aria-label="Settings — before and after">
+                <button type="button" data-ba-set="a" aria-pressed="true">Before</button>
+                <button type="button" data-ba-set="b" aria-pressed="false">After</button>
+              </span>
+            </figcaption>
+            <div class="ba-stage">
+              <div class="ba-slot show" data-ba-img="a"><div class="media" role="img" aria-label="Settings, before"><span>Drop media</span><span>Settings — before</span></div></div>
+              <div class="ba-slot" data-ba-img="b"><div class="media" role="img" aria-label="Settings, after"><span>Drop media</span><span>Settings — after</span></div></div>
+            </div>
+          </figure>
         </div>
 
       </div>
@@ -2971,16 +3029,15 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 
   // ---- Case-study: before/after toggle -----------------------------
   document.querySelectorAll('[data-ba]').forEach(box => {
-    const caps = {
-      a: 'New Appointment — five fields, no cadence, no plan.',
-      b: 'Edit Appointment — around twenty fields, most unconnected.'
-    };
     box.querySelectorAll('[data-ba-set]').forEach(btn => {
       btn.addEventListener('click', () => {
         const k = btn.dataset.baSet;
         box.querySelectorAll('[data-ba-set]').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
         box.querySelectorAll('[data-ba-img]').forEach(im => im.classList.toggle('show', im.dataset.baImg === k));
-        const cap = box.querySelector('[data-ba-cap]'); if (cap) cap.textContent = caps[k];
+        // captions are optional and live on the box, so extra toggles don't inherit them
+        const cap = box.querySelector('[data-ba-cap]');
+        const text = box.dataset['cap' + k.toUpperCase()];
+        if (cap && text) cap.textContent = text;
       });
     });
   });
