@@ -999,7 +999,15 @@ p.copy.ph { display: block; }
 .prob-body { display: grid; grid-template-rows: 1fr; }
 .prob.is-closed .prob-body { grid-template-rows: 0fr; }
 .prob-body > div { overflow: hidden; }
-.prob-sub { margin-bottom: 0; }
+/* A / B inside a problem, with room to breathe before the content */
+.prob-sub-head { display: flex; align-items: center; gap: 14px; }
+.prob-sub-mark {
+  flex: none; display: grid; place-items: center;
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid var(--cs-blue); color: var(--cs-blue);
+  font-size: 13px; line-height: 1; font-weight: 400;
+}
+.sp-64 { height: 64px; }
 @media (max-width: 700px) {
   .prob-head { flex-direction: column; align-items: flex-start; gap: 16px; }
 }
@@ -2442,25 +2450,6 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
         <button class="prob-chip" type="button" data-jump="prob-3-sec"><span>03</span>Other Design Changes</button>
       </div>
 
-      <div class="sp-52"></div>
-
-      <p class="t-12">The two modals as I inherited them — switch between them.</p>
-      <div class="sp-18"></div>
-      <div class="cs-ba" data-ba
-        data-cap-a="New Appointment — five fields, no cadence, no plan."
-        data-cap-b="Edit Appointment — around twenty fields, most unconnected.">
-        <div class="cs-ba-bar">
-          <span class="cap" data-ba-cap>New Appointment — five fields, no cadence, no plan.</span>
-          <span class="cs-ba-toggle" role="group" aria-label="Compare the two modals">
-            <button type="button" data-ba-set="a" aria-pressed="true">New Appointment</button>
-            <button type="button" data-ba-set="b" aria-pressed="false">Edit Appointment</button>
-          </span>
-        </div>
-        <div class="cs-ba-stage">
-          <img class="ba-img show" data-ba-img="a" src="assets/gd/old-new-appointment-in-app.png" alt="The old New Appointment modal over the appointments list: an existing-or-new client choice, name and phone, date, time, duration, a fixed type list and a free-text location">
-          <img class="ba-img" data-ba-img="b" src="assets/old-edit-appointment.jpg" alt="The old Edit Appointment modal: six panels of fields, most of them empty, and a row of six actions">
-        </div>
-      </div>
     </div>
   </section>
 
@@ -2477,8 +2466,32 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
         </button>
       </div>
       <div class="prob-body" id="prob-1"><div>
-        <h3 class="h-28 prob-sub" id="cs-p1a">The New Appointment Modal</h3>
-      <div class="sp-30"></div>
+        <div class="sp-36"></div>
+        <p class="t-12">The two modals as I inherited them — switch between them.</p>
+        <div class="sp-18"></div>
+        <div class="cs-ba" data-ba
+          data-cap-a="New Appointment — five fields, no cadence, no plan."
+          data-cap-b="Edit Appointment — around twenty fields, most unconnected.">
+          <div class="cs-ba-bar">
+            <span class="cap" data-ba-cap>New Appointment — five fields, no cadence, no plan.</span>
+            <span class="cs-ba-toggle" role="group" aria-label="Compare the two modals">
+              <button type="button" data-ba-set="a" aria-pressed="true">New Appointment</button>
+              <button type="button" data-ba-set="b" aria-pressed="false">Edit Appointment</button>
+            </span>
+          </div>
+          <div class="cs-ba-stage">
+            <img class="ba-img show" data-ba-img="a" src="assets/gd/old-new-appointment-in-app.png" alt="The old New Appointment modal over the appointments list: an existing-or-new client choice, name and phone, date, time, duration, a fixed type list and a free-text location">
+            <img class="ba-img" data-ba-img="b" src="assets/old-edit-appointment.jpg" alt="The old Edit Appointment modal: six panels of fields, most of them empty, and a row of six actions">
+          </div>
+        </div>
+
+        <div class="sp-64"></div>
+
+        <div class="prob-sub-head">
+          <span class="prob-sub-mark">A</span>
+          <h3 class="h-28" id="cs-p1a">The New Appointment Modal</h3>
+        </div>
+      <div class="sp-48"></div>
       <p class="t-20 copy ph">one or two lines framing what was wrong and where the five iterations landed</p>
       <div class="sp-56"></div>
 
@@ -2678,8 +2691,11 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       <div class="rule-cs soft"></div>
       <div class="sp-56"></div>
 
-        <h3 class="h-28 prob-sub" id="cs-p1b">The Edit Appointment Modal</h3>
-      <div class="sp-30"></div>
+        <div class="prob-sub-head">
+          <span class="prob-sub-mark">B</span>
+          <h3 class="h-28" id="cs-p1b">The Edit Appointment Modal</h3>
+        </div>
+      <div class="sp-48"></div>
       <p class="t-20 copy">If New Appointment is where a visit is written down, Edit Appointment is where it is supervised — and an appointment is not one thing but a sequence of states. Before it could be redesigned, that sequence had to be named.</p>
 
       <div class="sp-52"></div>
@@ -3586,6 +3602,85 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
     render();
   });
 
+
+  // ---- Case-study: before/after toggle -----------------------------
+  document.querySelectorAll('[data-ba]').forEach(box => {
+    box.querySelectorAll('[data-ba-set]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const k = btn.dataset.baSet;
+        box.querySelectorAll('[data-ba-set]').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+        box.querySelectorAll('[data-ba-img]').forEach(im => im.classList.toggle('show', im.dataset.baImg === k));
+        // captions are optional and live on the box, so extra toggles don't inherit them
+        const cap = box.querySelector('[data-ba-cap]');
+        const text = box.dataset['cap' + k.toUpperCase()];
+        if (cap && text) cap.textContent = text;
+      });
+    });
+  });
+
+  // ---- Case-study: contents rail scroll-spy ------------------------
+  const toc = document.querySelector('.cs-toc');
+  if (toc) {
+    const links = [...toc.querySelectorAll('a')];
+    const targets = links.map(a => document.getElementById(a.dataset.sec)).filter(Boolean);
+    const spy = () => {
+      if (document.getElementById('gideon').hidden) return;
+      const mid = window.innerHeight * 0.35;
+      let current = targets[0];
+      for (const t of targets) { if (t.getBoundingClientRect().top <= mid) current = t; }
+      links.forEach(a => a.classList.toggle('is-active', a.dataset.sec === (current && current.id)));
+    };
+    window.addEventListener('scroll', spy, { passive: true });
+    window.addEventListener('hashchange', () => setTimeout(spy, 60));
+    setTimeout(spy, 100);
+  }
+
+  // ---- Hover preview: CTA plays a video over the figure it belongs to -----
+  document.querySelectorAll('[data-hover-video]').forEach(cta => {
+    const fig = cta.closest('.cs-figure'); if (!fig) return;
+    const v = fig.querySelector('.cs-hover-video'); if (!v) return;
+    let open = false;
+    const show = () => { if (open) return; open = true; fig.classList.add('is-playing'); v.currentTime = 0; v.play().catch(() => {}); };
+    const hide = () => { if (!open) return; open = false; fig.classList.remove('is-playing'); v.pause(); };
+    cta.addEventListener('mouseenter', show);
+    cta.addEventListener('mouseleave', hide);
+    cta.addEventListener('focus', show);
+    cta.addEventListener('blur', hide);
+    // touch / click: toggle, and never let the href move the page
+    cta.addEventListener('click', e => { e.preventDefault(); open ? hide() : show(); });
+  });
+
+  // ---- Cursor pill: rides the pointer across a project card --------
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const pill = document.getElementById('cursorPill');
+    const cards = [...document.querySelectorAll('.project[data-cursor]')];
+    if (pill && cards.length) {
+      const OFFSET_X = 22;          // sits to the right of the cursor
+      let x = 0, y = 0, queued = false;
+
+      const paint = () => {
+        queued = false;
+        // -50% on Y centres the pill on the cursor; X is a straight offset
+        pill.style.transform = `translate3d(${x + OFFSET_X}px, ${y}px, 0) translateY(-50%)`;
+      };
+      const track = e => {
+        x = e.clientX; y = e.clientY;
+        if (!queued) { queued = true; requestAnimationFrame(paint); }
+      };
+
+      cards.forEach(card => {
+        card.addEventListener('pointerenter', e => {
+          pill.textContent = card.dataset.cursor;
+          track(e); paint();
+          pill.classList.add('is-on');
+        });
+        card.addEventListener('pointermove', track);
+        card.addEventListener('pointerleave', () => pill.classList.remove('is-on'));
+      });
+      // a hash change can pull the card out from under the cursor
+      window.addEventListener('hashchange', () => pill.classList.remove('is-on'));
+    }
+  }
 
   // ---- Problems: collapse from the heading, and chips that jump to them ----
   const setProb = (sec, open) => {
