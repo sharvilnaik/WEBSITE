@@ -2974,7 +2974,8 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <div class="a">
             <span class="num">01</span>
             <h3 class="h-28">Setting Up the Design Foundations</h3>
-            <p class="t-16">Before any screen, the product needed something to stand on. I ran the competitor analysis, mapped the information architecture — separating the product tree from the state machines — and wrote the user personas and the end-to-end journey map. Then the system underneath it: tokens and variables for colour, type and spacing, and the components every surface downstream was assembled from.</p>
+            <p class="t-16">The brief was never only “design the screens”. I sat in the discussions about what the product should actually be — which features made the next release, which could wait, what each one was worth against the business goal, and how long it would take. For a stretch of this I was closer to a product lead than a designer, and that framing had to come first, because everything downstream inherited it.</p>
+            <p class="t-16">Then the foundations to build on. A competitor teardown, an information architecture that separated the product tree from the state machines, user personas and an end-to-end journey map — and underneath all of it the system itself: tokens and variables for colour, type and spacing, and the components every surface was assembled from.</p>
           </div>
           <div class="b2">
             <figure class="dec-poster">
@@ -2991,7 +2992,9 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <div class="a">
             <span class="num">02</span>
             <h3 class="h-28">Rebuilding the Lead Modal</h3>
-            <p class="t-16 ph">The Lead Modal is the profile for every … — full paragraph goes here</p>
+            <p class="t-16">The Lead Modal is the client. Everything the firm knows about a case sits in it — accident type, contact details, treatment, case number, calls and their transcripts, appointments, where the matter currently stands. It is also reachable from more places than anything else in the product, which means its complexity is not paid for once. It is paid for everywhere.</p>
+            <p class="t-16">That made it the highest-priority surface to get right, and the one where a wrong turn was most expensive. What I inherited had ten top-level tabs and six stages beneath them, each splitting again into groups of fields, until finding a single fact meant already knowing where someone had filed it. If the modal cannot tell you what it holds or what to do next, it is not a profile — it is a filing cabinet.</p>
+            <p class="t-16">So the audit came before the design: take out anything the user would not reach for in the coming months, keep only what we could explain and stand behind, and let the information architecture decide what was genuinely useful rather than merely available. It was not finished when the company changed direction — but the section count was already down, and Overview was done. Overview is the one that tells a case manager what to do next.</p>
           </div>
           <div class="b2">
             <figure class="dec-poster">
@@ -3046,6 +3049,8 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <div class="a">
             <span class="num">04</span>
             <h3 class="h-28">UI Design and UX Foundations for Other Sections of the App</h3>
+            <p class="t-16">Every other surface needed the same pass — dashboard, intake, treatment, settings. Structure first, then the screens, then the states nobody had drawn: what an empty one looks like, what a failed one says, what happens while you wait.</p>
+            <p class="t-16">I shipped a good deal of it myself. Working with Claude, I would write the structure and the prompt, the change would land across the front end and the back end as a PR, we would merge it, and then I would review what it had actually built and iterate on that. It worked well enough that the company handed me autonomy over structural changes to the app — including the Lead Modal, the most complex component in it — to decide what changed, how it looked, and how it behaved.</p>
           </div>
           <div class="b2">
             <figure class="dec-poster">
