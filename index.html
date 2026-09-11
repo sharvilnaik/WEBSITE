@@ -1270,30 +1270,64 @@ p.copy.ph { display: block; }
 .vid-ctrls button svg { width: 10px; height: 10px; display: block; fill: currentColor; }
 .vid-ctrls button[disabled] { opacity: 0.45; cursor: default; }
 
-/* long-form clips: controls appear on hover, with a scrubber and 5s jumps */
+/* long-form clips: a real player — big play button, and a control bar on hover */
+.vid-big {
+  position: absolute; left: 50%; top: 50%; z-index: 4;
+  width: 74px; height: 74px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: rgba(16,16,20,0.55); color: #fff;
+  border: 1px solid rgba(255,255,255,0.26);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  transform: translate(-50%, -50%);
+  transition: opacity 220ms ease, transform 220ms var(--ease-out), background-color 200ms ease;
+}
+.vid-big svg { width: 26px; height: 26px; margin-left: 4px; fill: none; display: block; }
+.vid-big svg .solid { fill: currentColor; }
+.vid.is-playing .vid-big { opacity: 0; pointer-events: none; transform: translate(-50%, -50%) scale(0.86); }
+@media (hover: hover) and (pointer: fine) {
+  .vid-big:hover { background: rgba(16,16,20,0.78); transform: translate(-50%, -50%) scale(1.06); }
+}
+
 .vid.is-scrub .vid-ctrls {
-  left: 12px; right: 12px; bottom: 12px;
-  align-items: center; gap: 8px;
+  left: 14px; right: 14px; bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 12px; border-radius: 100px;
+  background: rgba(16,16,20,0.72);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   opacity: 0; pointer-events: none;
 }
 .vid.is-scrub:hover .vid-ctrls,
 .vid.is-scrub:focus-within .vid-ctrls { opacity: 1; pointer-events: auto; }
 @media (hover: none), (pointer: coarse) {
-  .vid.is-scrub .vid-ctrls { opacity: 0.92; pointer-events: auto; }
+  .vid.is-scrub .vid-ctrls { opacity: 1; pointer-events: auto; }
 }
-.vid-ctrls button.skip { padding: 0 10px; font-size: 11px; letter-spacing: 0.02em; }
+.vid.is-scrub .vid-ctrls button {
+  flex: none; width: 30px; height: 30px; padding: 0; gap: 0;
+  border: 0; border-radius: 50%; background: none;
+  display: grid; place-items: center; color: #fff;
+}
+.vid.is-scrub .vid-ctrls button svg { width: 19px; height: 19px; fill: none; stroke: none; }
+.vid.is-scrub .vid-ctrls button svg .solid { fill: currentColor; }
+.vid.is-scrub .vid-ctrls button svg text { font-family: var(--font-geist); font-weight: 500; letter-spacing: 0; }
+@media (hover: hover) and (pointer: fine) {
+  .vid.is-scrub .vid-ctrls button:hover { background: rgba(255,255,255,0.14); color: #fff; }
+}
 .vid-ctrls .vid-time {
-  flex: none; font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,0.75);
+  flex: none; font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,0.82);
   font-variant-numeric: tabular-nums; white-space: nowrap;
 }
 .vid-seek {
-  flex: 1 1 auto; min-width: 48px; height: 28px; margin: 0;
+  flex: 1 1 auto; min-width: 40px; height: 26px; margin: 0;
   -webkit-appearance: none; appearance: none; background: none; cursor: pointer;
+  --played: 0%;
 }
 .vid-seek::-webkit-slider-runnable-track {
-  height: 3px; border-radius: 3px; background: rgba(255,255,255,0.3);
+  height: 3px; border-radius: 3px;
+  background: linear-gradient(90deg, #fff 0 var(--played), rgba(255,255,255,0.28) var(--played) 100%);
 }
-.vid-seek::-moz-range-track { height: 3px; border-radius: 3px; background: rgba(255,255,255,0.3); }
+.vid-seek::-moz-range-track { height: 3px; border-radius: 3px; background: rgba(255,255,255,0.28); }
+.vid-seek::-moz-range-progress { height: 3px; border-radius: 3px; background: #fff; }
 .vid-seek::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none; margin-top: -4.5px;
   width: 12px; height: 12px; border-radius: 50%; background: #fff;
@@ -2575,7 +2609,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             </figure>
             <figure>
               <div class="shot nf-vid">
-                <video src="assets/gd/final-walkthrough.mp4" poster="assets/gd/final-walkthrough-poster.jpg" muted playsinline preload="none" data-scrub data-noautoplay data-audio="false" aria-label="The shipped New Appointment modal, driven end to end"></video>
+                <video src="assets/gd/final-walkthrough.mp4" poster="assets/gd/final-walkthrough-poster.jpg" muted playsinline preload="metadata" data-scrub data-noautoplay data-audio="false" aria-label="The shipped New Appointment modal, driven end to end"></video>
               </div>
             </figure>
             <figure>
@@ -3394,10 +3428,13 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 
   // ---- Video controls ----------------------------------------------
   const ICON = {
-    play:  '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1l7 4-7 4z"/></svg>',
-    pause: '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1h2.5v8H1.5zM6 1h2.5v8H6z"/></svg>',
+    play:  '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="solid" d="M8 5l12 7-12 7z"/></svg>',
+    pause: '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="solid" d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>',
     sound: '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3.5h2l2.5-2v7L3 6.5H1z"/><path d="M7 3.2a2.4 2.4 0 010 3.6" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>',
-    muted: '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3.5h2l2.5-2v7L3 6.5H1z"/><path d="M6.6 3.6l2.6 2.8M9.2 3.6L6.6 6.4" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>'
+    muted: '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3.5h2l2.5-2v7L3 6.5H1z"/><path d="M6.6 3.6l2.6 2.8M9.2 3.6L6.6 6.4" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>',
+    // circular arrow wrapped around the number of seconds it jumps
+    back5: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M12 5.5A6.5 6.5 0 1 0 18.5 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="solid" d="M12 2.6v5.8L8.6 5.5z"/><text class="solid" x="12" y="15.6" text-anchor="middle" font-size="8.2">5</text></svg>',
+    fwd5:  '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M12 5.5A6.5 6.5 0 1 1 5.5 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="solid" d="M12 2.6v5.8L15.4 5.5z"/><text class="solid" x="12" y="15.6" text-anchor="middle" font-size="8.2">5</text></svg>'
   };
   const mmss = t => {
     if (!isFinite(t)) return '0:00';
@@ -3414,22 +3451,29 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 
     const bar = document.createElement('div'); bar.className = 'vid-ctrls';
     const play = document.createElement('button'); play.type = 'button';
-    bar.append(play);
 
-    let seek, back, fwd, time;
+    let seek, back, fwd, now, dur, big;
     if (scrub) {
+      // a poster with no affordance reads as a still — give it a real play button
+      big = document.createElement('button');
+      big.type = 'button'; big.className = 'vid-big';
+      big.innerHTML = ICON.play;
+      big.setAttribute('aria-label', 'Play video');
+      box.append(big);
+
       back = document.createElement('button'); back.type = 'button';
-      back.className = 'skip'; back.textContent = '\u22125s';
-      back.setAttribute('aria-label', 'Back five seconds');
+      back.innerHTML = ICON.back5; back.setAttribute('aria-label', 'Back five seconds');
       fwd = document.createElement('button'); fwd.type = 'button';
-      fwd.className = 'skip'; fwd.textContent = '+5s';
-      fwd.setAttribute('aria-label', 'Forward five seconds');
+      fwd.innerHTML = ICON.fwd5; fwd.setAttribute('aria-label', 'Forward five seconds');
+      now = document.createElement('span'); now.className = 'vid-time'; now.textContent = '0:00';
+      dur = document.createElement('span'); dur.className = 'vid-time'; dur.textContent = '0:00';
       seek = document.createElement('input');
       seek.type = 'range'; seek.className = 'vid-seek';
       seek.min = 0; seek.max = 1000; seek.value = 0; seek.step = 1;
       seek.setAttribute('aria-label', 'Seek');
-      time = document.createElement('span'); time.className = 'vid-time'; time.textContent = '0:00';
-      bar.append(back, seek, fwd, time);
+      bar.append(back, play, fwd, now, seek, dur);
+    } else {
+      bar.append(play);
     }
 
     let mute;
@@ -3442,19 +3486,26 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
     let dragging = false;
     const render = () => {
       const playing = !v.paused && !v.ended;
-      play.innerHTML = (playing ? ICON.pause : ICON.play) + (playing ? 'Pause' : 'Play');
+      box.classList.toggle('is-playing', playing);
+      play.innerHTML = playing ? ICON.pause : ICON.play;
+      if (!scrub) play.innerHTML += (playing ? 'Pause' : 'Play');
       play.setAttribute('aria-label', playing ? 'Pause video' : 'Play video');
       if (mute) {
-        mute.innerHTML = (v.muted ? ICON.muted : ICON.sound) + (v.muted ? 'Unmute' : 'Mute');
+        mute.innerHTML = (v.muted ? ICON.muted : ICON.sound);
+        if (!scrub) mute.innerHTML += (v.muted ? 'Unmute' : 'Mute');
         mute.setAttribute('aria-label', v.muted ? 'Unmute video' : 'Mute video');
       }
-      if (seek && !dragging && v.duration) {
-        seek.value = Math.round((v.currentTime / v.duration) * 1000);
-        time.textContent = mmss(v.currentTime) + ' / ' + mmss(v.duration);
+      if (seek && v.duration) {
+        if (!dragging) seek.value = Math.round((v.currentTime / v.duration) * 1000);
+        now.textContent = mmss(v.currentTime);
+        dur.textContent = mmss(v.duration);
+        seek.style.setProperty('--played', (seek.value / 10) + '%');
       }
     };
 
-    play.addEventListener('click', () => { v.paused ? v.play().catch(() => {}) : v.pause(); });
+    const toggle = () => { v.paused ? v.play().catch(() => {}) : v.pause(); };
+    play.addEventListener('click', toggle);
+    if (big) big.addEventListener('click', toggle);
     if (mute) mute.addEventListener('click', () => { v.muted = !v.muted; if (!v.muted) v.volume = 1; render(); });
     if (scrub) {
       const nudge = d => { if (v.duration) v.currentTime = Math.min(v.duration, Math.max(0, v.currentTime + d)); };
@@ -3462,7 +3513,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       fwd.addEventListener('click', () => nudge(5));
       const scrubTo = () => { if (v.duration) v.currentTime = (seek.value / 1000) * v.duration; };
       seek.addEventListener('pointerdown', () => { dragging = true; });
-      seek.addEventListener('input', () => { dragging = true; scrubTo(); });
+      seek.addEventListener('input', () => { dragging = true; seek.style.setProperty('--played', (seek.value / 10) + '%'); scrubTo(); });
       seek.addEventListener('change', () => { scrubTo(); dragging = false; });
       ['pointerup', 'pointercancel', 'blur'].forEach(ev => seek.addEventListener(ev, () => { dragging = false; }));
       v.addEventListener('timeupdate', render);
@@ -3474,85 +3525,6 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
     render();
   });
 
-
-  // ---- Case-study: before/after toggle -----------------------------
-  document.querySelectorAll('[data-ba]').forEach(box => {
-    box.querySelectorAll('[data-ba-set]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const k = btn.dataset.baSet;
-        box.querySelectorAll('[data-ba-set]').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
-        box.querySelectorAll('[data-ba-img]').forEach(im => im.classList.toggle('show', im.dataset.baImg === k));
-        // captions are optional and live on the box, so extra toggles don't inherit them
-        const cap = box.querySelector('[data-ba-cap]');
-        const text = box.dataset['cap' + k.toUpperCase()];
-        if (cap && text) cap.textContent = text;
-      });
-    });
-  });
-
-  // ---- Case-study: contents rail scroll-spy ------------------------
-  const toc = document.querySelector('.cs-toc');
-  if (toc) {
-    const links = [...toc.querySelectorAll('a')];
-    const targets = links.map(a => document.getElementById(a.dataset.sec)).filter(Boolean);
-    const spy = () => {
-      if (document.getElementById('gideon').hidden) return;
-      const mid = window.innerHeight * 0.35;
-      let current = targets[0];
-      for (const t of targets) { if (t.getBoundingClientRect().top <= mid) current = t; }
-      links.forEach(a => a.classList.toggle('is-active', a.dataset.sec === (current && current.id)));
-    };
-    window.addEventListener('scroll', spy, { passive: true });
-    window.addEventListener('hashchange', () => setTimeout(spy, 60));
-    setTimeout(spy, 100);
-  }
-
-  // ---- Hover preview: CTA plays a video over the figure it belongs to -----
-  document.querySelectorAll('[data-hover-video]').forEach(cta => {
-    const fig = cta.closest('.cs-figure'); if (!fig) return;
-    const v = fig.querySelector('.cs-hover-video'); if (!v) return;
-    let open = false;
-    const show = () => { if (open) return; open = true; fig.classList.add('is-playing'); v.currentTime = 0; v.play().catch(() => {}); };
-    const hide = () => { if (!open) return; open = false; fig.classList.remove('is-playing'); v.pause(); };
-    cta.addEventListener('mouseenter', show);
-    cta.addEventListener('mouseleave', hide);
-    cta.addEventListener('focus', show);
-    cta.addEventListener('blur', hide);
-    // touch / click: toggle, and never let the href move the page
-    cta.addEventListener('click', e => { e.preventDefault(); open ? hide() : show(); });
-  });
-
-  // ---- Cursor pill: rides the pointer across a project card --------
-  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    const pill = document.getElementById('cursorPill');
-    const cards = [...document.querySelectorAll('.project[data-cursor]')];
-    if (pill && cards.length) {
-      const OFFSET_X = 22;          // sits to the right of the cursor
-      let x = 0, y = 0, queued = false;
-
-      const paint = () => {
-        queued = false;
-        // -50% on Y centres the pill on the cursor; X is a straight offset
-        pill.style.transform = `translate3d(${x + OFFSET_X}px, ${y}px, 0) translateY(-50%)`;
-      };
-      const track = e => {
-        x = e.clientX; y = e.clientY;
-        if (!queued) { queued = true; requestAnimationFrame(paint); }
-      };
-
-      cards.forEach(card => {
-        card.addEventListener('pointerenter', e => {
-          pill.textContent = card.dataset.cursor;
-          track(e); paint();
-          pill.classList.add('is-on');
-        });
-        card.addEventListener('pointermove', track);
-        card.addEventListener('pointerleave', () => pill.classList.remove('is-on'));
-      });
-      // a hash change can pull the card out from under the cursor
-      window.addEventListener('hashchange', () => pill.classList.remove('is-on'));
-    }
-  }
 
   // ---- Numbered points: collapse the detail, and read it off the marker ----
   document.querySelectorAll('.flaws').forEach(list => {
