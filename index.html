@@ -984,16 +984,15 @@ p.copy.ph { display: block; }
   text-transform: uppercase; font-weight: 400; color: var(--cs-blue);
 }
 .prob-toggle {
-  flex: none; display: inline-flex; align-items: center; gap: 10px;
-  height: 40px; padding: 0 16px; border-radius: 100px;
-  border: 1px solid var(--cs-line-2); background: none; color: var(--cs-text-2);
-  font-family: var(--font-geist); font-size: 13px; line-height: 1; font-weight: 300;
-  transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease;
+  flex: none; display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 0; border: 0; background: none; color: var(--cs-text-3);
+  font-family: var(--font-geist); font-size: 14px; line-height: 1; font-weight: 300;
+  transition: color 200ms ease;
 }
 .prob-toggle .chev { width: 16px; height: 16px; transition: transform 280ms var(--ease-out); }
 .prob.is-closed .prob-toggle .chev { transform: rotate(-90deg); }
 @media (hover: hover) and (pointer: fine) {
-  .prob-toggle:hover { color: var(--cs-text); border-color: var(--cs-text-3); background: rgba(255,255,255,0.05); }
+  .prob-toggle:hover { color: var(--cs-text); }
 }
 /* no height transition here: Problem One is ~5,900px, and animating that
    reflows everything below it on every frame. The chevron carries the motion. */
@@ -2474,7 +2473,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <h2 class="h-40" id="cs-p1">The Appointment Modals</h2>
         </div>
         <button class="prob-toggle" type="button" aria-expanded="true" aria-controls="prob-1">
-          <span class="prob-toggle-label">Collapse</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="prob-toggle-label">Show Less</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
       <div class="prob-body" id="prob-1"><div>
@@ -2859,7 +2858,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <h2 class="h-40" id="cs-p2">The Lead Modal</h2>
         </div>
         <button class="prob-toggle" type="button" aria-expanded="true" aria-controls="prob-2">
-          <span class="prob-toggle-label">Collapse</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="prob-toggle-label">Show Less</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
       <div class="prob-body" id="prob-2"><div>
@@ -2880,14 +2879,67 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <h2 class="h-40" id="cs-p3">Other Design Changes</h2>
         </div>
         <button class="prob-toggle" type="button" aria-expanded="true" aria-controls="prob-3">
-          <span class="prob-toggle-label">Collapse</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="prob-toggle-label">Show Less</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
       <div class="prob-body" id="prob-3"><div>
         <div class="sp-30"></div>
-        <p class="t-20 copy ph">the smaller surfaces — what was fixed and why each one mattered</p>
+        <p class="t-20 copy ph">the smaller surfaces — what changed across the rest of the app</p>
         <div class="sp-48"></div>
-        <div class="media r620" role="img" aria-label="Other design changes placeholder"><span>Drop media</span><span>Other design changes</span></div>
+          <div class="ba-grid">
+            <figure class="ba-card" data-ba>
+              <figcaption class="ba-head">
+                <h4>Dashboard</h4>
+                <span class="cs-ba-toggle" role="group" aria-label="Dashboard — before and after">
+                  <button type="button" data-ba-set="a" aria-pressed="true">Before</button>
+                  <button type="button" data-ba-set="b" aria-pressed="false">After</button>
+                </span>
+              </figcaption>
+              <div class="ba-stage">
+                <div class="ba-slot show" data-ba-img="a"><div class="media" role="img" aria-label="Dashboard, before"><span>Drop media</span><span>Dashboard — before</span></div></div>
+                <div class="ba-slot" data-ba-img="b"><div class="media" role="img" aria-label="Dashboard, after"><span>Drop media</span><span>Dashboard — after</span></div></div>
+              </div>
+            </figure>
+            <figure class="ba-card" data-ba>
+              <figcaption class="ba-head">
+                <h4>Intake</h4>
+                <span class="cs-ba-toggle" role="group" aria-label="Intake — before and after">
+                  <button type="button" data-ba-set="a" aria-pressed="true">Before</button>
+                  <button type="button" data-ba-set="b" aria-pressed="false">After</button>
+                </span>
+              </figcaption>
+              <div class="ba-stage">
+                <div class="ba-slot show" data-ba-img="a"><div class="media" role="img" aria-label="Intake, before"><span>Drop media</span><span>Intake — before</span></div></div>
+                <div class="ba-slot" data-ba-img="b"><div class="media" role="img" aria-label="Intake, after"><span>Drop media</span><span>Intake — after</span></div></div>
+              </div>
+            </figure>
+            <figure class="ba-card" data-ba>
+              <figcaption class="ba-head">
+                <h4>Treatment</h4>
+                <span class="cs-ba-toggle" role="group" aria-label="Treatment — before and after">
+                  <button type="button" data-ba-set="a" aria-pressed="true">Before</button>
+                  <button type="button" data-ba-set="b" aria-pressed="false">After</button>
+                </span>
+              </figcaption>
+              <div class="ba-stage">
+                <div class="ba-slot show" data-ba-img="a"><img src="assets/gd/treatment-before.jpg" alt="Treatment appointments as inherited — a flat list with a Send Reminder button on every row" loading="lazy"></div>
+                <div class="ba-slot" data-ba-img="b"><div class="media" role="img" aria-label="Treatment, after"><span>Drop media</span><span>Treatment — after</span></div></div>
+              </div>
+            </figure>
+            <figure class="ba-card" data-ba>
+              <figcaption class="ba-head">
+                <h4>Settings</h4>
+                <span class="cs-ba-toggle" role="group" aria-label="Settings — before and after">
+                  <button type="button" data-ba-set="a" aria-pressed="true">Before</button>
+                  <button type="button" data-ba-set="b" aria-pressed="false">After</button>
+                </span>
+              </figcaption>
+              <div class="ba-stage">
+                <div class="ba-slot show" data-ba-img="a"><div class="media" role="img" aria-label="Settings, before"><span>Drop media</span><span>Settings — before</span></div></div>
+                <div class="ba-slot" data-ba-img="b"><div class="media" role="img" aria-label="Settings, after"><span>Drop media</span><span>Settings — after</span></div></div>
+              </div>
+            </figure>
+          </div>
       </div></div>
     </div>
   </section>
@@ -2990,61 +3042,6 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           </div>
         </div>
 
-        <div class="sp-56"></div>
-        <div class="ba-grid">
-          <figure class="ba-card" data-ba>
-            <figcaption class="ba-head">
-              <h4>Dashboard</h4>
-              <span class="cs-ba-toggle" role="group" aria-label="Dashboard — before and after">
-                <button type="button" data-ba-set="a" aria-pressed="true">Before</button>
-                <button type="button" data-ba-set="b" aria-pressed="false">After</button>
-              </span>
-            </figcaption>
-            <div class="ba-stage">
-              <div class="ba-slot show" data-ba-img="a"><div class="media" role="img" aria-label="Dashboard, before"><span>Drop media</span><span>Dashboard — before</span></div></div>
-              <div class="ba-slot" data-ba-img="b"><div class="media" role="img" aria-label="Dashboard, after"><span>Drop media</span><span>Dashboard — after</span></div></div>
-            </div>
-          </figure>
-          <figure class="ba-card" data-ba>
-            <figcaption class="ba-head">
-              <h4>Intake</h4>
-              <span class="cs-ba-toggle" role="group" aria-label="Intake — before and after">
-                <button type="button" data-ba-set="a" aria-pressed="true">Before</button>
-                <button type="button" data-ba-set="b" aria-pressed="false">After</button>
-              </span>
-            </figcaption>
-            <div class="ba-stage">
-              <div class="ba-slot show" data-ba-img="a"><div class="media" role="img" aria-label="Intake, before"><span>Drop media</span><span>Intake — before</span></div></div>
-              <div class="ba-slot" data-ba-img="b"><div class="media" role="img" aria-label="Intake, after"><span>Drop media</span><span>Intake — after</span></div></div>
-            </div>
-          </figure>
-          <figure class="ba-card" data-ba>
-            <figcaption class="ba-head">
-              <h4>Treatment</h4>
-              <span class="cs-ba-toggle" role="group" aria-label="Treatment — before and after">
-                <button type="button" data-ba-set="a" aria-pressed="true">Before</button>
-                <button type="button" data-ba-set="b" aria-pressed="false">After</button>
-              </span>
-            </figcaption>
-            <div class="ba-stage">
-              <div class="ba-slot show" data-ba-img="a"><img src="assets/gd/treatment-before.jpg" alt="Treatment appointments as inherited — a flat list with a Send Reminder button on every row" loading="lazy"></div>
-              <div class="ba-slot" data-ba-img="b"><div class="media" role="img" aria-label="Treatment, after"><span>Drop media</span><span>Treatment — after</span></div></div>
-            </div>
-          </figure>
-          <figure class="ba-card" data-ba>
-            <figcaption class="ba-head">
-              <h4>Settings</h4>
-              <span class="cs-ba-toggle" role="group" aria-label="Settings — before and after">
-                <button type="button" data-ba-set="a" aria-pressed="true">Before</button>
-                <button type="button" data-ba-set="b" aria-pressed="false">After</button>
-              </span>
-            </figcaption>
-            <div class="ba-stage">
-              <div class="ba-slot show" data-ba-img="a"><div class="media" role="img" aria-label="Settings, before"><span>Drop media</span><span>Settings — before</span></div></div>
-              <div class="ba-slot" data-ba-img="b"><div class="media" role="img" aria-label="Settings, after"><span>Drop media</span><span>Settings — after</span></div></div>
-            </div>
-          </figure>
-        </div>
 
       </div>
     </div>
@@ -3597,7 +3594,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
     if (!btn) return;
     btn.setAttribute('aria-expanded', String(open));
     const lbl = btn.querySelector('.prob-toggle-label');
-    if (lbl) lbl.textContent = open ? 'Collapse' : 'Expand';
+    if (lbl) lbl.textContent = open ? 'Show Less' : 'Show More';
   };
   document.querySelectorAll('.prob-toggle').forEach(btn => {
     btn.addEventListener('click', () => {
