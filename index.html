@@ -904,10 +904,21 @@ p.copy.ph { display: block; }
 /* full-width iteration — copy leads, the evidence runs across underneath */
 .iter.full { grid-template-columns: 1fr; gap: 40px; }
 .iter.full .iter-copy { max-width: 820px; }
-/* two landscape stills and one portrait clip — the narrower third column
-   keeps all three roughly the same height */
-.iter-final { grid-template-columns: 1fr 1fr 0.66fr; }
-.iter-final .cs-img, .iter-final .nf-vid { width: 100%; height: auto; }
+/* three equal portrait cells. Everything is fitted, never filled — no crop,
+   no upscale — so each still and the clip keep their own proportions. */
+.iter-final { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.iter-final .shot {
+  aspect-ratio: 1036 / 1280;          /* the walkthrough's own ratio */
+  display: grid; place-items: center;
+  overflow: hidden;
+}
+.iter-final .shot > img,
+.iter-final .shot video {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.iter-final .nf-vid { background: none; }
 
 @media (max-width: 900px) {
   .iters { gap: 64px; }
@@ -2264,16 +2275,16 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             <p class="t-12">Cadence — the layouts explored, and the one that stuck.</p>
             <div class="iter-tri">
               <figure>
-                <img class="cs-img" src="assets/gd/cad-4b.png" alt="Cadence as individual attempts with real times, after Send Confirmation Now" loading="lazy">
-                <figcaption class="ph">4b — what this one did</figcaption>
+                <img class="cs-img" src="assets/gd/cad-4a.png" alt="Cadence option 4A — mode moves into the header, channels become chips" loading="lazy">
+                <figcaption class="ph">4A — mode in the header, chip-style channels</figcaption>
               </figure>
               <figure>
-                <img class="cs-img" src="assets/gd/cad-4c.jpg" alt="Cadence in Log a Visit — confirmation drops away and only follow-up remains" loading="lazy">
-                <figcaption class="ph">4c — what this one did</figcaption>
+                <img class="cs-img" src="assets/gd/cad-4b.png" alt="Cadence option 4B — a ladder connector added to the existing rows" loading="lazy">
+                <figcaption class="ph">4B — a ladder connector down the existing rows</figcaption>
               </figure>
               <figure>
-                <img class="cs-img" src="assets/gd/cad-chosen.png" alt="The chosen cadence — confirmation and follow-up presets with the reminder ladder open" loading="lazy">
-                <figcaption class="ph">the one we went with, and why</figcaption>
+                <img class="cs-img" src="assets/gd/cad-4c.png" alt="Cadence option 4C — tighter rows so more fits without scrolling" loading="lazy">
+                <figcaption class="ph">4C — tighter rows, more fits without scrolling</figcaption>
               </figure>
             </div>
           </div>
@@ -2301,15 +2312,15 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 
           <div class="iter-tri iter-final">
             <figure>
-              <img class="cs-img" src="assets/gd/final-schedule.jpg" alt="The final New Appointment modal, scheduling ahead" loading="lazy">
+              <div class="shot"><img src="assets/gd/final-schedule.jpg" alt="The final New Appointment modal, scheduling ahead" loading="lazy"></div>
               <figcaption class="ph">New Appointment — scheduling ahead</figcaption>
             </figure>
             <figure>
-              <img class="cs-img" src="assets/gd/final-log-visit.jpg" alt="The final modal in Log a Visit mode, with an outcome and notes" loading="lazy">
+              <div class="shot"><img src="assets/gd/final-log-visit.jpg" alt="The final modal in Log a Visit mode, with an outcome and notes" loading="lazy"></div>
               <figcaption class="ph">Log a Visit — recording one that already happened</figcaption>
             </figure>
             <figure>
-              <div class="nf-vid">
+              <div class="shot nf-vid">
                 <video src="assets/gd/final-walkthrough.mp4" poster="assets/gd/final-walkthrough-poster.jpg" muted playsinline preload="none" data-noautoplay data-audio="false" aria-label="The shipped New Appointment modal, driven end to end"></video>
               </div>
               <figcaption class="ph">the modal in use — press play</figcaption>
