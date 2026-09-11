@@ -895,12 +895,43 @@ p.copy.ph { display: block; }
 .flaws li .t-16 { margin-top: 4px; }
 @media (max-width: 860px) { .flaw-pair { grid-template-columns: 1fr; } }
 
+/* 05.2 — the status flow an appointment moves through */
+.stages {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 26px 24px; border: 1px solid var(--cs-line-2);
+}
+.stg {
+  display: inline-flex; align-items: center; height: 34px; padding: 0 16px;
+  border-radius: 100px; border: 1px solid var(--cs-line-2);
+  font-size: 13px; line-height: 1; color: var(--cs-text-2); white-space: nowrap;
+}
+.stg.is-on { border-color: rgba(123,144,247,0.5); background: rgba(123,144,247,0.08); color: var(--cs-text); }
+.stg.out { color: var(--cs-text-3); }
+.stg-arrow { flex: none; position: relative; width: 26px; height: 1px; background: var(--cs-line-2); }
+.stg-arrow::after {
+  content: ""; position: absolute; right: 0; top: -3.5px;
+  border-left: 6px solid var(--cs-line-2);
+  border-top: 3.5px solid transparent; border-bottom: 3.5px solid transparent;
+}
+.stg-outcomes {
+  display: grid; grid-template-columns: repeat(2, max-content); gap: 10px;
+  padding-left: 16px; border-left: 1px solid var(--cs-line-2);
+}
+@media (max-width: 760px) {
+  .stg-outcomes { grid-template-columns: 1fr; padding-left: 0; border-left: 0; }
+}
+
 /* 05.1 — iteration rows: media and copy trading sides down the page */
 .iters { display: flex; flex-direction: column; gap: 128px; }
 .iter {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 64px 56px; align-items: center;
 }
+/* marked-up screenshots need the room — the callout numbers have to be legible */
+.iter.wide-media { grid-template-columns: 1.34fr 1fr; }
+.iter.flip.wide-media { grid-template-columns: 1fr 1.34fr; }
+.iter .flaw-img .mk { box-shadow: 0 0 0 2px var(--cs-bg), 0 6px 16px rgba(0,0,0,0.45); }
+
 .iter.flip .iter-media { order: 2; }
 .iter.flip .iter-copy { order: 1; }
 .iter-media { min-width: 0; }
@@ -2433,14 +2464,94 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
     </div>
   </section>
 
-  <!-- 05.2 — Problem Two: the Edit Appointment modal (structure to come) -->
+  <!-- 05.2 — Problem Two: the Edit Appointment modal -->
   <section aria-labelledby="cs-p2">
     <div class="in">
       <div class="rail"><div class="rail-row"><span>[05.2]</span><span>Problem Two</span><span>[Edit Appointment]</span></div><div class="rule-cs"></div></div>
       <div class="sp-56"></div>
       <h2 class="h-40" id="cs-p2">The Edit Appointment Modal</h2>
       <div class="sp-30"></div>
-      <p class="t-20 copy ph">same shape as Problem One — context, then the iterations. Nothing built here yet.</p>
+      <p class="t-20 copy">If New Appointment is where a visit is written down, Edit Appointment is where it is supervised — and an appointment is not one thing but a sequence of states. Before it could be redesigned, that sequence had to be named.</p>
+
+      <div class="sp-52"></div>
+      <p class="t-12">An appointment moves through confirmation, then settles on an outcome.</p>
+      <div class="sp-18"></div>
+      <div class="stages" aria-label="Appointment status flow">
+        <span class="stg">Unconfirmed</span>
+        <span class="stg-arrow" aria-hidden="true"></span>
+        <span class="stg">Ongoing Confirmation</span>
+        <span class="stg-arrow" aria-hidden="true"></span>
+        <span class="stg is-on">Confirmed</span>
+        <span class="stg-arrow" aria-hidden="true"></span>
+        <span class="stg-outcomes">
+          <span class="stg out">Attended</span>
+          <span class="stg out">Outcome Unknown</span>
+          <span class="stg out">Cancelled</span>
+          <span class="stg out">No-Show</span>
+        </span>
+      </div>
+      <div class="sp-18"></div>
+      <p class="t-12">The first three are one track — the chase. The last four are where it lands. Everything the modal shows is decided by which of these an appointment is currently in.</p>
+
+      <div class="sp-56"></div>
+
+      <div class="iters">
+
+        <!-- EXISTING UI — media left, copy right -->
+        <div class="iter wide-media">
+          <div class="iter-media">
+            <div class="flaw-img">
+              <img class="cs-img" src="assets/old-edit-appointment.jpg" alt="The Edit Appointment modal as inherited — six panels of fields across three columns, most of them empty" loading="lazy">
+              <span class="mk" style="left:50%;top:34%">1</span>
+              <span class="mk" style="left:80%;top:22%">2</span>
+              <span class="mk" style="left:17%;top:84%">3</span>
+              <span class="mk" style="left:10%;top:6%">4</span>
+              <span class="mk" style="left:80%;top:13%">5</span>
+              <span class="mk" style="left:40%;top:95%">6</span>
+            </div>
+          </div>
+          <div class="iter-copy">
+            <span class="iter-step">Existing UI</span>
+            <h3>What was wrong with it</h3>
+            <ol class="flaws">
+              <li><span class="mk">1</span><div><p class="t-20">Twenty fields for a visit that needs six.</p><p class="t-16">Six panels of inputs, most of them empty on every record. The handful that mattered were buried among the ones that never got filled.</p></div></li>
+              <li><span class="mk">2</span><div><p class="t-20">Cadence you could not actually set.</p><p class="t-16">Reminders were fixed presets. No way to name a date and time, no way to add an attempt, no way to see what had already gone out.</p></div></li>
+              <li><span class="mk">3</span><div><p class="t-20">Channels the product could not send on.</p><p class="t-16">SMS and email sat in the form as if they worked. Only calls were wired up, so choosing anything else silently did nothing.</p></div></li>
+              <li><span class="mk">4</span><div><p class="t-20">A different screen from the one that created it.</p><p class="t-16">Different layout, different fields, different order. You learned the product twice, and still could not tell what was editable or why.</p></div></li>
+              <li><span class="mk">5</span><div><p class="t-20">Status was read-only.</p><p class="t-16">The one thing a supervisor needs to correct — where this appointment actually stands — was the one thing they could not touch.</p></div></li>
+              <li><span class="mk">6</span><div><p class="t-20">Nothing could be sent from here.</p><p class="t-16">If a client needed chasing right now, the modal had no way to do it. You saved, left, and went looking for another surface.</p></div></li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- FINAL — copy left, media right -->
+        <div class="iter flip wide-media">
+          <div class="iter-media">
+            <div class="flaw-img">
+              <img class="cs-img" src="assets/gd/edit-final.jpg" alt="The Edit Appointment modal that shipped — status in the header, when, client, provider and treatment type, and a cadence of individual attempts with real times" loading="lazy">
+              <span class="mk" style="left:50%;top:28%">1</span>
+              <span class="mk" style="left:50%;top:72%">2</span>
+              <span class="mk" style="left:72%;top:78%">3</span>
+              <span class="mk" style="left:22%;top:4%">4</span>
+              <span class="mk" style="left:48%;top:4%">5</span>
+              <span class="mk" style="left:84%;top:4%">6</span>
+            </div>
+          </div>
+          <div class="iter-copy">
+            <span class="iter-step">Final Version</span>
+            <h3>What it became</h3>
+            <ol class="flaws">
+              <li><span class="mk">1</span><div><p class="t-20">Only what a visit is made of.</p><p class="t-16">When, client, provider, treatment type. Everything that was never filled came out, and what is left reads in one pass.</p></div></li>
+              <li><span class="mk">2</span><div><p class="t-20">Cadence as attempts you control.</p><p class="t-16">Each attempt carries a real date and time you can set, and you can add as many as the case needs. What has already gone out is shown back, with its result.</p></div></li>
+              <li><span class="mk">3</span><div><p class="t-20">Calls only, honestly labelled.</p><p class="t-16">SMS and email came out until they work. The form no longer offers a choice the product cannot keep.</p></div></li>
+              <li><span class="mk">4</span><div><p class="t-20">The same screen as New Appointment.</p><p class="t-16">Identical layout and field order, so creating and editing are one thing learned once — and what is editable is obvious because it never moves.</p></div></li>
+              <li><span class="mk">5</span><div><p class="t-20">Status is editable, and it drives the modal.</p><p class="t-16">Set where the appointment stands and the rest responds: confirmation disappears once a visit has happened, follow-up appears in its place.</p></div></li>
+              <li><span class="mk">6</span><div><p class="t-20">Send it now, from here.</p><p class="t-16">Send Confirmation Now and Get Follow-Up Now stage a call against this appointment immediately, without leaving the record.</p></div></li>
+            </ol>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -2579,7 +2690,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
               </span>
             </figcaption>
             <div class="ba-stage">
-              <div class="ba-slot show" data-ba-img="a"><div class="media" role="img" aria-label="Treatment, before"><span>Drop media</span><span>Treatment — before</span></div></div>
+              <div class="ba-slot show" data-ba-img="a"><img src="assets/gd/treatment-before.jpg" alt="Treatment appointments as inherited — a flat list with a Send Reminder button on every row" loading="lazy"></div>
               <div class="ba-slot" data-ba-img="b"><div class="media" role="img" aria-label="Treatment, after"><span>Drop media</span><span>Treatment — after</span></div></div>
             </div>
           </figure>
