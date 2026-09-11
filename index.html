@@ -1088,6 +1088,20 @@ p.copy.ph { display: block; }
 /* the expanded cards are genuinely different heights, so the caption is pushed
    to the bottom of the row instead of sitting ragged under each shot */
 .lead-tri figcaption { margin-top: auto; padding-top: 12px; font-size: 12px; line-height: 18px; color: var(--cs-mute); }
+/* the shipped screens, with a card that opens in place on hover.
+   .lm-drop matches the card's own box inside the screenshot, so the expanded
+   version lands at exactly the scale of the row it belongs to */
+.lm-fig { margin: 0; }
+.lm-fig figcaption { margin-top: 14px; font-size: 12px; line-height: 18px; color: var(--cs-mute); }
+.lm-frame { position: relative; }
+.lm-drop {
+  position: absolute; left: 2.8%; width: 94.4%; z-index: 30;
+  opacity: 0; pointer-events: none;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  transition: opacity 140ms var(--ease-out);
+}
+.lm-drop.is-on { opacity: 1; }
+.lm-drop img { display: block; width: 100%; height: auto; }
 /* a still and a clip stacked in one media column */
 .iter-duo { display: grid; grid-template-columns: 1fr; gap: 16px; }
 
@@ -3035,57 +3049,47 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
         </div>
         <div class="sp-48"></div>
         <div class="copy">
-          <p class="t-20">The version that shipped treats the modal as a list of work with the evidence attached, rather than a database with a viewer on top. Four tabs. Three stages. Every task carries who owns it — Sofia or a named person — what is attached to it, and a status you can change without leaving the row.</p>
+          <p class="t-20">The version that shipped treats the modal as a list of work with the evidence attached, rather than a database with a viewer on top. Four tabs instead of ten. Three stages instead of six. Every task carries who owns it — Sofia or a named person — what is attached to it, and a status you can change without leaving the row.</p>
           <p class="t-20 s">Open one and you get exactly what that step needs: the notes, the files, and the few fields that belong to it. Nothing else competes for the space. It was not finished when the company changed direction — but Overview was, and Overview is the part that tells a case manager what to do next.</p>
-        </div>
-        <div class="sp-48"></div>
-        <div class="lead-pair">
-          <figure>
-            <img src="assets/gd/lead/new-intake.jpg" alt="The Lead Modal that shipped — Intake tasks with owner, attachments and an editable status" loading="lazy">
-            <figcaption>Intake — six tasks, each with an owner and a status</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/gd/lead/new-settlements.jpg" alt="The Lead Modal that shipped — Settlement stages" loading="lazy">
-            <figcaption>Settlements — four stages, same pattern</figcaption>
-          </figure>
         </div>
 
         <div class="sp-56"></div>
-        <p class="t-12">Intake — a task opened.</p>
+        <p class="t-12">Intake. Hover a number to open that task’s dropdown in place.</p>
         <div class="sp-18"></div>
-        <div class="lead-tri">
-            <figure>
-              <img src="assets/gd/lead/new-intake-a.jpg" alt="Complete Intake Call, expanded" loading="lazy">
-              <figcaption>Complete Intake Call</figcaption>
-            </figure>
-            <figure>
-              <img src="assets/gd/lead/new-intake-b.jpg" alt="Get Case Details, expanded" loading="lazy">
-              <figcaption>Get Case Details</figcaption>
-            </figure>
-            <figure>
-              <img src="assets/gd/lead/new-intake-c.jpg" alt="Lead Qualification, expanded" loading="lazy">
-              <figcaption>Lead Qualification</figcaption>
-            </figure>
-        </div>
+        <figure class="lm-fig">
+          <div class="flaw-img lm-frame">
+            <img class="cs-img" src="assets/gd/lead/final-intake.jpg" alt="The Lead Modal that shipped — Intake, six tasks each with an owner, attachments and an editable status" loading="lazy">
+              <span class="mk lm-mk" data-shot="assets/gd/lead/card-intake-1.jpg" data-top="36.40" data-label="Complete Intake Call" style="left:48%;top:40.35%" role="img" aria-label="Open the Complete Intake Call dropdown">1</span>
+              <span class="mk lm-mk" data-shot="assets/gd/lead/card-intake-2.jpg" data-top="45.93" data-label="Get Case Details" style="left:48%;top:49.88%" role="img" aria-label="Open the Get Case Details dropdown">2</span>
+              <span class="mk lm-mk" data-shot="assets/gd/lead/card-intake-3.jpg" data-top="55.47" data-label="Lead Qualification" style="left:48%;top:59.42%" role="img" aria-label="Open the Lead Qualification dropdown">3</span>
+              <span class="mk lm-mk" data-shot="assets/gd/lead/card-intake-4.jpg" data-top="65.00" data-label="Get Signed Engagement Agreement" style="left:48%;top:68.95%" role="img" aria-label="Open the Get Signed Engagement Agreement dropdown">4</span>
+              <span class="mk lm-mk" data-shot="assets/gd/lead/card-intake-5.jpg" data-top="74.53" data-label="Get Signed HIPAA Authorization" style="left:48%;top:78.49%" role="img" aria-label="Open the Get Signed HIPAA Authorization dropdown">5</span>
+              <span class="mk lm-mk" data-shot="assets/gd/lead/card-intake-6.jpg" data-top="84.07" data-label="Insurance & Carrier Setup" style="left:48%;top:88.02%" role="img" aria-label="Open the Insurance & Carrier Setup dropdown">6</span>
+          </div>
+          <figcaption>Six tasks, each with an owner, its attachments and a status you can set from the row.</figcaption>
+        </figure>
 
-        <div class="sp-48"></div>
-        <p class="t-12">Settlements — a stage opened.</p>
+        <div class="sp-56"></div>
+        <p class="t-12">Treatment.</p>
         <div class="sp-18"></div>
-        <div class="lead-tri">
-            <figure>
-              <img src="assets/gd/lead/new-settle-a.jpg" alt="Demand Package, expanded" loading="lazy">
-              <figcaption>Demand Package</figcaption>
-            </figure>
-            <figure>
-              <img src="assets/gd/lead/new-settle-b.jpg" alt="Carrier Negotiation, expanded" loading="lazy">
-              <figcaption>Carrier Negotiation</figcaption>
-            </figure>
-            <figure>
-              <img src="assets/gd/lead/new-settle-c.jpg" alt="Settlement and Disbursement, expanded" loading="lazy">
-              <figcaption>Settlement & Disbursement</figcaption>
-            </figure>
-        </div>
-      </div></div>
+        <figure class="lm-fig">
+          <img class="cs-img" src="assets/gd/lead/final-treatment.jpg" alt="The Lead Modal that shipped — Treatment, appointments with attendance and follow-up attempts" loading="lazy">
+          <figcaption>Appointments, with attendance and the follow-up attempts already made against each one.</figcaption>
+        </figure>
+
+        <div class="sp-56"></div>
+        <p class="t-12">Settlements. Hover a number to open that stage’s dropdown in place.</p>
+        <div class="sp-18"></div>
+        <figure class="lm-fig">
+          <div class="flaw-img lm-frame">
+            <img class="cs-img" src="assets/gd/lead/final-settlements.jpg" alt="The Lead Modal that shipped — Settlements, four stages following the same pattern as Intake" loading="lazy">
+              <span class="mk lm-mk" data-shot="assets/gd/lead/card-settle-1.jpg" data-top="36.40" data-label="Records Retrieval" style="left:48%;top:40.35%" role="img" aria-label="Open the Records Retrieval dropdown">1</span>
+              <span class="mk lm-mk" data-shot="assets/gd/lead/card-settle-2.jpg" data-top="45.93" data-label="Demand Package" style="left:48%;top:49.88%" role="img" aria-label="Open the Demand Package dropdown">2</span>
+              <span class="mk lm-mk" data-shot="assets/gd/lead/card-settle-3.jpg" data-top="55.47" data-label="Carrier Negotiation" style="left:48%;top:59.42%" role="img" aria-label="Open the Carrier Negotiation dropdown">3</span>
+              <span class="mk lm-mk" data-shot="assets/gd/lead/card-settle-4.jpg" data-top="65.00" data-label="Settlement & Disbursement" style="left:48%;top:68.95%" role="img" aria-label="Open the Settlement & Disbursement dropdown">4</span>
+          </div>
+          <figcaption>Four stages, built from the same row as Intake — so one pattern covers the whole case.</figcaption>
+        </figure></div></div>
     </div>
   </section>
 
@@ -3926,7 +3930,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
   });
 
   if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    const marks = [...document.querySelectorAll('.flaw-img .mk, .shot.is-marked .mk')];
+    const marks = [...document.querySelectorAll('.flaw-img .mk:not(.lm-mk), .shot.is-marked .mk')];
     if (marks.length) {
       const tip = document.createElement('div');
       tip.className = 'mk-tip'; tip.setAttribute('aria-hidden', 'true');
@@ -3965,6 +3969,56 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       window.addEventListener('hashchange', () => tip.classList.remove('is-on'));
     }
   }
+
+  // ---- Lead Modal: hover a number, that card opens in place ------
+  document.querySelectorAll('.lm-frame').forEach(frame => {
+    const marks = [...frame.querySelectorAll('.lm-mk')];
+    if (!marks.length) return;
+
+    const drop = document.createElement('div');
+    drop.className = 'lm-drop';
+    const img = document.createElement('img');
+    img.alt = '';
+    drop.append(img);
+    frame.append(drop);
+
+    // pull every shot in before the first hover, so nothing flashes empty
+    let warmed = false;
+    const warm = () => {
+      if (warmed) return;
+      warmed = true;
+      marks.forEach(m => { const p = new Image(); p.src = m.dataset.shot; });
+    };
+    frame.addEventListener('pointerenter', warm);
+
+    marks.forEach(m => {
+      const place = () => {
+        // sit the open card on its own row, then pull it up if it would
+        // hang off the bottom of the screenshot
+        const fh = frame.clientHeight;
+        const want = (parseFloat(m.dataset.top) / 100) * fh;
+        const h = drop.offsetHeight;
+        drop.style.top = Math.max(0, Math.min(want, fh - h)) + 'px';
+      };
+      const show = () => {
+        warm();
+        img.alt = m.dataset.label + ', expanded';
+        if (img.getAttribute('src') !== m.dataset.shot) {
+          img.addEventListener('load', place, { once: true });
+          img.src = m.dataset.shot;
+        }
+        place();
+        drop.classList.add('is-on');
+      };
+      const hide = () => drop.classList.remove('is-on');
+      m.addEventListener('pointerenter', show);
+      m.addEventListener('pointerleave', hide);
+      m.addEventListener('focus', show);
+      m.addEventListener('blur', hide);
+      m.tabIndex = 0;
+    });
+    frame.addEventListener('pointerleave', () => drop.classList.remove('is-on'));
+  });
 
   // ---- Accordion (one open at a time, like the original) ---------
   const items = [...document.querySelectorAll('.acc-item')];
