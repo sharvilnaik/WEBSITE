@@ -1,0 +1,3015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHARVILNAIK</title>
+<meta name="description" content="Sharvil Naik Portfolio Website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+
+<style>
+/* ------------------------------------------------------------------
+   FONTS
+   The original uses "Tondu Beta" for display type. Drop the file next to
+   this HTML and uncomment the @font-face — Archivo Black is the stand-in.
+------------------------------------------------------------------ */
+/*
+@font-face {
+  font-family: "Tondu Beta";
+  src: url("./fonts/TonduBeta-Bold.woff2") format("woff2");
+  font-weight: 900;
+  font-display: swap;
+}
+*/
+
+/* Aspekta — OFL 1.1, github.com/ivodolenc/aspekta. Embedded so the file works offline. */
+@font-face { font-family: "Aspekta"; font-weight: 300; font-display: swap; src: url("fonts/Aspekta-300.woff2") format("woff2"); }
+@font-face { font-family: "Aspekta"; font-weight: 400; font-display: swap; src: url("fonts/Aspekta-400.woff2") format("woff2"); }
+
+/* ------------------------------------------------------------------
+   TOKENS
+------------------------------------------------------------------ */
+:root {
+  --ink: #000000;          /* page background */
+  --ink-2: #0f0f0f;        /* button text on yellow */
+  --paper: #fffff7;        /* primary text */
+  --paper-50: rgba(255, 255, 247, 0.5);
+  --paper-20: rgba(255, 255, 247, 0.2);
+  --paper-12: rgba(255, 255, 247, 0.12);
+  --acid: #ffff29;         /* the yellow */
+  --signal: #0099ff;
+
+  --font-display: "Tondu Beta", "Archivo Black", "Arial Black", sans-serif;
+  --font-mono: "Aspekta", "Helvetica Neue", Helvetica, Arial, sans-serif;   /* was Space Mono */
+  --font-condensed: "Aspekta", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-grotesk: "Aspekta", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --gutter: 48px;
+  --card-radius: 32px;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+html, body { margin: 0; background: var(--ink); color: var(--paper); }
+
+body {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+p, h1, h2, h3, h4, h5, h6 { margin: 0; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+img, video { display: block; max-width: 100%; }
+
+:focus-visible { outline: 2px solid var(--acid); outline-offset: 3px; }
+
+.display { font-family: var(--font-display); font-weight: 900; text-transform: uppercase; }
+.mono-caps { font-family: var(--font-mono); }
+
+/* ------------------------------------------------------------------
+   NAV
+------------------------------------------------------------------ */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 60;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 28px var(--gutter) 0;
+  pointer-events: none;
+}
+.nav > * { pointer-events: auto; }
+
+.pills { display: flex; gap: 7px; }
+
+.pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 26px; padding: 0 12px;
+  border-radius: 50px;
+  border: 1px solid var(--acid);
+  background: var(--ink);
+  color: var(--acid);
+  font-family: var(--font-display); font-weight: 900; font-size: 12px;
+  letter-spacing: -0.01em; text-transform: uppercase; line-height: 1;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 100ms var(--ease-out);
+}
+.pill.pill-name { height: 32px; padding: 0 16px; font-size: 14px; }
+.pill:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .pill:hover { background: var(--acid); color: var(--ink); }
+}
+
+.menu-toggle {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--acid); color: var(--ink-2);
+  display: grid; place-items: center;
+  transition: background-color 250ms ease, transform 100ms var(--ease-out);
+}
+.menu-toggle:active { transform: scale(0.94); }
+.menu-toggle .glyph {
+  font-family: var(--font-mono); font-size: 16px; line-height: 1;
+  display: block;
+  transition: transform 250ms var(--ease-out), color 250ms ease;
+}
+
+/* Menu-open state: pills invert to black-on-yellow, toggle inverts, glyph rotates to × */
+body.menu-open .pill { border-color: var(--ink); background: transparent; color: var(--ink); text-transform: none; font-family: var(--font-grotesk); font-weight: 400; }
+body.menu-open .menu-toggle { background: var(--ink); }
+body.menu-open .menu-toggle .glyph { color: var(--acid); transform: rotate(45deg); }
+
+/* the two sets of pills: default names, and social links when menu is open */
+.pills-social { display: none; }
+body.menu-open .pills-name { display: none; }
+body.menu-open .pills-social { display: flex; }
+
+/* ------------------------------------------------------------------
+   MENU OVERLAY
+------------------------------------------------------------------ */
+.menu {
+  position: fixed; inset: 0; z-index: 50;
+  background: var(--acid);
+  display: flex; align-items: flex-end;
+  padding: 0 var(--gutter) 56px;
+  opacity: 0; visibility: hidden;
+  transition: opacity 260ms var(--ease-out), visibility 0s linear 260ms;
+}
+body.menu-open .menu {
+  opacity: 1; visibility: visible;
+  transition: opacity 320ms var(--ease-out), visibility 0s;
+}
+.menu ul { list-style: none; margin: 0; padding: 0; }
+.menu li {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out);
+}
+body.menu-open .menu li {
+  opacity: 1; transform: none;
+  transition: opacity 480ms var(--ease-out), transform 560ms var(--ease-out);
+}
+body.menu-open .menu li:nth-child(1) { transition-delay: 60ms; }
+body.menu-open .menu li:nth-child(2) { transition-delay: 110ms; }
+body.menu-open .menu li:nth-child(3) { transition-delay: 160ms; }
+.menu a {
+  display: block;
+  font-family: var(--font-grotesk); font-weight: 400; text-transform: uppercase;
+  font-size: clamp(56px, 9.4vw, 136px); line-height: 0.9; letter-spacing: -0.045em;
+  color: var(--ink);
+}
+@media (hover: hover) and (pointer: fine) {
+  .menu a { transition: transform 300ms var(--ease-out); }
+  .menu a:hover { transform: translateX(14px); }
+}
+
+/* ------------------------------------------------------------------
+   HERO
+------------------------------------------------------------------ */
+.hero {
+  position: relative; min-height: 760px;
+  padding: 150px 37px 90px;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.hero-copy { position: relative; z-index: 2; max-width: 620px; display: flex; flex-direction: column; flex: 1; }
+
+.hero h1 {
+  color: var(--acid);
+  font-size: 76px; line-height: 0.9; letter-spacing: -0.01em;
+  text-transform: none;
+}
+.hero h1 .line { display: block; overflow: hidden; }
+.hero h1 .line span { display: block; transform: translateY(110%); animation: rise 900ms var(--ease-out) forwards; }
+.hero h1 .line:nth-child(2) span { animation-delay: 80ms; }
+@keyframes rise { to { transform: translateY(0); } }
+
+.hero-intro {
+  margin-top: auto; max-width: 560px;
+  font-size: 14px; line-height: 1.55; color: #fff;
+  opacity: 0; animation: fade 700ms var(--ease-out) 260ms forwards;
+}
+@keyframes fade { to { opacity: 1; } }
+
+.services { margin-top: 40px; opacity: 0; animation: fade 700ms var(--ease-out) 380ms forwards; }
+.services .label { color: var(--paper-50); margin-bottom: 16px; }
+.services ul { list-style: none; margin: 0; padding: 0; color: #fff; }
+
+/* Portrait — placeholder built from gradients. Replace with <img> of the real photo. */
+.hero-portrait {
+  position: absolute; top: 0; right: 0; bottom: 0; z-index: 1;
+  width: 56%; overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 72%, transparent 96%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 72%, transparent 96%);
+  background:
+    linear-gradient(180deg, #55677f 0%, #75859d 30%, #9aa4b6 62%, #6a7284 100%);
+  opacity: 0; animation: fade 1200ms var(--ease-out) 120ms forwards;
+}
+.hero-portrait svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-portrait::before {
+  /* left edge dissolves into the page */
+  content: ""; position: absolute; inset: 0; z-index: 2;
+  background: linear-gradient(90deg, var(--ink) 0%, rgba(0,0,0,0.85) 16%, rgba(0,0,0,0) 46%);
+}
+.hero-portrait::after {
+  /* film grain */
+  content: ""; position: absolute; inset: 0; z-index: 3; mix-blend-mode: overlay; opacity: 0.6;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.9 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+}
+.hero-portrait .placeholder-tag {
+  z-index: 4; position: absolute; right: 24px; bottom: 20px;
+  font-size: 11px; color: rgba(255,255,255,0.45); text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------------
+   WORK
+------------------------------------------------------------------ */
+.work { padding: 0 64px; display: flex; flex-direction: column; gap: 32px; }
+
+.project {
+  position: relative; display: block;
+  height: 749px; border-radius: var(--card-radius); overflow: hidden;
+  isolation: isolate;
+  color: #fff;
+}
+.project-art {
+  position: absolute; inset: 0; z-index: 0;
+  transition: transform 700ms var(--ease-out);
+}
+.project::before {
+  /* default dim; hover lifts it — this is what the original does */
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: rgba(0,0,0,0.42);
+  transition: opacity 400ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .project:hover::before { opacity: 0; }
+  .project:hover .project-art { transform: scale(1.02); }
+}
+.project-inner { position: absolute; inset: 0; z-index: 2; padding: 24px; }
+.project-soon { cursor: default; }
+.soon-overlay {
+  position: absolute; inset: 0; z-index: 3;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.55); opacity: 0; transition: opacity 320ms var(--ease-out);
+}
+.soon-overlay span {
+  font-family: var(--font-grotesk); font-weight: 400; font-size: clamp(28px, 4vw, 52px);
+  letter-spacing: -0.01em; color: var(--paper); text-transform: uppercase;
+}
+@media (hover: hover) and (pointer: fine) {
+  .project-soon:hover .soon-overlay { opacity: 1; }
+  .project-soon:hover::before { opacity: 1; }
+}
+@media (hover: none) { .soon-overlay { opacity: 1; background: rgba(0,0,0,0.35); } }
+
+/* Card 1 — Noir Film Festival */
+.art-noir {
+  background:
+    radial-gradient(ellipse 50% 70% at 70% 50%, rgba(110,124,116,0.55), transparent 70%),
+    linear-gradient(180deg, #7c8e8a 0%, #55645f 42%, #2b3532 58%, #1a201f 100%);
+}
+.art-noir::after {
+  content: ""; position: absolute; inset: 0; opacity: 0.5; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.8 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+}
+/* two figure silhouettes as stand-ins */
+.art-noir .figure { position: absolute; bottom: -60px; width: 120px; height: 520px; background: #0c0d0c; border-radius: 50% 50% 6px 6px / 14% 14% 0 0; filter: blur(3px); opacity: 0.92; }
+.art-noir .figure::before { content: ""; position: absolute; left: 50%; top: -74px; width: 76px; height: 96px; transform: translateX(-50%); background: inherit; border-radius: 50%; }
+.art-noir .horizon { position: absolute; left: 0; right: 0; top: 30%; height: 90px; background: linear-gradient(180deg, transparent, rgba(20,26,24,0.85) 45%, rgba(45,58,52,0.6) 100%); filter: blur(6px); }
+.art-noir .figure.l { left: 12%; }
+.art-noir .figure.r { right: 14%; background: #4d4b40; }
+
+.noir-mark { font-family: var(--font-condensed); font-size: 50px; line-height: 1; letter-spacing: 0.02em; position: absolute; top: 20px; left: 24px; }
+.noir-film { position: absolute; top: 20px; right: 24px; width: 50px; height: 50px; color: #fff; }
+.noir-title {
+  position: absolute; left: 50%; top: 50%; transform: translate(-19%, -50%);
+  font-family: var(--font-condensed); font-size: 126px; line-height: 0.88; letter-spacing: 0.012em;
+  text-transform: uppercase;
+}
+.noir-ticker {
+  position: absolute; left: 24px; right: 24px; bottom: 22px;
+  display: flex; justify-content: space-between;
+  font-family: var(--font-condensed); font-size: 24px; letter-spacing: 0.04em; text-transform: uppercase;
+}
+
+/* Card 2 — Apparatus magazine */
+.art-apparatus {
+  background:
+    radial-gradient(ellipse 60% 45% at 30% 38%, rgba(255,255,255,0.22), transparent 70%),
+    linear-gradient(160deg, #3a3a3a 0%, #6a6a6a 35%, #2d2d2d 70%, #171717 100%);
+}
+.art-apparatus::after {
+  content: ""; position: absolute; inset: 0; opacity: 0.45; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence baseFrequency='0.5' numOctaves='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.9 0'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>");
+}
+/* wire rack grid */
+.rack {
+  position: absolute; left: 20%; right: 10%; top: 4%; bottom: 8%;
+  background-image:
+    linear-gradient(90deg, rgba(255,255,255,0.85) 0 6px, transparent 6px),
+    linear-gradient(180deg, rgba(255,255,255,0.85) 0 6px, transparent 6px);
+  background-size: 52px 52px;
+  border: 10px solid rgba(255,255,255,0.9); border-radius: 60px;
+  transform: perspective(1400px) rotateX(48deg) rotateZ(-14deg);
+  transform-origin: 50% 60%;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+}
+.mag {
+  position: absolute; width: 360px; height: 470px;
+  left: 50%; top: 50%; transform: translate(-56%, -48%) rotate(-7deg);
+  background: linear-gradient(180deg, #1e2b3b 0%, #0e1622 55%, #06090f 100%);
+  box-shadow: 0 30px 50px rgba(0,0,0,0.6), 0 2px 0 rgba(255,255,255,0.15) inset;
+  padding: 22px 20px; color: #f4f4f4;
+}
+.mag .issue { font-size: 10px; text-transform: uppercase; opacity: 0.8; }
+.mag .mast { font-family: Georgia, "Times New Roman", serif; font-size: 62px; line-height: 1; margin-top: 8px; letter-spacing: -0.02em; }
+.mag .kicker { font-family: var(--font-condensed); font-size: 34px; line-height: 1; margin-top: 6px; text-transform: uppercase; }
+.mag .kicker em { font-style: normal; color: var(--acid); }
+.mag .body-hint { position: absolute; left: 24px; bottom: 90px; width: 110px; font-size: 8px; text-transform: uppercase; opacity: 0.85; }
+.mag .body-hint.r { left: auto; right: 24px; bottom: 30px; }
+.mag-2 { width: 300px; height: 380px; transform: translate(10%, -6%) rotate(-32deg); background: linear-gradient(180deg,#0b1020,#05070d); }
+.mag-2 .cowboy { position: absolute; left: 20px; bottom: 26px; font-family: Georgia, serif; font-style: italic; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.work-cta { display: flex; justify-content: center; padding: 36px 0 34px; }
+.btn-pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 34px; padding: 0 16px; border-radius: 50px;
+  background: var(--ink); border: 1px solid var(--paper-20); color: #fff;
+  font-family: var(--font-display); font-weight: 900; font-size: 12px; text-transform: uppercase; letter-spacing: -0.01em;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 100ms var(--ease-out);
+}
+.btn-pill:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .btn-pill:hover { background: var(--acid); color: var(--ink); border-color: var(--acid); }
+}
+
+.rule { height: 1px; background: var(--paper-20); margin: 0 165px; }
+
+/* ------------------------------------------------------------------
+   SIDE QUESTS
+------------------------------------------------------------------ */
+.quests { padding: 40px 120px 120px; }
+.quests-head { text-align: center; max-width: 640px; margin: 0 auto 44px; }
+.quests-head h2 { color: var(--acid); font-size: clamp(56px, 8vw, 96px); line-height: 1.02; text-transform: uppercase; }
+.quests-head .tag { margin-top: 18px; font-size: 16px; color: var(--paper); }
+.quests-reel { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.qv { margin: 0; }
+.qv-media { aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden; background: #0c0c0c; }
+.qv-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.qv figcaption { margin-top: 14px; display: flex; flex-direction: column; gap: 3px; }
+.qv figcaption b { font-weight: 400; font-size: 15px; color: var(--paper); }
+.qv figcaption span { font-size: 12px; color: var(--paper-50); text-transform: uppercase; letter-spacing: 0.04em; }
+.quests-peek { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
+.quests-peek .qp { aspect-ratio: 1 / 1; border-radius: 10px; overflow: hidden; background: #0c0c0c; position: relative; }
+.quests-peek .qp video, .quests-peek .qp img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.quests-peek .qp::after { content: ""; position: absolute; inset: 0; background: rgba(13,13,14,0.35); transition: background 240ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .quests-peek .qp:hover::after { background: transparent; } }
+.quests-cta { display: flex; flex-direction: column; align-items: center; gap: 22px; margin-top: 56px; }
+.quests-more { font-size: 15px; color: var(--paper-50); }
+.quests-video {
+  width: 504px; height: 514px; border-radius: 16px; overflow: hidden; position: relative;
+  background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 60%, #0c0c0c 100%);
+}
+.quests-video .bar { position: absolute; left: 16px; right: 16px; bottom: 16px; height: 3px; background: rgba(255,255,255,0.7); border-radius: 2px; }
+.quests-video .ctrls { position: absolute; left: 16px; right: 16px; bottom: 34px; display: flex; justify-content: space-between; color: #fff; font-size: 13px; opacity: 0.8; }
+.quests-copy { text-align: center; padding-right: 24px; }
+.quests-copy h2 { color: var(--acid); font-size: 80px; line-height: 1.2; text-transform: uppercase; }
+.quests-copy .tag { margin-top: 60px; font-size: 16px; color: var(--paper); text-transform: none; letter-spacing: 0; }
+.quests-copy .btn-pill { margin-top: 52px; }
+
+/* ------------------------------------------------------------------
+   CREATIVITY / ACCORDION
+------------------------------------------------------------------ */
+.creativity { padding: 100px 48px 160px; }
+.creativity h2 {
+  text-align: center; color: var(--acid);
+  font-size: 84px; line-height: 0.8; letter-spacing: -0.005em;
+}
+.creativity-grid { display: grid; grid-template-columns: 640px 1fr; gap: 48px; margin-top: 48px; align-items: center; }
+
+.accordion { list-style: none; margin: 0; padding: 0; width: 100%; }
+.acc-item { border-bottom: 1px solid var(--paper-12); }
+.acc-head {
+  width: 100%; display: flex; justify-content: space-between; align-items: center;
+  padding: 24px 20px; text-align: left;
+  font-size: 16px; letter-spacing: -0.01em; color: var(--paper);
+}
+.acc-icon {
+  flex: 0 0 auto; width: 24px; height: 24px; border-radius: 50%;
+  border: 1px solid var(--paper-20); display: grid; place-items: center;
+  color: var(--paper-50); font-size: 12px; line-height: 1;
+  transition: transform 220ms var(--ease-out), background-color 220ms ease, color 220ms ease, border-color 220ms ease;
+}
+.acc-item[open] .acc-icon,
+.acc-item.is-open .acc-icon { transform: rotate(45deg); background: #fff; color: var(--ink); border-color: #fff; }
+
+.acc-body {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 260ms var(--ease-out);
+}
+.acc-item.is-open .acc-body { grid-template-rows: 1fr; }
+.acc-body > div { overflow: hidden; }
+.acc-body p {
+  padding: 0 20px 22px; margin: 0; width: 92%;
+  font-size: 13px; line-height: 1.25; color: var(--paper);
+  opacity: 0; transform: translateY(-4px);
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
+}
+.acc-item.is-open .acc-body p { opacity: 1; transform: none; transition-delay: 60ms; }
+
+/* Oscilloscope */
+.scope { justify-self: end; width: 100%; max-width: 552px; margin-right: 38px; }
+.scope svg { width: 100%; height: auto; display: block; }
+.scope .trace { fill: none; stroke: #fff; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.scope .dot {
+  fill: #fff;
+  offset-path: path("M75.0,82.6 L80.0,89.5 L85.0,97.6 L90.0,106.7 L95.0,116.4 L100.0,126.4 L105.0,136.5 L110.0,146.3 L115.0,155.6 L120.0,164.1 L125.0,171.4 L130.0,177.4 L135.0,181.9 L140.0,184.8 L145.0,186.0 L150.0,185.4 L155.0,183.0 L160.0,179.0 L165.0,173.4 L170.0,166.5 L175.0,158.4 L180.0,149.3 L185.0,139.6 L190.0,129.6 L195.0,119.5 L200.0,109.7 L205.0,100.4 L210.0,91.9 L215.0,84.6 L220.0,78.6 L225.0,74.1 L230.0,71.2 L235.0,70.0 L240.0,70.6 L245.0,73.0 L250.0,77.0 L255.0,82.6 L260.0,89.5 L265.0,97.6 L270.0,106.7 L275.0,116.4 L280.0,126.4 L285.0,136.5 L290.0,146.3 L295.0,155.6 L300.0,164.1 L305.0,171.4 L310.0,177.4 L315.0,181.9 L320.0,184.8 L325.0,186.0 L330.0,185.4 L335.0,183.0 L340.0,179.0 L345.0,173.4 L350.0,166.5 L355.0,158.4 L360.0,149.3 L365.0,139.6 L370.0,129.6 L375.0,119.5 L380.0,109.7 L385.0,100.4 L390.0,91.9 L395.0,84.6 L400.0,78.6 L405.0,74.1 L410.0,71.2 L415.0,70.0 L420.0,70.6 L425.0,73.0 L430.0,77.0 L435.0,82.6 L440.0,89.5 L445.0,97.6 L450.0,106.7 L455.0,116.4 L460.0,126.4 L465.0,136.5 L470.0,146.3 L475.0,155.6 L480.0,164.1 L485.0,171.4 L490.0,177.4 L495.0,181.9 L500.0,184.8 L505.0,186.0 L510.0,185.4 L515.0,183.0 L520.0,179.0 L525.0,173.4 L530.0,166.5 L535.0,158.4 L540.0,149.3 L545.0,139.6 L550.0,129.6");
+  offset-distance: 0%;
+  animation: travel 5s linear infinite;
+}
+@keyframes travel { to { offset-distance: 100%; } }
+
+/* ------------------------------------------------------------------
+   CONTACT + FOOTER
+------------------------------------------------------------------ */
+.contact { display: flex; justify-content: center; padding: 0 0 60px; }
+.contact-box {
+  width: 536px; height: 70px; display: grid; place-items: center;
+  background: var(--ink); border: 1px solid var(--paper);
+  font-size: 40px; color: var(--paper); line-height: 1;
+  transition: background-color 220ms ease, color 220ms ease, border-color 220ms ease, transform 100ms var(--ease-out);
+}
+.contact-box:active { transform: scale(0.98); }
+@media (hover: hover) and (pointer: fine) {
+  .contact-box:hover { background: var(--acid); color: var(--ink); border-color: var(--acid); }
+}
+
+.footer { display: flex; justify-content: space-between; align-items: flex-end; padding: 0 var(--gutter) 24px; }
+.footer ul { list-style: none; margin: 0; padding: 0; }
+.footer li { line-height: 1.5; }
+.footer li a { font-size: 12px; color: var(--acid); letter-spacing: -0.01em; }
+@media (hover: hover) and (pointer: fine) { .footer li a:hover { color: #fff; } }
+.footer .copy { font-size: 12px; color: var(--paper); letter-spacing: -0.01em; }
+
+/* ------------------------------------------------------------------
+   RESPONSIVE
+------------------------------------------------------------------ */
+@media (max-width: 1100px) {
+  .work { padding: 0 32px; }
+  .project { height: 60vw; min-height: 420px; }
+  .noir-title { font-size: 12vw; transform: translate(-30%, -50%); }
+  .quests { grid-template-columns: 1fr; padding: 40px 32px 100px; justify-items: center; }
+  .quests { padding: 32px 20px 80px; }
+  .quests-reel { grid-template-columns: 1fr; gap: 16px; }
+  .quests-peek { grid-template-columns: repeat(2, 1fr); }
+  .quests-copy { padding: 0; }
+  .creativity-grid { grid-template-columns: 1fr; }
+  .scope { justify-self: center; margin-right: 0; }
+  .rule { margin: 0 32px; }
+  .hero-portrait { width: 70%; }
+}
+@media (max-width: 720px) {
+  :root { --gutter: 20px; --card-radius: 16px; }
+  .hero { min-height: auto; padding: 90px 20px 60px; }
+  .hero h1 { font-size: clamp(44px, 14vw, 64px); }
+  .hero-intro { margin-top: 64px; }
+  .services { margin-top: 56px; }
+  .hero-portrait { position: relative; width: 100%; height: 360px; margin-top: 48px; top: 0; bottom: auto; }
+  .work { padding: 0 20px; gap: 20px; }
+  .noir-mark { font-size: 32px; }
+  .noir-ticker { font-size: 14px; }
+  .mag { width: 220px; height: 290px; padding: 14px; }
+  .mag .mast { font-size: 40px; }
+  .mag .kicker { font-size: 22px; }
+  .mag-2 { width: 190px; height: 240px; }
+  .quests-copy h2 { font-size: clamp(44px, 14vw, 64px); }
+  .quests-copy .tag { margin-top: 32px; }
+  .quests-copy .btn-pill { margin-top: 28px; }
+  .creativity { padding: 80px 20px 100px; }
+  .creativity h2 { font-size: clamp(40px, 12.5vw, 60px); }
+  .acc-head { padding: 20px 8px; font-size: 14px; }
+  .acc-body p { padding: 0 8px 20px; }
+  .contact-box { width: calc(100% - 40px); font-size: 28px; }
+  .footer { flex-direction: column; align-items: flex-start; gap: 32px; }
+  .menu { padding-bottom: 40px; }
+}
+
+/* ------------------------------------------------------------------
+   MEDIA — real assets (in ./assets)
+------------------------------------------------------------------ */
+.art-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+.hero-portrait img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; z-index: 1; }
+.quests-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.scope img { width: 100%; height: auto; display: block; }
+/* the photos carry their own grain — drop the CSS grain and drawn stand-ins */
+.art-noir::after, .art-apparatus::after, .art-gideon::after, .hero-portrait::after { content: none; }
+.hero-portrait { background: var(--ink); }
+
+/* ------------------------------------------------------------------
+   GIDEON — tokens (from the Figma export)
+------------------------------------------------------------------ */
+:root {
+  --font-geist: "Aspekta", "Helvetica Neue", Helvetica, Arial, sans-serif;   /* was Geist */
+
+  --cs-bg: #000000;        /* page */
+  --cs-bg-deep: #000000;   /* context section */
+  --cs-panel: #17171A;     /* media placeholders, illustration wells */
+  --cs-line: #232327;      /* rules */
+  --cs-line-2: #2C2C31;    /* borders */
+  --cs-text: #F2F1EE;      /* headings */
+  --cs-text-2: #CAC8C3;    /* lead body */
+  --cs-text-3: #ACAAA5;    /* secondary body */
+  --cs-mute: #918F89;      /* small body */
+  --cs-label: #8B8984;     /* rail labels */
+  --cs-dim: #7E7C76;       /* placeholders */
+  --cs-dim-2: #6E6B66;
+  --cs-blue: #7B90F7;      /* eyebrow / accents */
+  --cs-blue-2: #2F55E0;    /* graphic cards */
+  --cs-blue-3: #2F61E0;    /* process strip */
+  --cs-blue-deep: #161D38; /* "mine" workflow boxes */
+  --cs-orange: #F26A45;    /* bullet dots */
+
+  --cs-label-size: 8px;    /* spec says 8px — bump here if you want it more legible */
+  --cs-gutter: 110px;
+}
+
+[hidden] { display: none !important; }
+
+/* ------------------------------------------------------------------
+   GIDEON — work card (sits above Noir Film Festival)
+------------------------------------------------------------------ */
+.art-gideon { background: var(--cs-bg); }
+.art-gideon::after {
+  content: ""; position: absolute; inset: 0; opacity: 0.35; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.7 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+}
+/* faint IA grid across the whole card */
+.art-gideon .ia-grid {
+  position: absolute; inset: 0; opacity: 0.55;
+  background-image:
+    linear-gradient(90deg, var(--cs-line) 1px, transparent 1px),
+    linear-gradient(180deg, var(--cs-line) 1px, transparent 1px);
+  background-size: 92px 92px;
+  background-position: 50% 50%;
+  mask-image: radial-gradient(ellipse 70% 80% at 60% 50%, #000 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 80% at 60% 50%, #000 30%, transparent 100%);
+}
+/* the decision-01 graphic card, lifted from the case study */
+.art-gideon .gcard {
+  position: absolute; right: 8%; top: 50%; transform: translateY(-50%) rotate(-3deg);
+  width: 460px; padding: 14px;
+  background: var(--cs-blue-2); border-radius: 4px;
+  box-shadow: 0 40px 90px rgba(0,0,0,0.55);
+}
+.art-gideon .gcard .well {
+  position: relative; height: 250px; background: var(--cs-panel); border-radius: 3px; overflow: hidden;
+}
+.art-gideon .gcard .well svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.art-gideon .gcard .cap {
+  padding: 16px 8px 6px; font-family: var(--font-geist); color: #fff; font-weight: 300;
+}
+.art-gideon .gcard .cap span { display: block; font-size: 22px; line-height: 1.3; letter-spacing: -0.02em; }
+.art-gideon .gcard .cap small { display: block; font-size: 12px; line-height: 20px; color: rgba(255,255,255,0.8); font-weight: 400; }
+
+.gideon-inner { font-family: var(--font-geist); color: var(--cs-text); }
+.gideon-mark {
+  position: absolute; top: 22px; left: 24px;
+  font-size: 12px; line-height: 20px; font-weight: 400; color: var(--cs-text-3);
+}
+.gideon-year { position: absolute; top: 22px; right: 24px; font-size: 12px; line-height: 20px; color: var(--cs-text-3); }
+.gideon-title {
+  position: absolute; left: 24px; top: 50%; transform: translateY(-58%);
+  font-size: 120px; line-height: 1; font-weight: 300; letter-spacing: -0.03em; color: #fff;
+}
+.gideon-sub {
+  position: absolute; left: 24px; bottom: 26px; max-width: 420px;
+  font-size: 20px; line-height: 28px; font-weight: 300; letter-spacing: -0.01em; color: var(--cs-text-2);
+}
+.gideon-sub small { display: block; margin-top: 10px; font-size: 12px; line-height: 20px; color: var(--cs-mute); font-weight: 400; }
+
+/* ------------------------------------------------------------------
+   GIDEON — case study view (#gideon)
+------------------------------------------------------------------ */
+body.view-gideon { background: var(--cs-bg); }
+
+.cs {
+  font-family: var(--font-geist);
+  font-weight: 300;
+  font-size: 16px; line-height: 24px;
+  letter-spacing: 0;
+  color: var(--cs-text);
+  background: var(--cs-bg);
+}
+.cs section { padding: 56px 0 72px; }
+.cs section.lg { padding: 80px 0 88px; }
+.cs .in { width: min(1220px, calc(100% - 2 * var(--cs-gutter))); margin: 0 auto; }
+
+.cs-back {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; line-height: 20px; font-weight: 400; color: var(--cs-text-3);
+  padding: 2px 0; border-bottom: 1px solid var(--cs-line-2);
+  transition: color 200ms ease, border-color 200ms ease;
+}
+.cs-back svg { width: 12px; height: 12px; }
+@media (hover: hover) and (pointer: fine) {
+  .cs-back:hover { color: var(--cs-text); border-color: var(--cs-text-3); }
+}
+
+/* section rail */
+.rail { display: flex; flex-direction: column; gap: 13px; }
+.rail-row { display: flex; justify-content: space-between; align-items: flex-start; }
+.rail-row span { font-size: var(--cs-label-size); line-height: 12px; font-weight: 400; letter-spacing: 0.08em; color: var(--cs-label); }
+.rule-cs { height: 1px; background: var(--cs-line); }
+.rule-cs.soft { background: var(--cs-line-2); }
+
+.sp-56 { height: 56px; } .sp-52 { height: 52px; } .sp-48 { height: 48px; }
+.sp-36 { height: 36px; } .sp-30 { height: 30px; } .sp-18 { height: 18px; }
+
+/* type scale */
+.h-56 { font-size: 56px; line-height: 64px; letter-spacing: -0.03em; font-weight: 300; color: var(--cs-text); }
+.h-40 { font-size: 40px; line-height: 48px; letter-spacing: -0.02em; font-weight: 300; color: var(--cs-text); }
+.h-28 { font-size: 28px; line-height: 36px; letter-spacing: -0.02em; font-weight: 300; color: var(--cs-text); }
+.h-24 { font-size: 24px; line-height: 32px; letter-spacing: -0.01em; font-weight: 300; }
+.t-20 { font-size: 20px; line-height: 28px; letter-spacing: -0.01em; font-weight: 300; color: var(--cs-text-2); }
+.t-20.s { color: var(--cs-text-3); }
+.t-16 { font-size: 16px; line-height: 24px; font-weight: 300; color: var(--cs-text-3); }
+.t-12 { font-size: 12px; line-height: 20px; font-weight: 300; color: var(--cs-mute); }
+.eyebrow { font-size: var(--cs-label-size); line-height: 12px; letter-spacing: 0.08em; font-weight: 400; color: var(--cs-blue); }
+.num { font-size: 12px; line-height: 20px; font-weight: 400; color: var(--cs-blue); }
+
+.copy { display: flex; flex-direction: column; gap: 20px; max-width: 880px; }
+.copy.w700 { max-width: 700px; gap: 22px; }
+.copy.w820 { max-width: 820px; }
+.copy.w900 { max-width: 900px; }
+
+.cs-img { display: block; width: 100%; height: auto; border-radius: 0; border: 0; }
+.cs-read { margin-top: 4px; }
+.cs-figure { margin: 0; position: relative; }
+.cs-figure .cs-img { position: relative; z-index: 0; }
+.cs-figure figcaption { margin-top: 14px; text-align: right; }
+.cs-read-hint { color: var(--cs-mute); }
+.cs-hover-video {
+  position: absolute; left: 0; top: 0; z-index: 1;
+  width: 100%; aspect-ratio: 16 / 9; height: auto; display: block;
+  object-fit: cover; border-radius: 0; border: 0;
+  opacity: 0; pointer-events: none; transition: opacity 260ms var(--ease-out);
+}
+.cs-figure.is-playing .cs-hover-video { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .cs-hover-video { transition: none; } }
+.cs-read span { color: var(--cs-mute); }
+.cs-cta {
+  color: var(--cs-text); font-weight: 400;
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1px;
+  transition: background-size 320ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) { .cs-cta:hover { background-size: 100% 1px; } }
+.cs-cta:focus-visible { outline: 2px solid var(--cs-blue); outline-offset: 3px; }
+
+/* placeholder copy — swap for real text, then drop the .ph class */
+.ph { color: var(--cs-dim) !important; }
+.ph::before { content: "["; } .ph::after { content: "]"; }
+p.copy.ph { display: block; }
+
+/* media placeholders — replace the whole .media with an <img> / <video> */
+.media {
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px;
+  background: var(--cs-panel); border: 1px dashed var(--cs-line-2);
+  text-align: center; padding: 24px;
+}
+.media > span:first-child { font-size: var(--cs-label-size); line-height: 12px; letter-spacing: 0.08em; font-weight: 400; color: var(--cs-dim); }
+.media > span:last-child { font-size: 12px; line-height: 20px; font-weight: 400; color: var(--cs-label); max-width: 420px; }
+.media.cover { aspect-ratio: 1222 / 699; position: relative; justify-content: flex-end; align-items: flex-start; text-align: left; }
+.media.r660 { aspect-ratio: 1220 / 660; }
+.media.r551 { aspect-ratio: 1220 / 551; }
+.media.r620 { aspect-ratio: 1220 / 620; }
+.media.r867 { aspect-ratio: 1220 / 867; }
+.media.tall { aspect-ratio: 677 / 901; }
+
+/* 01 — Context */
+.cs-context { background: var(--cs-bg-deep); padding-top: 120px !important; }
+.cs-context .in > * + * { margin-top: 30px; }
+.cs-context .in > .cs-back { margin-bottom: 26px; }
+.cs-context .in > .cs-back + .media.cover, .cs-context .in > .cs-back + .cover-img { margin-top: 0; }
+.cover-img { width: 100%; aspect-ratio: 1222 / 699; object-fit: cover; display: block; }
+.media.cover .wordmark {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  font-size: 96px; line-height: 125px; font-weight: 300; letter-spacing: -0.02em; color: #fff;
+}
+.two-col { display: flex; align-items: flex-start; gap: 100px; }
+.two-col .left { flex: 0 1 700px; }
+.two-col .right { flex: 0 0 420px; }
+.def { padding: 15px 0; display: flex; flex-direction: column; gap: 7px; border-bottom: 1px solid var(--cs-line); }
+.def .t-16 { color: #BFBDB8; }
+
+.subhead { display: flex; flex-direction: column; gap: 14px; }
+.subhead .h-28 { margin-top: 18px; }
+.lead-820 { max-width: 820px; color: #BFBDB8; }
+
+.bullets { display: grid; grid-template-columns: 1fr; max-width: 700px; }
+.b { display: flex; align-items: flex-start; gap: 16px; padding: 22px 0; border-bottom: 1px solid var(--cs-line); }
+.b .dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--cs-orange); margin-top: 10px; }
+.b .c { display: flex; flex-direction: column; gap: 7px; }
+.b .c .t-20 { color: var(--cs-text); }
+
+/* 02 — Approach: process strip */
+.process { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+.step-card {
+  display: flex; flex-direction: column; justify-content: space-between;
+  min-height: 224px; padding: 18px 16px;
+  background: var(--cs-blue-3); border: 1px solid var(--cs-line-2); border-radius: 12px;
+  color: #fff;
+}
+.step-card .top { display: flex; flex-direction: column; }
+.step-card .ico { width: 20px; height: 20px; margin-bottom: 16px; }
+.step-card .ico svg { width: 20px; height: 20px; display: block; }
+.step-card .k { font-size: var(--cs-label-size); line-height: 12px; letter-spacing: 0.08em; font-weight: 400; margin-bottom: 6px; }
+.step-card .n { font-size: 16px; line-height: 24px; font-weight: 400; color: #FAFAFA; }
+.step-card .d { font-size: 12px; line-height: 20px; font-weight: 300; color: rgba(255,255,255,0.8); margin-top: 16px; }
+
+/* 05.1 — the two old modals, with flaw markers */
+.flaw-pair { display: grid; grid-template-columns: 0.984fr 1.618fr; gap: 20px; align-items: start; }
+.flaw-fig { margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.flaw-img { position: relative; }
+.flaw-img img { display: block; width: 100%; height: auto; border: 0; border-radius: 0; }
+.flaw-fig figcaption { font-size: 12px; line-height: 20px; font-weight: 300; color: var(--cs-mute); }
+.mk {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--g-blue); color: #fff; font-family: var(--font-geist); font-size: 12px; font-weight: 400; line-height: 1;
+  box-shadow: 0 0 0 2px var(--cs-bg);
+}
+.flaw-img .mk { position: absolute; transform: translate(-50%, -50%); box-shadow: 0 0 0 2px #fff, 0 6px 16px rgba(0,0,0,0.35); }
+.flaws { list-style: none; margin: 0; padding: 0; max-width: 880px; }
+.flaws li { display: flex; gap: 18px; align-items: flex-start; padding: 18px 0; border-bottom: 1px solid var(--cs-line); }
+.flaws li:first-child { padding-top: 0; }
+.flaws li .mk { margin-top: 2px; }
+.flaws li .t-20 { color: var(--cs-text); }
+.flaws li .t-16 { margin-top: 4px; }
+@media (max-width: 860px) { .flaw-pair { grid-template-columns: 1fr; } }
+
+/* 05.x — before · exploration · final */
+.tri { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.tri figure { margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.tri .media { aspect-ratio: 393 / 620; padding: 16px; }
+.tri figcaption { font-size: 12px; line-height: 20px; font-weight: 300; color: var(--cs-mute); max-width: 340px; }
+
+/* 04.2 — IA row */
+.ia-row { display: flex; align-items: flex-start; gap: 48px; }
+.ia-row .copy { max-width: 880px; flex: 1 1 auto; }
+.ia-row .copy { flex: 0 1 518px; }
+.ia-row .media { flex: 1 1 0; }
+
+/* 06 — Decisions */
+.dec { display: flex; align-items: flex-start; gap: 60px; padding: 56px 0; border-bottom: 1px solid var(--cs-line); }
+.dec:first-child { padding-top: 0; }
+.dec:last-child { border-bottom: 0; padding-bottom: 0; }
+.dec .a { flex: 0 1 600px; display: flex; flex-direction: column; gap: 18px; }
+.dec .b2 { flex: 0 0 560px; }
+.graphic-card { padding: 16px; background: var(--cs-blue-2); border-radius: 4px; display: flex; flex-direction: column; gap: 20px; }
+.graphic-card .well { background: var(--cs-panel); border-radius: 3px; aspect-ratio: 528 / 300; overflow: hidden; }
+.graphic-card .well svg { width: 100%; height: 100%; display: block; }
+.graphic-card .t { padding: 0 8px 14px; display: flex; flex-direction: column; gap: 12px; color: #fff; }
+.graphic-card .t .h-28, .graphic-card .t .h-24 { color: #fff; }
+
+/* 08 — Ship: workflow */
+.workflow { display: grid; grid-template-columns: repeat(8, 1fr); gap: 12px; }
+.wstep { display: flex; flex-direction: column; gap: 10px; }
+.wstep .bx { flex: 1; display: flex; align-items: center; }
+.wstep .bx {
+  min-height: 56px; padding: 20px 14px; border-radius: 3px;
+  border: 1px solid var(--cs-line-2);
+  font-size: 12px; line-height: 16px; font-weight: 400; letter-spacing: 0.06em; color: var(--cs-text-3);
+}
+.wstep .who { font-size: var(--cs-label-size); line-height: 12px; letter-spacing: 0.08em; font-weight: 400; color: var(--cs-label); }
+.wstep.mine .bx { background: var(--cs-blue-deep); border-color: var(--cs-blue-2); color: var(--cs-blue); }
+.wstep.mine .who { color: var(--cs-blue); }
+.ex { padding: 44px; background: var(--cs-panel); border-radius: 3px; display: flex; flex-direction: column; gap: 14px; }
+.ex .t-16 { color: var(--cs-dim-2); }
+
+/* 09 — Pivot */
+.pivot { display: flex; align-items: flex-start; gap: 90px; }
+.pivot .a { flex: 0 1 700px; display: flex; flex-direction: column; gap: 22px; }
+.pivot .b2 { flex: 0 0 420px; }
+.surv { padding: 18px 0; display: flex; flex-direction: column; gap: 9px; border-bottom: 1px solid var(--cs-line); }
+
+/* 10 — Colophon */
+.cs-colophon { padding: 96px 0 110px !important; }
+.colophon { display: grid; grid-template-columns: repeat(4, 1fr); }
+.cl { padding-right: 40px; display: flex; flex-direction: column; gap: 11px; }
+.cl .rule-cs { margin-bottom: 6px; }
+.cl .eyebrow { color: var(--cs-label); }
+.cs-end { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+
+/* responsive */
+@media (max-width: 1280px) {
+  :root { --cs-gutter: 64px; }
+  .dec .b2, .pivot .b2 { flex-basis: 46%; }
+}
+@media (max-width: 1100px) {
+  :root { --cs-gutter: 32px; }
+  .h-56 { font-size: 44px; line-height: 50px; }
+  .h-40 { font-size: 34px; line-height: 40px; }
+  .two-col, .ia-row, .dec, .pivot { flex-direction: column; gap: 40px; }
+  .two-col .left, .dec .a, .pivot .a, .ia-row .copy { flex: none; width: 100%; }
+  .two-col .right, .dec .b2, .pivot .b2 { flex: none; width: 100%; max-width: 560px; }
+  .ia-row .media { width: 100%; }
+  .process { grid-template-columns: repeat(4, 1fr); }
+  .workflow { grid-template-columns: repeat(4, 1fr); }
+  .colophon { grid-template-columns: 1fr 1fr; row-gap: 32px; }
+  .gideon-title { font-size: clamp(64px, 11vw, 120px); }
+  .art-gideon .gcard { width: 46%; right: 6%; }
+  .art-gideon .gcard .well { height: auto; aspect-ratio: 432 / 250; }
+}
+@media (max-width: 720px) {
+  :root { --cs-gutter: 20px; }
+  .cs section { padding: 40px 0 56px; }
+  .cs section.lg { padding: 56px 0 64px; }
+  .cs-context { padding-top: 96px !important; }
+  .h-56 { font-size: 36px; line-height: 42px; }
+  .h-40 { font-size: 30px; line-height: 36px; }
+  .h-28 { font-size: 24px; line-height: 30px; }
+  .t-20 { font-size: 17px; line-height: 25px; }
+  .media.cover .wordmark { font-size: 56px; line-height: 1; }
+  .bullets { grid-template-columns: 1fr; column-gap: 0; }
+  .process { grid-template-columns: repeat(2, 1fr); }
+  .workflow { grid-template-columns: repeat(2, 1fr); }
+  .tri { grid-template-columns: 1fr; }
+  .tri .media { aspect-ratio: 1220 / 620; }
+  .colophon { grid-template-columns: 1fr; }
+  .cl { padding-right: 0; }
+  .ex { padding: 24px; }
+  .dec, .pivot { gap: 28px; }
+  .rail-row span:nth-child(2) { display: none; }
+  .art-gideon .gcard { display: none; }
+  .gideon-title { transform: translateY(-80%); }
+  .gideon-sub { font-size: 16px; line-height: 24px; max-width: none; right: 24px; }
+}
+
+/* ------------------------------------------------------------------
+   SIDE QUESTS — page view (#side-quests)
+------------------------------------------------------------------ */
+.sq { color: var(--paper); }
+.sq .in { width: min(1220px, calc(100% - 2 * var(--gutter))); margin: 0 auto; }
+
+.sq-head { padding: 140px 0 72px; }
+.sq-head h1 {
+  color: var(--acid);
+  font-size: clamp(64px, 11vw, 160px); line-height: 0.86; letter-spacing: -0.01em;
+}
+.sq-head .intro {
+  margin-top: 40px; max-width: 520px;
+  font-size: 13px; line-height: 1.5; color: var(--paper);
+}
+.sq-head .intro span { display: block; color: var(--paper-50); }
+
+.sq-section { padding: 56px 0 72px; border-top: 1px solid var(--paper-12); }
+.sq-label {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 12px; line-height: 1; color: var(--paper-50);
+  margin-bottom: 36px;
+}
+.sq-label b { font-weight: 400; color: var(--paper); }
+
+/* media */
+.sq-media { position: relative; overflow: hidden; border-radius: 16px; background: #0c0c0c; }
+.sq-media img, .sq-media video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.sq-media.contain img, .sq-media.contain video { object-fit: contain; }
+
+/* captions */
+.sq-cap { display: flex; flex-direction: column; gap: 10px; }
+.sq-cap p { font-size: 13px; line-height: 1.5; color: var(--paper); max-width: 34ch; }
+.sq-cap time { font-size: 12px; color: var(--acid); }
+.sq-cap .ph { color: var(--paper-50) !important; }
+
+/* sketches — three tall frames */
+.sq-sketches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.sq-sketches .sq-media { aspect-ratio: 3 / 4; }
+
+/* feature row — wide video + caption column */
+.sq-feature { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 40px; align-items: start; }
+.sq-feature + .sq-feature { margin-top: 56px; }
+.sq-feature .sq-media { aspect-ratio: 16 / 9; }
+.sq-feature .sq-media.sq-4x3 { aspect-ratio: 4 / 3; }
+.sq-feature .sq-cap { padding-top: 4px; }
+
+/* two-up — captions under each */
+.sq-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.sq-pair + .sq-pair { margin-top: 56px; }
+.sq-pair figure { margin: 0; display: flex; flex-direction: column; gap: 16px; }
+.sq-pair .sq-media { aspect-ratio: 1 / 1; }
+.sq-pair .sq-media.sq-tall { aspect-ratio: 7 / 8; }
+
+/* photos — 2×2 */
+.sq-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.sq-photos .sq-media { aspect-ratio: 4 / 3; }
+
+.sq-end { padding: 40px 0 80px; display: flex; justify-content: center; }
+
+@media (max-width: 1100px) {
+  .sq-feature { grid-template-columns: 1fr; gap: 20px; }
+  .sq-feature .sq-cap p { max-width: 60ch; }
+}
+@media (max-width: 720px) {
+  .sq-head { padding: 100px 0 48px; }
+  .sq-section { padding: 40px 0 56px; }
+  .sq-sketches, .sq-pair, .sq-photos { grid-template-columns: 1fr; gap: 16px; }
+  .sq-media { border-radius: 12px; }
+  .sq-label { margin-bottom: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sq video { animation: none; }
+}
+
+/* ------------------------------------------------------------------
+   CONNECT — contact page view (#connect)
+------------------------------------------------------------------ */
+.cn { color: var(--paper); }
+.cn-hero {
+  position: relative; margin: 0 var(--gutter) 0 0; height: min(585px, 42vw); min-height: 260px;
+  background: #0c0c0c; overflow: hidden;
+}
+.cn-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+.cn-hero .placeholder-tag { position: absolute; right: 24px; bottom: 20px; font-size: 11px; color: rgba(255,255,255,0.45); text-transform: uppercase; }
+.cn-title { padding: 24px var(--gutter) 88px; }
+.cn-title h1 { color: var(--acid); font-size: clamp(64px, 11.5vw, 150px); line-height: 0.82; letter-spacing: -0.005em; }
+.cn .rule-full { height: 1px; background: var(--paper-20); }
+.cn .contact { padding: 64px 0 48px; }
+@media (max-width: 720px) {
+  .cn-hero { margin-right: 0; }
+  .cn-title { padding: 20px var(--gutter) 56px; }
+}
+
+/* ------------------------------------------------------------------
+   VIDEO CONTROLS — play/pause + mute on every video
+------------------------------------------------------------------ */
+.vid { position: relative; }
+.vid-ctrls {
+  position: absolute; left: 14px; bottom: 14px; z-index: 3;
+  display: flex; gap: 6px;
+  opacity: 0.92; transition: opacity 200ms ease;
+}
+.vid-ctrls button {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 28px; padding: 0 12px; border-radius: 50px;
+  background: rgba(0,0,0,0.72); border: 1px solid rgba(255,255,255,0.22); color: #fff;
+  font-family: var(--font-mono); font-size: 12px; line-height: 1; letter-spacing: 0;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+.vid-ctrls button svg { width: 10px; height: 10px; display: block; fill: currentColor; }
+.vid-ctrls button[disabled] { opacity: 0.45; cursor: default; }
+@media (hover: hover) and (pointer: fine) {
+  .vid-ctrls button:not([disabled]):hover { background: var(--acid); color: var(--ink); border-color: var(--acid); }
+}
+
+/* ------------------------------------------------------------------
+   GIDEON — interactive journey map (04.1)
+------------------------------------------------------------------ */
+.jm { font-family: var(--font-geist); color: var(--cs-text); }
+
+.jm-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; margin-bottom: 28px; }
+.jm-head .h-28 { max-width: 20ch; }
+.jm-head .h-28 span { color: var(--g-blue); }
+.jm-head .t-16 { max-width: 46ch; margin-top: 12px; }
+
+/* lens toggle */
+.jm-lens {
+  position: relative; display: inline-grid; grid-template-columns: 1fr 1fr; padding: 3px; flex: none;
+  border-radius: 100px; background: var(--cs-panel); border: 1px solid var(--cs-line-2);
+}
+.jm-lens::before {
+  content: ""; position: absolute; inset: 3px auto 3px 3px; width: calc(50% - 3px);
+  border-radius: 100px; background: var(--g-blue);
+  transition: transform 250ms var(--ease-out);
+}
+.jm-lens[data-lens="with"]::before { transform: translateX(100%); }
+.jm-lens button {
+  position: relative; border: 0; background: transparent; cursor: pointer; white-space: nowrap;
+  font-family: var(--font-geist); font-weight: 400; font-size: 12px; line-height: 1; color: var(--cs-text-3);
+  padding: 11px 18px; border-radius: 100px; transition: color 200ms ease;
+}
+.jm-lens button[aria-pressed="true"] { color: #fff; }
+.jm-lens button:active { transform: scale(0.98); }
+.jm-lens button:focus-visible { outline: 2px solid var(--g-blue); outline-offset: 2px; }
+
+/* card */
+.jm-map { background: var(--cs-panel); border: 1px solid var(--cs-line-2); border-radius: 12px; overflow: hidden; }
+.jm-scroll { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+.jm-inner { min-width: 720px; padding: 8px 24px 0; }
+
+.jm-caption {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+  padding: 22px 24px 0; font-size: 12px; line-height: 20px; color: var(--cs-text-3);
+}
+.jm-legend { display: flex; gap: 20px; }
+.jm-legend span { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.jm-legend i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.jm-legend .firm i { background: var(--cs-text); }
+.jm-legend .gid i { background: var(--g-blue); }
+.jm-legend .gid { opacity: 0; transition: opacity 250ms var(--ease-out); }
+.jm.lens-with .jm-legend .gid { opacity: 1; }
+
+/* chart */
+.jm-chart { display: block; width: 100%; height: auto; }
+.jm-chart text { font-family: var(--font-geist); }
+.jm-chart .grid { stroke: var(--cs-line-2); stroke-width: 1; }
+.jm-chart .grid-label { fill: var(--cs-label); font-size: 11px; }
+.jm-chart .band { fill: var(--g-blue); opacity: 0; transition: opacity 220ms var(--ease-out); rx: 8px; }
+.jm-chart .band.is-active { opacity: 0.14; }
+.jm-chart .line { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.jm-chart .line-firm { stroke: var(--cs-text); }
+.jm-chart .line-gid { stroke: var(--g-blue); }
+.jm-chart .node-firm circle.body { fill: var(--cs-text); }
+.jm-chart .node-gid circle.body { fill: var(--g-blue); }
+.jm-chart .pct { fill: var(--cs-bg); font-size: 12px; font-weight: 400; text-anchor: middle; dominant-baseline: central; }
+.jm-chart .node-gid .pct { fill: #fff; }
+.jm-chart .face { fill: none; stroke: var(--cs-bg); stroke-width: 1.8; stroke-linecap: round; }
+.jm-chart .face circle { fill: var(--cs-bg); stroke: none; }
+.jm-chart .tag { font-size: 12px; text-anchor: middle; fill: var(--cs-text-3); font-weight: 400; }
+.jm-chart .tag-gid { fill: var(--g-sky); }
+.jm-chart .hinge { fill: var(--g-blue); }
+
+/* one load sequence */
+.jm-chart .line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: jmDraw 1100ms var(--ease-out) 300ms forwards; }
+.jm-chart .node { opacity: 0; animation: jmNode 380ms var(--ease-out) forwards; }
+.jm-chart .node:nth-of-type(1) { animation-delay: 820ms; }
+.jm-chart .node:nth-of-type(2) { animation-delay: 890ms; }
+.jm-chart .node:nth-of-type(3) { animation-delay: 960ms; }
+.jm-chart .node:nth-of-type(4) { animation-delay: 1030ms; }
+.jm-chart .node:nth-of-type(5) { animation-delay: 1100ms; }
+@keyframes jmDraw { to { stroke-dashoffset: 0; } }
+@keyframes jmNode { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* stage rail */
+.jm-rail { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 8px 0 24px; }
+.jm-stage {
+  border: 1px solid var(--cs-line-2); background: transparent; color: var(--cs-text);
+  border-radius: 12px; padding: 14px 16px 13px; text-align: left; cursor: pointer;
+  display: grid; gap: 3px; font-family: var(--font-geist);
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+.jm-stage:focus-visible { outline: 2px solid var(--g-blue); outline-offset: 2px; }
+.jm-stage:active { transform: scale(0.985); }
+@media (hover: hover) and (pointer: fine) { .jm-stage:hover { border-color: var(--cs-label); } }
+.jm-stage[aria-selected="true"] { background: var(--g-blue); border-color: var(--g-blue); color: #fff; }
+.jm-stage-num { font-size: var(--cs-label-size); line-height: 12px; letter-spacing: 0.08em; color: var(--cs-label); }
+.jm-stage[aria-selected="true"] .jm-stage-num { color: rgba(255,255,255,0.7); }
+.jm-stage-name { font-size: 16px; line-height: 24px; font-weight: 400; }
+.jm-stage-dur { font-size: 12px; line-height: 20px; font-weight: 300; color: var(--cs-text-3); }
+.jm-stage[aria-selected="true"] .jm-stage-dur span { color: rgba(255,255,255,0.8); }
+.jm-swap { display: grid; }
+.jm-swap span { grid-area: 1 / 1; transition: opacity 200ms var(--ease-out); }
+.jm-swap .only-with { opacity: 0; }
+.jm.lens-with .jm-swap .only-with { opacity: 1; }
+.jm.lens-with .jm-swap .only-without { opacity: 0; }
+
+/* detail panel */
+.jm-panel { position: relative; border-top: 1px solid var(--cs-line-2); padding: 32px 24px 36px; overflow: hidden; }
+.jm-view {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px 48px;
+  transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out), visibility 0s 220ms;
+}
+.jm-view[aria-hidden="true"] {
+  position: absolute; left: 24px; right: 24px; top: 32px;
+  opacity: 0; transform: translateY(4px); visibility: hidden; pointer-events: none;
+}
+.jm-view[aria-hidden="false"] { transition-delay: 0s; }
+
+.jm-colhead {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+  padding-bottom: 12px; margin-bottom: 20px; border-bottom: 1px solid var(--cs-line);
+}
+.jm-colhead h4 { margin: 0; font-size: 20px; line-height: 28px; font-weight: 400; letter-spacing: -0.01em; color: var(--cs-text); }
+.jm-colhead .share { font-size: 12px; line-height: 20px; color: var(--cs-text-3); white-space: nowrap; }
+.jm-colhead .share b { font-weight: 400; color: var(--cs-text); }
+.jm-col-gid .jm-colhead h4, .jm-col-gid .jm-colhead .share b { color: var(--g-sky); }
+
+.jm-field { margin: 0 0 20px; }
+.jm-field:last-child { margin-bottom: 0; }
+.jm-field h5 { margin: 0 0 4px; font-size: 12px; line-height: 20px; font-weight: 400; color: var(--cs-label); }
+.jm-field p { margin: 0; font-size: 16px; line-height: 24px; font-weight: 300; color: var(--cs-text-3); max-width: 58ch; }
+.jm-field.breaks { background: var(--cs-bg); border: 1px solid var(--cs-line-2); border-radius: 8px; padding: 16px 18px; }
+.jm-field.breaks h5 { color: var(--g-sky); }
+
+.jm-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.jm-chip { font-size: 12px; line-height: 20px; color: #0B1633; background: var(--g-sky); padding: 1px 10px; border-radius: 100px; }
+
+@media (max-width: 860px) {
+  .jm-head { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .jm-view { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .jm-chart .line { stroke-dasharray: none; stroke-dashoffset: 0; animation: jmFade 300ms ease forwards; opacity: 0; }
+  .jm-chart .node { animation: jmFade 300ms ease forwards; }
+  .jm-view { transition: opacity 200ms ease, visibility 0s 200ms; transform: none !important; }
+  .jm-lens::before { transition: none; }
+  @keyframes jmFade { to { opacity: 1; } }
+}
+
+/* ------------------------------------------------------------------
+   GIDEON — information architecture board (04.2)
+------------------------------------------------------------------ */
+:root {
+  --g-blue: #2457FE;      /* brand blue — CTAs */
+  --g-sky: #A9C6FE;       /* light blue — setting groups */
+  --g-white: #FAFAFA;     /* shared surfaces */
+}
+.ia-board { border: 1px solid var(--cs-line-2); overflow: hidden; }
+.ia-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.ia-in { min-width: 0; padding: 32px 28px 36px; font-family: var(--font-geist); }
+
+.ia-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; margin-bottom: 32px; }
+.ia-legend { display: flex; gap: 18px; flex: none; font-size: 12px; line-height: 20px; color: var(--cs-text-3); flex-wrap: wrap; justify-content: flex-end; }
+.ia-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.ia-legend i { display: inline-block; width: 14px; height: 10px; border-radius: 100px; }
+.ia-legend .l-sec i { background: var(--cs-text); border-radius: 100px; }
+.ia-legend .l-sur i { border: 1px solid var(--cs-label); }
+.ia-legend .l-grp i { background: var(--g-sky); }
+.ia-legend .l-sha i { border: 1px solid var(--g-white); border-radius: 100px; }
+.ia-legend .l-sta i { width: 8px; height: 8px; transform: rotate(45deg); background: var(--g-sky); margin: 0 3px; }
+.ia-legend .l-act i { background: var(--g-blue); }
+
+/* nodes — square, or pill */
+.n { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 13px; font-size: 12px; line-height: 1; white-space: nowrap; border-radius: 100px; }
+.n.sec { background: var(--cs-text); color: var(--cs-bg); height: 32px; padding: 0 14px; border-radius: 100px; font-size: 13px; }
+.n.sur { border: 1px solid var(--cs-line-2); color: var(--cs-text); }
+.n.grp { background: var(--g-sky); color: #0B1633; }
+.n.sha { border: 1px solid var(--g-white); color: var(--g-white); }
+.n.sta { color: var(--cs-text-2); padding: 0 8px 0 0; }
+.n.sta::before { content: ""; width: 7px; height: 7px; background: var(--g-sky); transform: rotate(45deg); margin: 0 4px 0 2px; }
+.n.act { background: var(--g-blue); color: #fff; }
+.n.note { color: var(--cs-mute); padding: 0 4px; font-weight: 300; }
+.sec-mark { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--g-white); margin-left: 4px; }
+
+/* spine + columns: each section pill sits above its own tree */
+.ia-grid { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 56px; align-items: start; }
+.ia-grid::before { display: none; }
+.ia-col { min-width: 0; }
+.ia-col > .n.sec { margin-bottom: 16px; }
+.ia-grid::before { content: ""; position: absolute; left: 0; right: 0; top: 16px; height: 1px; background: var(--cs-line-2); }
+.ia-col > .n.sec { position: relative; margin-bottom: 14px; }
+.tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+.tree > ul { margin-left: 16px; }
+.tree ul { padding-left: 20px; border-left: 1px solid var(--cs-line-2); }
+.tree li { position: relative; padding: 6px 0; }
+.tree li > .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.tree ul > li::before { content: ""; position: absolute; left: -20px; top: 17px; width: 16px; height: 1px; background: var(--cs-line-2); }
+.tree ul > li:last-child::after { content: ""; position: absolute; left: -21px; top: 18px; bottom: 0; width: 2px; background: var(--cs-bg); }
+
+/* shared surfaces */
+.ia-shared { margin-top: 40px; padding: 20px; background: var(--cs-panel); }
+.ia-shared-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px; font-size: 13px; line-height: 20px; }
+.ia-shared-head b { font-weight: 400; color: var(--cs-text); }
+.ia-shared-head span { color: var(--cs-text-3); }
+.ia-shared-grid { display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: 20px; align-items: start; }
+.ia-card { background: var(--cs-bg); border: 1px solid var(--cs-line-2); padding: 18px 18px 16px; }
+.ia-card + .ia-card { margin-top: 16px; }
+.ia-card h4 { margin: 0; font-size: 16px; line-height: 24px; font-weight: 400; color: var(--cs-text); }
+.ia-card h4 small { font-size: 12px; color: var(--cs-mute); margin-left: 8px; font-weight: 300; }
+.ia-card .from { margin: 2px 0 14px; font-size: 12px; line-height: 18px; color: var(--cs-text-3); font-weight: 300; }
+.ia-card .from b { font-weight: 400; color: var(--cs-text-2); }
+.ia-card .tree > ul { margin-left: 0; padding-left: 0; border-left: 0; }
+.ia-card .tree > ul > li::before, .ia-card .tree > ul > li::after { display: none; }
+.ia-card .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; align-items: start; }
+.ia-note { margin-top: 12px; font-size: 12px; line-height: 20px; color: var(--cs-text-3); }
+
+@media (max-width: 900px) {
+  .ia-grid { grid-template-columns: 1fr; gap: 32px; }
+  .ia-shared-grid { grid-template-columns: 1fr; }
+  .ia-card .two { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) { .ia-in { padding: 20px 16px 24px; } }
+
+/* ------------------------------------------------------------------
+   NOIR FILM FESTIVAL — project page (#noir)
+------------------------------------------------------------------ */
+:root { --nf-red: #ED2024; --nf-yellow: #F2ED32; --nf-purple: #6916FF; }
+.nf { font-family: var(--font-geist); font-weight: 300; color: var(--cs-text); background: var(--cs-bg); }
+.nf .in { width: min(1220px, calc(100% - 2 * var(--cs-gutter))); margin: 0 auto; }
+.nf-head { padding: 120px 0 40px; }
+.nf-head .cs-back { margin-bottom: 26px; }
+.nf-head .nf-img { width: 100vw; max-width: none; margin-left: calc(50% - 50vw); }
+.nf-title { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; margin-bottom: 30px; }
+.nf-title h1 { font-size: 56px; line-height: 64px; letter-spacing: -0.03em; font-weight: 300; }
+.nf-meta { display: flex; gap: 28px; font-size: 12px; line-height: 20px; color: var(--cs-text-3); flex: none; }
+.nf-meta b { font-weight: 400; color: var(--cs-text); display: block; }
+
+.nf-img { display: block; width: 100%; height: auto; border-radius: 0; border: 0; }
+.nf-stack > * + * { margin-top: 20px; }
+.nf-pair { display: grid; gap: 20px; align-items: stretch; }
+.nf-pair .nf-img, .nf-pair video { height: 100%; object-fit: cover; }
+.nf-pair .vid { border-radius: 0; overflow: hidden; }
+.nf-vid { position: relative; border-radius: 0; overflow: hidden; background: #000; }
+.nf-vid video { display: block; width: 100%; height: auto; }
+
+/* text blocks between the artwork */
+.nf-text { padding: 72px 0; display: grid; grid-template-columns: 260px 1fr; gap: 28px 60px; align-items: start; }
+.nf-text h2 { font-size: 12px; line-height: 20px; font-weight: 400; color: var(--nf-red); margin-top: 4px; }
+.nf-text p { font-size: 20px; line-height: 28px; letter-spacing: -0.01em; color: var(--cs-text-2); max-width: 880px; }
+.nf-text p + p { margin-top: 0; }
+
+/* palette */
+.nf-palette { padding: 20px 0 0; }
+.nf-swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; }
+.nf-swatch { aspect-ratio: 1 / 1.6; display: flex; align-items: flex-end; padding: 18px; font-size: 13px; line-height: 20px; font-weight: 400; }
+.nf-palette p { margin-top: 28px; font-size: 16px; line-height: 24px; color: var(--cs-text-3); max-width: 880px; }
+
+/* credits */
+.nf-credits { padding: 80px 0 40px; display: grid; grid-template-columns: 260px 1fr; gap: 28px 60px; }
+.nf-credits h2 { font-size: 12px; line-height: 20px; font-weight: 400; color: var(--cs-label); margin-top: 4px; }
+.nf-credits dl { margin: 0 0 20px; display: grid; grid-template-columns: max-content 1fr; gap: 4px 20px; font-size: 16px; line-height: 24px; }
+.nf-credits dt { color: var(--cs-label); }
+.nf-credits dd { margin: 0; color: var(--cs-text); font-weight: 400; }
+.nf-credits p { font-size: 14px; line-height: 22px; color: var(--cs-mute); max-width: 760px; }
+.nf-end { padding: 40px 0 96px; display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+
+@media (max-width: 860px) {
+  .nf-head { padding-top: 96px; }
+  .nf-title { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .nf-title h1 { font-size: 40px; line-height: 46px; }
+  .nf-text, .nf-credits { grid-template-columns: 1fr; gap: 8px; padding: 48px 0; }
+  .nf-text p { font-size: 17px; line-height: 25px; }
+  .nf-pair { grid-template-columns: 1fr !important; }
+  .nf-swatches { grid-template-columns: repeat(5, 1fr); }
+  .nf-swatch { padding: 10px; font-size: 10px; aspect-ratio: 1 / 2.2; }
+}
+
+.nf-footer, article .footer { border-top: 1px solid var(--paper-12); margin-top: 40px; }
+.cs .footer, .nf .footer { padding-left: var(--cs-gutter, 110px); padding-right: var(--cs-gutter, 110px); }
+/* ------------------------------------------------------------------
+   GIDEON — case-study additions (contents rail, highlights, principles,
+   constraints, before/after, pros/cons)
+------------------------------------------------------------------ */
+
+/* 1 — Contents rail (sticky, left) */
+.cs-toc {
+  position: fixed; top: 50%; left: 28px; transform: translateY(-50%); z-index: 30;
+  display: flex; flex-direction: column; gap: 9px;
+  font-family: var(--font-geist); opacity: 0; pointer-events: none;
+  transition: opacity 300ms var(--ease-out);
+}
+body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
+.cs-toc a {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 11px; line-height: 1; letter-spacing: 0.02em; color: var(--cs-label);
+  transition: color 200ms ease;
+}
+.cs-toc a .tick { width: 14px; height: 1px; background: var(--cs-line-2); transition: width 220ms var(--ease-out), background-color 220ms ease; flex: none; }
+.cs-toc a .lbl { opacity: 0; transform: translateX(-4px); transition: opacity 200ms ease, transform 200ms ease; white-space: nowrap; }
+@media (hover: hover) and (pointer: fine) {
+  .cs-toc:hover a .lbl { opacity: 1; transform: none; }
+  .cs-toc a:hover { color: var(--cs-text); }
+  .cs-toc a:hover .tick { width: 22px; background: var(--cs-text); }
+}
+.cs-toc a.is-active { color: var(--cs-text); }
+.cs-toc a.is-active .tick { width: 26px; background: var(--cs-blue); }
+.cs-toc a.is-active .lbl { opacity: 1; transform: none; }
+@media (max-width: 1180px) { .cs-toc { display: none; } }
+
+/* 2 — Highlights reel */
+.cs-highlights { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.cs-hl { margin: 0; grid-column: span 2; }
+.cs-hl.wide { grid-column: span 3; }
+.cs-hl.full { grid-column: span 6; }
+.cs-hl .cs-hl-media { position: relative; overflow: hidden; background: var(--cs-panel); aspect-ratio: 4 / 3; }
+.cs-hl.wide .cs-hl-media { aspect-ratio: 16 / 9; }
+.cs-hl.full .cs-hl-media { aspect-ratio: 1222 / 460; }
+.cs-hl .cs-hl-media img, .cs-hl .cs-hl-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cs-hl figcaption { margin-top: 12px; display: flex; align-items: baseline; gap: 10px; font-size: 12px; line-height: 18px; }
+.cs-hl figcaption b { font-weight: 400; color: var(--cs-blue); font-variant-numeric: tabular-nums; }
+.cs-hl figcaption span { color: var(--cs-text-3); }
+@media (max-width: 860px) { .cs-highlights { grid-template-columns: 1fr 1fr; } .cs-hl, .cs-hl.wide, .cs-hl.full { grid-column: span 2; } }
+
+/* 3 — Principles scorecard */
+.cs-principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.cs-principle { border: 1px solid var(--cs-line-2); border-radius: 12px; padding: 24px 22px; display: flex; flex-direction: column; gap: 12px; }
+.cs-principle .pnum { font-size: var(--cs-label-size); line-height: 12px; letter-spacing: 0.08em; color: var(--cs-blue); }
+.cs-principle .pico { width: 26px; height: 26px; color: var(--cs-text); }
+.cs-principle .pico svg { width: 26px; height: 26px; display: block; fill: none; stroke: currentColor; stroke-width: 1.4; }
+.cs-principle h3 { margin: 0; font-size: 20px; line-height: 28px; font-weight: 300; letter-spacing: -0.01em; color: var(--cs-text); }
+.cs-principle p { margin: 0; font-size: 14px; line-height: 22px; font-weight: 300; color: var(--cs-text-3); }
+
+/* running scorecard badges (which principles a section served) */
+.cs-served { display: flex; gap: 8px; align-items: center; margin: 0 0 22px; }
+.cs-served .lead { font-size: var(--cs-label-size); letter-spacing: 0.08em; color: var(--cs-label); margin-right: 4px; }
+.cs-badge {
+  display: inline-flex; align-items: center; gap: 7px; height: 26px; padding: 0 12px; border-radius: 100px;
+  font-size: 11px; line-height: 1; border: 1px solid var(--cs-line-2); color: var(--cs-mute);
+}
+.cs-badge i { width: 6px; height: 6px; border-radius: 50%; background: var(--cs-line-2); }
+.cs-badge.on { color: var(--cs-blue); border-color: rgba(123,144,247,0.5); }
+.cs-badge.on i { background: var(--cs-blue); }
+
+/* 4 — Constraint cards */
+.cs-constraints { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.cs-constraint { border: 1px solid var(--cs-line-2); border-radius: 12px; padding: 22px 20px; display: flex; flex-direction: column; gap: 14px; }
+.cs-constraint .cico { width: 24px; height: 24px; color: var(--cs-orange); }
+.cs-constraint .cico svg { width: 24px; height: 24px; display: block; fill: none; stroke: currentColor; stroke-width: 1.4; }
+.cs-constraint p { margin: 0; font-size: 14px; line-height: 21px; font-weight: 300; color: var(--cs-text-2); }
+@media (max-width: 860px) { .cs-constraints { grid-template-columns: 1fr 1fr; } .cs-principles { grid-template-columns: 1fr; } }
+
+/* 5 — Before / after toggle */
+.cs-ba { border: 1px solid var(--cs-line-2); border-radius: 12px; overflow: hidden; }
+.cs-ba-stage { position: relative; aspect-ratio: 16 / 9; background: var(--cs-panel); }
+.cs-ba-stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 320ms var(--ease-out); }
+.cs-ba-stage img.show { opacity: 1; }
+.cs-ba-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px; border-top: 1px solid var(--cs-line-2); }
+.cs-ba-bar .cap { font-size: 12px; line-height: 18px; color: var(--cs-text-3); }
+.cs-ba-toggle { display: inline-flex; padding: 3px; border-radius: 100px; background: var(--cs-bg); border: 1px solid var(--cs-line-2); }
+.cs-ba-toggle button {
+  border: 0; background: transparent; cursor: pointer; color: var(--cs-text-3);
+  font-family: var(--font-geist); font-size: 12px; line-height: 1; padding: 8px 16px; border-radius: 100px;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+.cs-ba-toggle button[aria-pressed="true"] { background: var(--cs-text); color: var(--cs-bg); }
+.cs-ba-toggle button:focus-visible { outline: 2px solid var(--cs-blue); outline-offset: 2px; }
+
+/* 6 — Pros / cons */
+.cs-forks { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.cs-fork { border: 1px solid var(--cs-line-2); border-radius: 12px; padding: 22px; }
+.cs-fork.chosen { border-color: rgba(123,144,247,0.5); background: rgba(123,144,247,0.05); }
+.cs-fork h4 { margin: 0 0 4px; font-size: 18px; line-height: 26px; font-weight: 300; color: var(--cs-text); }
+.cs-fork .verdict { font-size: 11px; letter-spacing: 0.06em; color: var(--cs-blue); text-transform: uppercase; }
+.cs-fork ul { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.cs-fork li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 21px; font-weight: 300; color: var(--cs-text-3); }
+.cs-fork li .mk2 { flex: none; width: 16px; height: 16px; margin-top: 2px; }
+.cs-fork li .mk2 svg { width: 16px; height: 16px; display: block; }
+.cs-fork li.pro .mk2 { color: #6FCF97; }
+.cs-fork li.con .mk2 { color: var(--cs-orange); }
+@media (max-width: 860px) { .cs-forks { grid-template-columns: 1fr; } }
+
+/* ------------------------------------------------------------------
+   REDUCED MOTION — keep fades, drop travel
+------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero h1 .line span { animation: none; transform: none; }
+  .hero-intro, .services, .hero-portrait { animation: fade 300ms ease forwards; }
+  .menu li { transform: none !important; transition: opacity 200ms ease !important; }
+  .menu a:hover { transform: none; }
+  .project-art, .project:hover .project-art { transform: none; transition: none; }
+  .acc-body { transition: none; }
+  .acc-body p { transform: none; transition: opacity 150ms ease; }
+  .scope .dot { animation: none; offset-distance: 12%; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <nav class="pills pills-name" aria-label="Name">
+    <a class="pill pill-name" href="#top">Sharvil Naik</a>
+  </nav>
+  <nav class="pills pills-social" aria-label="Social">
+    <a class="pill" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener">Behance</a>
+    <a class="pill" href="https://x.com/sharvil_naik" target="_blank" rel="noopener">Twitter</a>
+    <a class="pill" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener">LinkedIn</a>
+  </nav>
+  <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+    <span class="glyph" aria-hidden="true">+</span>
+  </button>
+</header>
+
+<!-- MENU OVERLAY -->
+<div class="menu" id="menu" aria-hidden="true">
+  <ul>
+    <li><a href="#work" data-close>Work</a></li>
+    <li><a href="#connect" data-close>Contact</a></li>
+    <li><a href="#side-quests" data-close>Side Quests</a></li>
+  </ul>
+</div>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-copy">
+      <h1 class="display">
+        <span class="line"><span>Wassup!</span></span>
+        <span class="line"><span>I’m Sharvil</span></span>
+      </h1>
+      <p class="hero-intro">Specializing in branding and UX design, I bring a distinctive, expressive flair to my work, blending my multicultural background with multiple aspects of life, and a keen eye for bold, innovative visual storytelling. My creative vision spans various mediums, crafting compelling brand identities and experiences that resonate with diverse audiences.</p>
+      <div class="services">
+        <p class="label">Skills</p>
+        <ul>
+          <li>Product Design</li>
+          <li>Branding &amp; Visual Design</li>
+          <li>Editorial &amp; Print Design</li>
+          <li>Storytelling &amp; Copywriting</li>
+          <li>AI-Assisted Product Development</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hero-portrait">
+      <img src="assets/portrait.jpg" alt="Sharvil Naik, in silhouette against a window">
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="work" id="work" aria-label="Work">
+
+    <a class="project" href="#gideon" aria-label="Gideon — UX case study">
+      <div class="project-art art-gideon">
+        <img class="art-img" src="assets/gideon-cover.jpg" alt="">
+      </div>
+      <div class="project-inner gideon-inner">
+        <span class="gideon-mark">Gideon — UX case study</span>
+        <span class="gideon-year">2026</span>
+        <h3 class="gideon-sub">An AI employee for plaintiff personal-injury firms. Structure, IA, journey and a design system, built while the product was still being figured out.<small>Product Designer — two months</small></h3>
+      </div>
+    </a>
+
+    <a class="project" href="#noir" aria-label="Noir Film Festival 2026">
+      <div class="project-art art-noir">
+        <img class="art-img" src="assets/noir.jpg" alt="Noir Film Festival 2026 — poster">
+      </div>
+    </a>
+
+    <a class="project" href="#work" aria-label="Apparatus magazine">
+      <div class="project-art art-apparatus">
+        <img class="art-img" src="assets/apparatus.jpg" alt="Apparatus magazine, issue #1, on a wire chair">
+      </div>
+    </a>
+
+    <div class="project project-soon" role="img" aria-label="arc — coming soon">
+      <div class="project-art">
+        <img class="art-img" src="assets/arc.jpg" alt="">
+      </div>
+      <div class="soon-overlay"><span>Coming Soon</span></div>
+    </div>
+
+  </section>
+
+  <div class="work-cta">
+    <a class="btn-pill" href="#work">See all</a>
+  </div>
+
+  <div class="rule" role="presentation"></div>
+
+  <!-- SIDE QUESTS -->
+  <section class="quests" id="quests" aria-labelledby="quests-title">
+    <div class="quests-head">
+      <h2 class="display" id="quests-title">Side Quests</h2>
+      <p class="tag">For the Love of the Game.</p>
+    </div>
+
+    <div class="quests-reel">
+      <figure class="qv">
+        <div class="qv-media"><video data-audio="true" src="assets/sq/handtracking.mp4" poster="assets/sq/handtracking.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Hand-tracking masks in TouchDesigner"></video></div>
+        <figcaption><b>Hand-tracking masks</b><span>TouchDesigner</span></figcaption>
+      </figure>
+      <figure class="qv">
+        <div class="qv-media"><video data-audio="false" src="assets/sq/tetris.mp4" poster="assets/sq/tetris.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Tetris animated inside the calendar"></video></div>
+        <figcaption><b>Calendar Tetris</b><span>Motion study</span></figcaption>
+      </figure>
+      <figure class="qv">
+        <div class="qv-media"><video data-audio="false" src="assets/sq/shine.mp4" poster="assets/sq/shine.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Shine your light — After Effects expression piece"></video></div>
+        <figcaption><b>Shine Your Light</b><span>After Effects · scripted</span></figcaption>
+      </figure>
+    </div>
+
+    <div class="quests-peek" aria-hidden="true">
+      <div class="qp"><video src="assets/sq/stopmotion.mp4" poster="assets/sq/stopmotion.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+      <div class="qp"><video src="assets/sq/stretchy.mp4" poster="assets/sq/stretchy.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+      <div class="qp"><video src="assets/sq/pendulum.mp4" poster="assets/sq/pendulum.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+      <div class="qp"><video src="assets/sq/spotify.mp4" poster="assets/sq/spotify.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+    </div>
+
+    <div class="quests-cta">
+      <a class="btn-pill" href="#side-quests">Enter my Darth Side</a>
+    </div>
+  </section>
+
+  <!-- CREATIVITY -->
+  <section class="creativity" aria-labelledby="creativity-title">
+    <h2 class="display" id="creativity-title">You can<br>expect some<br>creativity</h2>
+
+    <div class="creativity-grid">
+      <ul class="accordion" id="accordion">
+        <li class="acc-item">
+          <button class="acc-head" aria-expanded="false" aria-controls="acc1"><span>Branding &amp; Visual Identity</span><span class="acc-icon" aria-hidden="true">+</span></button>
+          <div class="acc-body" id="acc1" role="region"><div><p>Branding and visual identity are essential components of any successful business strategy. They shape how a brand is perceived and help differentiate it from competitors. A strong visual identity, including logos, colors, typography, and design elements, creates consistency across all platforms, enhancing brand recognition.</p></div></div>
+        </li>
+        <li class="acc-item">
+          <button class="acc-head" aria-expanded="false" aria-controls="acc2"><span>UI/UX Design</span><span class="acc-icon" aria-hidden="true">+</span></button>
+          <div class="acc-body" id="acc2" role="region"><div><p>Interfaces should feel obvious. I design flows, systems, and screens that get out of the way — grounded in research, tested with people, and finished with the details that make a product feel considered.</p></div></div>
+        </li>
+        <li class="acc-item">
+          <button class="acc-head" aria-expanded="false" aria-controls="acc3"><span>Editorial and Print Design</span><span class="acc-icon" aria-hidden="true">+</span></button>
+          <div class="acc-body" id="acc3" role="region"><div><p>Magazines, zines, posters, and books. Typography-led layouts with a strong grid, built to be held — where paper, ink, and pacing are part of the story.</p></div></div>
+        </li>
+        <li class="acc-item">
+          <button class="acc-head" aria-expanded="false" aria-controls="acc4"><span>Photography</span><span class="acc-icon" aria-hidden="true">+</span></button>
+          <div class="acc-body" id="acc4" role="region"><div><p>I find ways to ultimately fulfill the goal of shoots irrespective of gear and conditions — light first, then everything else.</p></div></div>
+        </li>
+        <li class="acc-item">
+          <button class="acc-head" aria-expanded="false" aria-controls="acc5"><span>Storytelling and Writing</span><span class="acc-icon" aria-hidden="true">+</span></button>
+          <div class="acc-body" id="acc5" role="region"><div><p>Every brand is a narrative. I write the voice, the copy, and the world around a product so the visuals have something to say.</p></div></div>
+        </li>
+      </ul>
+
+      <div class="scope" aria-hidden="true">
+        <img src="assets/scope.gif" alt="">
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <a class="contact-box display" href="mailto:sharvilnaik17@gmail.com">Contact</a>
+  </section>
+
+  <footer class="footer">
+    <ul>
+      <li><a href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener">Behance</a></li>
+      <li><a href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://x.com/sharvil_naik" target="_blank" rel="noopener">Twitter (X)</a></li>
+      <li><a href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener">Instagram</a></li>
+    </ul>
+    <p class="copy display">2026 ® Sharvil Naik</p>
+  </footer>
+
+</main>
+
+<!-- ================================================================
+     GIDEON — UX CASE STUDY (view: #gideon)
+     Placeholders: text wrapped in .ph, media in .media. Replace and
+     drop the class / swap the block for an <img>.
+================================================================ -->
+<article class="cs" id="gideon" hidden aria-label="Gideon — UX case study">
+  <nav class="cs-toc" aria-label="Contents">
+    <a href="#cs-context" data-sec="cs-context"><span class="tick"></span><span class="lbl">Context</span></a>
+    <a href="#cs-highlights" data-sec="cs-highlights"><span class="tick"></span><span class="lbl">Highlights</span></a>
+    <a href="#cs-principles" data-sec="cs-principles"><span class="tick"></span><span class="lbl">Principles</span></a>
+    <a href="#cs-approach" data-sec="cs-approach"><span class="tick"></span><span class="lbl">Approach</span></a>
+    <a href="#cs-competitors" data-sec="cs-competitors"><span class="tick"></span><span class="lbl">Competitors</span></a>
+    <a href="#cs-journey" data-sec="cs-journey"><span class="tick"></span><span class="lbl">Journey</span></a>
+    <a href="#cs-ia" data-sec="cs-ia"><span class="tick"></span><span class="lbl">Architecture</span></a>
+    <a href="#cs-problems" data-sec="cs-problems"><span class="tick"></span><span class="lbl">Problems</span></a>
+    <a href="#cs-decisions" data-sec="cs-decisions"><span class="tick"></span><span class="lbl">Decisions</span></a>
+    <a href="#cs-ds" data-sec="cs-ds"><span class="tick"></span><span class="lbl">Design System</span></a>
+    <a href="#cs-ship" data-sec="cs-ship"><span class="tick"></span><span class="lbl">Shipping</span></a>
+    <a href="#cs-pivot" data-sec="cs-pivot"><span class="tick"></span><span class="lbl">The Pivot</span></a>
+  </nav>
+
+
+  <!-- 01 — Project Context -->
+  <section class="cs-context lg" aria-labelledby="cs-context">
+    <div class="in">
+      <a class="cs-back" href="#work"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4"/></svg>Back to Work</a>
+
+      <img class="cover-img" src="assets/gideon-cover.jpg" alt="Gideon">
+
+      <h1 class="h-56" id="cs-context">Context</h1>
+
+      <div class="two-col">
+        <div class="left copy w700">
+          <p class="t-20">Gideon is an AI receptionist for plaintiff personal-injury law firms. It answers inbound calls, qualifies and signs leads, then works the phones for months chasing providers, medical records and adjusters, writing everything back into the firm’s case management system.</p>
+          <p class="t-20 s">The users are case managers and paralegals carrying 60–120 open files. They’re judged on cases moving, not cases understood, and they’re mostly not in the product. They log in to supervise work that has already happened, which makes the interface a place to decide whether to trust work rather than a place to do it.</p>
+        </div>
+        <div class="right">
+          <div class="def"><span class="eyebrow">Role</span><p class="t-16">Product Designer and Design Generalist</p></div>
+          <div class="def"><span class="eyebrow">Timeline</span><p class="t-16">July – September 2026</p></div>
+          <div class="def"><span class="eyebrow">Team</span><p class="t-16">CEO, CTO and me — the only designer, owning it end to end</p></div>
+          <div class="def"><span class="eyebrow">My Scope</span><p class="t-16">Product structure, IA, user journey, the design system, and shipping features through to merged PRs</p></div>
+        </div>
+      </div>
+
+      <div class="subhead">
+        <div class="rule-cs"></div>
+        <h2 class="h-28">Starting Point</h2>
+      </div>
+
+      <p class="t-20 lead-820">Due to rising pressure to prepare a demo-ready V1, the team had built an AI-leveraged, quick-shipped, vibe-coded product with many UX and UI foundations missing.</p>
+
+      <div class="bullets">
+        <div class="col">
+          <div class="b"><span class="dot"></span><div class="c"><p class="t-20">Unclear feature claims</p></div></div>
+          <div class="b"><span class="dot"></span><div class="c"><p class="t-20">No design system</p></div></div>
+          <div class="b"><span class="dot"></span><div class="c"><p class="t-20">No information architecture</p></div></div>
+          <div class="b"><span class="dot"></span><div class="c"><p class="t-20">No brand or visual guide</p></div></div>
+          <div class="b"><span class="dot"></span><div class="c"><p class="t-20">Unclear user journey map</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01.5 — Highlights -->
+  <section class="lg" aria-labelledby="cs-highlights" id="cs-highlights-sec">
+    <div class="in">
+      <div class="rail"><div class="rail-row"><span>[01.5]</span><span>Highlights</span><span>[The work at a glance]</span></div><div class="rule-cs"></div></div>
+      <div class="sp-56"></div>
+      <h2 class="h-56" id="cs-highlights">Highlights</h2>
+      <div class="sp-30"></div>
+      <p class="t-20 copy">The parts worth seeing first: the map, the board, the system, and the two surfaces I rebuilt. Everything after this is how they got there.</p>
+      <div class="sp-56"></div>
+      <div class="cs-highlights">
+        <figure class="cs-hl wide"><div class="cs-hl-media"><img src="assets/existing-app.jpg" alt="The app as I found it" loading="lazy"></div><figcaption><b>0.1</b><span>The app as I inherited it</span></figcaption></figure>
+        <figure class="cs-hl wide"><div class="cs-hl-media"><img src="assets/competitors.jpg" alt="Competitor deck slide" loading="lazy"></div><figcaption><b>0.2</b><span>Competitor teardown</span></figcaption></figure>
+        <figure class="cs-hl"><div class="cs-hl-media"><img src="assets/old-new-appointment.jpg" alt="Old New Appointment modal" loading="lazy"></div><figcaption><b>0.3</b><span>Before — appointments</span></figcaption></figure>
+        <figure class="cs-hl"><div class="cs-hl-media"><img src="assets/old-edit-appointment.jpg" alt="Old Edit Appointment modal" loading="lazy"></div><figcaption><b>0.4</b><span>Twenty fields deep</span></figcaption></figure>
+        <figure class="cs-hl"><div class="cs-hl-media"><video src="assets/competitors-scroll.mp4" poster="assets/competitors.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false"></video></div><figcaption><b>0.5</b><span>Deck, scrolling</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01.6 — Principles -->
+  <section class="lg" aria-labelledby="cs-principles" id="cs-principles-sec">
+    <div class="in">
+      <div class="rail"><div class="rail-row"><span>[01.6]</span><span>Principles</span><span>[The bar I set]</span></div><div class="rule-cs"></div></div>
+      <div class="sp-56"></div>
+      <h2 class="h-56" id="cs-principles">Principles</h2>
+      <div class="sp-30"></div>
+      <p class="t-20 copy">Three rules I held every decision against. Each section that follows shows which ones it was serving.</p>
+      <div class="sp-56"></div>
+      <div class="cs-principles">
+        <div class="cs-principle">
+          <span class="pico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h10M7 13h6"/></svg></span>
+          <span class="pnum">01</span>
+          <h3>Structure before surface</h3>
+          <p>Name what the thing is and how its states move before drawing a single screen. Most of the UI problems were structural underneath.</p>
+        </div>
+        <div class="cs-principle">
+          <span class="pico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span>
+          <span class="pnum">02</span>
+          <h3>Built to be trusted</h3>
+          <p>The user supervises work that already happened. Every screen has to answer “can I trust this?” before it asks them to act.</p>
+        </div>
+        <div class="cs-principle">
+          <span class="pico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16l5-9 4 6 3-4 4 7z"/><circle cx="9" cy="7" r="1.4"/></svg></span>
+          <span class="pnum">03</span>
+          <h3>Ship, don’t hand off</h3>
+          <p>Design wasn’t a spec thrown over a wall. Every decision went through to a merged PR, so nothing got lost in translation.</p>
+        </div>
+      </div>
+      <div class="sp-56"></div>
+      <div class="rule-cs soft"></div>
+      <div class="sp-36"></div>
+      <h3 class="h-28">This wasn’t a normal design brief.</h3>
+      <div class="sp-30"></div>
+      <p class="t-20 copy">A demo-ready V1 already existed — shipped fast, with the foundations skipped. The constraints were the starting condition, not edge cases.</p>
+      <div class="sp-48"></div>
+      <div class="cs-constraints">
+        <div class="cs-constraint"><span class="cico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><p>An early product being figured out while being built. The target moved weekly.</p></div>
+        <div class="cs-constraint"><span class="cico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M4 9h16"/><path d="M8 5V3M16 5V3"/></svg></span><p>A team of three. Two founders and me — the only designer, owning it end to end.</p></div>
+        <div class="cs-constraint"><span class="cico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4v6c0 4-3 7-8 8-5-1-8-4-8-8V7z"/></svg></span><p>A vibe-coded app with ten overlapping sections, no IA, no design system, no brand.</p></div>
+        <div class="cs-constraint"><span class="cico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3 7 4-14 3 7h4"/></svg></span><p>Users mostly outside the product — logging in to supervise, not to do the work.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 — Design Approach -->
+  <section class="lg" aria-labelledby="cs-approach">
+    <div class="in">
+      <h2 class="h-56" id="cs-approach">Design Approach</h2>
+      <div class="sp-30"></div>
+      <p class="t-20 lead-820 ph">Each stage exists because the one before … — full sentence goes here</p>
+      <div class="sp-48"></div>
+      <div class="process">
+        <div class="step-card">
+          <div class="top">
+            <span class="ico"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="1.2"><circle cx="9" cy="9" r="6"/><path d="M13.5 13.5 18 18"/></svg></span>
+            <span class="k">01</span><span class="n">Understand</span>
+          </div>
+          <span class="d">Existing product and competitors</span>
+        </div>
+        <div class="step-card">
+          <div class="top">
+            <span class="ico"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="1.2"><rect x="7" y="1" width="6" height="4.5"/><rect x="1" y="14.5" width="6" height="4.5"/><rect x="13" y="14.5" width="6" height="4.5"/><path d="M10 5.5v4M4 14.5v-3h12v3"/></svg></span>
+            <span class="k">02</span><span class="n">Structure</span>
+          </div>
+          <span class="d">IA and the state machines</span>
+        </div>
+        <div class="step-card">
+          <div class="top">
+            <span class="ico"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="1.2"><circle cx="10" cy="10" r="8.4"/><circle cx="10" cy="10" r="4.2"/><circle cx="10" cy="10" r="1.4" fill="#fff" stroke="none"/></svg></span>
+            <span class="k">03</span><span class="n">Identify</span>
+          </div>
+          <span class="d">The three structural problems</span>
+        </div>
+        <div class="step-card">
+          <div class="top">
+            <span class="ico"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="1.2"><rect x="1" y="1" width="7.5" height="7.5"/><rect x="11.5" y="1" width="7.5" height="7.5" fill="#fff"/><rect x="1" y="11.5" width="7.5" height="7.5"/><rect x="11.5" y="11.5" width="7.5" height="7.5"/></svg></span>
+            <span class="k">04</span><span class="n">Explore</span>
+          </div>
+          <span class="d">Iterations on each surface</span>
+        </div>
+        <div class="step-card">
+          <div class="top">
+            <span class="ico"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="1.2"><rect x="1.6" y="1.6" width="16.8" height="16.8" rx="1"/><path d="M6 10.2l2.6 2.6L14.2 7.6" stroke-width="1.4"/></svg></span>
+            <span class="k">05</span><span class="n">Validate</span>
+          </div>
+          <span class="d">Internal testing and founder feedback</span>
+        </div>
+        <div class="step-card">
+          <div class="top">
+            <span class="ico"><svg viewBox="0 0 20 20" fill="#fff"><rect x="1.5" y="1.5" width="3" height="3"/><rect x="8.5" y="1.5" width="3" height="3"/><rect x="15.5" y="1.5" width="3" height="3"/><rect x="1.5" y="8.5" width="3" height="3"/><rect x="8.5" y="8.5" width="3" height="3"/><rect x="15.5" y="8.5" width="3" height="3"/><rect x="1.5" y="15.5" width="3" height="3"/><rect x="8.5" y="15.5" width="3" height="3"/><rect x="15.5" y="15.5" width="3" height="3"/></svg></span>
+            <span class="k">06</span><span class="n">Systematise</span>
+          </div>
+          <span class="d">Foundations and components</span>
+        </div>
+        <div class="step-card">
+          <div class="top">
+            <span class="ico"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="1.2"><path d="M1 10h13.5M10.5 5.5 15 10l-4.5 4.5M18.5 2v16"/></svg></span>
+            <span class="k">07</span><span class="n">Ship</span>
+          </div>
+          <span class="d">Specs, PRs and iteration</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — Understand · Competitor Analysis -->
+  <section aria-labelledby="cs-competitors">
+    <div class="in">
+      <h2 class="h-40" id="cs-competitors">Competitor Analysis</h2>
+      <div class="sp-30"></div>
+      <div class="copy">
+        <p class="t-20">I conducted a thorough competitor research covering the incumbents, the funded challengers, and the answering services buyers were actually comparing us against. Every figure was labelled with its source, because almost nothing in this category is independently reported.</p>
+        <p class="t-20 s">Two findings changed how we thought about the market. Our nearest competitor was behind us on capability but ahead of us on story: they had named a category and listed their integrations in plain language, which is why buyers found them first. The honest limit of the research was that it was desk research alone. No user contact.</p>
+      </div>
+      <div class="sp-52"></div>
+      <figure class="cs-figure" id="comp-figure">
+        <img class="cs-img" src="assets/competitors.jpg" alt="Slide 25 of the competitor deck — Four things that are actually Gideon’s: browser agents, auditability, no new interface, both ends no handoff" loading="lazy">
+        <video class="cs-hover-video" src="assets/competitors-scroll.mp4" muted loop playsinline preload="metadata" data-nocontrols aria-hidden="true" tabindex="-1"></video>
+        <figcaption class="t-16 cs-read"><a class="cs-cta" href="#comp-figure" data-hover-video>Hover to View More</a></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 04.1 — Structure · User Journey -->
+  <section aria-labelledby="cs-journey">
+    <div class="in">
+      <h2 class="h-40" id="cs-journey">User Journey</h2>
+      <div class="sp-30"></div>
+      <div class="cs-served"><span class="lead">SERVING</span><span class="cs-badge on"><i></i>Structure</span><span class="cs-badge on"><i></i>Trust</span><span class="cs-badge "><i></i>Ship</span></div>
+      <p class="t-20 copy">I mapped the case manager’s journey end to end, from a lead arriving to a case settling. For each stage, what the AI handles, where the person takes over, and where the experience quietly breaks was clearly defined, based on the feature claims we finalised.</p>
+      <div class="sp-48"></div>
+      <div class="jm lens-with" id="jm">
+        <div class="jm-head">
+          <div>
+            <h3 class="h-28">Gideon front-loads. It does not <span>finish</span> the case.</h3>
+            <p class="t-16">A personal injury file runs through five stages. Gideon takes nearly all of the first two, shares the third, and hands the rest back to the firm. Flip the lens to see the work move.</p>
+          </div>
+          <div class="jm-lens" data-lens="with" role="group" aria-label="Lens">
+            <button type="button" data-set-lens="without" aria-pressed="false">Without Gideon</button>
+            <button type="button" data-set-lens="with" aria-pressed="true">With Gideon</button>
+          </div>
+        </div>
+
+        <div class="jm-map" aria-label="Case journey map">
+          <div class="jm-caption">
+            <span class="jm-caption-text">The firm moves from doing the work to deciding it. The two lines meet at Treatment.</span>
+            <span class="jm-legend">
+              <span class="firm"><i></i>The firm</span>
+              <span class="gid"><i></i>Gideon</span>
+            </span>
+          </div>
+          <div class="jm-scroll">
+            <div class="jm-inner">
+              <svg class="jm-chart" viewBox="0 0 1000 400" role="img" aria-label="Share of each case stage owned by the firm and by Gideon"></svg>
+              <div class="jm-rail" role="tablist" aria-label="Stages"></div>
+            </div>
+          </div>
+
+          <div class="jm-panel">
+            <div class="jm-view jm-view-without" aria-hidden="true">
+              <div class="jm-col">
+                <div class="jm-colhead"><h4>What Has to Happen</h4></div>
+                <div class="jm-field"><p data-f="happens"></p></div>
+                <div class="jm-field"><h5>Who Does It</h5><p data-f="who-today"></p></div>
+              </div>
+              <div class="jm-col">
+                <div class="jm-colhead"><h4>The Manual Load</h4><span class="share" data-f="strain"></span></div>
+                <div class="jm-field"><p data-f="manual"></p></div>
+                <div class="jm-field breaks"><h5>Where It Breaks</h5><p data-f="breaks"></p></div>
+              </div>
+            </div>
+
+            <div class="jm-view jm-view-with" aria-hidden="false">
+              <div class="jm-col jm-col-gid">
+                <div class="jm-colhead"><h4>Gideon</h4><span class="share">Owns <b data-f="gid-pct"></b> of the stage</span></div>
+                <div class="jm-field"><p data-f="gid-does"></p><div class="jm-chips" data-f="how"></div></div>
+                <div class="jm-field"><h5>What Runs Unattended</h5><p data-f="unattended"></p></div>
+                <div class="jm-field"><h5>What It Hands Back</h5><p data-f="hands-back"></p></div>
+              </div>
+              <div class="jm-col">
+                <div class="jm-colhead"><h4>The Firm</h4><span class="share">Owns <b data-f="hum-pct"></b> of the stage</span></div>
+                <div class="jm-field"><p data-f="hum-does"></p></div>
+                <div class="jm-field"><h5>Who Does It</h5><p data-f="who-with"></p></div>
+                <div class="jm-field"><h5>What They Approve</h5><p data-f="approves"></p></div>
+                <div class="jm-field breaks"><h5>What Still Needs a Person</h5><p data-f="needs"></p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04.2 — Structure · Information Architecture -->
+  <section aria-labelledby="cs-ia">
+    <div class="in">
+      <h2 class="h-40" id="cs-ia">Information Architecture</h2>
+      <div class="sp-30"></div>
+      <div class="cs-served"><span class="lead">SERVING</span><span class="cs-badge on"><i></i>Structure</span><span class="cs-badge "><i></i>Trust</span><span class="cs-badge "><i></i>Ship</span></div>
+      <div class="sp-18"></div>
+      <div class="ia-row">
+        <div class="copy">
+          <p class="t-20">The app had grown into a complex surface. It had a sidebar with 10+ sections and a dashboard layered over nested modals, tabs inside tabs, and the same object reachable by four different routes. None of that structure was documented.</p>
+          <p class="t-20 s">The underlying problem was that states had been drawn as places. A tree can only show what contains what, but states don’t contain each other — they move between each other. So every state had to be redrawn once for each route that led to it, and roughly a third of the architecture board turned out to be duplicates.</p>
+          <p class="t-20 s">Separating the product tree from the state machines is what made the rest of the work possible.</p>
+        </div>
+      </div>
+      <div class="sp-48"></div>
+      <img class="cs-img" src="assets/existing-app.jpg" alt="The app as I found it — two dashboard tabs, the appointments list with three switchers, an eight-row filter and a thirteen-section sidebar" loading="lazy">
+      <div class="sp-48"></div>
+      <div class="ia-board" aria-label="Information architecture">
+        <div class="ia-scroll"><div class="ia-in">
+
+          <div class="ia-top">
+            <h3 class="h-28">Information Architecture</h3>
+            <div class="ia-legend">
+              <span class="l-sec"><i></i>Section</span>
+              <span class="l-sur"><i></i>Surface</span>
+              <span class="l-grp"><i></i>Setting Group</span>
+              <span class="l-sha"><i></i>Shared Surface</span>
+              <span class="l-sta"><i></i>State</span>
+              <span class="l-act"><i></i>Action</span>
+            </div>
+          </div>
+
+          <div class="ia-grid">
+
+            <div class="ia-col">
+              <span class="n sec">Dashboard <span class="sec-mark" title="Opens the Lead Modal"></span></span>
+            </div>
+
+            <div class="ia-col">
+              <span class="n sec">CX Platform</span>
+              <div class="tree"><ul>
+                <li><div class="row"><span class="n act">Import CSV</span></div></li>
+                <li><div class="row"><span class="n act">Add Lead</span></div></li>
+                <li><div class="row"><span class="n sha">Call Modal</span></div></li>
+              </ul></div>
+            </div>
+
+            <div class="ia-col">
+              <span class="n sec">Intake</span>
+              <div class="tree"><ul>
+                <li><div class="row"><span class="n sur">List</span><span class="n sha">Lead Modal</span></div></li>
+                <li><div class="row"><span class="n sur">Tasks</span><span class="n sha">Lead Modal</span></div></li>
+                <li><div class="row"><span class="n sur">Kanban</span></div>
+                  <ul>
+                    <li><div class="row"><span class="n sur">Card</span><span class="n sha">Lead Modal</span></div></li>
+                    <li><div class="row"><span class="n sur">Board</span></div>
+                      <ul><li><div class="row"><span class="n sta">New Intake</span><span class="n sta">Review</span><span class="n sta">Qualified</span><span class="n sta">Signed</span><span class="n sta">Lost</span></div></li></ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul></div>
+            </div>
+
+            <div class="ia-col">
+              <span class="n sec">Treatment</span>
+              <div class="tree"><ul>
+                <li><div class="row"><span class="n sur">Stages</span><span class="n sha">Lead Modal</span></div></li>
+                <li><div class="row"><span class="n sur">Appointments</span></div>
+                  <ul>
+                    <li><div class="row"><span class="n sur">Calendar View</span><span class="n sha">New Appointment</span></div>
+                      <ul><li><div class="row"><span class="n sur">Monthly View</span><span class="n sur">Weekly View</span><span class="n sur">Daily View</span></div></li></ul>
+                    </li>
+                    <li><div class="row"><span class="n sur">List View</span></div>
+                      <ul>
+                        <li><div class="row"><span class="n sur">Appointment Card</span><span class="n note">Also in calendar views</span></div>
+                          <ul>
+                            <li><div class="row"><span class="n sur">View Details</span><span class="n sha">Edit Appointment</span></div></li>
+                            <li><div class="row"><span class="n sur">View Call</span><span class="n sha">Call Modal</span></div></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li><div class="row"><span class="n sur">Tasks</span><span class="n sha">Lead Modal</span></div>
+                  <ul>
+                    <li><div class="row"><span class="n sta">Completed</span><span class="n sur">View Call</span><span class="n sha">Call Modal</span></div></li>
+                    <li><div class="row"><span class="n sta">Failed</span><span class="n act">Mark as Done</span><span class="n sha">Call Modal</span></div></li>
+                    <li><div class="row"><span class="n sta">Needs Approval</span><span class="n act">Approve</span><span class="n act">Cancel</span><span class="n act">Mark as Done</span></div></li>
+                    <li><div class="row"><span class="n sta">Scheduled</span><span class="n act">Run Now</span><span class="n act">Cancel</span><span class="n act">Mark as Done</span></div></li>
+                    <li><div class="row"><span class="n sta">Ongoing</span><span class="n act">Cancel</span></div></li>
+                    <li><div class="row"><span class="n act">Add Appointment</span></div></li>
+                  </ul>
+                </li>
+                <li><div class="row"><span class="n sur">Providers</span></div></li>
+              </ul></div>
+            </div>
+
+            <div class="ia-col">
+              <span class="n sec">Settlements <span class="sec-mark" title="Opens the Lead Modal"></span></span>
+            </div>
+
+            <div class="ia-col">
+              <span class="n sec">Settings</span>
+              <div class="tree"><ul>
+                <li><div class="row"><span class="n grp">Firm Profile</span></div></li>
+                <li><div class="row"><span class="n grp">Case Types</span></div>
+                  <ul>
+                    <li><div class="row"><span class="n sur">Supported case types</span><span class="n sur">Qualification criteria</span></div></li>
+                    <li><div class="row"><span class="n act">Qualified action</span><span class="n act">Disqualified action</span></div></li>
+                  </ul>
+                </li>
+                <li><div class="row"><span class="n grp">Intake Call Flow</span></div>
+                  <ul>
+                    <li><div class="row"><span class="n sur">Main Agent</span><span class="n sur">Specialist Agent</span><span class="n sur">PII Agent</span><span class="n sur">Closing Agent</span></div></li>
+                    <li><div class="row"><span class="n sur">Escalation &amp; Transfer rules</span></div></li>
+                  </ul>
+                </li>
+                <li><div class="row"><span class="n grp">Lead Journey</span></div>
+                  <ul><li><div class="row"><span class="n sur">Journey stages</span><span class="n sta">Handled by firm or by Gideon</span></div></li></ul>
+                </li>
+                <li><div class="row"><span class="n grp">Templates</span></div>
+                  <ul><li><div class="row"><span class="n sur">Email templates</span><span class="n sur">SMS templates</span><span class="n sur">Call prompts</span></div></li></ul>
+                </li>
+                <li><div class="row"><span class="n grp">Cadence Defaults</span></div>
+                  <ul><li><div class="row"><span class="n sur">Confirmation default</span><span class="n sur">Reminder default</span><span class="n sur">Follow-Up default</span></div></li></ul>
+                </li>
+                <li><div class="row"><span class="n grp">Team &amp; Roles</span></div></li>
+                <li><div class="row"><span class="n grp">Integrations</span></div></li>
+                <li><div class="row"><span class="n grp">Billing &amp; Usage</span></div></li>
+              </ul></div>
+            </div>
+
+          </div>
+
+          <!-- Shared surfaces -->
+          <div class="ia-shared">
+            <div class="ia-shared-head"><b>Shared Surfaces</b><span>Opened from many places</span></div>
+            <div class="ia-shared-grid">
+
+              <div>
+                <div class="ia-card">
+                  <h4>Lead Modal</h4>
+                  <p class="from">From <b>Dashboard</b>, <b>Settlements</b>, Intake <b>List</b>, <b>Tasks</b> and <b>Card</b>, and Treatment <b>Stages</b> and <b>Tasks</b></p>
+                  <div class="tree"><ul>
+                    <li><div class="row"><span class="n sur">Overview</span></div>
+                      <ul><li><div class="row"><span class="n sur">Intake</span><span class="n sur">Treatment</span><span class="n sur">Settlements</span></div></li></ul>
+                    </li>
+                    <li><div class="row"><span class="n sur">Preview</span></div></li>
+                    <li><div class="row"><span class="n sur">Activity</span></div></li>
+                    <li><div class="row"><span class="n sur">Logs</span></div></li>
+                  </ul></div>
+                </div>
+                <div class="ia-card">
+                  <h4>Call Modal <small>CX Platform</small></h4>
+                  <p class="from">From <b>View Call</b>, and <b>Completed</b> or <b>Failed</b> tasks</p>
+                  <div class="tree"><ul>
+                    <li><div class="row"><span class="n sur">Call transcript</span></div></li>
+                    <li><div class="row"><span class="n sur">Brief</span></div></li>
+                  </ul></div>
+                </div>
+              </div>
+
+              <div class="ia-card">
+                <h4>Edit Appointment</h4>
+                <p class="from">From <b>View Details</b></p>
+                <div class="two">
+                  <div class="tree"><ul>
+                    <li><div class="row"><span class="n act">Reschedule</span></div>
+                      <ul>
+                        <li><div class="row"><span class="n sur">Cadences</span></div>
+                          <ul><li><div class="row"><span class="n act">Carry forward</span><span class="n act">Edit Cadences</span></div></li></ul>
+                        </li>
+                        <li><div class="row"><span class="n sur">Appointment Details</span></div>
+                          <ul><li><div class="row"><span class="n act">Date</span><span class="n act">Time</span><span class="n act">Timezone</span><span class="n act">Duration</span></div></li></ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li><div class="row"><span class="n act">Add Confirmation</span><span class="n act">Add Follow-Up</span></div></li>
+                    <li><div class="row"><span class="n act">Cancel Appointment</span></div>
+                      <ul><li><div class="row"><span class="n sur">View Details</span><span class="n act">Delete</span></div></li></ul>
+                    </li>
+                  </ul></div>
+                  <div class="tree"><ul>
+                    <li><div class="row"><span class="n act">Change Status</span></div>
+                      <ul>
+                        <li><div class="row"><span class="n sta">Unconfirmed</span><span class="n act">Add Appointment Schedule</span></div></li>
+                        <li><div class="row"><span class="n sta">Ongoing Confirmation</span><span class="n act">Cancel Appointment</span></div>
+                          <ul><li><div class="row"><span class="n act">Reschedule</span><span class="n act">Carry Over Cadences</span><span class="n act">Edit Cadences</span></div></li></ul>
+                        </li>
+                        <li><div class="row"><span class="n sta">Escalated</span></div>
+                          <ul>
+                            <li><div class="row"><span class="n sta">Confirmation Escalation</span><span class="n act">Reschedule</span><span class="n act">Cancel</span></div></li>
+                            <li><div class="row"><span class="n sta">Follow-Up Escalation</span><span class="n act">Cancel Appointment</span></div></li>
+                          </ul>
+                        </li>
+                        <li><div class="row"><span class="n sta">Confirmed</span><span class="n act">Add/Edit Follow-Up Cadence</span></div>
+                          <ul><li><div class="row"><span class="n act">Add/Edit Confirmation Cadence</span><span class="n act">Cancel Appointment</span></div></li></ul>
+                        </li>
+                        <li><div class="row"><span class="n sta">Attended</span><span class="n act">Delete Appointment</span></div></li>
+                        <li><div class="row"><span class="n sta">Outcome Unknown</span></div></li>
+                        <li><div class="row"><span class="n sta">No-Show</span><span class="n act">Follow-Up</span></div></li>
+                      </ul>
+                    </li>
+                  </ul></div>
+                </div>
+                <p class="ia-note">Status can move across branches</p>
+              </div>
+
+              <div class="ia-card">
+                <h4>New Appointment</h4>
+                <p class="from">From <b>Monthly</b>, <b>Weekly</b> and <b>Daily</b> calendar views</p>
+                <div class="tree"><ul>
+                  <li><div class="row"><span class="n sur">New Appointment</span></div></li>
+                  <li><div class="row"><span class="n act">Log a past visit</span></div>
+                    <ul>
+                      <li><div class="row"><span class="n act">Attended</span></div></li>
+                      <li><div class="row"><span class="n act">Outcome Unknown</span></div></li>
+                      <li><div class="row"><span class="n act">No-Show</span></div>
+                        <ul><li><div class="row"><span class="n act">Follow-Up</span></div></li></ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul></div>
+              </div>
+
+            </div>
+          </div>
+
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — Identify · Problems Solved -->
+  <section class="lg" style="padding-bottom:56px" aria-labelledby="cs-problems">
+    <div class="in">
+      <h2 class="h-56" id="cs-problems">Problems Solved</h2>
+      <div class="sp-30"></div>
+      <p class="t-20 copy">Three problems I took from diagnosis through to a shipped change. Each one arrived as a layout question and turned out to be something structural underneath.</p>
+    </div>
+  </section>
+
+  <!-- 05.1 — Problem One: the appointment modals -->
+  <section aria-labelledby="cs-p1">
+    <div class="in">
+      <h2 class="h-40" id="cs-p1">Two Modals, One Appointment</h2>
+      <div class="sp-30"></div>
+      <div class="cs-served"><span class="lead">SERVING</span><span class="cs-badge on"><i></i>Structure</span><span class="cs-badge on"><i></i>Trust</span><span class="cs-badge "><i></i>Ship</span></div>
+      <p class="t-20 copy">Creating an appointment and editing one were two different screens that looked like they came from two different products. New Appointment asked for five things. Edit Appointment exposed around twenty, most of them unconnected to each other, with no way to tell where an edit went or how to find it again. The extra options created confusion, not freedom — and the things that actually mattered weren’t there at all.</p>
+      <div class="sp-48"></div>
+
+      <div class="flaw-pair">
+        <figure class="flaw-fig">
+          <div class="flaw-img">
+            <img src="assets/old-new-appointment.jpg" alt="The old New Appointment modal: client, date, time, duration, type, location and notes" loading="lazy">
+            <span class="mk" style="left:39%;top:9%">1</span>
+            <span class="mk" style="left:95%;top:41%">2</span>
+            <span class="mk" style="left:33%;top:70%">5</span>
+          </div>
+          <figcaption>New Appointment — old interface. Five fields.</figcaption>
+        </figure>
+        <figure class="flaw-fig">
+          <div class="flaw-img">
+            <img src="assets/old-edit-appointment.jpg" alt="The old Edit Appointment modal: six panels of fields, most of them empty, and a row of six actions" loading="lazy">
+            <span class="mk" style="left:61%;top:6%">1</span>
+            <span class="mk" style="left:52%;top:14%">2</span>
+            <span class="mk" style="left:95%;top:58%">3</span>
+            <span class="mk" style="left:45%;top:88.5%">4</span>
+            <span class="mk" style="left:95%;top:26%">5</span>
+          </div>
+          <figcaption>Edit Appointment — old interface. Around twenty.</figcaption>
+        </figure>
+      </div>
+
+      <div class="sp-48"></div>
+      <ol class="flaws">
+        <li><span class="mk">1</span><div><p class="t-20">Two designs for one object.</p><p class="t-16">Different layout, different fields, different logic — depending on whether you were creating or editing.</p></div></li>
+        <li><span class="mk">2</span><div><p class="t-20">Five fields in, twenty fields out.</p><p class="t-16">What you could set at creation and what you could change later didn’t match, so a record was only ever complete after a second pass.</p></div></li>
+        <li><span class="mk">3</span><div><p class="t-20">Edits with no home.</p><p class="t-16">Fields weren’t tied to anything visible, so an edit went somewhere in the database with no way to find it or change it again from the appointment or the client.</p></div></li>
+        <li><span class="mk">4</span><div><p class="t-20">More options, less clarity.</p><p class="t-16">Twenty controls read as noise. Nothing signalled which mattered.</p></div></li>
+        <li><span class="mk">5</span><div><p class="t-20">The important things were missing.</p><p class="t-16">No cadences, no treatment plan, no way to choose the channel a reminder would go out on.</p></div></li>
+      </ol>
+      <div class="sp-48"></div>
+      <div class="cs-ba" data-ba>
+        <div class="cs-ba-stage">
+          <img class="ba-img show" data-ba-img="a" src="assets/old-new-appointment.jpg" alt="New Appointment — five fields">
+          <img class="ba-img" data-ba-img="b" src="assets/old-edit-appointment.jpg" alt="Edit Appointment — around twenty fields">
+        </div>
+        <div class="cs-ba-bar">
+          <span class="cap" data-ba-cap>New Appointment — five fields, no cadence, no plan.</span>
+          <span class="cs-ba-toggle" role="group" aria-label="Compare modals">
+            <button type="button" data-ba-set="a" aria-pressed="true">Create</button>
+            <button type="button" data-ba-set="b" aria-pressed="false">Edit</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05.2 -->
+  <section aria-labelledby="cs-p2">
+    <div class="in">
+      <h2 class="h-40" id="cs-p2">Problem Two</h2>
+      <div class="sp-30"></div>
+      <p class="t-20 copy ph">Problem statement goes here — what was happening, who it affected, why the existing experience created friction, and what I changed.</p>
+      <div class="sp-48"></div>
+      <div class="media r620" role="img" aria-label="Problem two media placeholder"><span>Drop media</span><span>Problem two — before · exploration · final</span></div>
+    </div>
+  </section>
+
+  <!-- 06 — Explore · Key Design Decisions -->
+  <section class="lg" aria-labelledby="cs-decisions">
+    <div class="in">
+      <h2 class="h-56" id="cs-decisions">Key Design Decisions</h2>
+      <div class="sp-30"></div>
+      <p class="t-20 copy ph">Four decisions that shaped the product more … — full sentence goes here</p>
+      <div class="sp-56"></div>
+
+      <div class="decisions">
+
+        <div class="dec">
+          <div class="a">
+            <span class="num">01</span>
+            <h3 class="h-28">Deciding What the App Should Actually Be</h3>
+            <p class="t-16 ph">Before anything visual, the question was … — full paragraph goes here</p>
+          </div>
+          <div class="b2">
+            <div class="graphic-card">
+              <div class="well" aria-hidden="true">
+                <svg viewBox="0 0 528 300" xmlns="http://www.w3.org/2000/svg">
+                  <g fill="#2F55E0" stroke="#0E0E0E" stroke-width="2">
+                    <rect x="90" y="22" width="72" height="72" rx="3"/><rect x="182" y="22" width="72" height="72" rx="3"/>
+                    <rect x="90" y="114" width="72" height="72" rx="3"/><rect x="182" y="114" width="72" height="72" rx="3" fill="#0E0E0E"/>
+                    <rect x="90" y="206" width="72" height="72" rx="3"/><rect x="182" y="206" width="72" height="72" rx="3"/>
+                  </g>
+                  <g fill="none" stroke="#2C2C31" stroke-width="2" stroke-dasharray="6 5">
+                    <rect x="274" y="22" width="72" height="72" rx="3"/><rect x="366" y="22" width="72" height="72" rx="3"/>
+                    <rect x="274" y="114" width="72" height="72" rx="3"/><rect x="366" y="114" width="72" height="72" rx="3"/>
+                    <rect x="274" y="206" width="72" height="72" rx="3"/><rect x="366" y="206" width="72" height="72" rx="3"/>
+                  </g>
+                  <rect x="262" y="6" width="4" height="288" fill="#0E0E0E"/>
+                </svg>
+              </div>
+              <div class="t"><span class="h-28">01</span><span class="h-24">Deciding What the App Should Be</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dec">
+          <div class="a">
+            <span class="num">02</span>
+            <h3 class="h-28">Rebuilding the Lead Modal</h3>
+            <p class="t-16 ph">The Lead Modal is the profile for every … — full paragraph goes here</p>
+          </div>
+          <div class="b2">
+            <div class="graphic-card">
+              <div class="well" aria-hidden="true">
+                <svg viewBox="0 0 528 300" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="264" cy="100" r="150" fill="none" stroke="#2C2C31" stroke-width="1.5"/>
+                  <circle cx="264" cy="100" r="200" fill="none" stroke="#2C2C31" stroke-width="1.5"/>
+                  <rect x="164" y="80" width="200" height="140" rx="8" fill="#2F55E0" stroke="#0E0E0E" stroke-width="3"/>
+                  <rect x="190" y="110" width="148" height="8" fill="#17171A"/>
+                  <rect x="190" y="132" width="110" height="8" fill="#17171A"/>
+                  <rect x="190" y="154" width="130" height="8" fill="#17171A"/>
+                  <g fill="#0E0E0E">
+                    <rect x="261" y="14" width="6" height="44"/><path d="M252 58h24l-12 22z"/>
+                    <rect x="261" y="242" width="6" height="44"/><path d="M252 242h24l-12-22z"/>
+                    <rect x="40" y="147" width="62" height="6"/><path d="M102 138v24l22-12z"/>
+                    <rect x="426" y="147" width="62" height="6"/><path d="M426 138v24l-22-12z"/>
+                  </g>
+                </svg>
+              </div>
+              <div class="t"><span class="h-28">02</span><span class="h-24">Rebuilding the Lead Modal</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dec">
+          <div class="a">
+            <span class="num">03</span>
+            <h3 class="h-28">Collapsing the Appointment Modals Into One</h3>
+            <p class="t-16">Two modals for one object meant two designs, two field sets, and edits with no clear home. Rather than align them, I rebuilt both as a single modal with a Create and an Edit mode — identical layout, one data model underneath.</p>
+            <div class="sp-30"></div>
+            <div class="cs-forks">
+              <div class="cs-fork">
+                <span class="verdict">Considered</span>
+                <h4>Keep two modals, align them</h4>
+                <ul>
+                  <li class="pro"><span class="mk2"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3 3 6-7"/></svg></span><span>Least engineering — nothing structural changes.</span></li>
+                  <li class="con"><span class="mk2"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4l8 8M12 4l-8 8"/></svg></span><span>Two things to keep in sync forever; the gap comes back.</span></li>
+                  <li class="con"><span class="mk2"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4l8 8M12 4l-8 8"/></svg></span><span>Still two mental models for one object.</span></li>
+                </ul>
+              </div>
+              <div class="cs-fork chosen">
+                <span class="verdict">Chosen</span>
+                <h4>One modal, two modes</h4>
+                <ul>
+                  <li class="pro"><span class="mk2"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3 3 6-7"/></svg></span><span>Create and edit are the same screen — learn it once.</span></li>
+                  <li class="pro"><span class="mk2"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3 3 6-7"/></svg></span><span>Every field has one home; edits are findable.</span></li>
+                  <li class="con"><span class="mk2"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4l8 8M12 4l-8 8"/></svg></span><span>More upfront work to unify the data model.</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="b2">
+            <div class="graphic-card">
+              <div class="well" aria-hidden="true">
+                <svg viewBox="0 0 528 300" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="24" y="36" width="170" height="200" rx="6" fill="#17171A" stroke="#0E0E0E" stroke-width="2"/>
+                  <rect x="58" y="64" width="170" height="200" rx="6" fill="#17171A" stroke="#0E0E0E" stroke-width="2"/>
+                  <g fill="#0E0E0E">
+                    <rect x="78" y="92" width="120" height="5"/><rect x="78" y="118" width="120" height="5"/><rect x="78" y="144" width="120" height="5"/>
+                    <rect x="78" y="170" width="120" height="5"/><rect x="78" y="196" width="120" height="5"/><rect x="78" y="222" width="120" height="5"/>
+                    <path d="M248 146h40v-12l22 16-22 16v-12h-40z"/>
+                  </g>
+                  <rect x="334" y="50" width="170" height="200" rx="6" fill="#2F55E0" stroke="#0E0E0E" stroke-width="2"/>
+                  <rect x="356" y="92" width="126" height="7" fill="#17171A"/><rect x="356" y="130" width="126" height="7" fill="#17171A"/><rect x="356" y="168" width="126" height="7" fill="#17171A"/>
+                </svg>
+              </div>
+              <div class="t"><span class="h-28">03</span><span class="h-24">Two Appointment Modals Into One</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dec">
+          <div class="a">
+            <span class="num">04</span>
+            <h3 class="h-28">Structure for Appointment Cards, Task States and the Calendar</h3>
+            <p class="t-16 ph">Appointment cards and approval tasks both … — full paragraph goes here</p>
+          </div>
+          <div class="b2">
+            <div class="graphic-card">
+              <div class="well" aria-hidden="true">
+                <svg viewBox="0 0 528 300" xmlns="http://www.w3.org/2000/svg">
+                  <g fill="none" stroke="#2C2C31" stroke-width="1.5">
+                    <rect x="30" y="34" width="60" height="50" rx="2"/><rect x="98" y="34" width="60" height="50" rx="2"/><rect x="166" y="34" width="60" height="50" rx="2"/><rect x="234" y="34" width="60" height="50" rx="2"/><rect x="302" y="34" width="60" height="50" rx="2"/><rect x="370" y="34" width="60" height="50" rx="2"/><rect x="438" y="34" width="60" height="50" rx="2"/>
+                    <rect x="30" y="92" width="60" height="50" rx="2"/><rect x="98" y="92" width="60" height="50" rx="2"/><rect x="166" y="92" width="60" height="50" rx="2"/><rect x="234" y="92" width="60" height="50" rx="2"/><rect x="302" y="92" width="60" height="50" rx="2"/><rect x="370" y="92" width="60" height="50" rx="2"/><rect x="438" y="92" width="60" height="50" rx="2"/>
+                    <rect x="30" y="150" width="60" height="50" rx="2"/><rect x="98" y="150" width="60" height="50" rx="2"/><rect x="166" y="150" width="60" height="50" rx="2"/><rect x="234" y="150" width="60" height="50" rx="2"/><rect x="302" y="150" width="60" height="50" rx="2"/><rect x="370" y="150" width="60" height="50" rx="2"/><rect x="438" y="150" width="60" height="50" rx="2"/>
+                    <rect x="30" y="208" width="60" height="50" rx="2"/><rect x="98" y="208" width="60" height="50" rx="2"/><rect x="166" y="208" width="60" height="50" rx="2"/><rect x="234" y="208" width="60" height="50" rx="2"/><rect x="302" y="208" width="60" height="50" rx="2"/><rect x="370" y="208" width="60" height="50" rx="2"/><rect x="438" y="208" width="60" height="50" rx="2"/>
+                  </g>
+                  <g>
+                    <rect x="54" y="150" width="150" height="116" rx="6" fill="#17171A" stroke="#0E0E0E" stroke-width="2.5"/>
+                    <path d="M60 150h138a6 6 0 0 1 6 6v4H54v-4a6 6 0 0 1 6-6z" fill="#2C2C31"/>
+                    <rect x="72" y="188" width="90" height="6" fill="#0E0E0E"/><rect x="72" y="208" width="64" height="6" fill="#2C2C31"/>
+                  </g>
+                  <g>
+                    <rect x="200" y="120" width="150" height="116" rx="6" fill="#17171A" stroke="#0E0E0E" stroke-width="2.5"/>
+                    <path d="M206 120h69v10h-75v-4a6 6 0 0 1 6-6z" fill="#2F55E0"/>
+                    <rect x="218" y="158" width="90" height="6" fill="#0E0E0E"/><rect x="218" y="178" width="64" height="6" fill="#2C2C31"/>
+                  </g>
+                  <g>
+                    <rect x="346" y="90" width="150" height="116" rx="6" fill="#17171A" stroke="#0E0E0E" stroke-width="2.5"/>
+                    <path d="M352 90h138a6 6 0 0 1 6 6v4H346v-4a6 6 0 0 1 6-6z" fill="#2F55E0"/>
+                    <rect x="364" y="128" width="90" height="6" fill="#0E0E0E"/><rect x="364" y="148" width="64" height="6" fill="#2C2C31"/>
+                  </g>
+                </svg>
+              </div>
+              <div class="t"><span class="h-28">04</span><span class="h-24">Cards, States and the Calendar</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 — Systematise · Design System -->
+  <section aria-labelledby="cs-ds">
+    <div class="in">
+      <h2 class="h-40" id="cs-ds">Design System</h2>
+      <div class="sp-30"></div>
+      <div class="copy">
+        <p class="t-20">Originally, screens were assembled from five borrowed libraries with raw hex fills and detached text, so the foundations for colour, type, spacing and states had never been set. Since the product was very early stage, I got the opportunity to build the brand’s design foundations from scratch — and the design system was one of the things I loved building.</p>
+        <p class="t-20 s">I built variables for colour, type and layout, a single type ramp, and a small set of real components built as proper variant sets. I built it from the screens I was already producing rather than up front, so nothing in it is speculative. Every component exists because a screen needed it.</p>
+      </div>
+      <div class="sp-48"></div>
+      <div class="media r867" role="img" aria-label="Design system media placeholder"><span>Drop media</span><span>Design system — foundations, variables, components</span></div>
+    </div>
+  </section>
+
+  <!-- 08 — Ship · How Features Shipped -->
+  <section class="lg" aria-labelledby="cs-ship">
+    <div class="in">
+      <h2 class="h-56" id="cs-ship">How Features Shipped</h2>
+      <div class="sp-30"></div>
+      <div class="cs-served"><span class="lead">SERVING</span><span class="cs-badge "><i></i>Structure</span><span class="cs-badge "><i></i>Trust</span><span class="cs-badge on"><i></i>Ship</span></div>
+      <div class="copy w900">
+        <p class="t-20">At Gideon, design and delivery ran as one loop. I made the product decision, wrote the spec, ran it through Claude Code against the existing codebase, my CTO reviewed the PR and merged it. Once merged, I would review the running product and iterate further. This happened on multiple occasions, when we had to fix multiple structural issues with such a small team and time constraints.</p>
+        <p class="t-16 cs-read"><span>Also read —</span> <a class="cs-cta" href="#read-100-prs">What I learned from merging 100 PRs in a day to prepare a product for a client demo.</a></p>
+      </div>
+      <div class="sp-52"></div>
+      <div class="workflow">
+        <div class="wstep mine"><div class="bx">PRODUCT DECISION</div><span class="who">MINE</span></div>
+        <div class="wstep mine"><div class="bx">WRITTEN SPEC</div><span class="who">MINE</span></div>
+        <div class="wstep"><div class="bx">CLAUDE CODE</div><span class="who">SHARED</span></div>
+        <div class="wstep"><div class="bx">PR</div><span class="who">SHARED</span></div>
+        <div class="wstep"><div class="bx">REVIEW &amp; MERGE</div><span class="who">SHARED</span></div>
+        <div class="wstep"><div class="bx">RUNNING PRODUCT</div><span class="who">SHARED</span></div>
+        <div class="wstep mine"><div class="bx">MY REVIEW</div><span class="who">MINE</span></div>
+        <div class="wstep mine"><div class="bx">ITERATION</div><span class="who">MINE</span></div>
+      </div>
+      <div class="sp-48"></div>
+      <div class="ex">
+        <p class="h-28">I didn’t write the code. Everything on either side of it was mine, and shipping was part of the job, not a handoff at the end of it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 — The Pivot -->
+  <section class="lg" aria-labelledby="cs-pivot">
+    <div class="in">
+      <h2 class="h-56" id="cs-pivot">The Pivot</h2>
+      <div class="sp-36"></div>
+      <div class="pivot">
+        <div class="a">
+          <p class="t-20 ph">The original bet was that PI firms would … — full paragraph goes here</p>
+          <p class="t-20 s ph">The company concluded the market and product … — full paragraph goes here</p>
+          <p class="t-20 s ph">It taught me something I’d rather have learned … — full paragraph goes here</p>
+        </div>
+        <div class="b2">
+          <div class="surv"><span class="eyebrow">What Survives</span><p class="t-16 ph">The IA and journey work describes how PI … — full paragraph goes here</p></div>
+          <div class="surv"><span class="eyebrow">Also Survives</span><p class="t-16 ph">The market research became the input to … — full paragraph goes here</p></div>
+          <div class="surv"><span class="eyebrow">And</span><p class="t-16 ph">The way of working — audit before design … — full paragraph goes here</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 — Colophon -->
+  <section class="cs-colophon" aria-label="Colophon">
+    <div class="in">
+      <div class="rule-cs"></div>
+      <div class="sp-56"></div>
+      <p class="h-40 ph">Two months. One product that didn’t make … — full closing statement goes here</p>
+      <div class="sp-56"></div>
+      <div class="colophon">
+        <div class="cl"><div class="rule-cs soft"></div><span class="eyebrow">Role</span><p class="t-12 ph">Product Designer — structure, IA, journey … — complete this line</p></div>
+        <div class="cl"><div class="rule-cs soft"></div><span class="eyebrow">Tools</span><p class="t-12 ph">Figma · FigJam · Figma Slides · Claude Code … — complete this line</p></div>
+        <div class="cl"><div class="rule-cs soft"></div><span class="eyebrow">Credit</span><p class="t-12 ph">Product and design decisions mine. Implementation … — complete this line</p></div>
+        <div class="cl"><div class="rule-cs soft"></div><span class="eyebrow">Contact</span><p class="t-12">Sharvil Naik · <a href="mailto:sharvilnaik17@gmail.com">sharvilnaik17@gmail.com</a> · <span class="ph">portfolio URL</span></p></div>
+      </div>
+      <div class="sp-56"></div>
+      <div class="cs-end">
+        <a class="cs-back" href="#work"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4"/></svg>Back to Work</a>
+        <a class="cs-back" href="#connect">Get in Touch</a>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer nf-footer">
+    <ul>
+      <li><a href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener">Behance</a></li>
+      <li><a href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://x.com/sharvil_naik" target="_blank" rel="noopener">Twitter (X)</a></li>
+      <li><a href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener">Instagram</a></li>
+    </ul>
+    <p class="copy display">2026 ® Sharvil Naik</p>
+  </footer>
+</article>
+
+<!-- ================================================================
+     SIDE QUESTS (view: #side-quests)
+================================================================ -->
+<article class="sq" id="side-quests" hidden data-title="Side Quests" aria-label="Side Quests">
+
+  <header class="sq-head">
+    <div class="in">
+      <h1 class="display">Side<br>Quests</h1>
+      <p class="intro">For the Love of the Game. <span>Sketches, motion tests, photos.</span></p>
+    </div>
+  </header>
+
+  <!-- Sketches -->
+  <section class="sq-section" aria-labelledby="sq-sketch">
+    <div class="in">
+      <div class="sq-label"><b id="sq-sketch">Sketches</b><span>I sometimes sketch things I find cool. Helps me relax and express ideas without words.</span></div>
+      <div class="sq-sketches">
+        <div class="sq-media"><img src="assets/sq/sketch-tiger.jpg" alt="Marker sketch of a snarling tiger against a blue ground" loading="lazy"></div>
+        <div class="sq-media"><img src="assets/sq/sketch-vader.jpg" alt="Ink sketch of a helmet in space, with a rainbow and starfighters" loading="lazy"></div>
+        <div class="sq-media"><img src="assets/sq/sketch-ghostrider.jpg" alt="Marker sketch of a flaming skull in a blue jacket" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Motion -->
+  <section class="sq-section" aria-labelledby="sq-motion">
+    <div class="in">
+      <div class="sq-label"><b id="sq-motion">Motion</b><span>TouchDesigner, After Effects, paper</span></div>
+
+      <div class="sq-feature">
+        <div class="sq-media"><video data-audio="true" src="assets/sq/handtracking.mp4" poster="assets/sq/handtracking.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+        <div class="sq-cap">
+          <p>Live hand-tracking masks with pixelate and halftone effects. Made in TouchDesigner.</p>
+          <time>June 2026</time>
+        </div>
+      </div>
+
+      <div class="sq-feature">
+        <div class="sq-media sq-4x3"><video data-audio="true" src="assets/sq/stopmotion.mp4" poster="assets/sq/stopmotion.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+        <div class="sq-cap">
+          <p>Stop-motion animation made by hand-drawing 37 frames on sticky notes.</p>
+          <time>December 2026</time>
+        </div>
+      </div>
+
+      <div class="sq-pair" style="margin-top:56px">
+        <figure>
+          <div class="sq-media sq-tall"><video data-audio="false" src="assets/sq/stretchy.mp4" poster="assets/sq/stretchy.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+          <figcaption class="sq-cap"><p class="ph">Kinetic type test — one line on what this is</p></figcaption>
+        </figure>
+        <figure>
+          <div class="sq-media sq-tall"><video data-audio="false" src="assets/sq/pendulum.mp4" poster="assets/sq/pendulum.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+          <figcaption class="sq-cap"><p class="ph">3D render test — one line on what this is</p></figcaption>
+        </figure>
+      </div>
+
+      <div class="sq-pair">
+        <figure>
+          <div class="sq-media"><video data-audio="true" src="assets/sq/tetris.mp4" poster="assets/sq/tetris.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+          <figcaption class="sq-cap"><p>Animated the gameplay of Tetris in the calendar app. Helped me understand motion and framing a letter better.</p></figcaption>
+        </figure>
+        <figure>
+          <div class="sq-media"><video data-audio="false" src="assets/sq/shine.mp4" poster="assets/sq/shine.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+          <figcaption class="sq-cap"><p>Used expression-control scripts in After Effects to create this in under 90 minutes without manually animating everything.</p></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Photos -->
+  <section class="sq-section" aria-labelledby="sq-photo">
+    <div class="in">
+      <div class="sq-label"><b id="sq-photo">Photographs</b><span>Light first, then everything else</span></div>
+      <div class="sq-photos">
+        <div class="sq-media"><img src="assets/sq/photo-lizard.jpg" alt="A palm squirrel clinging to a tree trunk" loading="lazy"></div>
+        <div class="sq-media"><img src="assets/sq/photo-ants.jpg" alt="Ants on a ledge" loading="lazy"></div>
+        <div class="sq-media"><img src="assets/sq/photo-phone.jpg" alt="A blue caterpillar on the edge of a phone" loading="lazy"></div>
+        <div class="sq-media"><img src="assets/sq/photo-sparrow.jpg" alt="A sparrow on a wall" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spotify -->
+  <section class="sq-section" aria-labelledby="sq-spot">
+    <div class="in">
+      <div class="sq-label"><b id="sq-spot">Spotify, on a CRT</b><span class="ph">one line on what this is</span></div>
+      <div class="sq-media" style="aspect-ratio: 4 / 3"><video data-audio="true" src="assets/sq/spotify.mp4" poster="assets/sq/spotify.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+    </div>
+  </section>
+
+  <div class="sq-end">
+    <a class="btn-pill" href="#work">Back to Work</a>
+  </div>
+
+</article>
+
+<!-- ================================================================
+     CONNECT — contact page (view: #connect)
+================================================================ -->
+<article class="cn" id="connect" hidden data-title="Contact" aria-label="Contact">
+  <div class="cn-hero">
+    <!-- Drop the peephole still here: <img src="assets/connect-hero.jpg" alt=""> -->
+    <span class="placeholder-tag">connect-hero.jpg</span>
+  </div>
+  <div class="cn-title">
+    <h1 class="display">Let's<br>connect!</h1>
+  </div>
+  <div class="rule-full" role="presentation"></div>
+  <section class="contact" aria-label="Contact">
+    <a class="contact-box display" href="mailto:sharvilnaik17@gmail.com">Contact</a>
+  </section>
+  <footer class="footer">
+    <ul>
+      <li><a href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener">Behance</a></li>
+      <li><a href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://x.com/sharvil_naik" target="_blank" rel="noopener">Twitter (X)</a></li>
+      <li><a href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener">Instagram</a></li>
+    </ul>
+    <p class="copy display">2026 ® Sharvil Naik</p>
+  </footer>
+</article>
+
+<!-- ================================================================
+     NOIR FILM FESTIVAL (view: #noir) — order follows the Behance case
+================================================================ -->
+<article class="nf" id="noir" hidden data-title="Noir Film Festival" aria-label="Noir Film Festival — branding">
+  <div class="in">
+
+    <header class="nf-head">
+      <a class="cs-back" href="#work"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4"/></svg>Back to Work</a>
+      <div class="nf-title">
+        <h1>Noir Film Festival</h1>
+        <div class="nf-meta">
+          <span><b>Role</b>Visual identity, art direction</span>
+          <span><b>Timeline</b>May – June 2026</span>
+          <span><b>Type</b>Self-initiated</span>
+        </div>
+      </div>
+      <img class="nf-img" src="assets/noir.jpg" alt="Noir Film Festival 2026 — key visual">
+    </header>
+
+    <section class="nf-text" aria-label="About">
+      <h2>About the Festival</h2>
+      <p>Film noir is less a genre and more a mood. It is a term used to describe a genre of films that emerged in the United States in the 1940s and 1950s, which refers to the dark and moody themes and visual style of these films. The Noir Film Festival creates a space to experience cinema at its most atmospheric and introspective, where style and storytelling blend into something unforgettable. It brings together classic and modern films that explore shadow, morality, and human complexity, allowing audiences to see how these themes have evolved over time.</p>
+      <h2>Problem Statement</h2>
+      <p>We need a noir film festival because classic noir and neo-noir stories are becoming culturally fragmented and visually underappreciated in mainstream cinema spaces. As a designer, I see an opportunity to create a curated experience that preserves the genre’s cinematic language while introducing contemporary audiences to its influence on modern film, fashion, music, and visual culture. The problem is not the lack of films, but the lack of immersive platforms that make noir accessible, relevant, and emotionally engaging today.</p>
+      <h2>Scope of Work</h2>
+      <p>The scope of this project focuses on creating a cohesive visual identity and experience for a noir film festival, from concept to execution. It includes developing the festival’s branding, typography, colour palette, and key graphics, along with applications across posters, tickets, social media, and environmental design. The aim is to capture the essence of noir through every touchpoint, ensuring a consistent, immersive experience that reflects its dark, moody, and cinematic character.</p>
+    </section>
+
+    <div class="nf-stack">
+      <img class="nf-img" src="assets/nf/keywords.jpg" alt="Keywords: fedora hat, trenchcoat, banker’s lamp, cigarettes, revolver, polaroids, venetian blinds, telephone, jazz, typewriter, case files, ashtray, silhouette, film reel, neon signs, playing cards, handcuffs" loading="lazy">
+      <img class="nf-img" src="assets/nf/kiosk.jpg" alt="Festival poster in a street kiosk at night" loading="lazy">
+      <img class="nf-img" src="assets/nf/moodboard.jpg" alt="Moodboard" loading="lazy">
+      <img class="nf-img" src="assets/nf/logo.jpg" alt="Logo construction — the film reel and the gun-like shape" loading="lazy">
+      <div class="nf-pair" style="grid-template-columns: 1.281fr 0.875fr">
+        <img class="nf-img" src="assets/nf/typostory.jpg" alt="Typography — Balboa Extracondensed — and a Drive story post" loading="lazy">
+        <div class="nf-vid"><video src="assets/nf/logo-motion.mp4" poster="assets/nf/logo-motion.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Film Noir logo motion"></video></div>
+      </div>
+      <img class="nf-img" src="assets/nf/typelogo.jpg" alt="FILM / NOIR — red diagonal wordmark" loading="lazy">
+      <img class="nf-img" src="assets/nf/streetbb.jpg" alt="All the animals come out at night — street poster" loading="lazy">
+      <img class="nf-img" src="assets/nf/pattern.jpg" alt="Film reel pattern" loading="lazy">
+      <img class="nf-img" src="assets/nf/tagline.jpg" alt="The stuff that dreams are made of" loading="lazy">
+      <img class="nf-img" src="assets/nf/logovariations.jpg" alt="Lock-ups — Noir Film Festival 2026 on red, NFF mark and wordmark on black" loading="lazy">
+      <img class="nf-img" src="assets/nf/billboard.jpg" alt="Festival billboard at dusk" loading="lazy">
+      <img class="nf-img" src="assets/nf/brochure.jpg" alt="Schedule brochure" loading="lazy">
+    </div>
+
+    <section class="nf-palette" aria-label="Colour palette">
+      <div class="nf-swatches">
+        <div class="nf-swatch" style="background:#ED2024;color:#5A0A0C">#ED2024</div>
+        <div class="nf-swatch" style="background:#F2F2F2;color:#4A4A4A">#FFFFFF</div>
+        <div class="nf-swatch" style="background:#000;color:#CFCFCF">#000000</div>
+        <div class="nf-swatch" style="background:#F2ED32;color:#4A4810">#F2ED32</div>
+        <div class="nf-swatch" style="background:#6916FF;color:#1E0654">#6916FF</div>
+      </div>
+      <p>Black and white form the foundation, referencing the high-contrast cinematography and moral ambiguity that define noir. The deep red represents blood, violence, danger, and the underlying tension that drives many noir narratives. Yellow recalls the glow of streetlights, neon signs, cigarette-lit alleys, and hazy urban nights. Purple carries a more psychological and symbolic layer — seduction, greed, ambition, and the allure of the femme fatale, a recurring figure whose charm often conceals manipulation and betrayal. Together, these colours capture the darkness, glamour, suspense, and emotional complexity that make film noir so distinctive.</p>
+    </section>
+
+    <div class="nf-stack" style="margin-top:20px">
+      <img class="nf-img" src="assets/nf/idbadges.jpg" alt="ID badges and lanyard" loading="lazy">
+      <img class="nf-img" src="assets/nf/tickets.jpg" alt="Tickets and wristbands" loading="lazy">
+      <div class="nf-vid"><video src="assets/nf/blinds.mp4" poster="assets/nf/blinds.jpg" autoplay muted loop playsinline preload="metadata" data-audio="true" aria-label="See you in the shadows — venetian blinds motion piece"></video></div>
+      <div class="nf-vid"><video src="assets/nf/social-reel.mp4" poster="assets/nf/social-reel.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Social media posts reel"></video></div>
+      <img class="nf-img" src="assets/nf/social.jpg" alt="Instagram stories — Neo-noir, Classic noir, International" loading="lazy">
+    </div>
+
+    <section class="nf-credits" aria-label="Credits">
+      <h2>Credits</h2>
+      <div>
+        <dl>
+          <dt>Project By</dt><dd>Sharvil Naik</dd>
+          <dt>Timeline</dt><dd>May – June 2026</dd>
+        </dl>
+        <p>Film stills and other imagery remain the property of their respective copyright holders and are used for educational and editorial purposes only. Additional graphic assets are credited to their original creators and licensed sources where applicable. This project was developed to showcase design skills and is not affiliated with any film or film festival organisation. © 2026 All rights reserved.</p>
+      </div>
+    </section>
+
+    <img class="nf-img" src="assets/nf/fin.jpg" alt="Fin" loading="lazy">
+
+    <div class="nf-end">
+      <a class="cs-back" href="#work"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4"/></svg>Back to Work</a>
+      <a class="cs-back" href="#connect">Get in Touch</a>
+    </div>
+
+  </div>
+
+  <footer class="footer nf-footer">
+    <ul>
+      <li><a href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener">Behance</a></li>
+      <li><a href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://x.com/sharvil_naik" target="_blank" rel="noopener">Twitter (X)</a></li>
+      <li><a href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener">Instagram</a></li>
+    </ul>
+    <p class="copy display">2026 ® Sharvil Naik</p>
+  </footer>
+</article>
+
+<script>
+(() => {
+  // ---- Menu -------------------------------------------------------
+  const body = document.body;
+  const toggle = document.getElementById('menuToggle');
+  const menu = document.getElementById('menu');
+
+  const setMenu = (open) => {
+    body.classList.toggle('menu-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    menu.setAttribute('aria-hidden', String(!open));
+    body.style.overflow = open ? 'hidden' : '';
+  };
+  toggle.addEventListener('click', () => setMenu(!body.classList.contains('menu-open')));
+  menu.querySelectorAll('[data-close]').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && body.classList.contains('menu-open')) setMenu(false); });
+
+
+  // ---- Views: home (#top …) / sub-pages (#gideon, #side-quests) -------
+  const home = document.getElementById('top');
+  const views = {
+    '#gideon': document.getElementById('gideon'),
+    '#side-quests': document.getElementById('side-quests'),
+    '#connect': document.getElementById('connect'),
+    '#noir': document.getElementById('noir'),
+  };
+  views['#gideon'].dataset.title = 'Gideon — UX Case Study';
+  const baseTitle = document.title;
+  let homeScroll = 0;
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+  const showView = () => {
+    const view = views[location.hash] || null;
+    const wasView = body.classList.contains('view-sub');
+    if (!view && wasView && location.hash && location.hash !== '#top' && !document.querySelector(location.hash)) return;
+    if (view && !wasView) homeScroll = window.scrollY;
+    if (body.classList.contains('menu-open')) setMenu(false);
+    body.classList.toggle('view-sub', !!view);
+    body.classList.toggle('view-gideon', view === views['#gideon']);
+    home.hidden = !!view;
+    Object.values(views).forEach(v => { v.hidden = v !== view; });
+    document.title = view ? view.dataset.title + ' · ' + baseTitle : baseTitle;
+    // pause off-screen videos so hidden views don't keep decoding
+    document.querySelectorAll('video').forEach(v => {
+      const inView = view ? view.contains(v) : home.contains(v);
+      if (inView) { v.play().catch(() => {}); } else { v.pause(); }
+    });
+    if (view) { window.scrollTo({ top: 0, behavior: 'instant' }); return; }
+    const target = location.hash && location.hash !== '#top' ? document.querySelector(location.hash) : null;
+    if (target) target.scrollIntoView();
+    else if (location.hash === '#top') window.scrollTo({ top: 0, behavior: 'instant' });
+    else if (wasView) window.scrollTo({ top: homeScroll, behavior: 'instant' });
+  };
+  window.addEventListener('hashchange', showView);
+  showView();
+
+
+  // ---- Video controls: play/pause + mute on every video ------------
+  const ICON = {
+    play:  '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1l7 4-7 4z"/></svg>',
+    pause: '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1h2.5v8H1.5zM6 1h2.5v8H6z"/></svg>',
+    sound: '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3.5h2l2.5-2v7L3 6.5H1z"/><path d="M7 3.2a2.4 2.4 0 010 3.6" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>',
+    muted: '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3.5h2l2.5-2v7L3 6.5H1z"/><path d="M6.6 3.6l2.6 2.8M9.2 3.6L6.6 6.4" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>'
+  };
+  document.querySelectorAll('video:not([data-nocontrols])').forEach(v => {
+    const box = v.parentElement; box.classList.add('vid');
+    const bar = document.createElement('div'); bar.className = 'vid-ctrls';
+    const play = document.createElement('button'); play.type = 'button';
+    const mute = document.createElement('button'); mute.type = 'button';
+    bar.append(play, mute); box.append(bar);
+
+    const hasAudio = () =>
+      v.mozHasAudio || (v.webkitAudioDecodedByteCount > 0) || (v.audioTracks && v.audioTracks.length > 0) || v.dataset.audio === 'true';
+    const render = () => {
+      const playing = !v.paused && !v.ended;
+      play.innerHTML = (playing ? ICON.pause : ICON.play) + (playing ? 'Pause' : 'Play');
+      play.setAttribute('aria-label', playing ? 'Pause video' : 'Play video');
+      const audio = hasAudio();
+      mute.disabled = !audio;
+      mute.innerHTML = (v.muted ? ICON.muted : ICON.sound) + (audio ? (v.muted ? 'Unmute' : 'Mute') : 'No audio');
+      mute.setAttribute('aria-label', audio ? (v.muted ? 'Unmute video' : 'Mute video') : 'This video has no audio');
+    };
+    play.addEventListener('click', () => { v.paused ? v.play().catch(() => {}) : v.pause(); });
+    mute.addEventListener('click', () => { v.muted = !v.muted; if (!v.muted) v.volume = 1; render(); });
+    ['play', 'pause', 'ended', 'volumechange', 'loadedmetadata', 'loadeddata'].forEach(ev => v.addEventListener(ev, render));
+    render();
+  });
+
+
+
+  // ---- Case-study: before/after toggle -----------------------------
+  document.querySelectorAll('[data-ba]').forEach(box => {
+    const caps = {
+      a: 'New Appointment — five fields, no cadence, no plan.',
+      b: 'Edit Appointment — around twenty fields, most unconnected.'
+    };
+    box.querySelectorAll('[data-ba-set]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const k = btn.dataset.baSet;
+        box.querySelectorAll('[data-ba-set]').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+        box.querySelectorAll('[data-ba-img]').forEach(im => im.classList.toggle('show', im.dataset.baImg === k));
+        const cap = box.querySelector('[data-ba-cap]'); if (cap) cap.textContent = caps[k];
+      });
+    });
+  });
+
+  // ---- Case-study: contents rail scroll-spy ------------------------
+  const toc = document.querySelector('.cs-toc');
+  if (toc) {
+    const links = [...toc.querySelectorAll('a')];
+    const targets = links.map(a => document.getElementById(a.dataset.sec)).filter(Boolean);
+    const spy = () => {
+      if (document.getElementById('gideon').hidden) return;
+      const mid = window.innerHeight * 0.35;
+      let current = targets[0];
+      for (const t of targets) { if (t.getBoundingClientRect().top <= mid) current = t; }
+      links.forEach(a => a.classList.toggle('is-active', a.dataset.sec === (current && current.id)));
+    };
+    window.addEventListener('scroll', spy, { passive: true });
+    window.addEventListener('hashchange', () => setTimeout(spy, 60));
+    setTimeout(spy, 100);
+  }
+
+  // ---- Hover preview: CTA plays a video over the figure it belongs to -----
+  document.querySelectorAll('[data-hover-video]').forEach(cta => {
+    const fig = cta.closest('.cs-figure'); if (!fig) return;
+    const v = fig.querySelector('.cs-hover-video'); if (!v) return;
+    let open = false;
+    const show = () => { if (open) return; open = true; fig.classList.add('is-playing'); v.currentTime = 0; v.play().catch(() => {}); };
+    const hide = () => { if (!open) return; open = false; fig.classList.remove('is-playing'); v.pause(); };
+    cta.addEventListener('mouseenter', show);
+    cta.addEventListener('mouseleave', hide);
+    cta.addEventListener('focus', show);
+    cta.addEventListener('blur', hide);
+    // touch / click: toggle, and never let the href move the page
+    cta.addEventListener('click', e => { e.preventDefault(); open ? hide() : show(); });
+  });
+
+  // ---- Accordion (one open at a time, like the original) ---------
+  const items = [...document.querySelectorAll('.acc-item')];
+  items.forEach(item => {
+    const head = item.querySelector('.acc-head');
+    head.addEventListener('click', () => {
+      const isOpen = item.classList.contains('is-open');
+      items.forEach(i => { i.classList.remove('is-open'); i.querySelector('.acc-head').setAttribute('aria-expanded', 'false'); });
+      if (!isOpen) { item.classList.add('is-open'); head.setAttribute('aria-expanded', 'true'); }
+    });
+  });
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  const root = document.getElementById('jm');
+  if (!root) return;
+
+  const STAGES = [
+    {
+      name: 'Intake', durWithout: 'Minutes to days', durWith: 'Seconds to minutes',
+      strain: 'Reactive', mood: -0.3, gid: 90, hum: 15,
+      gidTag: 'Nearly all of it', humTag: 'A single decision',
+      happens: 'A lead calls or a web form lands. Someone answers, takes the facts, runs a conflict check, decides whether the case is worth taking, and gets a fee agreement signed.',
+      whoToday: 'Intake staff, or whoever picks up. An attorney for the marginal calls.',
+      manual: 'Every call answered live or it goes to voicemail. Nights and weekends go to an answering service that takes a name and a number. Conflict checked by hand against the case list.',
+      breaks: 'A lead who calls at 7pm gets called back tomorrow, by which time they have signed with another firm. Intake quality varies with whoever answered.',
+      gidDoes: 'Answers every inbound call, day or night. Takes the facts, runs the conflict and duplicate check, scores the lead against the firm\u2019s criteria, and sends the fee agreement out for signature.',
+      how: ['Inbound voice', 'Browser automation'],
+      unattended: 'The whole call. No human is on the line and none is waiting behind it. A lead who calls at 7pm is qualified at 7pm.',
+      handsBack: 'Accept, refer out, or send to an attorney. The qualification decision is always a person\u2019s.',
+      humDoes: 'Reads the qualification Gideon has already produced and makes the call \u2014 accept, refer out, or send to an attorney. Nothing else in this stage is hers.',
+      whoWith: 'Case manager. Attorney on the marginal ones.',
+      approves: 'The qualification decision, on a lead that has already been answered, scored and signed.',
+      needs: 'Judgement on liability and case value. Gideon can score against the criteria, but it cannot decide what the firm is willing to take on.'
+    },
+    {
+      name: 'Onboarding', durWithout: '2 to 8 weeks', durWith: 'Days, not weeks',
+      strain: 'Chasing', mood: -0.6, gid: 85, hum: 20,
+      gidTag: 'Most of it', humTag: 'Exceptions only',
+      happens: 'HIPAA and retainer executed. Letters of representation to the carriers. Police report ordered. Policy limits requested. Health insurance and med-pay identified.',
+      whoToday: 'Case manager or paralegal.',
+      manual: 'Each document is its own portal login, fax, or phone call. Follow-ups live in a spreadsheet, a calendar reminder, or somebody\u2019s head.',
+      breaks: 'Requests sit unanswered for weeks and nobody notices until a deadline is close. The police report gets ordered twice, or never.',
+      gidDoes: 'Chases the signed HIPAA and retainer. Calls carriers and records custodians. Fills and files the request forms, downloads what comes back, and files it to the case.',
+      how: ['Outbound voice', 'SMS and email cadences', 'Browser automation'],
+      unattended: 'Every chase. The ladder escalates on its own \u2014 message, then email, then a call \u2014 and keeps going until the document is in, or until it reports that it will not come.',
+      handsBack: 'Only the exceptions. A carrier that refuses, a custodian demanding a subpoena, a client who has gone dark.',
+      humDoes: 'Watches a queue instead of working a list. Steps in only when a chase fails, a carrier refuses, or a client stops answering.',
+      whoWith: 'Case manager.',
+      approves: 'Exceptions. There is nothing routine left in this stage to approve.',
+      needs: 'Anything adversarial. A custodian demanding a subpoena, a carrier disputing representation, a client who has gone quiet.'
+    },
+    {
+      name: 'Treatment', durWithout: '6 to 12 months', durWith: '6 to 12 months',
+      strain: 'Underwater', mood: -1, gid: 55, hum: 55,
+      gidTag: 'About half', humTag: 'About half \u2014 the hinge',
+      happens: 'Client gets to the right providers. Appointments booked, confirmed and attended. Gaps in treatment closed. Records and bills collected as they accrue.',
+      whoToday: 'Case manager, across 60 to 120 open files.',
+      manual: 'A call to book. A call the day before to remind. A call after to find out whether they went. Multiply by every visit, every client, every week, for the better part of a year.',
+      breaks: 'Nobody rings the day before, so the client no-shows. A three-week gap appears in the records and the adjuster discounts the claim for it. Nobody sees it until the demand is being built.',
+      gidDoes: 'Runs the confirmation and follow-up cadences the case manager approved. Calls to remind before every visit and to capture the outcome after. Books slots through provider portals.',
+      how: ['Outbound voice', 'Approved cadences', 'Browser automation'],
+      unattended: 'Every cadence call, on every appointment, for as long as treatment runs. The human sets it up once; Gideon executes it hundreds of times.',
+      handsBack: 'The plan and the appointments are the human\u2019s to create. Gideon only runs a cadence once it is approved, and escalates when one fails.',
+      humDoes: 'Creates the treatment plan. Chooses providers and visit volume. Creates and reviews the appointments. Sets the confirmation and follow-up cadences and approves them for Gideon to run.',
+      whoWith: 'Case manager, across 60 to 120 open files.',
+      approves: 'The plan, the appointments, and every cadence before it runs. After that she handles only the escalations Gideon raises.',
+      needs: 'Clinical and strategic judgement. Which provider, how much treatment, whether a gap matters. Gideon executes the course of care; it does not choose it.'
+    },
+    {
+      name: 'Demand', durWithout: '4 to 10 weeks', durWith: '4 to 10 weeks',
+      strain: 'Under deadline', mood: -0.6, gid: 5, hum: 95,
+      gidTag: 'Almost none', humTag: 'Nearly all of it',
+      happens: 'Every record and bill in hand. Chronology built. Damages calculated. Demand package assembled and sent to the adjuster.',
+      whoToday: 'Case manager builds it. Attorney writes and signs it.',
+      manual: 'Chasing the last few providers for missing records and itemised bills. Reading everything. Writing the narrative by hand.',
+      breaks: 'The whole package waits on one outstanding bill. Gaps and inconsistencies created back in Treatment surface here, far too late to fix.',
+      gidDoes: 'Almost nothing. Chasing the last few outstanding records is the only place Gideon still helps, and even that is finishing work started earlier.',
+      how: ['Browser automation, at the margins'],
+      unattended: 'Nothing that matters to the outcome. The chronology, the damages and the narrative are human work end to end.',
+      handsBack: 'Effectively the whole stage.',
+      humDoes: 'Everything. Assembles the records, builds the chronology, calculates damages, writes the demand and sends it to the adjuster.',
+      whoWith: 'Case manager builds it. Attorney writes and signs it.',
+      approves: 'The package itself and every number in it. There is no automation in this stage to approve.',
+      needs: 'All of it. This is the argument the case rests on, and it is written by a person.'
+    },
+    {
+      name: 'Settlement', durWithout: '1 to 6 months', durWith: '1 to 6 months',
+      strain: 'Focused', mood: 0.6, gid: 0, hum: 100,
+      gidTag: 'None', humTag: 'All of it',
+      happens: 'Negotiate with the adjuster. Accept, or file suit. Resolve liens. Disburse and close the file.',
+      whoToday: 'Attorney negotiates. Case manager handles liens and disbursement.',
+      manual: 'Judgement, negotiation and relationship. Very little of this stage is repeatable, and that is the point \u2014 it is the work the firm is actually paid for.',
+      breaks: 'Lien resolution drags on with no clear owner. The client rings to ask where the money is and nobody has a current answer.',
+      gidDoes: 'Nothing. Negotiation, lien resolution and disbursement sit entirely with the firm.',
+      how: ['Not in play'],
+      unattended: 'Nothing.',
+      handsBack: 'The whole stage. This is judgement and relationship work \u2014 and it is what the firm is actually paid for.',
+      humDoes: 'Negotiates with the adjuster. Decides whether to accept or file suit. Resolves liens, disburses and closes the file.',
+      whoWith: 'Attorney negotiates. Case manager handles liens and disbursement.',
+      approves: 'Everything, because nothing here is delegated.',
+      needs: 'All of it. Judgement, negotiation and relationship \u2014 the work the firm is actually paid for.'
+    }
+  ];
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const svg = root.querySelector('.jm-chart');
+  const rail = root.querySelector('.jm-rail');
+  const lensEl = root.querySelector('.jm-lens');
+  const captionText = root.querySelector('.jm-caption-text');
+  const viewWithout = root.querySelector('.jm-view-without');
+  const viewWith = root.querySelector('.jm-view-with');
+  const panel = root.querySelector('.jm-panel');
+
+  const XS = [100, 300, 500, 700, 900];
+  const Y_TOP = 72, Y_BOT = 330, R = 21;
+  const y = v => Y_BOT - (v / 100) * (Y_BOT - Y_TOP);
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (tag, attrs, parent) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); if (parent) parent.appendChild(n); return n; };
+
+  function pathFor(values) {
+    let d = '';
+    values.forEach((v, i) => {
+      const x = XS[i], yy = y(v);
+      if (i === 0) { d += `M${x} ${yy}`; return; }
+      const px = XS[i - 1], py = y(values[i - 1]), cx = (x - px) * 0.5;
+      d += ` C${px + cx} ${py} ${x - cx} ${yy} ${x} ${yy}`;
+    });
+    return d;
+  }
+
+  [[100, '100%'], [50, '50%'], [0, '0%']].forEach(([v, label]) => {
+    el('line', { class: 'grid', x1: 60, x2: 960, y1: y(v), y2: y(v) }, svg);
+    el('text', { class: 'grid-label', x: 20, y: y(v) + 4 }, svg).textContent = label;
+  });
+  const bands = XS.map(x => el('rect', { class: 'band', x: x - 96, y: 24, width: 192, height: 352 }, svg));
+
+  const gidLayer = el('g', { class: 'gid-layer' }, svg);
+  const gidPath = el('path', { class: 'line line-gid', pathLength: 1 }, gidLayer);
+  const gidNodes = STAGES.map((s, i) => {
+    const g = el('g', { class: 'node node-gid' }, gidLayer);
+    el('circle', { class: 'body', cx: XS[i], r: R }, g);
+    el('text', { class: 'pct', x: XS[i] }, g).textContent = s.gid + '%';
+    return g;
+  });
+  const gidTags = STAGES.map((s, i) => { const t = el('text', { class: 'tag tag-gid', x: XS[i] }, gidLayer); t.textContent = s.gidTag; return t; });
+
+  const humPath = el('path', { class: 'line line-firm', pathLength: 1 }, svg);
+  const humNodes = STAGES.map((s, i) => {
+    const g = el('g', { class: 'node node-firm' }, svg);
+    el('circle', { class: 'body', cx: XS[i], r: R }, g);
+    const face = el('g', { class: 'face' }, g);
+    el('circle', { cx: XS[i] - 6, cy: 0, r: 2.2 }, face);
+    el('circle', { cx: XS[i] + 6, cy: 0, r: 2.2 }, face);
+    el('path', { d: `M${XS[i] - 7} 7 Q${XS[i]} ${7 + s.mood * 6} ${XS[i] + 7} 7` }, face);
+    const pct = el('text', { class: 'pct', x: XS[i] }, g); pct.textContent = s.hum + '%';
+    return { g, face, pct };
+  });
+  const humTagsA = STAGES.map((s, i) => { const t = el('text', { class: 'tag', x: XS[i] }, svg); t.textContent = s.strain; return t; });
+  const humTagsB = STAGES.map((s, i) => { const t = el('text', { class: 'tag', x: XS[i] }, svg); t.textContent = s.humTag; return t; });
+  const hinge = el('path', { class: 'hinge', opacity: 0 });
+  humNodes[2].g.insertBefore(hinge, humNodes[2].pct);
+
+  const humFrom = [100, 100, 100, 100, 100], gidFrom = [0, 0, 0, 0, 0];
+  const humTo = STAGES.map(s => s.hum), gidTo = STAGES.map(s => s.gid);
+  const lerp = (a, b, t) => a + (b - a) * t, clamp01 = v => Math.max(0, Math.min(1, v));
+
+  function render(t) {
+    const hum = humTo.map((v, i) => lerp(humFrom[i], v, t)), gid = gidTo.map((v, i) => lerp(gidFrom[i], v, t));
+    humPath.setAttribute('d', pathFor(hum)); gidPath.setAttribute('d', pathFor(gid));
+    gidLayer.style.opacity = clamp01(t * 1.6);
+    const faceOp = clamp01(1 - t * 1.4), pctOp = clamp01((t - 0.35) / 0.4);
+    hum.forEach((v, i) => {
+      const yy = y(v), n = humNodes[i];
+      n.g.querySelector('.body').setAttribute('cy', yy);
+      n.face.setAttribute('transform', `translate(0 ${yy - 3})`); n.face.style.opacity = faceOp;
+      n.pct.setAttribute('y', yy); n.pct.style.opacity = pctOp;
+      humTagsA[i].setAttribute('y', yy - 34); humTagsB[i].setAttribute('y', yy - 34);
+      humTagsA[i].style.opacity = 1 - t; humTagsB[i].style.opacity = t;
+    });
+    gid.forEach((v, i) => {
+      const yy = y(v);
+      gidNodes[i].querySelector('.body').setAttribute('cy', yy);
+      gidNodes[i].querySelector('.pct').setAttribute('y', yy);
+      gidTags[i].setAttribute('y', yy + 40);
+    });
+    const hx = XS[2], hy = y(hum[2]);
+    hinge.setAttribute('d', `M${hx} ${hy - R} A${R} ${R} 0 0 1 ${hx} ${hy + R} Z`);
+    hinge.setAttribute('opacity', clamp01((t - 0.93) / 0.07));
+  }
+
+  let t = 1, v = 0, target = 1, raf = null, last = 0;
+  const RESPONSE = 0.55, DAMPING = 1.0;
+  function step(now) {
+    const dt = Math.min(0.032, (now - last) / 1000 || 0.016); last = now;
+    const w = (2 * Math.PI) / RESPONSE, a = -w * w * (t - target) - 2 * DAMPING * w * v;
+    v += a * dt; t += v * dt;
+    if (Math.abs(t - target) < 0.0006 && Math.abs(v) < 0.004) { t = target; v = 0; render(t); raf = null; return; }
+    render(t); raf = requestAnimationFrame(step);
+  }
+
+  let heightAnim = null;
+  function setLens(lens) {
+    if (lensEl.dataset.lens === lens) return;
+    const fromH = panel.getBoundingClientRect().height;
+    target = lens === 'with' ? 1 : 0;
+    root.classList.toggle('lens-with', lens === 'with');
+    lensEl.dataset.lens = lens;
+    lensEl.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.setLens === lens)));
+    viewWithout.setAttribute('aria-hidden', String(lens === 'with'));
+    viewWith.setAttribute('aria-hidden', String(lens !== 'with'));
+    captionText.textContent = lens === 'with'
+      ? 'The firm moves from doing the work to deciding it. The two lines meet at Treatment.'
+      : 'Every step is done by a person. The line is the firm\u2019s share of each stage.';
+    if (heightAnim) heightAnim.cancel();
+    const toH = panel.getBoundingClientRect().height;
+    if (!reduceMotion && Math.abs(toH - fromH) > 1) {
+      heightAnim = panel.animate([{ height: fromH + 'px' }, { height: toH + 'px' }], { duration: 320, easing: 'cubic-bezier(0.77, 0, 0.175, 1)' });
+      heightAnim.finished.then(() => { heightAnim = null; }).catch(() => {});
+    }
+    if (reduceMotion) { t = target; v = 0; render(t); return; }
+    if (!raf) { last = performance.now(); raf = requestAnimationFrame(step); }
+  }
+  lensEl.addEventListener('click', e => { const b = e.target.closest('[data-set-lens]'); if (b) setLens(b.dataset.setLens); });
+
+  let active = 2;
+  const stageButtons = STAGES.map((s, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'jm-stage';
+    b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', 'false'); b.setAttribute('tabindex', '-1');
+    b.innerHTML = `<span class="jm-stage-num">Stage ${i + 1}</span><span class="jm-stage-name">${s.name}</span><span class="jm-stage-dur jm-swap"><span class="only-without">${s.durWithout}</span><span class="only-with">${s.durWith}</span></span>`;
+    b.addEventListener('click', () => selectStage(i));
+    rail.appendChild(b); return b;
+  });
+  rail.addEventListener('keydown', e => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    e.preventDefault();
+    const next = (active + (e.key === 'ArrowRight' ? 1 : -1) + STAGES.length) % STAGES.length;
+    selectStage(next); stageButtons[next].focus();
+  });
+
+  const fields = {};
+  root.querySelectorAll('[data-f]').forEach(n => { fields[n.dataset.f] = n; });
+  function fill(s) {
+    fields['happens'].textContent = s.happens; fields['who-today'].textContent = s.whoToday;
+    fields['strain'].textContent = s.strain; fields['manual'].textContent = s.manual; fields['breaks'].textContent = s.breaks;
+    fields['gid-pct'].textContent = s.gid + '%'; fields['gid-does'].textContent = s.gidDoes;
+    fields['how'].innerHTML = s.how.map(h => `<span class="jm-chip">${h}</span>`).join('');
+    fields['unattended'].textContent = s.unattended; fields['hands-back'].textContent = s.handsBack;
+    fields['hum-pct'].textContent = s.hum + '%'; fields['hum-does'].textContent = s.humDoes;
+    fields['who-with'].textContent = s.whoWith; fields['approves'].textContent = s.approves; fields['needs'].textContent = s.needs;
+  }
+
+  let panelAnim = null;
+  function selectStage(i, instant) {
+    if (i === active && !instant) return;
+    active = i;
+    stageButtons.forEach((b, j) => { b.setAttribute('aria-selected', String(j === i)); b.setAttribute('tabindex', j === i ? '0' : '-1'); });
+    bands.forEach((b, j) => b.classList.toggle('is-active', j === i));
+    if (instant || reduceMotion) { fill(STAGES[i]); return; }
+    if (panelAnim) panelAnim.cancel();
+    const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)';
+    panelAnim = panel.animate([{ opacity: 1, transform: 'translateY(0)' }, { opacity: 0, transform: 'translateY(2px)' }], { duration: 120, easing: EASE, fill: 'forwards' });
+    panelAnim.finished.then(() => {
+      fill(STAGES[i]);
+      panelAnim = panel.animate([{ opacity: 0, transform: 'translateY(4px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 200, easing: EASE, fill: 'forwards' });
+      return panelAnim.finished;
+    }).then(() => { if (panelAnim) panelAnim.cancel(); panelAnim = null; }).catch(() => {});
+  }
+
+  render(1);
+  selectStage(active, true);
+})();
+</script>
+</body>
+</html>
