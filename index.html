@@ -941,16 +941,47 @@ p.copy.ph { display: block; }
 .ia-row .media { flex: 1 1 0; }
 
 /* 06 — Decisions */
-.dec { display: flex; align-items: flex-start; gap: 60px; padding: 56px 0; border-bottom: 1px solid var(--cs-line); }
+.dec {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 60px; padding: 56px 0; border-bottom: 1px solid var(--cs-line);
+}
 .dec:first-child { padding-top: 0; }
 .dec:last-child { border-bottom: 0; padding-bottom: 0; }
 .dec .a { flex: 0 1 600px; display: flex; flex-direction: column; gap: 18px; }
-.dec .b2 { flex: 0 0 560px; }
-.graphic-card { padding: 16px; background: var(--cs-blue-2); border-radius: 4px; display: flex; flex-direction: column; gap: 20px; }
-.graphic-card .well { background: var(--cs-panel); border-radius: 3px; aspect-ratio: 528 / 300; overflow: hidden; }
-.graphic-card .well svg { width: 100%; height: 100%; display: block; }
-.graphic-card .t { padding: 0 8px 14px; display: flex; flex-direction: column; gap: 12px; color: #fff; }
-.graphic-card .t .h-28, .graphic-card .t .h-24 { color: #fff; }
+.dec .b2 { flex: 0 0 384px; }
+
+/* the decision posters — a hairline geometric plate per decision */
+.dec-poster {
+  position: relative; margin: 0;
+  aspect-ratio: 340 / 452;
+  padding: 26px 24px 24px;
+  background: var(--cs-bg);
+  border: 1px solid var(--cs-line-2);
+  display: grid; grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+}
+.dp-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.dp-mark { font-size: 13px; line-height: 20px; font-weight: 400; letter-spacing: -0.01em; color: var(--cs-text); }
+.dp-tag { font-size: 10px; line-height: 20px; letter-spacing: 0.08em; color: var(--cs-text-3); }
+
+.dp-art { min-height: 0; display: grid; place-items: center; padding: 26px 10px; }
+.dp-art svg { width: 100%; height: 100%; max-height: 100%; display: block; }
+
+.dp-title {
+  margin: 0; max-width: 88%;
+  font-size: 30px; line-height: 1.06; letter-spacing: -0.035em;
+  font-weight: 300; color: var(--cs-text); text-transform: lowercase;
+}
+.dp-edge {
+  position: absolute; right: 11px; bottom: 24px;
+  writing-mode: vertical-rl;
+  font-size: 9px; letter-spacing: 0.1em; color: var(--cs-label);
+}
+
+@media (max-width: 1000px) {
+  .dec .b2 { flex: 0 0 300px; }
+  .dp-title { font-size: 24px; }
+}
 
 /* 08 — Ship: workflow */
 .workflow { display: grid; grid-template-columns: repeat(8, 1fr); gap: 12px; }
@@ -2360,24 +2391,15 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             <p class="t-16 ph">Before anything visual, the question was … — full paragraph goes here</p>
           </div>
           <div class="b2">
-            <div class="graphic-card">
-              <div class="well" aria-hidden="true">
-                <svg viewBox="0 0 528 300" xmlns="http://www.w3.org/2000/svg">
-                  <g fill="#2F55E0" stroke="#0E0E0E" stroke-width="2">
-                    <rect x="90" y="22" width="72" height="72" rx="3"/><rect x="182" y="22" width="72" height="72" rx="3"/>
-                    <rect x="90" y="114" width="72" height="72" rx="3"/><rect x="182" y="114" width="72" height="72" rx="3" fill="#0E0E0E"/>
-                    <rect x="90" y="206" width="72" height="72" rx="3"/><rect x="182" y="206" width="72" height="72" rx="3"/>
-                  </g>
-                  <g fill="none" stroke="#2C2C31" stroke-width="2" stroke-dasharray="6 5">
-                    <rect x="274" y="22" width="72" height="72" rx="3"/><rect x="366" y="22" width="72" height="72" rx="3"/>
-                    <rect x="274" y="114" width="72" height="72" rx="3"/><rect x="366" y="114" width="72" height="72" rx="3"/>
-                    <rect x="274" y="206" width="72" height="72" rx="3"/><rect x="366" y="206" width="72" height="72" rx="3"/>
-                  </g>
-                  <rect x="262" y="6" width="4" height="288" fill="#0E0E0E"/>
-                </svg>
+            <figure class="dec-poster">
+              <div class="dp-head">
+                <span class="dp-mark">Decision 01</span>
+                <span class="dp-tag">Gideon</span>
               </div>
-              <div class="t"><span class="h-28">01</span><span class="h-24">Deciding What the App Should Be</span></div>
-            </div>
+              <div class="dp-art"><svg viewBox="0 0 360 270" fill="none" stroke="var(--cs-text)" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="45" cy="45" r="45"/><circle cx="135" cy="45" r="45" fill="#F2F1EE"/><circle cx="225" cy="45" r="45"/><circle cx="315" cy="45" r="45"/><circle cx="45" cy="135" r="45"/><circle cx="135" cy="135" r="45" fill="#BFBDB8"/><circle cx="225" cy="135" r="45"/><circle cx="315" cy="135" r="45"/><circle cx="45" cy="225" r="45"/><circle cx="135" cy="225" r="45"/><circle cx="225" cy="225" r="45"/><circle cx="315" cy="225" r="45"/></svg></div>
+              <figcaption class="dp-title">deciding what the app should be</figcaption>
+              <span class="dp-edge" aria-hidden="true">2026</span>
+            </figure>
           </div>
         </div>
 
@@ -2388,25 +2410,15 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             <p class="t-16 ph">The Lead Modal is the profile for every … — full paragraph goes here</p>
           </div>
           <div class="b2">
-            <div class="graphic-card">
-              <div class="well" aria-hidden="true">
-                <svg viewBox="0 0 528 300" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="264" cy="100" r="150" fill="none" stroke="#2C2C31" stroke-width="1.5"/>
-                  <circle cx="264" cy="100" r="200" fill="none" stroke="#2C2C31" stroke-width="1.5"/>
-                  <rect x="164" y="80" width="200" height="140" rx="8" fill="#2F55E0" stroke="#0E0E0E" stroke-width="3"/>
-                  <rect x="190" y="110" width="148" height="8" fill="#17171A"/>
-                  <rect x="190" y="132" width="110" height="8" fill="#17171A"/>
-                  <rect x="190" y="154" width="130" height="8" fill="#17171A"/>
-                  <g fill="#0E0E0E">
-                    <rect x="261" y="14" width="6" height="44"/><path d="M252 58h24l-12 22z"/>
-                    <rect x="261" y="242" width="6" height="44"/><path d="M252 242h24l-12-22z"/>
-                    <rect x="40" y="147" width="62" height="6"/><path d="M102 138v24l22-12z"/>
-                    <rect x="426" y="147" width="62" height="6"/><path d="M426 138v24l-22-12z"/>
-                  </g>
-                </svg>
+            <figure class="dec-poster">
+              <div class="dp-head">
+                <span class="dp-mark">Decision 02</span>
+                <span class="dp-tag">Gideon</span>
               </div>
-              <div class="t"><span class="h-28">02</span><span class="h-24">Rebuilding the Lead Modal</span></div>
-            </div>
+              <div class="dp-art"><svg viewBox="0 0 400 320" fill="none" stroke="var(--cs-text)" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="96.2" cy="291.6" r="65.0" opacity="0.103"/><circle cx="110.8" cy="276.4" r="65.8" opacity="0.172"/><circle cx="125.4" cy="261.2" r="66.7" opacity="0.241"/><circle cx="140.0" cy="246.0" r="67.5" opacity="0.31"/><circle cx="154.6" cy="230.8" r="68.3" opacity="0.379"/><circle cx="169.2" cy="215.6" r="69.2" opacity="0.448"/><circle cx="183.8" cy="200.4" r="70.0" opacity="0.517"/><circle cx="198.4" cy="185.2" r="70.9" opacity="0.586"/><circle cx="213.0" cy="170.0" r="71.8" opacity="0.655"/><circle cx="227.6" cy="154.8" r="72.6" opacity="0.724"/><circle cx="242.2" cy="139.6" r="73.5" opacity="0.793"/><circle cx="256.8" cy="124.4" r="74.3" opacity="0.862"/><circle cx="271.4" cy="109.2" r="75.2" opacity="0.931"/><circle cx="286.0" cy="94.0" r="76.0" opacity="1.0"/></svg></div>
+              <figcaption class="dp-title">rebuilding the lead modal</figcaption>
+              <span class="dp-edge" aria-hidden="true">2026</span>
+            </figure>
           </div>
         </div>
 
@@ -2438,22 +2450,15 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             </div>
           </div>
           <div class="b2">
-            <div class="graphic-card">
-              <div class="well" aria-hidden="true">
-                <svg viewBox="0 0 528 300" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="24" y="36" width="170" height="200" rx="6" fill="#17171A" stroke="#0E0E0E" stroke-width="2"/>
-                  <rect x="58" y="64" width="170" height="200" rx="6" fill="#17171A" stroke="#0E0E0E" stroke-width="2"/>
-                  <g fill="#0E0E0E">
-                    <rect x="78" y="92" width="120" height="5"/><rect x="78" y="118" width="120" height="5"/><rect x="78" y="144" width="120" height="5"/>
-                    <rect x="78" y="170" width="120" height="5"/><rect x="78" y="196" width="120" height="5"/><rect x="78" y="222" width="120" height="5"/>
-                    <path d="M248 146h40v-12l22 16-22 16v-12h-40z"/>
-                  </g>
-                  <rect x="334" y="50" width="170" height="200" rx="6" fill="#2F55E0" stroke="#0E0E0E" stroke-width="2"/>
-                  <rect x="356" y="92" width="126" height="7" fill="#17171A"/><rect x="356" y="130" width="126" height="7" fill="#17171A"/><rect x="356" y="168" width="126" height="7" fill="#17171A"/>
-                </svg>
+            <figure class="dec-poster">
+              <div class="dp-head">
+                <span class="dp-mark">Decision 03</span>
+                <span class="dp-tag">Gideon</span>
               </div>
-              <div class="t"><span class="h-28">03</span><span class="h-24">Two Appointment Modals Into One</span></div>
-            </div>
+              <div class="dp-art"><svg viewBox="0 0 400 320" fill="none" stroke="var(--cs-text)" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="200" cy="108" r="95"/><circle cx="200" cy="212" r="95"/></svg></div>
+              <figcaption class="dp-title">two appointment modals into one</figcaption>
+              <span class="dp-edge" aria-hidden="true">2026</span>
+            </figure>
           </div>
         </div>
 
@@ -2464,34 +2469,15 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             <p class="t-16 ph">Appointment cards and approval tasks both … — full paragraph goes here</p>
           </div>
           <div class="b2">
-            <div class="graphic-card">
-              <div class="well" aria-hidden="true">
-                <svg viewBox="0 0 528 300" xmlns="http://www.w3.org/2000/svg">
-                  <g fill="none" stroke="#2C2C31" stroke-width="1.5">
-                    <rect x="30" y="34" width="60" height="50" rx="2"/><rect x="98" y="34" width="60" height="50" rx="2"/><rect x="166" y="34" width="60" height="50" rx="2"/><rect x="234" y="34" width="60" height="50" rx="2"/><rect x="302" y="34" width="60" height="50" rx="2"/><rect x="370" y="34" width="60" height="50" rx="2"/><rect x="438" y="34" width="60" height="50" rx="2"/>
-                    <rect x="30" y="92" width="60" height="50" rx="2"/><rect x="98" y="92" width="60" height="50" rx="2"/><rect x="166" y="92" width="60" height="50" rx="2"/><rect x="234" y="92" width="60" height="50" rx="2"/><rect x="302" y="92" width="60" height="50" rx="2"/><rect x="370" y="92" width="60" height="50" rx="2"/><rect x="438" y="92" width="60" height="50" rx="2"/>
-                    <rect x="30" y="150" width="60" height="50" rx="2"/><rect x="98" y="150" width="60" height="50" rx="2"/><rect x="166" y="150" width="60" height="50" rx="2"/><rect x="234" y="150" width="60" height="50" rx="2"/><rect x="302" y="150" width="60" height="50" rx="2"/><rect x="370" y="150" width="60" height="50" rx="2"/><rect x="438" y="150" width="60" height="50" rx="2"/>
-                    <rect x="30" y="208" width="60" height="50" rx="2"/><rect x="98" y="208" width="60" height="50" rx="2"/><rect x="166" y="208" width="60" height="50" rx="2"/><rect x="234" y="208" width="60" height="50" rx="2"/><rect x="302" y="208" width="60" height="50" rx="2"/><rect x="370" y="208" width="60" height="50" rx="2"/><rect x="438" y="208" width="60" height="50" rx="2"/>
-                  </g>
-                  <g>
-                    <rect x="54" y="150" width="150" height="116" rx="6" fill="#17171A" stroke="#0E0E0E" stroke-width="2.5"/>
-                    <path d="M60 150h138a6 6 0 0 1 6 6v4H54v-4a6 6 0 0 1 6-6z" fill="#2C2C31"/>
-                    <rect x="72" y="188" width="90" height="6" fill="#0E0E0E"/><rect x="72" y="208" width="64" height="6" fill="#2C2C31"/>
-                  </g>
-                  <g>
-                    <rect x="200" y="120" width="150" height="116" rx="6" fill="#17171A" stroke="#0E0E0E" stroke-width="2.5"/>
-                    <path d="M206 120h69v10h-75v-4a6 6 0 0 1 6-6z" fill="#2F55E0"/>
-                    <rect x="218" y="158" width="90" height="6" fill="#0E0E0E"/><rect x="218" y="178" width="64" height="6" fill="#2C2C31"/>
-                  </g>
-                  <g>
-                    <rect x="346" y="90" width="150" height="116" rx="6" fill="#17171A" stroke="#0E0E0E" stroke-width="2.5"/>
-                    <path d="M352 90h138a6 6 0 0 1 6 6v4H346v-4a6 6 0 0 1 6-6z" fill="#2F55E0"/>
-                    <rect x="364" y="128" width="90" height="6" fill="#0E0E0E"/><rect x="364" y="148" width="64" height="6" fill="#2C2C31"/>
-                  </g>
-                </svg>
+            <figure class="dec-poster">
+              <div class="dp-head">
+                <span class="dp-mark">Decision 04</span>
+                <span class="dp-tag">Gideon</span>
               </div>
-              <div class="t"><span class="h-28">04</span><span class="h-24">Cards, States and the Calendar</span></div>
-            </div>
+              <div class="dp-art"><svg viewBox="0 0 404 302" fill="none" stroke="var(--cs-text)" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="80" cy="90" r="68"/><circle cx="202" cy="90" r="68"/><circle cx="324" cy="90" r="68"/><circle cx="80" cy="212" r="68"/><circle cx="202" cy="212" r="68"/><circle cx="324" cy="212" r="68"/></svg></div>
+              <figcaption class="dp-title">cards, states and the calendar</figcaption>
+              <span class="dp-edge" aria-hidden="true">2026</span>
+            </figure>
           </div>
         </div>
 
