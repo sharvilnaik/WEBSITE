@@ -644,9 +644,6 @@ body.view-gideon { background: var(--cs-bg); }
 }
 
 /* section rail */
-.rail { display: flex; flex-direction: column; gap: 13px; }
-.rail-row { display: flex; justify-content: space-between; align-items: flex-start; }
-.rail-row span { font-size: var(--cs-label-size); line-height: 12px; font-weight: 400; letter-spacing: 0.08em; color: var(--cs-label); }
 .rule-cs { height: 1px; background: var(--cs-line); }
 .rule-cs.soft { background: var(--cs-line-2); }
 
@@ -1074,7 +1071,7 @@ p.copy.ph { display: block; }
 .dp-title {
   margin: 0; max-width: 88%;
   font-size: 30px; line-height: 1.06; letter-spacing: -0.035em;
-  font-weight: 300; color: var(--cs-text); text-transform: lowercase;
+  font-weight: 300; color: var(--cs-text);
 }
 
 @media (max-width: 1000px) {
@@ -1099,9 +1096,7 @@ p.copy.ph { display: block; }
 
 /* 09 — Pivot */
 .pivot { display: flex; align-items: flex-start; gap: 90px; }
-.pivot .a { flex: 0 1 700px; display: flex; flex-direction: column; gap: 22px; }
-.pivot .b2 { flex: 0 0 420px; }
-.surv { padding: 18px 0; display: flex; flex-direction: column; gap: 9px; border-bottom: 1px solid var(--cs-line); }
+.pivot .a { flex: 1 1 700px; display: flex; flex-direction: column; gap: 22px; }
 
 /* 10 — Colophon */
 .cs-colophon { padding: 96px 0 110px !important; }
@@ -1150,7 +1145,6 @@ p.copy.ph { display: block; }
   .cl { padding-right: 0; }
   .ex { padding: 24px; }
   .dec, .pivot { gap: 28px; }
-  .rail-row span:nth-child(2) { display: none; }
   .art-gideon .gcard { display: none; }
   .gideon-title { transform: translateY(-80%); }
   .gideon-sub { font-size: 16px; line-height: 24px; max-width: none; right: 24px; }
@@ -1659,26 +1653,8 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 @media (max-width: 1180px) { .cs-toc { display: none; } }
 
 /* 2 — Highlights reel */
-.cs-highlights { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
-.cs-hl { margin: 0; grid-column: span 2; }
-.cs-hl.wide { grid-column: span 3; }
-.cs-hl.full { grid-column: span 6; }
-.cs-hl .cs-hl-media { position: relative; overflow: hidden; background: var(--cs-panel); aspect-ratio: 4 / 3; }
-.cs-hl.wide .cs-hl-media { aspect-ratio: 16 / 9; }
-.cs-hl.full .cs-hl-media { aspect-ratio: 1222 / 460; }
-.cs-hl .cs-hl-media img, .cs-hl .cs-hl-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
-.cs-hl figcaption { margin-top: 12px; display: flex; align-items: baseline; gap: 10px; font-size: 12px; line-height: 18px; }
-.cs-hl figcaption b { font-weight: 400; color: var(--cs-blue); font-variant-numeric: tabular-nums; }
-.cs-hl figcaption span { color: var(--cs-text-3); }
-@media (max-width: 860px) { .cs-highlights { grid-template-columns: 1fr 1fr; } .cs-hl, .cs-hl.wide, .cs-hl.full { grid-column: span 2; } }
 
 /* 3 — Principles scorecard */
-.cs-constraints { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.cs-constraint { border: 1px solid var(--cs-line-2); border-radius: 12px; padding: 22px 20px; display: flex; flex-direction: column; gap: 14px; }
-.cs-constraint .cico { width: 24px; height: 24px; color: var(--cs-orange); }
-.cs-constraint .cico svg { width: 24px; height: 24px; display: block; fill: none; stroke: currentColor; stroke-width: 1.4; }
-.cs-constraint p { margin: 0; font-size: 14px; line-height: 21px; font-weight: 300; color: var(--cs-text-2); }
-@media (max-width: 860px) { .cs-constraints { grid-template-columns: 1fr 1fr; } }
 
 /* 5 — Before / after toggle */
 .cs-ba { border: 1px solid var(--cs-line-2); border-radius: 12px; overflow: hidden; }
@@ -1927,14 +1903,12 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 <article class="cs" id="gideon" hidden aria-label="Gideon — UX case study">
   <nav class="cs-toc" aria-label="Contents">
     <a href="#cs-context" data-sec="cs-context"><span class="tick"></span><span class="lbl">Context</span></a>
-    <a href="#cs-highlights" data-sec="cs-highlights"><span class="tick"></span><span class="lbl">Highlights</span></a>
-    <a href="#cs-constraints" data-sec="cs-constraints"><span class="tick"></span><span class="lbl">Constraints</span></a>
     <a href="#cs-approach" data-sec="cs-approach"><span class="tick"></span><span class="lbl">Approach</span></a>
     <a href="#cs-competitors" data-sec="cs-competitors"><span class="tick"></span><span class="lbl">Competitors</span></a>
     <a href="#cs-journey" data-sec="cs-journey"><span class="tick"></span><span class="lbl">Journey</span></a>
     <a href="#cs-ia" data-sec="cs-ia"><span class="tick"></span><span class="lbl">Architecture</span></a>
     <a href="#cs-problems" data-sec="cs-problems"><span class="tick"></span><span class="lbl">Problems</span></a>
-    <a href="#cs-decisions" data-sec="cs-decisions"><span class="tick"></span><span class="lbl">Decisions</span></a>
+    <a href="#cs-decisions" data-sec="cs-decisions"><span class="tick"></span><span class="lbl">Product Decisions</span></a>
     <a href="#cs-ds" data-sec="cs-ds"><span class="tick"></span><span class="lbl">Design System</span></a>
     <a href="#cs-ship" data-sec="cs-ship"><span class="tick"></span><span class="lbl">Shipping</span></a>
     <a href="#cs-pivot" data-sec="cs-pivot"><span class="tick"></span><span class="lbl">The Pivot</span></a>
@@ -1958,19 +1932,28 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       <div class="cs-facts">
         <div class="fact"><span class="fact-k">Role</span><p class="fact-v">Product Designer and Design Generalist</p></div>
         <div class="fact"><span class="fact-k">Timeline</span><p class="fact-v">July – September 2026</p></div>
-        <div class="fact"><span class="fact-k">Team</span><p class="fact-v">CEO, CTO and me — the only designer, owning it end to end</p></div>
-        <div class="fact"><span class="fact-k">My Scope</span><p class="fact-v">Product structure, IA, user journey, the design system, and shipping features through to merged PRs</p></div>
+        <div class="fact"><span class="fact-k">Team</span><p class="fact-v">CTO, CEO, me (Product Design), and full-stack engineers part-time</p></div>
+        <div class="fact"><span class="fact-k">Scope</span><p class="fact-v">Product planning, design foundations, UX research, UI design, UX audits and AI-assisted product development</p></div>
       </div>
 
-      <div class="subhead">
-        <div class="rule-cs"></div>
-        <h2 class="h-28">Starting Point</h2>
-      </div>
+    </div>
+  </section>
 
+  <!-- 02 — Design Approach -->
+  <section class="lg" aria-labelledby="cs-approach">
+    <div class="in">
+      <h2 class="h-56" id="cs-approach">Design Approach</h2>
+      <div class="sp-30"></div>
+      <div class="copy w900">
+        <p class="t-20">When I joined, the product was one big mess to fix. It was three months old, with vibe-coded layouts and a dozen overlapping sections across the app. The UX copy was mostly AI slop or dev language. The features on offer were yet to be finalised. There was no brand or visual system in place, and no design system to use.</p>
+        <p class="t-20 s">It was the opportunity of a lifetime — to take part in product planning and set up the branding, visual design, UX foundations and UI design of a whole product, autonomously. But doing all of that as a one-person design team is an invitation for more mess. So before designing anything, I set up the structure of my process and workflows, and how I wanted to tackle each problem at hand.</p>
+      </div>
+      <div class="sp-48"></div>
+
+      <p class="t-12">What was missing when I arrived.</p>
+      <div class="sp-18"></div>
       <div class="start-row">
         <div class="start-copy">
-          <p class="t-20 lead-820">Due to rising pressure to prepare a demo-ready V1, the team had built an AI-leveraged, quick-shipped, vibe-coded product with many UX and UI foundations missing.</p>
-
           <div class="bullets">
             <div class="col">
               <div class="b"><span class="dot"></span><div class="c"><p class="t-20">Unclear feature claims</p></div></div>
@@ -1992,53 +1975,8 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <span class="orb-core"></span>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- 01.5 — Highlights -->
-  <section class="lg" aria-labelledby="cs-highlights" id="cs-highlights-sec">
-    <div class="in">
-      <div class="rail"><div class="rail-row"><span>[01.5]</span><span>Highlights</span><span>[The work at a glance]</span></div><div class="rule-cs"></div></div>
       <div class="sp-56"></div>
-      <h2 class="h-56" id="cs-highlights">Highlights</h2>
-      <div class="sp-30"></div>
-      <p class="t-20 copy">The parts worth seeing first: the map, the board, the system, and the two surfaces I rebuilt. Everything after this is how they got there.</p>
-      <div class="sp-56"></div>
-      <div class="cs-highlights">
-        <figure class="cs-hl wide"><div class="cs-hl-media"><img src="assets/existing-app.jpg" alt="The app as I found it" loading="lazy"></div><figcaption><b>0.1</b><span>The app as I inherited it</span></figcaption></figure>
-        <figure class="cs-hl wide"><div class="cs-hl-media"><img src="assets/competitors.jpg" alt="Competitor deck slide" loading="lazy"></div><figcaption><b>0.2</b><span>Competitor teardown</span></figcaption></figure>
-        <figure class="cs-hl"><div class="cs-hl-media"><img src="assets/old-new-appointment.jpg" alt="Old New Appointment modal" loading="lazy"></div><figcaption><b>0.3</b><span>Before — appointments</span></figcaption></figure>
-        <figure class="cs-hl"><div class="cs-hl-media"><img src="assets/old-edit-appointment.jpg" alt="Old Edit Appointment modal" loading="lazy"></div><figcaption><b>0.4</b><span>Twenty fields deep</span></figcaption></figure>
-        <figure class="cs-hl"><div class="cs-hl-media"><video src="assets/competitors-scroll.mp4" poster="assets/competitors.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false"></video></div><figcaption><b>0.5</b><span>Deck, scrolling</span></figcaption></figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- 01.6 — Principles -->
-  <section class="lg" aria-labelledby="cs-constraints" id="cs-constraints-sec">
-    <div class="in">
-      <div class="rail"><div class="rail-row"><span>[01.6]</span><span>Constraints</span><span>[The starting condition]</span></div><div class="rule-cs"></div></div>
-      <div class="sp-56"></div>
-      <h2 class="h-56" id="cs-constraints">This wasn’t a normal design brief.</h2>
-      <div class="sp-30"></div>
-      <p class="t-20 copy">A demo-ready V1 already existed — shipped fast, with the foundations skipped. The constraints were the starting condition, not edge cases.</p>
-      <div class="sp-48"></div>
-      <div class="cs-constraints">
-        <div class="cs-constraint"><span class="cico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><p>An early product being figured out while being built. The target moved weekly.</p></div>
-        <div class="cs-constraint"><span class="cico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M4 9h16"/><path d="M8 5V3M16 5V3"/></svg></span><p>A team of three. Two founders and me — the only designer, owning it end to end.</p></div>
-        <div class="cs-constraint"><span class="cico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4v6c0 4-3 7-8 8-5-1-8-4-8-8V7z"/></svg></span><p>A vibe-coded app with ten overlapping sections, no IA, no design system, no brand.</p></div>
-        <div class="cs-constraint"><span class="cico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3 7 4-14 3 7h4"/></svg></span><p>Users mostly outside the product — logging in to supervise, not to do the work.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 02 — Design Approach -->
-  <section class="lg" aria-labelledby="cs-approach">
-    <div class="in">
-      <h2 class="h-56" id="cs-approach">Design Approach</h2>
-      <div class="sp-30"></div>
-      <p class="t-20 lead-820 ph">Each stage exists because the one before … — full sentence goes here</p>
-      <div class="sp-48"></div>
       <div class="process">
         <div class="step-card">
           <div class="top">
@@ -2447,8 +2385,6 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
   <!-- 05.1 — Problem One: the New Appointment modal, iteration by iteration -->
   <section aria-labelledby="cs-p1">
     <div class="in">
-      <div class="rail"><div class="rail-row"><span>[05.1]</span><span>Problem One</span><span>[New Appointment]</span></div><div class="rule-cs"></div></div>
-      <div class="sp-56"></div>
       <h2 class="h-40" id="cs-p1">The New Appointment Modal</h2>
       <div class="sp-30"></div>
       <p class="t-20 copy ph">one or two lines framing what was wrong and where the five iterations landed</p>
@@ -2651,8 +2587,6 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
   <!-- 05.2 — Problem Two: the Edit Appointment modal -->
   <section aria-labelledby="cs-p2">
     <div class="in">
-      <div class="rail"><div class="rail-row"><span>[05.2]</span><span>Problem Two</span><span>[Edit Appointment]</span></div><div class="rule-cs"></div></div>
-      <div class="sp-56"></div>
       <h2 class="h-40" id="cs-p2">The Edit Appointment Modal</h2>
       <div class="sp-30"></div>
       <p class="t-20 copy">If New Appointment is where a visit is written down, Edit Appointment is where it is supervised — and an appointment is not one thing but a sequence of states. Before it could be redesigned, that sequence had to be named.</p>
@@ -2826,7 +2760,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
   <!-- 06 — Explore · Key Design Decisions -->
   <section class="lg" aria-labelledby="cs-decisions">
     <div class="in">
-      <h2 class="h-56" id="cs-decisions">Key Design Decisions</h2>
+      <h2 class="h-56" id="cs-decisions">Product Decisions</h2>
       <div class="sp-30"></div>
       <p class="t-20 copy ph">Four decisions that shaped the product more … — full sentence goes here</p>
       <div class="sp-56"></div>
@@ -2842,10 +2776,10 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <div class="b2">
             <figure class="dec-poster">
               <div class="dp-head">
-                <span class="dp-mark">Decision 01</span>
+                <span class="dp-mark">Product Decision 01</span>
               </div>
               <div class="dp-art"><svg viewBox="0 0 360 270" fill="none" stroke="var(--cs-text)" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="45" cy="45" r="45"/><circle cx="135" cy="45" r="45" fill="#F2F1EE"/><circle cx="225" cy="45" r="45"/><circle cx="315" cy="45" r="45"/><circle cx="45" cy="135" r="45"/><circle cx="135" cy="135" r="45" fill="#BFBDB8"/><circle cx="225" cy="135" r="45"/><circle cx="315" cy="135" r="45"/><circle cx="45" cy="225" r="45"/><circle cx="135" cy="225" r="45"/><circle cx="225" cy="225" r="45"/><circle cx="315" cy="225" r="45"/></svg></div>
-              <figcaption class="dp-title">setting up the design foundations</figcaption>
+              <figcaption class="dp-title">Setting Up the Design Foundations</figcaption>
             </figure>
           </div>
         </div>
@@ -2859,10 +2793,10 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <div class="b2">
             <figure class="dec-poster">
               <div class="dp-head">
-                <span class="dp-mark">Decision 02</span>
+                <span class="dp-mark">Product Decision 02</span>
               </div>
               <div class="dp-art"><svg viewBox="0 0 400 320" fill="none" stroke="var(--cs-text)" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="96.2" cy="291.6" r="65.0" opacity="0.103"/><circle cx="110.8" cy="276.4" r="65.8" opacity="0.172"/><circle cx="125.4" cy="261.2" r="66.7" opacity="0.241"/><circle cx="140.0" cy="246.0" r="67.5" opacity="0.31"/><circle cx="154.6" cy="230.8" r="68.3" opacity="0.379"/><circle cx="169.2" cy="215.6" r="69.2" opacity="0.448"/><circle cx="183.8" cy="200.4" r="70.0" opacity="0.517"/><circle cx="198.4" cy="185.2" r="70.9" opacity="0.586"/><circle cx="213.0" cy="170.0" r="71.8" opacity="0.655"/><circle cx="227.6" cy="154.8" r="72.6" opacity="0.724"/><circle cx="242.2" cy="139.6" r="73.5" opacity="0.793"/><circle cx="256.8" cy="124.4" r="74.3" opacity="0.862"/><circle cx="271.4" cy="109.2" r="75.2" opacity="0.931"/><circle cx="286.0" cy="94.0" r="76.0" opacity="1.0"/></svg></div>
-              <figcaption class="dp-title">rebuilding the lead modal</figcaption>
+              <figcaption class="dp-title">Rebuilding the Lead Modal</figcaption>
             </figure>
           </div>
         </div>
@@ -2897,10 +2831,10 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <div class="b2">
             <figure class="dec-poster">
               <div class="dp-head">
-                <span class="dp-mark">Decision 03</span>
+                <span class="dp-mark">Product Decision 03</span>
               </div>
               <div class="dp-art"><svg viewBox="0 0 400 320" fill="none" stroke="var(--cs-text)" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="200" cy="108" r="95"/><circle cx="200" cy="212" r="95"/></svg></div>
-              <figcaption class="dp-title">simplifying creating and editing appointments</figcaption>
+              <figcaption class="dp-title">Simplifying Creating and Editing Appointments</figcaption>
             </figure>
           </div>
         </div>
@@ -2913,10 +2847,10 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <div class="b2">
             <figure class="dec-poster">
               <div class="dp-head">
-                <span class="dp-mark">Decision 04</span>
+                <span class="dp-mark">Product Decision 04</span>
               </div>
               <div class="dp-art"><svg viewBox="0 0 404 302" fill="none" stroke="var(--cs-text)" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="80" cy="90" r="68"/><circle cx="202" cy="90" r="68"/><circle cx="324" cy="90" r="68"/><circle cx="80" cy="212" r="68"/><circle cx="202" cy="212" r="68"/><circle cx="324" cy="212" r="68"/></svg></div>
-              <figcaption class="dp-title">ui design and ux foundations</figcaption>
+              <figcaption class="dp-title">UI Design and UX Foundations</figcaption>
             </figure>
           </div>
         </div>
@@ -3033,11 +2967,6 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <p class="t-20 s ph">The company concluded the market and product … — full paragraph goes here</p>
           <p class="t-20 s ph">It taught me something I’d rather have learned … — full paragraph goes here</p>
         </div>
-        <div class="b2">
-          <div class="surv"><span class="eyebrow">What Survives</span><p class="t-16 ph">The IA and journey work describes how PI … — full paragraph goes here</p></div>
-          <div class="surv"><span class="eyebrow">Also Survives</span><p class="t-16 ph">The market research became the input to … — full paragraph goes here</p></div>
-          <div class="surv"><span class="eyebrow">And</span><p class="t-16 ph">The way of working — audit before design … — full paragraph goes here</p></div>
-        </div>
       </div>
     </div>
   </section>
@@ -3047,7 +2976,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
     <div class="in">
       <div class="rule-cs"></div>
       <div class="sp-56"></div>
-      <p class="h-40 ph">Two months. One product that didn’t make … — full closing statement goes here</p>
+      <p class="h-40">Two months. One product that didn’t survive its market, and a way of working that did. Gideon taught me to name a thing before drawing it, to design for people who log in to check work rather than do it, and to carry my own decisions through to merged code instead of handing them over.</p>
       <div class="sp-56"></div>
       <div class="colophon">
         <div class="cl"><div class="rule-cs soft"></div><span class="eyebrow">Role</span><p class="t-12 ph">Product Designer — structure, IA, journey … — complete this line</p></div>
