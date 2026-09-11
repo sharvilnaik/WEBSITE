@@ -956,6 +956,55 @@ p.copy.ph { display: block; }
 @media (hover: none), (pointer: coarse) { .mk-tip { display: none; } }
 @media (max-width: 860px) { .flaw-pair { grid-template-columns: 1fr; } }
 
+/* 05 — problems: numbered, jumpable, and collapsible from the heading */
+.prob-jump { display: flex; flex-wrap: wrap; gap: 10px; }
+.prob-chip {
+  display: inline-flex; align-items: center; gap: 10px;
+  height: 42px; padding: 0 20px; border-radius: 100px;
+  border: 1px solid var(--cs-line-2); background: none; color: var(--cs-text-2);
+  font-family: var(--font-geist); font-size: 14px; line-height: 1; font-weight: 300;
+  transition: color 220ms ease, border-color 220ms ease, background-color 220ms ease;
+}
+.prob-chip span {
+  font-size: 11px; letter-spacing: 0.08em; color: var(--cs-text-3);
+  transition: color 220ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .prob-chip:hover { background: var(--g-blue); border-color: var(--g-blue); color: #fff; }
+  .prob-chip:hover span { color: rgba(255,255,255,0.75); }
+}
+
+.prob-head {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
+  padding-bottom: 20px; border-bottom: 1px solid var(--cs-line);
+}
+.prob-title { display: flex; flex-direction: column; gap: 10px; }
+.prob-eyebrow {
+  font-size: 12px; line-height: 16px; letter-spacing: 0.1em;
+  text-transform: uppercase; font-weight: 400; color: var(--cs-blue);
+}
+.prob-toggle {
+  flex: none; display: inline-flex; align-items: center; gap: 10px;
+  height: 40px; padding: 0 16px; border-radius: 100px;
+  border: 1px solid var(--cs-line-2); background: none; color: var(--cs-text-2);
+  font-family: var(--font-geist); font-size: 13px; line-height: 1; font-weight: 300;
+  transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease;
+}
+.prob-toggle .chev { width: 16px; height: 16px; transition: transform 280ms var(--ease-out); }
+.prob.is-closed .prob-toggle .chev { transform: rotate(-90deg); }
+@media (hover: hover) and (pointer: fine) {
+  .prob-toggle:hover { color: var(--cs-text); border-color: var(--cs-text-3); background: rgba(255,255,255,0.05); }
+}
+/* no height transition here: Problem One is ~5,900px, and animating that
+   reflows everything below it on every frame. The chevron carries the motion. */
+.prob-body { display: grid; grid-template-rows: 1fr; }
+.prob.is-closed .prob-body { grid-template-rows: 0fr; }
+.prob-body > div { overflow: hidden; }
+.prob-sub { margin-bottom: 0; }
+@media (max-width: 700px) {
+  .prob-head { flex-direction: column; align-items: flex-start; gap: 16px; }
+}
+
 /* 05.2 — the status flow an appointment moves through */
 .stages {
   display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
@@ -2387,6 +2436,13 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
         <p class="t-20 s">All of it has to live somewhere. Gideon is that somewhere — the CRM and the database the firm works out of, which is also what makes the automation possible. Two surfaces do the writing: <b>New Appointment</b> and <b>Edit Appointment</b>. Both were mine to fix, and this is where the work went.</p>
       </div>
 
+      <div class="sp-48"></div>
+      <div class="prob-jump" role="group" aria-label="Jump to a problem">
+        <button class="prob-chip" type="button" data-jump="prob-1-sec"><span>01</span>Appointment Modals</button>
+        <button class="prob-chip" type="button" data-jump="prob-2-sec"><span>02</span>Lead Modal</button>
+        <button class="prob-chip" type="button" data-jump="prob-3-sec"><span>03</span>Other Design Changes</button>
+      </div>
+
       <div class="sp-52"></div>
 
       <p class="t-12">The two modals as I inherited them — switch between them.</p>
@@ -2409,10 +2465,20 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
     </div>
   </section>
 
-  <!-- 05.1 — Problem One: the New Appointment modal, iteration by iteration -->
-  <section aria-labelledby="cs-p1">
+  <!-- 05.1 — Problem One -->
+  <section class="prob" id="prob-1-sec" aria-labelledby="cs-p1">
     <div class="in">
-      <h2 class="h-40" id="cs-p1">The New Appointment Modal</h2>
+      <div class="prob-head">
+        <div class="prob-title">
+          <span class="prob-eyebrow">Problem One</span>
+          <h2 class="h-40" id="cs-p1">The Appointment Modals</h2>
+        </div>
+        <button class="prob-toggle" type="button" aria-expanded="true" aria-controls="prob-1">
+          <span class="prob-toggle-label">Collapse</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="prob-body" id="prob-1"><div>
+        <h3 class="h-28 prob-sub" id="cs-p1a">The New Appointment Modal</h3>
       <div class="sp-30"></div>
       <p class="t-20 copy ph">one or two lines framing what was wrong and where the five iterations landed</p>
       <div class="sp-56"></div>
@@ -2608,13 +2674,12 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
         </div>
 
       </div>
-    </div>
-  </section>
 
-  <!-- 05.2 — Problem Two: the Edit Appointment modal -->
-  <section aria-labelledby="cs-p2">
-    <div class="in">
-      <h2 class="h-40" id="cs-p2">The Edit Appointment Modal</h2>
+      <div class="sp-56"></div>
+      <div class="rule-cs soft"></div>
+      <div class="sp-56"></div>
+
+        <h3 class="h-28 prob-sub" id="cs-p1b">The Edit Appointment Modal</h3>
       <div class="sp-30"></div>
       <p class="t-20 copy">If New Appointment is where a visit is written down, Edit Appointment is where it is supervised — and an appointment is not one thing but a sequence of states. Before it could be redesigned, that sequence had to be named.</p>
 
@@ -2781,6 +2846,49 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
         </div>
 
       </div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- 05.2 — Problem Two -->
+  <section class="prob" id="prob-2-sec" aria-labelledby="cs-p2">
+    <div class="in">
+      <div class="prob-head">
+        <div class="prob-title">
+          <span class="prob-eyebrow">Problem Two</span>
+          <h2 class="h-40" id="cs-p2">The Lead Modal</h2>
+        </div>
+        <button class="prob-toggle" type="button" aria-expanded="true" aria-controls="prob-2">
+          <span class="prob-toggle-label">Collapse</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="prob-body" id="prob-2"><div>
+        <div class="sp-30"></div>
+        <p class="t-20 copy ph">what the Lead Modal is, what was wrong with it, and what changed</p>
+        <div class="sp-48"></div>
+        <div class="media r620" role="img" aria-label="Lead Modal placeholder"><span>Drop media</span><span>Lead Modal — before and after</span></div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- 05.3 — Problem Three -->
+  <section class="prob" id="prob-3-sec" aria-labelledby="cs-p3">
+    <div class="in">
+      <div class="prob-head">
+        <div class="prob-title">
+          <span class="prob-eyebrow">Problem Three</span>
+          <h2 class="h-40" id="cs-p3">Other Design Changes</h2>
+        </div>
+        <button class="prob-toggle" type="button" aria-expanded="true" aria-controls="prob-3">
+          <span class="prob-toggle-label">Collapse</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="prob-body" id="prob-3"><div>
+        <div class="sp-30"></div>
+        <p class="t-20 copy ph">the smaller surfaces — what was fixed and why each one mattered</p>
+        <div class="sp-48"></div>
+        <div class="media r620" role="img" aria-label="Other design changes placeholder"><span>Drop media</span><span>Other design changes</span></div>
+      </div></div>
     </div>
   </section>
 
@@ -3481,6 +3589,30 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
     render();
   });
 
+
+  // ---- Problems: collapse from the heading, and chips that jump to them ----
+  const setProb = (sec, open) => {
+    sec.classList.toggle('is-closed', !open);
+    const btn = sec.querySelector('.prob-toggle');
+    if (!btn) return;
+    btn.setAttribute('aria-expanded', String(open));
+    const lbl = btn.querySelector('.prob-toggle-label');
+    if (lbl) lbl.textContent = open ? 'Collapse' : 'Expand';
+  };
+  document.querySelectorAll('.prob-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const sec = btn.closest('.prob');
+      setProb(sec, sec.classList.contains('is-closed'));
+    });
+  });
+  document.querySelectorAll('[data-jump]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const sec = document.getElementById(chip.dataset.jump);
+      if (!sec) return;
+      setProb(sec, true);          // never drop someone into a collapsed section
+      sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 
   // ---- Numbered points: collapse the detail, and read it off the marker ----
   document.querySelectorAll('.flaws').forEach(list => {
