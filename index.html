@@ -900,10 +900,18 @@ p.copy.ph { display: block; }
 .iter-extra { grid-column: 1 / -1; }
 .iter-extra > .t-12 { margin-bottom: 14px; }
 .iter-tri { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.iter-tri figure { margin: 0; }
-.iter-tri figcaption { margin-top: 10px; font-size: 12px; line-height: 18px; color: var(--cs-mute); }
+.iter-tri figure { margin: 0; display: flex; flex-direction: column; }
+.iter-tri figcaption { margin-top: auto; padding-top: 10px; font-size: 12px; line-height: 18px; color: var(--cs-mute); }
 /* a still and a clip stacked in one media column */
 .iter-duo { display: grid; grid-template-columns: 1fr; gap: 16px; }
+
+/* full-width iteration — copy leads, the evidence runs across underneath */
+.iter.full { grid-template-columns: 1fr; gap: 40px; }
+.iter.full .iter-copy { max-width: 820px; }
+/* two landscape stills and one portrait clip — the narrower third column
+   keeps all three roughly the same height */
+.iter-final { grid-template-columns: 1fr 1fr 0.66fr; }
+.iter-final .cs-img, .iter-final .nf-vid { width: 100%; height: auto; }
 
 @media (max-width: 900px) {
   .iters { gap: 64px; }
@@ -1472,7 +1480,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 /* contain, not cover — these are UI screenshots and cropping loses the point */
 .cs-ba-stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity 320ms var(--ease-out); }
 .cs-ba-stage img.show { opacity: 1; }
-.cs-ba-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px; border-top: 1px solid var(--cs-line-2); }
+.cs-ba-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px; border-bottom: 1px solid var(--cs-line-2); }
 .cs-ba-bar .cap { font-size: 12px; line-height: 18px; color: var(--cs-text-3); }
 .cs-ba-toggle { display: inline-flex; padding: 3px; border-radius: 100px; background: var(--cs-bg); border: 1px solid var(--cs-line-2); }
 .cs-ba-toggle button {
@@ -2197,16 +2205,16 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       <p class="t-12">The two modals as I inherited them — switch between them.</p>
       <div class="sp-18"></div>
       <div class="cs-ba" data-ba>
-        <div class="cs-ba-stage">
-          <img class="ba-img show" data-ba-img="a" src="assets/old-new-appointment.jpg" alt="The old New Appointment modal: client, date, time, duration, type, location and notes">
-          <img class="ba-img" data-ba-img="b" src="assets/old-edit-appointment.jpg" alt="The old Edit Appointment modal: six panels of fields, most of them empty, and a row of six actions">
-        </div>
         <div class="cs-ba-bar">
           <span class="cap" data-ba-cap>New Appointment — five fields, no cadence, no plan.</span>
           <span class="cs-ba-toggle" role="group" aria-label="Compare the two modals">
             <button type="button" data-ba-set="a" aria-pressed="true">New Appointment</button>
             <button type="button" data-ba-set="b" aria-pressed="false">Edit Appointment</button>
           </span>
+        </div>
+        <div class="cs-ba-stage">
+          <img class="ba-img show" data-ba-img="a" src="assets/gd/old-new-appointment.png" alt="The old New Appointment modal: an existing-or-new client choice, name and phone, date, time, duration, a fixed type list and a free-text location">
+          <img class="ba-img" data-ba-img="b" src="assets/old-edit-appointment.jpg" alt="The old Edit Appointment modal: six panels of fields, most of them empty, and a row of six actions">
         </div>
       </div>
     </div>
@@ -2246,64 +2254,71 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           </div>
         </div>
 
-        <!-- ITERATION 02 — copy left, media right -->
+        <!-- ITERATION 02 — copy left, media right. Merged: one modal + cadence -->
         <div class="iter flip">
           <div class="iter-media">
-            <div class="media r620" role="img" aria-label="Iteration two"><span>Drop media</span><span>Iteration 02 — New Appointment rebuilt to match Edit Appointment</span></div>
+            <img class="cs-img" src="assets/gd/v1-one-modal.png" alt="Version one of the New Appointment modal — one modal carrying everything the edit screen could do, with the confirmation cadence preset open" loading="lazy">
           </div>
           <div class="iter-copy">
             <span class="iter-step">Iteration 02</span>
-            <h3 class="ph">matching Edit Appointment</h3>
-            <p class="t-20 ph">I brought New Appointment up to the same shape as Edit Appointment so the two read as one object — more options and input fields at the point of creation. Replace with your own account of what you added and why.</p>
-          </div>
-        </div>
-
-        <!-- ITERATION 03 — media left, copy right, plus the three layout explorations -->
-        <div class="iter">
-          <div class="iter-media">
-            <div class="media r620" role="img" aria-label="Iteration three"><span>Drop media</span><span>Iteration 03 — cadences</span></div>
-          </div>
-          <div class="iter-copy">
-            <span class="iter-step">Iteration 03</span>
-            <h3 class="ph">adding cadences</h3>
-            <p class="t-20 ph">what a cadence is, why it belonged at creation rather than after, and what it changed for the case manager</p>
+            <h3 class="ph">one modal, more fields — and a cadence</h3>
+            <p class="t-20 ph">two changes in one pass: New Appointment was rebuilt to match Edit Appointment, so the two screens finally agreed on what an appointment is — and cadence arrived at creation, so booking a visit and chasing the client stopped being separate jobs</p>
           </div>
 
           <div class="iter-extra">
-            <p class="t-12">Layout options explored for adding a cadence.</p>
+            <p class="t-12">Cadence — the layouts explored, and the one that stuck.</p>
             <div class="iter-tri">
-              <figure><div class="media" style="aspect-ratio: 4 / 3" role="img" aria-label="Cadence layout option A"><span>Drop media</span><span>Option A</span></div><figcaption class="ph">what this one did</figcaption></figure>
-              <figure><div class="media" style="aspect-ratio: 4 / 3" role="img" aria-label="Cadence layout option B"><span>Drop media</span><span>Option B</span></div><figcaption class="ph">what this one did</figcaption></figure>
-              <figure><div class="media" style="aspect-ratio: 4 / 3" role="img" aria-label="Cadence layout option C"><span>Drop media</span><span>Option C</span></div><figcaption class="ph">what this one did, and why you picked the one you picked</figcaption></figure>
+              <figure>
+                <img class="cs-img" src="assets/gd/cad-4b.png" alt="Cadence as individual attempts with real times, after Send Confirmation Now" loading="lazy">
+                <figcaption class="ph">4b — what this one did</figcaption>
+              </figure>
+              <figure>
+                <img class="cs-img" src="assets/gd/cad-4c.jpg" alt="Cadence in Log a Visit — confirmation drops away and only follow-up remains" loading="lazy">
+                <figcaption class="ph">4c — what this one did</figcaption>
+              </figure>
+              <figure>
+                <img class="cs-img" src="assets/gd/cad-chosen.png" alt="The chosen cadence — confirmation and follow-up presets with the reminder ladder open" loading="lazy">
+                <figcaption class="ph">the one we went with, and why</figcaption>
+              </figure>
             </div>
           </div>
         </div>
 
-        <!-- ITERATION 04 — copy left, media right -->
-        <div class="iter flip">
+        <!-- ITERATION 03 — media left, copy right -->
+        <div class="iter">
           <div class="iter-media">
-            <div class="media r620" role="img" aria-label="Iteration four"><span>Drop media</span><span>Iteration 04 — treatment plan</span></div>
+            <img class="cs-img" src="assets/gd/treatment-plan.png" alt="Add Treatment Plan Step — treatment types with a provider each, visits, frequency and duration, and the appointments generated from them" loading="lazy">
           </div>
           <div class="iter-copy">
-            <span class="iter-step">Iteration 04</span>
-            <h3 class="ph">adding the treatment plan</h3>
-            <p class="t-20 ph">a plan is a course of visits, not one appointment — what that meant for the modal and for the record behind it</p>
+            <span class="iter-step">Iteration 03</span>
+            <h3 class="ph">the treatment plan</h3>
+            <p class="t-20 ph">a client in treatment attends a course of visits, not one — so the modal learned to describe the course and generate the appointments from it</p>
           </div>
         </div>
 
-        <!-- ITERATION 05 — media left (still + motion), copy right -->
-        <div class="iter">
-          <div class="iter-media iter-duo">
-            <div class="media r620" role="img" aria-label="Iteration five — the simplified modal"><span>Drop media</span><span>Iteration 05 — the simplified modal</span></div>
-            <!-- swap this placeholder for the real clip:
-            <div class="nf-vid"><video src="assets/new-appointment-final.mp4" poster="assets/new-appointment-final.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="The simplified New Appointment modal in use"></video></div>
-            -->
-            <div class="media r620" role="img" aria-label="Iteration five — the modal in use"><span>Drop .mp4</span><span>Iteration 05 — the modal in use</span></div>
-          </div>
+        <!-- ITERATION 04 — the version that shipped, three up -->
+        <div class="iter full">
           <div class="iter-copy">
-            <span class="iter-step">Iteration 05</span>
-            <h3 class="ph">the simplified version</h3>
-            <p class="t-20 ph">how it collapsed back down — what you took out, what you kept, and what the modal asks for now</p>
+            <span class="iter-step">Iteration 04</span>
+            <h3 class="ph">the version that shipped</h3>
+            <p class="t-20 ph">what it collapsed down to — two modes in one form, scheduling ahead or recording a visit that already happened</p>
+          </div>
+
+          <div class="iter-tri iter-final">
+            <figure>
+              <img class="cs-img" src="assets/gd/final-schedule.jpg" alt="The final New Appointment modal, scheduling ahead" loading="lazy">
+              <figcaption class="ph">New Appointment — scheduling ahead</figcaption>
+            </figure>
+            <figure>
+              <img class="cs-img" src="assets/gd/final-log-visit.jpg" alt="The final modal in Log a Visit mode, with an outcome and notes" loading="lazy">
+              <figcaption class="ph">Log a Visit — recording one that already happened</figcaption>
+            </figure>
+            <figure>
+              <div class="nf-vid">
+                <video src="assets/gd/final-walkthrough.mp4" poster="assets/gd/final-walkthrough-poster.jpg" muted playsinline preload="none" data-noautoplay data-audio="false" aria-label="The shipped New Appointment modal, driven end to end"></video>
+              </div>
+              <figcaption class="ph">the modal in use — press play</figcaption>
+            </figure>
           </div>
         </div>
 
@@ -2909,8 +2924,9 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
     document.title = view ? view.dataset.title + ' · ' + baseTitle : baseTitle;
     // pause off-screen videos so hidden views don't keep decoding
     document.querySelectorAll('video').forEach(v => {
+      // data-noautoplay: long clips that shouldn't download until asked for
       const inView = view ? view.contains(v) : home.contains(v);
-      if (inView) { v.play().catch(() => {}); } else { v.pause(); }
+      if (inView && !v.hasAttribute('data-noautoplay')) { v.play().catch(() => {}); } else { v.pause(); }
     });
     if (view) { window.scrollTo({ top: 0, behavior: 'instant' }); return; }
     const target = location.hash && location.hash !== '#top' ? document.querySelector(location.hash) : null;
