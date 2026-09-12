@@ -743,6 +743,8 @@ p.copy.ph { display: block; }
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px;
   border-top: 1px solid var(--cs-line); padding-top: 26px;
 }
+/* the tools line reads as one run, so it takes the whole row */
+.cs-facts .fact.wide { grid-column: 1 / -1; }
 .fact { display: flex; flex-direction: column; gap: 10px; }
 .fact-k {
   font-size: 12px; line-height: 16px; letter-spacing: 0.1em;
@@ -911,6 +913,13 @@ p.copy.ph { display: block; }
 }
 @media (hover: hover) and (pointer: fine) {
   .flaw-img .mk:hover, .shot.is-marked .mk:hover { transform: translate(-50%, -50%) scale(1.18); }
+/* the point you opened, called out on the shot it belongs to */
+.flaw-img .mk.is-active, .shot.is-marked .mk.is-active {
+  z-index: 4;
+  transform: translate(-50%, -50%) scale(1.42);
+  background: var(--cs-blue-3);
+  box-shadow: 0 0 0 3px var(--cs-bg), 0 0 0 11px rgba(47, 97, 224, 0.28), 0 10px 26px rgba(0,0,0,0.5);
+}
 }
 .iter-subrow { margin: 28px 0 16px; }
 .flaws { list-style: none; margin: 0; padding: 0; max-width: 880px; }
@@ -2088,6 +2097,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
         <div class="fact"><span class="fact-k">Timeline</span><p class="fact-v">July – September 2026</p></div>
         <div class="fact"><span class="fact-k">Team</span><p class="fact-v">CTO, CEO, me (Product Design), and full-stack engineers part-time</p></div>
         <div class="fact"><span class="fact-k">Scope</span><p class="fact-v">Product planning, design foundations, UX research, UI design, UX audits and AI-assisted product development</p></div>
+        <div class="fact wide"><span class="fact-k">Tools</span><p class="fact-v">Figma · Claude Code · Claude Design · fal.ai · After Effects · FigJam · Illustrator</p></div>
       </div>
 
     </div>
@@ -4056,11 +4066,29 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 
   // ---- Numbered points: collapse the detail, and read it off the marker ----
   document.querySelectorAll('.flaws').forEach(list => {
+    // the shot that belongs to this list, and the markers drawn on it
+    const row = list.closest('.iter') || list.closest('section');
+    const shot = row ? row.querySelector('.flaw-img, .shot.is-marked') : null;
+    const marks = shot ? [...shot.querySelectorAll('.mk:not(.lm-mk)')] : [];
+
     list.querySelectorAll('.flaw-head').forEach(head => {
       head.addEventListener('click', () => {
         const li = head.closest('li');
         const open = li.classList.toggle('is-open');
         head.setAttribute('aria-expanded', String(open));
+
+        // point at the same number on the image, and only that one
+        const badge = li.querySelector('.mk');
+        const n = badge ? badge.textContent.trim() : null;
+        marks.forEach(m => m.classList.toggle('is-active', open && m.textContent.trim() === n));
+        if (open) {
+          [...list.querySelectorAll('li.is-open')].forEach(other => {
+            if (other === li) return;
+            other.classList.remove('is-open');
+            const h = other.querySelector('.flaw-head');
+            if (h) h.setAttribute('aria-expanded', 'false');
+          });
+        }
       });
     });
   });
