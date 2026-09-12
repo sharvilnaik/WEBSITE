@@ -860,7 +860,38 @@ p.copy.ph { display: block; }
 
 /* 02 — Approach: process strip */
 /* 02 — the approach strip, drawn in the same language as the decision posters */
-.process { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 12px; }
+/* the approach as a path: nodes on a dotted line, no boxes */
+.pathwrap { overflow-x: auto; }
+.path {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0;
+  min-width: 780px;
+}
+.pstep { position: relative; padding: 0 20px 0 0; }
+/* the dotted run between one node and the next */
+.pstep::before {
+  content: ""; position: absolute; left: 34px; right: -34px; top: 33px;
+  border-top: 1px dotted var(--cs-dim-2);
+}
+.pstep:last-child::before { display: none; }
+.pnode {
+  position: relative; z-index: 1; display: grid; place-items: center;
+  width: 68px; height: 68px; border-radius: 50%;
+  border: 1px solid var(--cs-line-2); background: var(--cs-bg);
+  color: var(--cs-text-2);
+  transition: color 200ms var(--ease-out), border-color 200ms var(--ease-out);
+}
+.pnode svg { width: 40px; height: 40px; display: block; }
+.pstep:hover .pnode { color: var(--cs-blue); border-color: var(--cs-blue); }
+.pk {
+  display: block; margin-top: 22px;
+  font-size: 12px; line-height: 16px; letter-spacing: 0.1em; color: var(--cs-label);
+}
+.pn {
+  display: block; margin-top: 10px;
+  font-size: 20px; line-height: 28px; font-weight: 300; letter-spacing: -0.01em; color: var(--cs-text);
+}
+.pd { margin: 10px 0 0; font-size: 14px; line-height: 23px; font-weight: 300; color: var(--cs-text-3); padding-right: 18px; }
 .step-card {
   display: grid; grid-template-rows: auto 1fr auto;
   min-height: 268px; padding: 16px 15px 16px;
@@ -890,8 +921,8 @@ p.copy.ph { display: block; }
   .step-card:hover .k { color: rgba(255,255,255,0.75); }
   .step-card:hover .d { color: rgba(255,255,255,0.85); }
 }
-@media (max-width: 1100px) { .process { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-@media (max-width: 700px)  { .process { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 1100px) {  }
+@media (max-width: 700px)  {  }
 
 /* 05.1 — the two old modals, with flaw markers */
 .flaw-pair { display: grid; grid-template-columns: 0.984fr 1.618fr; gap: 20px; align-items: start; }
@@ -1126,6 +1157,43 @@ p.copy.ph { display: block; }
 .cf-to .cf-p { margin-top: 10px; }
 .cf-p { margin: 0; font-size: 16px; line-height: 27px; font-weight: 300; color: var(--cs-text-3); }
 
+/* ---- IA: how deep it went, and what came off ---- */
+.ia-ba { border: 1px solid var(--cs-line-2); background: var(--cs-bg); }
+.ia-ba-stage { position: relative; min-height: 420px; padding: 40px 36px; }
+.ia-state { position: absolute; inset: 0; padding: 40px 36px; opacity: 0; pointer-events: none; transition: opacity 300ms var(--ease-out); }
+.ia-state.show { opacity: 1; pointer-events: auto; }
+.ia-cascade { display: flex; flex-direction: column; align-items: flex-start; }
+.ia-node { position: relative; }
+.ia-node + .ia-node { margin-left: 58px; margin-top: 26px; }
+/* the dotted elbow from the level above */
+.ia-node + .ia-node::before {
+  content: ""; position: absolute; left: -30px; top: -28px; width: 28px; height: 42px;
+  border-left: 1px dotted var(--cs-dim-2); border-bottom: 1px dotted var(--cs-dim-2);
+  border-bottom-left-radius: 10px;
+}
+.ia-pill {
+  display: inline-flex; align-items: center; gap: 14px;
+  padding: 11px 20px 11px 11px; border-radius: 999px;
+  border: 1px solid var(--cs-line-2); background: var(--cs-panel);
+}
+.ia-pill i {
+  font-style: normal; flex: none; display: grid; place-items: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--cs-blue-deep); color: var(--cs-blue); font-size: 11px;
+}
+.ia-pill b { font-size: 16px; line-height: 24px; font-weight: 400; color: var(--cs-text); }
+.ia-pill > span { font-size: 14px; line-height: 24px; font-weight: 300; color: var(--cs-mute); }
+
+.iac-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.iac { border: 1px solid var(--cs-line); padding: 26px 26px 24px; display: flex; flex-direction: column; }
+.iac-k { font-size: 12px; line-height: 16px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cs-blue); }
+.iac-v { margin-top: 14px; font-size: 34px; line-height: 40px; font-weight: 300; letter-spacing: -0.02em; color: var(--cs-text); }
+.iac-v em { font-style: normal; color: var(--cs-dim); padding: 0 6px; }
+.marks { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 18px; }
+.marks i { width: 13px; height: 13px; border: 1px solid var(--cs-line-2); background: transparent; }
+.marks i.on { background: var(--cs-blue-3); border-color: var(--cs-blue-3); }
+.iac-d { margin: 18px 0 0; font-size: 14px; line-height: 23px; font-weight: 300; color: var(--cs-text-3); }
+
 /* ---- Personas ---- */
 .personas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; align-items: start; }
 .persona {
@@ -1188,6 +1256,9 @@ p.copy.ph { display: block; }
   .lead-tri { grid-template-columns: 1fr; }
   .cf-figs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; }
   .cf-row { grid-template-columns: 1fr; gap: 16px; }
+  .iac-grid { grid-template-columns: 1fr; }
+  .ia-node + .ia-node { margin-left: 34px; }
+  .ia-state, .ia-ba-stage { padding: 28px 22px; }
   .personas { grid-template-columns: 1fr; }
   .pr-row { grid-template-columns: 1fr; gap: 4px; }
 }
@@ -1281,7 +1352,7 @@ p.copy.ph { display: block; }
   .two-col .left, .dec .a, .pivot .a, .ia-row .copy { flex: none; width: 100%; }
   .two-col .right, .dec .b2, .pivot .b2 { flex: none; width: 100%; max-width: 560px; }
   .ia-row .media { width: 100%; }
-  .process { grid-template-columns: repeat(4, 1fr); }
+  
   .workflow { grid-template-columns: repeat(4, 1fr); }
   .colophon { grid-template-columns: 1fr 1fr; row-gap: 32px; }
   .gideon-title { font-size: clamp(64px, 11vw, 120px); }
@@ -1299,7 +1370,7 @@ p.copy.ph { display: block; }
   .t-20 { font-size: 17px; line-height: 25px; }
   .media.cover .wordmark { font-size: 56px; line-height: 1; }
   .bullets { grid-template-columns: 1fr; column-gap: 0; }
-  .process { grid-template-columns: repeat(2, 1fr); }
+  
   .workflow { grid-template-columns: repeat(2, 1fr); }
   .tri { grid-template-columns: 1fr; }
   .tri .media { aspect-ratio: 1220 / 620; }
@@ -2141,63 +2212,41 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       </div>
 
       <div class="sp-56"></div>
-      <div class="process">
-        <div class="step-card">
-          <span class="k">01</span>
-          <div class="step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="48" cy="60" r="34"/><circle cx="84" cy="60" r="22"/></svg></div>
-          <div class="step-foot">
-            <span class="n">Understand</span>
-            <span class="d">Existing product and competitors</span>
-          </div>
-        </div>
-        <div class="step-card">
-          <span class="k">02</span>
-          <div class="step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M60 40v18M32 78V68h56v10" stroke-opacity="0.55"/><circle cx="60" cy="28" r="13"/><circle cx="32" cy="91" r="13"/><circle cx="60" cy="91" r="13"/><circle cx="88" cy="91" r="13"/></svg></div>
-          <div class="step-foot">
-            <span class="n">Structure</span>
-            <span class="d">IA and the state machines</span>
-          </div>
-        </div>
-        <div class="step-card">
-          <span class="k">03</span>
-          <div class="step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="60" cy="60" r="38"/><circle cx="60" cy="60" r="25"/><circle cx="60" cy="60" r="11" fill="currentColor" stroke="none"/></svg></div>
-          <div class="step-foot">
-            <span class="n">Identify</span>
-            <span class="d">The three structural problems</span>
-          </div>
-        </div>
-        <div class="step-card">
-          <span class="k">04</span>
-          <div class="step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="44" cy="48" r="25"/><circle cx="84" cy="38" r="14"/><circle cx="76" cy="82" r="19"/><circle cx="36" cy="90" r="9"/></svg></div>
-          <div class="step-foot">
-            <span class="n">Explore</span>
-            <span class="d">Iterations on each surface</span>
-          </div>
-        </div>
-        <div class="step-card">
-          <span class="k">05</span>
-          <div class="step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="60" cy="60" r="34"/><path d="M46 61l10 10 19-22" stroke-width="1.8"/></svg></div>
-          <div class="step-foot">
-            <span class="n">Validate</span>
-            <span class="d">Internal testing and founder feedback</span>
-          </div>
-        </div>
-        <div class="step-card">
-          <span class="k">06</span>
-          <div class="step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="36" cy="36" r="5.5"/><circle cx="52" cy="36" r="5.5"/><circle cx="68" cy="36" r="5.5"/><circle cx="84" cy="36" r="5.5"/><circle cx="36" cy="52" r="5.5"/><circle cx="52" cy="52" r="5.5"/><circle cx="68" cy="52" r="5.5"/><circle cx="84" cy="52" r="5.5"/><circle cx="36" cy="68" r="5.5"/><circle cx="52" cy="68" r="5.5"/><circle cx="68" cy="68" r="5.5"/><circle cx="84" cy="68" r="5.5"/><circle cx="36" cy="84" r="5.5"/><circle cx="52" cy="84" r="5.5"/><circle cx="68" cy="84" r="5.5"/><circle cx="84" cy="84" r="5.5"/></svg></div>
-          <div class="step-foot">
-            <span class="n">Systematise</span>
-            <span class="d">Foundations and components</span>
-          </div>
-        </div>
-        <div class="step-card">
-          <span class="k">07</span>
-          <div class="step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="48" cy="60" r="28"/><path d="M82 60h22M94 50l10 10-10 10"/><path d="M112 36v48" stroke-opacity="0.55"/></svg></div>
-          <div class="step-foot">
-            <span class="n">Ship</span>
-            <span class="d">Specs, PRs and iteration</span>
-          </div>
-        </div>
+      <p class="t-12">Five moves, in order.</p>
+      <div class="sp-30"></div>
+      <div class="pathwrap">
+        <ol class="path">
+          <li class="pstep">
+            <span class="pnode"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="48" cy="60" r="34"/><circle cx="84" cy="60" r="22"/></svg></span>
+            <span class="pk">01</span>
+            <b class="pn">Understand</b>
+            <p class="pd">The product as built, and the competitors buyers were comparing it against.</p>
+          </li>
+          <li class="pstep">
+            <span class="pnode"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M60 40v18M32 78V68h56v10" stroke-opacity="0.55"/><circle cx="60" cy="28" r="13"/><circle cx="32" cy="91" r="13"/><circle cx="60" cy="91" r="13"/><circle cx="88" cy="91" r="13"/></svg></span>
+            <span class="pk">02</span>
+            <b class="pn">Structure</b>
+            <p class="pd">The product tree pulled apart from the state machines it had been drawn with.</p>
+          </li>
+          <li class="pstep">
+            <span class="pnode"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="44" cy="48" r="25"/><circle cx="84" cy="38" r="14"/><circle cx="76" cy="82" r="19"/><circle cx="36" cy="90" r="9"/></svg></span>
+            <span class="pk">03</span>
+            <b class="pn">Explore</b>
+            <p class="pd">Iterations on the two surfaces the whole product runs through.</p>
+          </li>
+          <li class="pstep">
+            <span class="pnode"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="36" cy="36" r="5.5"/><circle cx="52" cy="36" r="5.5"/><circle cx="68" cy="36" r="5.5"/><circle cx="84" cy="36" r="5.5"/><circle cx="36" cy="52" r="5.5"/><circle cx="52" cy="52" r="5.5"/><circle cx="68" cy="52" r="5.5"/><circle cx="84" cy="52" r="5.5"/><circle cx="36" cy="68" r="5.5"/><circle cx="52" cy="68" r="5.5"/><circle cx="68" cy="68" r="5.5"/><circle cx="84" cy="68" r="5.5"/><circle cx="36" cy="84" r="5.5"/><circle cx="52" cy="84" r="5.5"/><circle cx="68" cy="84" r="5.5"/><circle cx="84" cy="84" r="5.5"/></svg></span>
+            <span class="pk">04</span>
+            <b class="pn">Systematise</b>
+            <p class="pd">Tokens and components, built out of screens that had already shipped.</p>
+          </li>
+          <li class="pstep">
+            <span class="pnode"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="48" cy="60" r="28"/><path d="M82 60h22M94 50l10 10-10 10"/><path d="M112 36v48" stroke-opacity="0.55"/></svg></span>
+            <span class="pk">05</span>
+            <b class="pn">Ship</b>
+            <p class="pd">Spec, PR, merge, then review the running product — internally, with founder review. No user testing.</p>
+          </li>
+        </ol>
       </div>
     </div>
   </section>
@@ -2317,7 +2366,10 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
     <div class="in">
       <h2 class="h-40" id="cs-journey">User Journey</h2>
       <div class="sp-30"></div>
-      <p class="t-20 copy">I mapped the case manager’s journey end to end, from a lead arriving to a case settling. For each stage, what the AI handles, where the person takes over, and where the experience quietly breaks was clearly defined, based on the feature claims we finalised.</p>
+      <div class="copy">
+        <p class="t-20">The map arrived with more than seven stages, carried over from how the team talked about a case. I collapsed the overlapping ones and argued it down to five — because a stage you cannot tell apart from the one before it is a label, not a stage, and every one of them was about to become a section in the app.</p>
+        <p class="t-20 s">Then I mapped the case manager’s journey across those five, end to end, from a lead arriving to a case settling: what the AI handles, where the person takes over, and where the experience quietly breaks.</p>
+      </div>
       <div class="sp-48"></div>
       <div class="jm lens-with" id="jm">
         <div class="jm-head">
@@ -2392,10 +2444,73 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
           <p class="t-20">The app had grown into a complex surface. It had a sidebar with 10+ sections and a dashboard layered over nested modals, tabs inside tabs, and the same object reachable by four different routes. None of that structure was documented.</p>
           <p class="t-20 s">The underlying problem was that states had been drawn as places. A tree can only show what contains what, but states don’t contain each other — they move between each other. So every state had to be redrawn once for each route that led to it, and roughly a third of the architecture board turned out to be duplicates.</p>
           <p class="t-20 s">Separating the product tree from the state machines is what made the rest of the work possible.</p>
+          <p class="t-20 s">The board is the output. The work was the argument before it — which sections earn a place in the sidebar, what belongs inside a section rather than beside it, and which of these are states rather than places. I went through the thirteen sidebar sections and asked what a case manager would be doing at the moment they clicked each one. Four had no answer. Four more were the same answer at different points in one case, which is a stage, not a section.</p>
         </div>
       </div>
       <div class="sp-48"></div>
       <img class="cs-img" src="assets/existing-app.jpg" alt="The app as I found it — two dashboard tabs, the appointments list with three switchers, an eight-row filter and a thirteen-section sidebar" loading="lazy">
+      <div class="sp-64"></div>
+      <p class="t-12">How deep it went, and how deep it goes now.</p>
+      <div class="sp-18"></div>
+      <div class="ia-ba" data-ba data-cap-a="Six levels before you reach a fact." data-cap-b="Four, and the last one is a list rather than another nest.">
+        <div class="cs-ba-bar">
+          <span class="cap" data-ba-cap>Six levels before you reach a fact.</span>
+          <span class="cs-ba-toggle" role="group" aria-label="Before or after">
+            <button type="button" data-ba-set="a" aria-pressed="true">Before</button>
+            <button type="button" data-ba-set="b" aria-pressed="false">After</button>
+          </span>
+        </div>
+        <div class="ia-ba-stage">
+          <div class="ia-state show" data-ba-img="a">
+            <div class="ia-cascade">
+              <div class="ia-node"><span class="ia-pill"><i>01</i><b>Sidebar</b><span>13 sections</span></span></div>
+              <div class="ia-node"><span class="ia-pill"><i>02</i><b>Lead Modal</b><span>10 tabs</span></span></div>
+              <div class="ia-node"><span class="ia-pill"><i>03</i><b>Overview</b><span>6 stages</span></span></div>
+              <div class="ia-node"><span class="ia-pill"><i>04</i><b>Every stage</b><span>4 field groups</span></span></div>
+              <div class="ia-node"><span class="ia-pill"><i>05</i><b>Every group</b><span>Patient · Incident · Insurance · Medical</span></span></div>
+            </div>
+          </div>
+          <div class="ia-state" data-ba-img="b">
+            <div class="ia-cascade">
+              <div class="ia-node"><span class="ia-pill"><i>01</i><b>Sidebar</b><span>6 sections</span></span></div>
+              <div class="ia-node"><span class="ia-pill"><i>02</i><b>Lead Modal</b><span>4 tabs</span></span></div>
+              <div class="ia-node"><span class="ia-pill"><i>03</i><b>Overview</b><span>3 stages</span></span></div>
+              <div class="ia-node"><span class="ia-pill"><i>04</i><b>Every stage</b><span>a list of tasks</span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sp-56"></div>
+      <p class="t-12">What came off, section by section.</p>
+      <div class="sp-18"></div>
+      <div class="iac-grid">
+          <div class="iac">
+            <span class="iac-k">Sidebar sections</span>
+            <span class="iac-v">13 <em>→</em> 6</span>
+            <span class="marks"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+            <p class="iac-d">Onboarding folded into Intake. Demand, Negotiation, Settlement and Resolution became one Settlements section. Notifications, Archive, Contacts and Claims were either never built or never opened.</p>
+          </div>
+          <div class="iac">
+            <span class="iac-k">Lead Modal tabs</span>
+            <span class="iac-v">10 <em>→</em> 4</span>
+            <span class="marks"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+            <p class="iac-d">Memory, Data, Tasks, Workflow, People, Case and Documents went — each one either unused or a second way to read Overview. Logs arrived to carry what Activity could not.</p>
+          </div>
+          <div class="iac">
+            <span class="iac-k">Case stages</span>
+            <span class="iac-v">6 <em>→</em> 3</span>
+            <span class="marks"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span>
+            <p class="iac-d">Six stage screens became three, and each one became a list of work with its evidence attached rather than a screen of fields.</p>
+          </div>
+          <div class="iac">
+            <span class="iac-k">Fields on a visit</span>
+            <span class="iac-v">20 <em>→</em> 6</span>
+            <span class="marks"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+            <p class="iac-d">Fourteen fields were derivable from the other six, never filled, or asked twice on the same form.</p>
+          </div>
+      </div>
+
       <div class="sp-48"></div>
       <div class="ia-board" aria-label="Information architecture">
         <div class="ia-scroll"><div class="ia-in">
