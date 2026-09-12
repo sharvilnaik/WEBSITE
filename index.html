@@ -1103,6 +1103,20 @@ p.copy.ph { display: block; }
 .lm-drop.is-on { opacity: 1; }
 .lm-drop img { display: block; width: 100%; height: auto; }
 
+/* ---- Competitor findings, and what each one changed ---- */
+.cf-figs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px; border-top: 1px solid var(--cs-line); padding-top: 28px; }
+.cf-fig { display: flex; flex-direction: column; gap: 10px; }
+.cf-v { font-size: 26px; line-height: 32px; font-weight: 300; letter-spacing: -0.02em; color: var(--cs-blue); }
+.cf-t { font-size: 16px; line-height: 24px; font-weight: 400; color: var(--cs-text); }
+.cf-d { margin: 0; font-size: 14px; line-height: 23px; font-weight: 300; color: var(--cs-text-3); }
+.cf-map { border-top: 1px solid var(--cs-line); }
+.cf-row { display: grid; grid-template-columns: 320px 1fr; gap: 56px; padding: 28px 0; border-bottom: 1px solid var(--cs-line); }
+.cf-k { font-size: 12px; line-height: 16px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 400; color: var(--cs-label); }
+.cf-from .cf-p { margin-top: 12px; color: var(--cs-text-2); }
+.cf-h { margin: 12px 0 0; font-size: 19px; line-height: 28px; font-weight: 300; letter-spacing: -0.01em; color: var(--cs-text); }
+.cf-to .cf-p { margin-top: 10px; }
+.cf-p { margin: 0; font-size: 16px; line-height: 27px; font-weight: 300; color: var(--cs-text-3); }
+
 /* ---- Personas ---- */
 .personas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; align-items: start; }
 .persona {
@@ -1163,6 +1177,8 @@ p.copy.ph { display: block; }
   .lead-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .lead-pair { grid-template-columns: 1fr; }
   .lead-tri { grid-template-columns: 1fr; }
+  .cf-figs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; }
+  .cf-row { grid-template-columns: 1fr; gap: 16px; }
   .personas { grid-template-columns: 1fr; }
   .pr-row { grid-template-columns: 1fr; gap: 4px; }
 }
@@ -2182,10 +2198,61 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       <h2 class="h-40" id="cs-competitors">Competitor Analysis</h2>
       <div class="sp-30"></div>
       <div class="copy">
-        <p class="t-20">I conducted a thorough competitor research covering the incumbents, the funded challengers, and the answering services buyers were actually comparing us against. Every figure was labelled with its source, because almost nothing in this category is independently reported.</p>
-        <p class="t-20 s">Two findings changed how we thought about the market. Our nearest competitor was behind us on capability but ahead of us on story: they had named a category and listed their integrations in plain language, which is why buyers found them first. The honest limit of the research was that it was desk research alone. No user contact.</p>
+        <p class="t-20">Seven players on one screen — the case management incumbent, two funded document platforms, three voice startups, and us. I costed the funding, the published pricing, the claimed capability and the span of the case each one actually covers, and labelled every figure with its source, because almost nothing in this category is independently reported.</p>
+        <p class="t-20 s">The honest limit: this was desk research. Public product surfaces, vendor marketing and filings. No user contact, and no way to verify a competitor’s performance claims — which turned out to be the finding rather than the caveat.</p>
       </div>
+
       <div class="sp-52"></div>
+      <p class="t-12">Four findings that reached the design.</p>
+      <div class="sp-18"></div>
+      <div class="cf-figs">
+        <div class="cf-fig">
+          <span class="cf-v">30% of 78%</span>
+          <span class="cf-t">Trust is the bottleneck</span>
+          <p class="cf-d">Most firms have engaged with AI; a third use it regularly. Fewer than one in twenty are sceptical. They believe it works — they cannot check that it did.</p>
+        </div>
+        <div class="cf-fig">
+          <span class="cf-v">6 of 7</span>
+          <span class="cf-t">Nothing is checkable</span>
+          <p class="cf-d">Six of the seven vendors publish no price, no named customer and no certification. “Enterprise-grade” names nothing.</p>
+        </div>
+        <div class="cf-fig">
+          <span class="cf-v">$0.24 vs $3.60</span>
+          <span class="cf-t">Cost is a won argument</span>
+          <p class="cf-d">The 15× gap between AI and human reception is public and already priced in. Selling on cost puts you on the $29 ladder.</p>
+        </div>
+        <div class="cf-fig">
+          <span class="cf-v">Both ends</span>
+          <span class="cf-t">Everyone else stops at the call</span>
+          <p class="cf-d">EvenUp owns the end of a case. HelloCounsel and Caseflood stop when the call ends. The span was the only claim that was structural.</p>
+        </div>
+      </div>
+
+      <div class="sp-64"></div>
+      <p class="t-12">And what each one changed.</p>
+      <div class="sp-18"></div>
+      <div class="cf-map">
+        <div class="cf-row">
+          <div class="cf-from"><span class="cf-k">Finding</span><p class="cf-p">Trust is the bottleneck</p></div>
+          <div class="cf-to"><span class="cf-k">What it changed</span><p class="cf-h">Attribution became a rule, not a feature.</p><p class="cf-p">Every task row names who did it — Sofia or a named person — before it says anything else, and the call transcript and the files sit inside the task rather than behind a link. If the buyer’s blocker is that they cannot verify the work, the interface has to make the work checkable at a glance.</p></div>
+        </div>
+        <div class="cf-row">
+          <div class="cf-from"><span class="cf-k">Finding</span><p class="cf-p">Nothing in the category is checkable</p></div>
+          <div class="cf-to"><span class="cf-k">What it changed</span><p class="cf-h">The product stopped offering what it could not do.</p><p class="cf-p">SMS and email sat in the appointment form as though they worked. They came out until they did. A form that offers a channel the system cannot send costs more trust than a shorter form costs convenience.</p></div>
+        </div>
+        <div class="cf-row">
+          <div class="cf-from"><span class="cf-k">Finding</span><p class="cf-p">Firms will not replace their case management system</p></div>
+          <div class="cf-to"><span class="cf-k">What it changed</span><p class="cf-h">The modal became a supervisor’s screen, not a workspace.</p><p class="cf-p">Gideon writes back into the system the firm already pays for. That settled the frame for every surface after it: people log in to judge work that has already happened, so the screens show state and evidence rather than forms to fill.</p></div>
+        </div>
+        <div class="cf-row">
+          <div class="cf-from"><span class="cf-k">Finding</span><p class="cf-p">Only the span is defensible</p></div>
+          <div class="cf-to"><span class="cf-k">What it changed</span><p class="cf-h">The structure had to run intake to settlement.</p><p class="cf-p">If the claim is both ends with no handoff, the architecture cannot stop at intake. That is what put stages inside the Lead Modal at all, and what made the journey map cover five stages instead of the two the product was loudest about.</p></div>
+        </div>
+      </div>
+
+      <div class="sp-64"></div>
+      <p class="t-12">The deck itself — twenty-nine slides, every figure sourced.</p>
+      <div class="sp-18"></div>
       <figure class="cs-figure" id="comp-figure">
         <img class="cs-img" src="assets/competitors.jpg" alt="Slide 25 of the competitor deck — Four things that are actually Gideon’s: browser agents, auditability, no new interface, both ends no handoff" loading="lazy">
         <video class="cs-hover-video" src="assets/competitors-scroll.mp4" muted loop playsinline preload="metadata" data-nocontrols aria-hidden="true" tabindex="-1"></video>
