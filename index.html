@@ -198,6 +198,8 @@ body.menu-open .menu li:nth-child(3) { transition-delay: 160ms; }
   font-size: 14px; line-height: 1.55; color: #fff;
   opacity: 0; animation: fade 700ms var(--ease-out) 260ms forwards;
 }
+.hero-intro p { margin: 0; }
+.hero-intro p + p { margin-top: 0.85em; }
 @keyframes fade { to { opacity: 1; } }
 
 .services { margin-top: 40px; opacity: 0; animation: fade 700ms var(--ease-out) 380ms forwards; }
@@ -860,38 +862,7 @@ p.copy.ph { display: block; }
 
 /* 02 — Approach: process strip */
 /* 02 — the approach strip, drawn in the same language as the decision posters */
-/* the approach as a path: nodes on a dotted line, no boxes */
-.pathwrap { overflow-x: auto; }
-.path {
-  list-style: none; margin: 0; padding: 0;
-  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0;
-  min-width: 780px;
-}
-.pstep { position: relative; padding: 0 20px 0 0; }
-/* the dotted run between one node and the next */
-.pstep::before {
-  content: ""; position: absolute; left: 34px; right: -34px; top: 33px;
-  border-top: 1px dotted var(--cs-dim-2);
-}
-.pstep:last-child::before { display: none; }
-.pnode {
-  position: relative; z-index: 1; display: grid; place-items: center;
-  width: 68px; height: 68px; border-radius: 50%;
-  border: 1px solid var(--cs-line-2); background: var(--cs-bg);
-  color: var(--cs-text-2);
-  transition: color 200ms var(--ease-out), border-color 200ms var(--ease-out);
-}
-.pnode svg { width: 40px; height: 40px; display: block; }
-.pstep:hover .pnode { color: var(--cs-blue); border-color: var(--cs-blue); }
-.pk {
-  display: block; margin-top: 22px;
-  font-size: 12px; line-height: 16px; letter-spacing: 0.1em; color: var(--cs-label);
-}
-.pn {
-  display: block; margin-top: 10px;
-  font-size: 20px; line-height: 28px; font-weight: 300; letter-spacing: -0.01em; color: var(--cs-text);
-}
-.pd { margin: 10px 0 0; font-size: 14px; line-height: 23px; font-weight: 300; color: var(--cs-text-3); padding-right: 18px; }
+.process { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
 .step-card {
   display: grid; grid-template-rows: auto 1fr auto;
   min-height: 268px; padding: 16px 15px 16px;
@@ -921,8 +892,8 @@ p.copy.ph { display: block; }
   .step-card:hover .k { color: rgba(255,255,255,0.75); }
   .step-card:hover .d { color: rgba(255,255,255,0.85); }
 }
-@media (max-width: 1100px) {  }
-@media (max-width: 700px)  {  }
+@media (max-width: 1100px) { .process { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 700px)  { .process { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* 05.1 — the two old modals, with flaw markers */
 .flaw-pair { display: grid; grid-template-columns: 0.984fr 1.618fr; gap: 20px; align-items: start; }
@@ -1353,6 +1324,7 @@ p.copy.ph { display: block; }
   .two-col .right, .dec .b2, .pivot .b2 { flex: none; width: 100%; max-width: 560px; }
   .ia-row .media { width: 100%; }
   
+  .process { grid-template-columns: repeat(3, 1fr); }
   .workflow { grid-template-columns: repeat(4, 1fr); }
   .colophon { grid-template-columns: 1fr 1fr; row-gap: 32px; }
   .gideon-title { font-size: clamp(64px, 11vw, 120px); }
@@ -1371,6 +1343,7 @@ p.copy.ph { display: block; }
   .media.cover .wordmark { font-size: 56px; line-height: 1; }
   .bullets { grid-template-columns: 1fr; column-gap: 0; }
   
+  .process { grid-template-columns: repeat(2, 1fr); }
   .workflow { grid-template-columns: repeat(2, 1fr); }
   .tri { grid-template-columns: 1fr; }
   .tri .media { aspect-ratio: 1220 / 620; }
@@ -1988,7 +1961,11 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
         <span class="line"><span>Wassup!</span></span>
         <span class="line"><span>I’m Sharvil</span></span>
       </h1>
-      <p class="hero-intro">Specializing in branding and UX design, I bring a distinctive, expressive flair to my work, blending my multicultural background with multiple aspects of life, and a keen eye for bold, innovative visual storytelling. My creative vision spans various mediums, crafting compelling brand identities and experiences that resonate with diverse audiences.</p>
+      <div class="hero-intro">
+        <p>A multidisciplinary product designer and builder. I work across the whole life of a product, from figuring out what should be built to actually building it.</p>
+        <p>As the solo lead designer at Gideon, an early-stage startup backed by Nexus Venture Partners, I’ve been building the product experience and its design foundations from the ground up, and shaping the brand and website along the way — using AI to prototype and ship on my own.</p>
+        <p>Most days, it feels like Tony Stark building the Mark 42.</p>
+      </div>
       <div class="services">
         <p class="label">Skills</p>
         <ul>
@@ -2212,41 +2189,47 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       </div>
 
       <div class="sp-56"></div>
-      <p class="t-12">Five moves, in order.</p>
-      <div class="sp-30"></div>
-      <div class="pathwrap">
-        <ol class="path">
-          <li class="pstep">
-            <span class="pnode"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="48" cy="60" r="34"/><circle cx="84" cy="60" r="22"/></svg></span>
-            <span class="pk">01</span>
-            <b class="pn">Understand</b>
-            <p class="pd">The product as built, and the competitors buyers were comparing it against.</p>
-          </li>
-          <li class="pstep">
-            <span class="pnode"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M60 40v18M32 78V68h56v10" stroke-opacity="0.55"/><circle cx="60" cy="28" r="13"/><circle cx="32" cy="91" r="13"/><circle cx="60" cy="91" r="13"/><circle cx="88" cy="91" r="13"/></svg></span>
-            <span class="pk">02</span>
-            <b class="pn">Structure</b>
-            <p class="pd">The product tree pulled apart from the state machines it had been drawn with.</p>
-          </li>
-          <li class="pstep">
-            <span class="pnode"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="44" cy="48" r="25"/><circle cx="84" cy="38" r="14"/><circle cx="76" cy="82" r="19"/><circle cx="36" cy="90" r="9"/></svg></span>
-            <span class="pk">03</span>
-            <b class="pn">Explore</b>
-            <p class="pd">Iterations on the two surfaces the whole product runs through.</p>
-          </li>
-          <li class="pstep">
-            <span class="pnode"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="36" cy="36" r="5.5"/><circle cx="52" cy="36" r="5.5"/><circle cx="68" cy="36" r="5.5"/><circle cx="84" cy="36" r="5.5"/><circle cx="36" cy="52" r="5.5"/><circle cx="52" cy="52" r="5.5"/><circle cx="68" cy="52" r="5.5"/><circle cx="84" cy="52" r="5.5"/><circle cx="36" cy="68" r="5.5"/><circle cx="52" cy="68" r="5.5"/><circle cx="68" cy="68" r="5.5"/><circle cx="84" cy="68" r="5.5"/><circle cx="36" cy="84" r="5.5"/><circle cx="52" cy="84" r="5.5"/><circle cx="68" cy="84" r="5.5"/><circle cx="84" cy="84" r="5.5"/></svg></span>
-            <span class="pk">04</span>
-            <b class="pn">Systematise</b>
-            <p class="pd">Tokens and components, built out of screens that had already shipped.</p>
-          </li>
-          <li class="pstep">
-            <span class="pnode"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="48" cy="60" r="28"/><path d="M82 60h22M94 50l10 10-10 10"/><path d="M112 36v48" stroke-opacity="0.55"/></svg></span>
-            <span class="pk">05</span>
-            <b class="pn">Ship</b>
-            <p class="pd">Spec, PR, merge, then review the running product — internally, with founder review. No user testing.</p>
-          </li>
-        </ol>
+      <div class="process">
+        <div class="step-card">
+          <span class="k">01</span>
+          <div class="step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="48" cy="60" r="34"/><circle cx="84" cy="60" r="22"/></svg></div>
+          <div class="step-foot">
+            <span class="n">Understand</span>
+            <span class="d">Existing product and competitors</span>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="k">02</span>
+          <div class="step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M60 40v18M32 78V68h56v10" stroke-opacity="0.55"/><circle cx="60" cy="28" r="13"/><circle cx="32" cy="91" r="13"/><circle cx="60" cy="91" r="13"/><circle cx="88" cy="91" r="13"/></svg></div>
+          <div class="step-foot">
+            <span class="n">Structure</span>
+            <span class="d">IA and the state machines</span>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="k">03</span>
+          <div class="step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="44" cy="48" r="25"/><circle cx="84" cy="38" r="14"/><circle cx="76" cy="82" r="19"/><circle cx="36" cy="90" r="9"/></svg></div>
+          <div class="step-foot">
+            <span class="n">Explore</span>
+            <span class="d">Iterations on each surface</span>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="k">04</span>
+          <div class="step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="36" cy="36" r="5.5"/><circle cx="52" cy="36" r="5.5"/><circle cx="68" cy="36" r="5.5"/><circle cx="84" cy="36" r="5.5"/><circle cx="36" cy="52" r="5.5"/><circle cx="52" cy="52" r="5.5"/><circle cx="68" cy="52" r="5.5"/><circle cx="84" cy="52" r="5.5"/><circle cx="36" cy="68" r="5.5"/><circle cx="52" cy="68" r="5.5"/><circle cx="68" cy="68" r="5.5"/><circle cx="84" cy="68" r="5.5"/><circle cx="36" cy="84" r="5.5"/><circle cx="52" cy="84" r="5.5"/><circle cx="68" cy="84" r="5.5"/><circle cx="84" cy="84" r="5.5"/></svg></div>
+          <div class="step-foot">
+            <span class="n">Systematise</span>
+            <span class="d">Foundations and components</span>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="k">05</span>
+          <div class="step-art"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="48" cy="60" r="28"/><path d="M82 60h22M94 50l10 10-10 10"/><path d="M112 36v48" stroke-opacity="0.55"/></svg></div>
+          <div class="step-foot">
+            <span class="n">Ship</span>
+            <span class="d">Specs, PRs and iteration</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
