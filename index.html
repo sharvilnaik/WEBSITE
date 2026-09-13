@@ -747,6 +747,44 @@ p.copy.ph { display: block; }
 }
 /* the tools line reads as one run, so it takes the whole row */
 .cs-facts .fact.wide { grid-column: 1 / -1; }
+.cs-facts .fact-team { grid-column: span 2; }
+.cs-facts .fact-scope { grid-column: 1 / -1; }
+/* timeline: the three months as a filled track */
+.tl { margin-top: 4px; max-width: 220px; }
+.tl-track { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+.tl-seg { display: block; height: 6px; background: var(--cs-blue-3); }
+.tl-mo { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 8px; font-size: 11px; line-height: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cs-label); }
+/* team: one pill per role, yours filled */
+.team { display: flex; flex-wrap: wrap; gap: 8px; }
+.tpill { display: inline-flex; align-items: center; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--cs-line-2); font-size: 14px; line-height: 20px; font-weight: 300; color: var(--cs-text-2); }
+.tpill.is-me { background: var(--cs-blue-3); border-color: var(--cs-blue-3); color: #fff; font-weight: 400; }
+/* scope: one chip per area */
+.chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { padding: 7px 14px; border: 1px solid var(--cs-line-2); font-size: 14px; line-height: 20px; font-weight: 300; color: var(--cs-text-2); }
+/* tools: the real app icons where there is one on hand, a plain tile where there isn't */
+.tools { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 14px 24px; }
+.tool { display: flex; align-items: center; gap: 10px; }
+.tool-ic { width: 36px; height: 36px; flex: none; object-fit: contain; }
+.tool-txt { display: grid; place-items: center; border: 1px solid var(--cs-line-2); border-radius: 9px; font-size: 12px; letter-spacing: 0.02em; color: var(--cs-text-2); }
+.tool-n { font-size: 15px; line-height: 22px; font-weight: 300; color: var(--cs-text-2); }
+
+/* Context: what I did, before what Gideon is */
+.did { list-style: none; margin: 18px 0 0; padding: 0; border-top: 1px solid var(--cs-line); counter-reset: did; }
+.did-row { counter-increment: did; display: grid; grid-template-columns: 44px minmax(0, 380px) 1fr; gap: 20px; align-items: baseline; padding: 18px 0; border-bottom: 1px solid var(--cs-line); }
+.did-row::before { content: counter(did, decimal-leading-zero); font-size: 12px; letter-spacing: 0.1em; color: var(--cs-blue); }
+.did-k { font-size: 20px; line-height: 28px; font-weight: 400; letter-spacing: -0.01em; color: var(--cs-text); }
+.did-v { font-size: 16px; line-height: 26px; font-weight: 300; color: var(--cs-text-3); }
+.gid-line { color: var(--cs-text-3); max-width: 760px; }
+
+/* Design Approach: the problems, each pointing at where it is solved */
+.plist { list-style: none; margin: 0; padding: 0; max-width: 700px; border-top: 1px solid var(--cs-line); }
+.pl-row { display: grid; grid-template-columns: 44px 1fr; gap: 14px; padding: 20px 0; border-bottom: 1px solid var(--cs-line); }
+.pl-n { font-size: 12px; line-height: 28px; letter-spacing: 0.1em; color: var(--cs-blue); }
+.pl-body { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }
+.pl-t { font-size: 20px; line-height: 28px; font-weight: 400; letter-spacing: -0.01em; color: var(--cs-text); }
+.pl-d { font-size: 15px; line-height: 24px; font-weight: 300; color: var(--cs-text-3); }
+.pl-go { margin-top: 4px; padding: 0; border: 0; background: none; font: inherit; font-size: 13px; line-height: 20px; color: var(--cs-blue); cursor: pointer; }
+.pl-go:hover, .pl-go:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 .fact { display: flex; flex-direction: column; gap: 10px; }
 .fact-k {
   font-size: 12px; line-height: 16px; letter-spacing: 0.1em;
@@ -756,8 +794,11 @@ p.copy.ph { display: block; }
   margin: 0; font-size: 18px; line-height: 27px;
   font-weight: 300; letter-spacing: -0.01em; color: #DEDCD7;
 }
-@media (max-width: 1000px) { .cs-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 32px; } }
-@media (max-width: 560px)  { .cs-facts { grid-template-columns: 1fr; } }
+@media (max-width: 1000px) { .cs-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 32px; }
+  .did-row { grid-template-columns: 36px 1fr; gap: 6px 14px; }
+  .did-row .did-v { grid-column: 2; } }
+@media (max-width: 560px)  { .cs-facts { grid-template-columns: 1fr; }
+  .cs-facts .fact-team { grid-column: 1 / -1; } }
 
 .subhead { display: flex; flex-direction: column; gap: 14px; }
 .subhead .h-28 { margin-top: 18px; }
@@ -2135,17 +2176,24 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
 
       <h1 class="h-56" id="cs-context">Context</h1>
 
-      <div class="copy w900">
-        <p class="t-20">Gideon is an AI receptionist for plaintiff personal-injury law firms. It answers inbound calls, qualifies and signs leads, then works the phones for months chasing providers, medical records and adjusters, writing everything back into the firm’s case management system.</p>
-        <p class="t-20 s">The users are case managers and paralegals carrying 60–120 open files. They’re judged on cases moving, not cases understood, and they’re mostly not in the product. They log in to supervise work that has already happened, which makes the interface a place to decide whether to trust work rather than a place to do it.</p>
+      <div class="did-wrap">
+        <p class="t-12">What I did.</p>
+        <ol class="did">
+          <li class="did-row"><b class="did-k">Structured the product</b><span class="did-v">13 sidebar sections down to 6.</span></li>
+          <li class="did-row"><b class="did-k">Rebuilt the two surfaces it runs on</b><span class="did-v">The appointment modals and the Lead Modal.</span></li>
+          <li class="did-row"><b class="did-k">Built the design foundations</b><span class="did-v">The tokens and components every screen is made from.</span></li>
+          <li class="did-row"><b class="did-k">Shaped the brand and the website</b></li>
+          <li class="did-row"><b class="did-k">Shipped my own changes</b><span class="did-v">Spec → Claude Code → PR → merge.</span></li>
+        </ol>
       </div>
+      <p class="t-16 gid-line">Gideon is an AI receptionist for plaintiff personal-injury firms, backed by Nexus Venture Partners.</p>
 
       <div class="cs-facts">
         <div class="fact"><span class="fact-k">Role</span><p class="fact-v">Product Designer and Design Generalist</p></div>
-        <div class="fact"><span class="fact-k">Timeline</span><p class="fact-v">July – September 2026</p></div>
-        <div class="fact"><span class="fact-k">Team</span><p class="fact-v">CTO, CEO, me (Product Design), and full-stack engineers part-time</p></div>
-        <div class="fact"><span class="fact-k">Scope</span><p class="fact-v">Product planning, design foundations, UX research, UI design, UX audits and AI-assisted product development</p></div>
-        <div class="fact wide"><span class="fact-k">Tools</span><p class="fact-v">Figma · Claude Code · Claude Design · fal.ai · After Effects · FigJam · Illustrator</p></div>
+        <div class="fact"><span class="fact-k">Timeline</span><p class="fact-v">July – September 2026</p><div class="tl" aria-hidden="true"><div class="tl-track"><i class="tl-seg"></i><i class="tl-seg"></i><i class="tl-seg"></i></div><div class="tl-mo"><span>Jul</span><span>Aug</span><span>Sep</span></div></div></div>
+        <div class="fact fact-team"><span class="fact-k">Team</span><div class="team"><span class="tpill">CTO</span><span class="tpill">CEO</span><span class="tpill is-me">Me · Product Design</span><span class="tpill">Full-stack engineers · part-time</span></div></div>
+        <div class="fact fact-scope"><span class="fact-k">Scope</span><ul class="chips"><li class="chip">Product planning</li><li class="chip">Design foundations</li><li class="chip">UX research</li><li class="chip">UI design</li><li class="chip">UX audits</li><li class="chip">AI-assisted product development</li></ul></div>
+        <div class="fact wide"><span class="fact-k">Tools</span><ul class="tools"><li class="tool"><img class="tool-ic" src="assets/tools/figma.png" alt=""><span class="tool-n">Figma</span></li><li class="tool"><img class="tool-ic" src="assets/tools/claude.png" alt=""><span class="tool-n">Claude Code</span></li><li class="tool"><img class="tool-ic" src="assets/tools/claude.png" alt=""><span class="tool-n">Claude Design</span></li><li class="tool"><span class="tool-ic tool-txt" aria-hidden="true">fal</span><span class="tool-n">fal.ai</span></li><li class="tool"><img class="tool-ic" src="assets/tools/after-effects.png" alt=""><span class="tool-n">After Effects</span></li><li class="tool"><span class="tool-ic tool-txt" aria-hidden="true">FJ</span><span class="tool-n">FigJam</span></li><li class="tool"><img class="tool-ic" src="assets/tools/illustrator.png" alt=""><span class="tool-n">Illustrator</span></li></ul></div>
       </div>
 
     </div>
@@ -2157,24 +2205,21 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       <h2 class="h-56" id="cs-approach">Design Approach</h2>
       <div class="sp-30"></div>
       <div class="copy w900">
-        <p class="t-20">When I joined, the product was one big mess to fix. It was three months old, with vibe-coded layouts and a dozen overlapping sections across the app. The UX copy was mostly AI slop or dev language. The features on offer were yet to be finalised. There was no brand or visual system in place, and no design system to use.</p>
-        <p class="t-20 s">It was the opportunity of a lifetime — to take part in product planning and set up the branding, visual design, UX foundations and UI design of a whole product, autonomously. But doing all of that as a one-person design team is an invitation for more mess. So before designing anything, I set up the structure of my process and workflows, and how I wanted to tackle each problem at hand.</p>
+        <p class="t-20">The product was three months old, with vibe-coded layouts and a dozen overlapping sections. Before designing anything, I named what was actually wrong with it.</p>
       </div>
       <div class="sp-48"></div>
 
-      <p class="t-12">What was missing when I arrived.</p>
+      <p class="t-12">The problems.</p>
       <div class="sp-18"></div>
       <div class="start-row">
         <div class="start-copy">
-          <div class="bullets">
-            <div class="col">
-              <div class="b"><span class="dot"></span><div class="c"><p class="t-20">Unclear feature claims</p></div></div>
-              <div class="b"><span class="dot"></span><div class="c"><p class="t-20">No design system</p></div></div>
-              <div class="b"><span class="dot"></span><div class="c"><p class="t-20">No information architecture</p></div></div>
-              <div class="b"><span class="dot"></span><div class="c"><p class="t-20">No brand or visual guide</p></div></div>
-              <div class="b"><span class="dot"></span><div class="c"><p class="t-20">Unclear user journey map</p></div></div>
-            </div>
-          </div>
+          <ol class="plist">
+            <li class="pl-row"><span class="pl-n">01</span><div class="pl-body"><b class="pl-t">No structure</b><span class="pl-d">13 sidebar sections, and the same record reachable four ways.</span><button type="button" class="pl-go" data-scroll="cs-ia">Solved in Information Architecture →</button></div></li>
+            <li class="pl-row"><span class="pl-n">02</span><div class="pl-body"><b class="pl-t">A journey nobody agreed on</b><span class="pl-d">7+ overlapping stages.</span><button type="button" class="pl-go" data-scroll="cs-journey">Solved in User Journey →</button></div></li>
+            <li class="pl-row"><span class="pl-n">03</span><div class="pl-body"><b class="pl-t">Two core surfaces doing too much</b><span class="pl-d">20 fields to book a visit, and a Lead Modal 10 tabs deep.</span><button type="button" class="pl-go" data-scroll="cs-problems">Solved in Problem Solving →</button></div></li>
+            <li class="pl-row"><span class="pl-n">04</span><div class="pl-body"><b class="pl-t">No design system</b><span class="pl-d">No brand, no tokens, every screen styled on its own.</span><button type="button" class="pl-go" data-scroll="cs-ds">Solved in Design System →</button></div></li>
+            <li class="pl-row"><span class="pl-n">05</span><div class="pl-body"><b class="pl-t">Claims the product couldn’t back</b><span class="pl-d">The feature claims weren’t settled.</span><button type="button" class="pl-go" data-scroll="cs-competitors">Solved in Competitor Analysis →</button></div></li>
+          </ol>
         </div>
 
         <div class="orb" aria-hidden="true">
@@ -2189,6 +2234,8 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       </div>
 
       <div class="sp-56"></div>
+      <p class="t-12">How I worked through them.</p>
+      <div class="sp-18"></div>
       <div class="process">
         <div class="step-card">
           <span class="k">01</span>
@@ -2310,8 +2357,8 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       <h2 class="h-40" id="cs-personas">User Personas</h2>
       <div class="sp-30"></div>
       <div class="copy">
-        <p class="t-20">Two people use this product all day, and neither of them is the person who buys it. The buyer is a managing attorney who wants fewer missed calls and faster demands. The users are judged on throughput, and they log in mainly to check whether the AI got it right.</p>
-        <p class="t-20 s">Proto-personas, built from onboarding calls with the firms we were signing and from the call transcripts the product was already collecting. Held loosely, and corrected as we learned. Everything after this point in the case study is built for these two.</p>
+        <p class="t-20">The users are case managers and paralegals carrying 60–120 open files. They’re judged on cases moving, not cases understood, and they’re mostly not in the product. They log in to supervise work that has already happened, which makes the interface a place to decide whether to trust work rather than a place to do it.</p>
+        <p class="t-20 s">Neither of them is the person who buys it — that’s a managing attorney who wants fewer missed calls and faster demands. These are proto-personas, built from onboarding calls with the firms we were signing and from the call transcripts the product was already collecting. Held loosely, and corrected as we learned.</p>
       </div>
       <div class="sp-52"></div>
       <div class="personas">
@@ -4159,6 +4206,14 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       if (!sec) return;
       setProb(sec, true);          // never drop someone into a collapsed section
       sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // ---- In-page jumps to ordinary sections (a hash link would trip the router) ----
+  document.querySelectorAll('[data-scroll]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const t = document.getElementById(btn.dataset.scroll);
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 
