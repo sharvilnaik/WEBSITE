@@ -1169,42 +1169,56 @@ p.copy.ph { display: block; }
 .cf-to .cf-p { margin-top: 10px; }
 .cf-p { margin: 0; font-size: 16px; line-height: 27px; font-weight: 300; color: var(--cs-text-3); }
 
-/* ---- IA: how deep it went, and what came off ---- */
-.ia-ba { border: 1px solid var(--cs-line-2); background: var(--cs-bg); }
-.ia-ba-stage { position: relative; min-height: 420px; padding: 40px 36px; }
-.ia-state { position: absolute; inset: 0; padding: 40px 36px; opacity: 0; pointer-events: none; transition: opacity 300ms var(--ease-out); }
-.ia-state.show { opacity: 1; pointer-events: auto; }
-.ia-cascade { display: flex; flex-direction: column; align-items: flex-start; }
-.ia-node { position: relative; }
-.ia-node + .ia-node { margin-left: 58px; margin-top: 26px; }
-/* the dotted elbow from the level above */
-.ia-node + .ia-node::before {
-  content: ""; position: absolute; left: -30px; top: -28px; width: 28px; height: 42px;
-  border-left: 1px dotted var(--cs-dim-2); border-bottom: 1px dotted var(--cs-dim-2);
-  border-bottom-left-radius: 10px;
-}
-.ia-pill {
-  display: inline-flex; align-items: center; gap: 14px;
-  padding: 11px 20px 11px 11px; border-radius: 999px;
-  border: 1px solid var(--cs-line-2); background: var(--cs-panel);
-}
-.ia-pill i {
-  font-style: normal; flex: none; display: grid; place-items: center;
-  width: 28px; height: 28px; border-radius: 50%;
-  background: var(--cs-blue-deep); color: var(--cs-blue); font-size: 11px;
-}
-.ia-pill b { font-size: 16px; line-height: 24px; font-weight: 400; color: var(--cs-text); }
-.ia-pill > span { font-size: 14px; line-height: 24px; font-weight: 300; color: var(--cs-mute); }
+/* ---- IA: the three calls, each as before and after ---- */
+.ia-step-h { display: flex; align-items: center; gap: 26px; margin-bottom: 22px; }
+.ia-count { flex: none; font-size: 44px; line-height: 48px; font-weight: 300; letter-spacing: -0.03em; color: var(--cs-text); white-space: nowrap; }
+.ia-count em { font-style: normal; color: var(--cs-blue); padding: 0 4px; }
+.ia-step-h b { display: block; font-size: 20px; line-height: 28px; font-weight: 400; color: var(--cs-text); }
+.ia-step-h span { display: block; margin-top: 2px; font-size: 15px; line-height: 23px; font-weight: 300; color: var(--cs-text-3); }
 
-.iac-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
-.iac { border: 1px solid var(--cs-line); padding: 26px 26px 24px; display: flex; flex-direction: column; }
-.iac-k { font-size: 12px; line-height: 16px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cs-blue); }
-.iac-v { margin-top: 14px; font-size: 34px; line-height: 40px; font-weight: 300; letter-spacing: -0.02em; color: var(--cs-text); }
-.iac-v em { font-style: normal; color: var(--cs-dim); padding: 0 6px; }
-.marks { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 18px; }
-.marks i { width: 13px; height: 13px; border: 1px solid var(--cs-line-2); background: transparent; }
-.marks i.on { background: var(--cs-blue-3); border-color: var(--cs-blue-3); }
-.iac-d { margin: 18px 0 0; font-size: 14px; line-height: 23px; font-weight: 300; color: var(--cs-text-3); }
+/* sidebar: every old section, where it went, and why */
+.sb-map { border-top: 1px solid var(--cs-line); }
+.sb-head, .sb-row { display: grid; grid-template-columns: minmax(0, 1.3fr) 34px minmax(0, 1fr) minmax(0, 1.6fr); gap: 18px; align-items: center; }
+.sb-head { padding: 12px 0; border-bottom: 1px solid var(--cs-line); font-size: 11px; line-height: 16px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cs-label); }
+.sb-row { padding: 12px 0; border-bottom: 1px solid var(--cs-line); }
+.sb-from, .sb-to { display: flex; flex-wrap: wrap; gap: 6px; }
+.sb-pill { display: inline-flex; align-items: center; height: 28px; padding: 0 12px; border-radius: 100px; border: 1px solid var(--cs-line-2); font-size: 13px; line-height: 1; color: var(--cs-text-2); white-space: nowrap; }
+.sb-pill.is-after { background: var(--cs-blue-3); border-color: var(--cs-blue-3); color: #fff; }
+.sb-pill.is-inside { border-style: dashed; }
+.sb-arrow { position: relative; height: 0; border-top: 1px dotted var(--cs-dim-2); }
+.sb-arrow::after { content: ""; position: absolute; right: 0; top: -4px; width: 7px; height: 7px; border-top: 1px solid var(--cs-dim-2); border-right: 1px solid var(--cs-dim-2); transform: rotate(45deg); }
+.sb-tag { font-size: 13px; line-height: 28px; color: var(--cs-dim); }
+.sb-why { margin: 0; font-size: 14px; line-height: 22px; font-weight: 300; color: var(--cs-text-3); }
+.sb-row.is-kept .sb-why { color: var(--cs-dim); }
+
+/* statuses: before and after on one toggle */
+.st-block { border: 1px solid var(--cs-line-2); }
+.st-block .ss-state { padding: 22px 18px 4px; }
+.st-grp { display: grid; grid-template-columns: 170px 1fr; gap: 16px; align-items: start; padding-bottom: 16px; }
+.st-k { font-size: 11px; line-height: 28px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cs-label); }
+.st-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.st-chip { display: inline-flex; align-items: center; height: 28px; padding: 0 12px; border-radius: 100px; border: 1px solid var(--cs-line-2); font-size: 13px; line-height: 1; color: var(--cs-text-2); white-space: nowrap; }
+.ss-state[data-ba-img="b"] .st-chip { border-color: var(--cs-blue-3); color: var(--cs-text); }
+.ss-state[data-ba-img="b"] .st-chip.is-warn { border-color: var(--cs-orange); }
+.st-to { font-size: 13px; line-height: 28px; color: var(--cs-dim); padding: 0 2px; }
+.st-note { margin: 0 0 18px; font-size: 13px; line-height: 20px; color: var(--cs-text-3); }
+.st-why { list-style: none; margin: 0; padding: 16px 18px 18px; border-top: 1px solid var(--cs-line-2); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.st-why li { font-size: 14px; line-height: 22px; font-weight: 300; color: var(--cs-text-3); }
+.st-why b { display: block; margin-bottom: 2px; font-weight: 400; color: var(--cs-text); }
+
+/* shared surfaces: a before/after toggle on each card */
+.ss-bar { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin: 2px 0 14px; }
+.ss-cap { font-size: 12px; line-height: 18px; color: var(--cs-text-3); max-width: 440px; }
+.ss-state { display: none; }
+.ss-state.show { display: block; }
+
+/* the full board, folded until asked for */
+.ia-more > summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 9px 16px; border: 1px solid var(--cs-line-2); border-radius: 100px; font-size: 13px; line-height: 18px; color: var(--cs-text-2); }
+.ia-more > summary::-webkit-details-marker { display: none; }
+.ia-more > summary::after { content: "+"; color: var(--cs-text-3); }
+.ia-more[open] > summary::after { content: "–"; }
+.ia-more[open] > summary { margin-bottom: 30px; }
+.ia-more > summary:focus-visible { outline: 2px solid var(--cs-blue); outline-offset: 2px; }
 
 /* ---- Personas ---- */
 .personas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; align-items: start; }
@@ -1268,9 +1282,13 @@ p.copy.ph { display: block; }
   .lead-tri { grid-template-columns: 1fr; }
   .cf-figs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; }
   .cf-row { grid-template-columns: 1fr; gap: 16px; }
-  .iac-grid { grid-template-columns: 1fr; }
-  .ia-node + .ia-node { margin-left: 34px; }
-  .ia-state, .ia-ba-stage { padding: 28px 22px; }
+  .sb-head { display: none; }
+  .sb-row { grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr); }
+  .sb-row .sb-why { grid-column: 1 / -1; }
+  .st-grp { grid-template-columns: 1fr; gap: 6px; }
+  .st-why { grid-template-columns: 1fr; }
+  .ia-step-h { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .ss-bar { flex-direction: column; align-items: flex-start; }
   .personas { grid-template-columns: 1fr; }
   .pr-row { grid-template-columns: 1fr; gap: 4px; }
 }
@@ -2471,77 +2489,67 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       <div class="sp-18"></div>
       <div class="ia-row">
         <div class="copy">
-          <p class="t-20">The app had grown into a complex surface. It had a sidebar with 10+ sections and a dashboard layered over nested modals, tabs inside tabs, and the same object reachable by four different routes. None of that structure was documented.</p>
-          <p class="t-20 s">The underlying problem was that states had been drawn as places. A tree can only show what contains what, but states don’t contain each other — they move between each other. So every state had to be redrawn once for each route that led to it, and roughly a third of the architecture board turned out to be duplicates.</p>
-          <p class="t-20 s">Separating the product tree from the state machines is what made the rest of the work possible.</p>
-          <p class="t-20 s">The board is the output. The work was the argument before it — which sections earn a place in the sidebar, what belongs inside a section rather than beside it, and which of these are states rather than places. I went through the thirteen sidebar sections and asked what a case manager would be doing at the moment they clicked each one. Four had no answer. Four more were the same answer at different points in one case, which is a stage, not a section.</p>
+          <p class="t-20">The app had grown to 13 sidebar sections, tabs inside tabs, and the same record reachable four different ways. Because states had been drawn as places, roughly a third of the architecture board turned out to be duplicates.</p>
+          <p class="t-20 s">My part was deciding what earns a place: which sections stay, which fold into another, and which things are really states of a case rather than somewhere to go. Three of those calls did most of the work.</p>
         </div>
       </div>
       <div class="sp-48"></div>
       <img class="cs-img" src="assets/existing-app.jpg" alt="The app as I found it — two dashboard tabs, the appointments list with three switchers, an eight-row filter and a thirteen-section sidebar" loading="lazy">
       <div class="sp-64"></div>
-      <p class="t-12">How deep it went, and how deep it goes now.</p>
-      <div class="sp-18"></div>
-      <div class="ia-ba" data-ba data-cap-a="Six levels before you reach a fact." data-cap-b="Four, and the last one is a list rather than another nest.">
-        <div class="cs-ba-bar">
-          <span class="cap" data-ba-cap>Six levels before you reach a fact.</span>
-          <span class="cs-ba-toggle" role="group" aria-label="Before or after">
-            <button type="button" data-ba-set="a" aria-pressed="true">Before</button>
-            <button type="button" data-ba-set="b" aria-pressed="false">After</button>
-          </span>
+      <div class="ia-step">
+        <div class="ia-step-h">
+          <span class="ia-count">13 <em>→</em> 6</span>
+          <div><b>The sidebar</b><span>Every section had to be somewhere a case manager goes to do a job.</span></div>
         </div>
-        <div class="ia-ba-stage">
-          <div class="ia-state show" data-ba-img="a">
-            <div class="ia-cascade">
-              <div class="ia-node"><span class="ia-pill"><i>01</i><b>Sidebar</b><span>13 sections</span></span></div>
-              <div class="ia-node"><span class="ia-pill"><i>02</i><b>Lead Modal</b><span>10 tabs</span></span></div>
-              <div class="ia-node"><span class="ia-pill"><i>03</i><b>Overview</b><span>6 stages</span></span></div>
-              <div class="ia-node"><span class="ia-pill"><i>04</i><b>Every stage</b><span>4 field groups</span></span></div>
-              <div class="ia-node"><span class="ia-pill"><i>05</i><b>Every group</b><span>Patient · Incident · Insurance · Medical</span></span></div>
-            </div>
-          </div>
-          <div class="ia-state" data-ba-img="b">
-            <div class="ia-cascade">
-              <div class="ia-node"><span class="ia-pill"><i>01</i><b>Sidebar</b><span>6 sections</span></span></div>
-              <div class="ia-node"><span class="ia-pill"><i>02</i><b>Lead Modal</b><span>4 tabs</span></span></div>
-              <div class="ia-node"><span class="ia-pill"><i>03</i><b>Overview</b><span>3 stages</span></span></div>
-              <div class="ia-node"><span class="ia-pill"><i>04</i><b>Every stage</b><span>a list of tasks</span></span></div>
-            </div>
-          </div>
+        <div class="sb-map" role="table" aria-label="Sidebar sections, before and after">
+          <div class="sb-head" role="row"><span>Before · 13</span><span></span><span>After · 6</span><span>Why</span></div>
+          <div class="sb-row is-moved" role="row"><div class="sb-from"><span class="sb-pill">Notifications</span></div><span class="sb-arrow" aria-hidden="true"></span><div class="sb-to"><span class="sb-pill is-inside">The bell, above the rail</span></div><p class="sb-why">An alert, not somewhere you go to work — it stayed a bell, off the list of sections.</p></div>
+          <div class="sb-row is-kept" role="row"><div class="sb-from"><span class="sb-pill">Dashboard</span></div><span class="sb-arrow" aria-hidden="true"></span><div class="sb-to"><span class="sb-pill is-after">Dashboard</span></div><p class="sb-why">Kept.</p></div>
+          <div class="sb-row is-kept" role="row"><div class="sb-from"><span class="sb-pill">CX Platform</span></div><span class="sb-arrow" aria-hidden="true"></span><div class="sb-to"><span class="sb-pill is-after">CX Platform</span></div><p class="sb-why">Kept.</p></div>
+          <div class="sb-row is-merged" role="row"><div class="sb-from"><span class="sb-pill">Intake</span><span class="sb-pill">Onboarding</span></div><span class="sb-arrow" aria-hidden="true"></span><div class="sb-to"><span class="sb-pill is-after">Intake</span></div><p class="sb-why">Onboarding is intake’s second half — the engagement agreement and the HIPAA form now sit in Intake’s own task list.</p></div>
+          <div class="sb-row is-kept" role="row"><div class="sb-from"><span class="sb-pill">Treatment</span></div><span class="sb-arrow" aria-hidden="true"></span><div class="sb-to"><span class="sb-pill is-after">Treatment</span></div><p class="sb-why">Kept, and rebuilt inside — see the statuses below.</p></div>
+          <div class="sb-row is-merged" role="row"><div class="sb-from"><span class="sb-pill">Demand</span><span class="sb-pill">Negotiation</span><span class="sb-pill">Settlement</span><span class="sb-pill">Resolution</span></div><span class="sb-arrow" aria-hidden="true"></span><div class="sb-to"><span class="sb-pill is-after">Settlements</span></div><p class="sb-why">Four stages of one case. Stages belong inside the case, so they became stages in Settlements.</p></div>
+          <div class="sb-row is-moved" role="row"><div class="sb-from"><span class="sb-pill">Archive</span></div><span class="sb-arrow" aria-hidden="true"></span><div class="sb-to"><span class="sb-pill is-inside">Treatment › Tasks</span></div><p class="sb-why">Finished work sits with the tasks it came from, as their history.</p></div>
+          <div class="sb-row is-moved" role="row"><div class="sb-from"><span class="sb-pill">Contacts</span></div><span class="sb-arrow" aria-hidden="true"></span><div class="sb-to"><span class="sb-pill is-inside">Treatment › Providers</span></div><p class="sb-why">The contacts a case manager actually calls are providers, so they live where treatment is run.</p></div>
+          <div class="sb-row is-moved" role="row"><div class="sb-from"><span class="sb-pill">Claims</span></div><span class="sb-arrow" aria-hidden="true"></span><div class="sb-to"><span class="sb-pill is-inside">Settlements</span></div><p class="sb-why">A claim is the settlement side of a case.</p></div>
+          <div class="sb-row is-new" role="row"><div class="sb-from"><span class="sb-tag">New</span></div><span class="sb-arrow" aria-hidden="true"></span><div class="sb-to"><span class="sb-pill is-after">Settings</span></div><p class="sb-why">Nine groups that configure Gideon — call flow, cadence defaults, templates, team — in one place.</p></div>
         </div>
       </div>
 
-      <div class="sp-56"></div>
-      <p class="t-12">What came off, section by section.</p>
-      <div class="sp-18"></div>
-      <div class="iac-grid">
-          <div class="iac">
-            <span class="iac-k">Sidebar sections</span>
-            <span class="iac-v">13 <em>→</em> 6</span>
-            <span class="marks"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-            <p class="iac-d">Onboarding folded into Intake. Demand, Negotiation, Settlement and Resolution became one Settlements section. Notifications, Archive, Contacts and Claims were either never built or never opened.</p>
+      <div class="sp-64"></div>
+      <div class="ia-step">
+        <div class="ia-step-h">
+          <span class="ia-count">21 <em>→</em> 8</span>
+          <div><b>Appointment statuses in Treatment</b><span>What state is this visit in — asked once, answered once.</span></div>
+        </div>
+        <div class="st-block" data-ba data-cap-a="21 statuses in six groups — and the list rows used a third set of their own." data-cap-b="One status, eight values: a confirmation track, an escalation, the visit’s outcome, or cancelled.">
+          <div class="cs-ba-bar"><span class="cap" data-ba-cap>21 statuses in six groups — and the list rows used a third set of their own.</span><span class="cs-ba-toggle" role="group" aria-label="Before or after"><button type="button" data-ba-set="a" aria-pressed="true">Before</button><button type="button" data-ba-set="b" aria-pressed="false">After</button></span></div>
+          <div class="ss-state show" data-ba-img="a">
+            <div class="st-grp"><span class="st-k">Scheduling</span><ul class="st-chips"><li class="st-chip">Getting slots</li><li class="st-chip">Awaiting client</li><li class="st-chip">Soft pending</li><li class="st-chip">Callback scheduled</li></ul></div>
+            <div class="st-grp"><span class="st-k">Confirmed</span><ul class="st-chips"><li class="st-chip">Confirmed</li><li class="st-chip">Reminded</li></ul></div>
+            <div class="st-grp"><span class="st-k">Post-visit</span><ul class="st-chips"><li class="st-chip">Outcome unknown</li><li class="st-chip">Attended</li><li class="st-chip">Attended — incomplete</li><li class="st-chip">No-show</li></ul></div>
+            <div class="st-grp"><span class="st-k">Disrupted</span><ul class="st-chips"><li class="st-chip">Cancelled</li><li class="st-chip">Cancel requested</li><li class="st-chip">Rebooking</li></ul></div>
+            <div class="st-grp"><span class="st-k">Escalated</span><ul class="st-chips"><li class="st-chip">Client unresponsive</li><li class="st-chip">Cannot agree a slot</li><li class="st-chip">Outcome disputed</li><li class="st-chip">Needs human</li><li class="st-chip">Dead contact</li><li class="st-chip">Clinic unresponsive</li></ul></div>
+            <div class="st-grp"><span class="st-k">Terminal</span><ul class="st-chips"><li class="st-chip">Closed</li><li class="st-chip">No cadence</li></ul></div>
+            <p class="st-note">Plus an Outcome filter that repeated five of these, and list rows that labelled appointments Unconfirmed, Viewed or Confirmed.</p>
           </div>
-          <div class="iac">
-            <span class="iac-k">Lead Modal tabs</span>
-            <span class="iac-v">10 <em>→</em> 4</span>
-            <span class="marks"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-            <p class="iac-d">Memory, Data, Tasks, Workflow, People, Case and Documents went — each one either unused or a second way to read Overview. Logs arrived to carry what Activity could not.</p>
+          <div class="ss-state" data-ba-img="b">
+            <div class="st-grp"><span class="st-k">Confirming</span><ul class="st-chips"><li class="st-chip">Unconfirmed</li><li class="st-to" aria-hidden="true">→</li><li class="st-chip">Ongoing Confirmation</li><li class="st-to" aria-hidden="true">→</li><li class="st-chip">Confirmed</li></ul></div>
+            <div class="st-grp"><span class="st-k">If every attempt fails</span><ul class="st-chips"><li class="st-chip is-warn">Escalated</li></ul></div>
+            <div class="st-grp"><span class="st-k">After the visit</span><ul class="st-chips"><li class="st-chip">Attended</li><li class="st-chip">Outcome Unknown</li><li class="st-chip">No-Show</li></ul></div>
+            <div class="st-grp"><span class="st-k">Stopped</span><ul class="st-chips"><li class="st-chip">Cancelled</li></ul></div>
           </div>
-          <div class="iac">
-            <span class="iac-k">Case stages</span>
-            <span class="iac-v">6 <em>→</em> 3</span>
-            <span class="marks"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span>
-            <p class="iac-d">Six stage screens became three, and each one became a list of work with its evidence attached rather than a screen of fields.</p>
-          </div>
-          <div class="iac">
-            <span class="iac-k">Fields on a visit</span>
-            <span class="iac-v">20 <em>→</em> 6</span>
-            <span class="marks"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-            <p class="iac-d">Fourteen fields were derivable from the other six, never filled, or asked twice on the same form.</p>
-          </div>
+          <ul class="st-why">
+            <li><b>The status is the outcome.</b>No separate outcome field repeating it.</li>
+            <li><b>Six escalation reasons became one.</b>The number of failed attempts is the threshold; the reason stays with the call.</li>
+            <li><b>Reminders are attempts, not a state.</b>Confirmed and Reminded were the same appointment.</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="sp-48"></div>
+      <div class="sp-64"></div>
+      <p class="t-12">Inside the shared surfaces — the modals opened from everywhere — flip each one between before and after.</p>
+      <div class="sp-18"></div>
       <div class="ia-board" aria-label="Information architecture">
         <div class="ia-scroll"><div class="ia-in">
 
@@ -2557,7 +2565,9 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             </div>
           </div>
 
-          <div class="ia-grid">
+          <details class="ia-more">
+            <summary>Show every section, surface and state</summary>
+            <div class="ia-grid">
 
             <div class="ia-col">
               <span class="n sec">Dashboard <span class="sec-mark" title="Opens the Lead Modal"></span></span>
@@ -2659,6 +2669,7 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             </div>
 
           </div>
+          </details>
 
           <!-- Shared surfaces -->
           <div class="ia-shared">
@@ -2666,9 +2677,12 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
             <div class="ia-shared-grid">
 
               <div>
-                <div class="ia-card">
+                <div class="ia-card" data-ba data-cap-a="10 tabs, 6 stages, and field groups under every stage." data-cap-b="4 tabs, 3 stages, and a list of tasks under each.">
                   <h4>Lead Modal</h4>
                   <p class="from">From <b>Dashboard</b>, <b>Settlements</b>, Intake <b>List</b>, <b>Tasks</b> and <b>Card</b>, and Treatment <b>Stages</b> and <b>Tasks</b></p>
+                  <div class="ss-bar"><span class="ss-cap" data-ba-cap>10 tabs, 6 stages, and field groups under every stage.</span><span class="cs-ba-toggle" role="group" aria-label="Before or after"><button type="button" data-ba-set="a" aria-pressed="true">Before</button><button type="button" data-ba-set="b" aria-pressed="false">After</button></span></div>
+                  <div class="ss-state show" data-ba-img="a"><div class="tree"><ul><li><div class="row"><span class="n sur">Overview</span></div><ul><li><div class="row"><span class="n sur">Intake</span><span class="n sur">Onboarding</span><span class="n sur">Treatment</span><span class="n sur">Demand</span><span class="n sur">Negotiation</span><span class="n sur">Settlement</span></div><ul><li><div class="row"><span class="n sur">Patient</span><span class="n sur">Incident</span><span class="n sur">Insurance</span><span class="n sur">Medical</span></div></li></ul></li></ul></li><li><div class="row"><span class="n sur">Preview</span><span class="n sur">Memory</span></div></li><li><div class="row"><span class="n sur">Data</span></div><ul><li><div class="row"><span class="n sur">Qualified · 5 fields</span><span class="n sur">Intake · 6 fields</span><span class="n sur">New Lead · 3 fields</span></div></li></ul></li><li><div class="row"><span class="n sur">Activity</span><span class="n sur">Tasks</span><span class="n sur">Workflow</span><span class="n sur">People</span></div></li><li><div class="row"><span class="n sur">Case</span></div><ul><li><div class="row"><span class="n sur">Incident</span><span class="n sur">Medical</span></div></li></ul></li><li><div class="row"><span class="n sur">Documents</span></div></li></ul></div></div>
+                  <div class="ss-state" data-ba-img="b">
                   <div class="tree"><ul>
                     <li><div class="row"><span class="n sur">Overview</span></div>
                       <ul><li><div class="row"><span class="n sur">Intake</span><span class="n sur">Treatment</span><span class="n sur">Settlements</span></div></li></ul>
@@ -2677,7 +2691,8 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
                     <li><div class="row"><span class="n sur">Activity</span></div></li>
                     <li><div class="row"><span class="n sur">Logs</span></div></li>
                   </ul></div>
-                </div>
+                                </div>
+</div>
                 <div class="ia-card">
                   <h4>Call Modal <small>CX Platform</small></h4>
                   <p class="from">From <b>View Call</b>, and <b>Completed</b> or <b>Failed</b> tasks</p>
@@ -2686,11 +2701,16 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
                     <li><div class="row"><span class="n sur">Brief</span></div></li>
                   </ul></div>
                 </div>
-                <div class="ia-card">
+                <div class="ia-card" data-ba data-cap-a="7 fields — no provider, no timezone, no cadence, and no way to log a visit that already happened." data-cap-b="The fields a visit needs, cadence set at booking, and a second mode for logging a past visit.">
                   <h4>New Appointment</h4>
                   <p class="from">From <b>Monthly</b>, <b>Weekly</b> and <b>Daily</b> calendar views</p>
+                  <div class="ss-bar"><span class="ss-cap" data-ba-cap>7 fields — no provider, no timezone, no cadence, and no way to log a visit that already happened.</span><span class="cs-ba-toggle" role="group" aria-label="Before or after"><button type="button" data-ba-set="a" aria-pressed="true">Before</button><button type="button" data-ba-set="b" aria-pressed="false">After</button></span></div>
+                  <div class="ss-state show" data-ba-img="a"><div class="tree"><ul><li><div class="row"><span class="n sur">New Appointment</span></div><ul><li><div class="row"><span class="n act">Existing client</span><span class="n act">New client</span></div></li><li><div class="row"><span class="n sur">Client</span><span class="n sur">Date</span><span class="n sur">Time</span><span class="n sur">Duration</span><span class="n sur">Type</span><span class="n sur">Location</span><span class="n sur">Notes</span></div></li></ul></li></ul></div></div>
+                  <div class="ss-state" data-ba-img="b">
                   <div class="tree"><ul>
-                    <li><div class="row"><span class="n sur">New Appointment</span></div></li>
+                    <li><div class="row"><span class="n sur">New Appointment</span></div>
+                      <ul><li><div class="row"><span class="n sur">When</span><span class="n sur">Client</span><span class="n sur">Provider</span><span class="n sur">Treatment Type</span><span class="n sur">Cadence</span></div></li></ul>
+                    </li>
                     <li><div class="row"><span class="n act">Log a past visit</span></div>
                       <ul>
                         <li><div class="row"><span class="n sta">Attended</span></div></li>
@@ -2701,12 +2721,16 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
                       </ul>
                     </li>
                   </ul></div>
-                </div>
+                                </div>
+</div>
               </div>
 
-              <div class="ia-card">
+              <div class="ia-card" data-ba data-cap-a="6 read-only panels, 18 fields, a status you could see but not change, and 5 buttons along the bottom." data-cap-b="When, client, provider, treatment type and cadence — with a status you set, and one action that status calls for.">
                 <h4>Edit Appointment</h4>
                 <p class="from">From <b>View Details</b></p>
+                <div class="ss-bar"><span class="ss-cap" data-ba-cap>6 read-only panels, 18 fields, a status you could see but not change, and 5 buttons along the bottom.</span><span class="cs-ba-toggle" role="group" aria-label="Before or after"><button type="button" data-ba-set="a" aria-pressed="true">Before</button><button type="button" data-ba-set="b" aria-pressed="false">After</button></span></div>
+                <div class="ss-state show" data-ba-img="a"><div class="tree"><ul><li><div class="row"><span class="n sur">View Details</span><span class="n sta">Needs Human</span></div><ul><li><div class="row"><span class="n sur">Appointment · 4</span><span class="n sur">Provider · 3</span><span class="n sur">Confirmation · 4</span></div></li><li><div class="row"><span class="n sur">Client · 4</span><span class="n sur">Location · 2</span><span class="n sur">Internal notes</span></div></li></ul></li><li><div class="row"><span class="n act">Open client profile</span><span class="n act">Follow-up</span><span class="n act">Mark as Completed</span><span class="n act">Cancel Appointment</span><span class="n act">Delete</span></div></li></ul></div></div>
+                <div class="ss-state" data-ba-img="b">
                 <div class="two">
                   <div class="tree"><ul>
                     <li><div class="row"><span class="n act">Reschedule</span></div>
@@ -2748,7 +2772,8 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
                   </ul></div>
                 </div>
                 <p class="ia-note">Status can move across branches</p>
-              </div>
+                            </div>
+</div>
 
             </div>
           </div>
