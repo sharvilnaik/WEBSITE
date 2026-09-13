@@ -1220,30 +1220,30 @@ p.copy.ph { display: block; }
 .ia-more[open] > summary { margin-bottom: 30px; }
 .ia-more > summary:focus-visible { outline: 2px solid var(--cs-blue); outline-offset: 2px; }
 
-/* ---- Personas ---- */
-.personas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; align-items: start; }
-.persona {
-  border: 1px solid var(--cs-line); padding: 34px 32px 30px;
-  display: flex; flex-direction: column;
-}
-.pr-role {
-  font-size: 12px; line-height: 16px; letter-spacing: 0.1em;
-  text-transform: uppercase; font-weight: 400; color: var(--cs-blue);
-}
-.pr-name {
-  margin: 14px 0 0; font-size: 26px; line-height: 34px;
-  letter-spacing: -0.02em; font-weight: 300; color: var(--cs-text);
-}
-.pr-quote {
-  margin: 18px 0 0; font-size: 19px; line-height: 30px;
-  font-weight: 300; color: var(--cs-text-2); font-style: italic;
-}
-.pr-ctx { margin: 18px 0 0; font-size: 16px; line-height: 27px; font-weight: 300; color: var(--cs-text-3); }
-.pr-rows { margin-top: 26px; border-top: 1px solid var(--cs-line-2); }
-.pr-row { display: grid; grid-template-columns: 150px 1fr; gap: 18px; padding: 16px 0; border-bottom: 1px solid var(--cs-line); }
-.pr-row:last-child { border-bottom: 0; padding-bottom: 0; }
-.pr-k { font-size: 12px; line-height: 22px; color: var(--cs-label); }
-.pr-v { margin: 0; font-size: 15px; line-height: 24px; font-weight: 300; color: var(--cs-text-2); }
+/* ---- User personas: one card each, drawn rather than written ---- */
+.pcs { display: grid; gap: 28px; }
+.pc { display: grid; grid-template-columns: minmax(0, 0.62fr) minmax(0, 1fr); background: #fff; border-radius: 26px; overflow: hidden; }
+.pc .pc-art { display: flex; align-items: flex-end; justify-content: center; min-height: 440px; background: var(--cs-blue-3); }
+.pc.is-sky .pc-art { background: var(--g-sky); }
+.pc .pc-art svg { display: block; width: 92%; max-width: 420px; height: auto; }
+.pc .pc-body { padding: 42px 46px 40px; }
+.pc .pc-name { margin: 0; font-size: 34px; line-height: 40px; font-weight: 400; letter-spacing: -0.02em; color: #0E1330; }
+.pc .pc-role { margin: 6px 0 0; font-size: 15px; line-height: 22px; color: #3A3F55; }
+.pc .pc-quote { margin: 14px 0 0; font-size: 17px; line-height: 26px; color: var(--cs-blue-3); }
+.pc .pc-grid { margin-top: 30px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 42px; }
+.pc .pc-h { margin: 0 0 10px; font-size: 20px; line-height: 26px; font-weight: 400; letter-spacing: -0.01em; color: #0E1330; }
+.pc .pc-p { margin: 0; font-size: 14px; line-height: 22px; color: #3A3F55; }
+.pc .pc-facts, .pc .pc-pains, .pc .pc-icons { list-style: none; margin: 0; padding: 0; }
+.pc .pc-facts li { display: flex; align-items: center; gap: 10px; font-size: 14px; line-height: 22px; color: #3A3F55; }
+.pc .pc-facts li + li { margin-top: 6px; }
+.pc .pc-facts svg { flex: none; width: 18px; height: 18px; color: #0E1330; }
+.pc .pc-pains li { position: relative; padding-left: 18px; font-size: 14px; line-height: 22px; color: #3A3F55; }
+.pc .pc-pains li + li { margin-top: 6px; }
+.pc .pc-pains li::before { content: ""; position: absolute; left: 0; top: 10px; width: 9px; height: 2px; background: var(--cs-blue-3); }
+.pc .pc-icons { display: flex; gap: 22px; }
+.pc .pc-icons li { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 13px; line-height: 18px; color: #3A3F55; }
+.pc .pc-ic { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; background: #EEF1F8; color: var(--cs-blue-3); }
+.pc .pc-ic svg { width: 26px; height: 26px; }
 /* a still and a clip stacked in one media column */
 .iter-duo { display: grid; grid-template-columns: 1fr; gap: 16px; }
 
@@ -1289,8 +1289,11 @@ p.copy.ph { display: block; }
   .st-why { grid-template-columns: 1fr; }
   .ia-step-h { flex-direction: column; align-items: flex-start; gap: 8px; }
   .ss-bar { flex-direction: column; align-items: flex-start; }
-  .personas { grid-template-columns: 1fr; }
-  .pr-row { grid-template-columns: 1fr; gap: 4px; }
+  .pc { grid-template-columns: 1fr; }
+  .pc .pc-art { min-height: 0; height: 280px; }
+  .pc .pc-art svg { width: auto; height: 100%; }
+  .pc .pc-body { padding: 28px 22px 26px; }
+  .pc .pc-grid { grid-template-columns: 1fr; gap: 22px; }
 }
 
 /* 05.x — before · exploration · final */
@@ -2375,36 +2378,42 @@ body.view-gideon .cs-toc { opacity: 1; pointer-events: auto; }
       <h2 class="h-40" id="cs-personas">User Personas</h2>
       <div class="sp-30"></div>
       <div class="copy">
-        <p class="t-20">The users are case managers and paralegals carrying 60–120 open files. They’re judged on cases moving, not cases understood, and they’re mostly not in the product. They log in to supervise work that has already happened, which makes the interface a place to decide whether to trust work rather than a place to do it.</p>
-        <p class="t-20 s">Neither of them is the person who buys it — that’s a managing attorney who wants fewer missed calls and faster demands. These are proto-personas, built from onboarding calls with the firms we were signing and from the call transcripts the product was already collecting. Held loosely, and corrected as we learned.</p>
+        <p class="t-20">Two people decide whether Gideon works: the owner who pays for it, and the coordinator who has to trust it every day.</p>
       </div>
       <div class="sp-52"></div>
-      <div class="personas">
-        <article class="persona">
-          <span class="pr-role">Primary user</span>
-          <h3 class="pr-name">Dana Reyes, Case Manager</h3>
-          <p class="pr-quote">“I’m not paid to read the file. I’m paid to move it.”</p>
-          <p class="pr-ctx">Eleven years in personal injury, the last four at a twelve-attorney firm. Carries about ninety open matters. Most of her day is the phone — a records desk, a client who missed an appointment, an adjuster who hasn’t called back in two weeks.</p>
-          <div class="pr-rows">
-            <div class="pr-row"><span class="pr-k">Judged on</span><p class="pr-v">Cases moving. Treatment gaps closed, records in, demands out on time.</p></div>
-            <div class="pr-row"><span class="pr-k">In Gideon</span><p class="pr-v">Logs in two or three times a day to see what the AI did overnight and pick up whatever it escalated.</p></div>
-            <div class="pr-row"><span class="pr-k">Trusts it when</span><p class="pr-v">She can see the call, the transcript and what changed — in that order, without leaving the row.</p></div>
-            <div class="pr-row"><span class="pr-k">Loses trust when</span><p class="pr-v">A task says “in progress” and nothing on the screen says by whom, since when, or what happens next.</p></div>
+      <div class="pcs">
+        <div class="pc">
+          <div class="pc-art" aria-hidden="true"><svg viewBox="24 70 352 390" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#0E1330" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M56 460C64 382 112 330 168 322H232C288 330 336 382 344 460Z" fill="#fff"/><path d="M178 282 175 326H225L222 282" fill="#fff"/><path d="M170 322 188 360 200 342 212 360 230 322" fill="#fff"/><path d="M154 330C160 364 172 396 190 418M246 330C240 364 228 396 210 418"/><circle cx="200" cy="438" r="5" fill="#0E1330" stroke="none"/><path d="M141 206C120 200 118 240 143 240" fill="#fff"/><path d="M259 206C280 200 282 240 257 240" fill="#fff"/><path d="M138 196C138 120 262 120 262 196L260 244C256 300 144 300 140 244Z" fill="#fff"/><path d="M133 206C121 136 170 100 214 104 262 108 285 146 267 206 262 176 248 160 226 156 200 166 170 164 150 172 142 182 137 194 133 206Z" fill="#0E1330"/><path d="M161 202 186 197M214 197 239 202"/><circle cx="174" cy="219" r="5.5" fill="#0E1330" stroke="none"/><circle cx="226" cy="219" r="5.5" fill="#0E1330" stroke="none"/><path d="M203 224C213 240 209 249 196 249"/><path d="M184 267C192 261 208 261 216 267 208 271 192 271 184 267Z" fill="#0E1330"/><path d="M190 282H210"/></svg></div>
+          <div class="pc-body">
+            <h3 class="pc-name">Marcus Reyes</h3>
+            <p class="pc-role">A capacity-capped owner</p>
+            <p class="pc-quote">“I’m paying about a thousand dollars a case, and half of them go to voicemail.”</p>
+            <div class="pc-grid">
+              <div><h4 class="pc-h">About</h4><ul class="pc-facts"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>Age 40–55</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5v5M18 9.5v5"/></svg><span>$40k a month on marketing</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.6"/><path d="M8.5 20h7M12 16v4"/></svg><span>Moderate tech proficiency</span></li></ul></div>
+              <div><h4 class="pc-h">Motivation</h4><p class="pc-p">Grow case volume without adding payroll, and see proof his marketing converts — not another agency dashboard.</p></div>
+              <div><h4 class="pc-h">Story</h4><p class="pc-p">Built the firm from nothing and still carries cases. Growth now hangs on intake he can’t watch, and after three tools that underdelivered, the fourth starts on probation.</p></div>
+              <div><h4 class="pc-h">Core Need</h4><p class="pc-p">A lower cost per signed case: every lead answered in seconds, stalled cases flagged early, all of it in Filevine — no new hire.</p></div>
+              <div><h4 class="pc-h">Pain Points</h4><ul class="pc-pains"><li>After-hours leads hit voicemail and never call back.</li><li>Cases stall in treatment for weeks before anyone notices.</li></ul></div>
+              <div><h4 class="pc-h">Case Types</h4><ul class="pc-icons"><li><span class="pc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 15.5V12l2.2-4.6a2 2 0 0 1 1.8-1.2h9a2 2 0 0 1 1.8 1.2L20.5 12v3.5"/><path d="M2.5 15.5h19M5 12h14"/><circle cx="7.5" cy="16.5" r="1.8"/><circle cx="16.5" cy="16.5" r="1.8"/></svg></span>Auto</li><li><span class="pc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5V9.5L12 4l8.5 5.5v11"/><path d="M9 20.5v-6h6v6M2.5 20.5h19"/></svg></span>Premises</li><li><span class="pc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-10.5a6.5 6.5 0 1 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg></span>Rideshare</li></ul></div>
+            </div>
           </div>
-        </article>
-
-        <article class="persona">
-          <span class="pr-role">Secondary user</span>
-          <h3 class="pr-name">Priya Raman, Pre-Litigation Paralegal</h3>
-          <p class="pr-quote">“Every day the demand sits here is a day the client waits.”</p>
-          <p class="pr-ctx">Six years in pre-lit at the same firm. Owns the back half of the case — records complete, specials computed, the demand package assembled, then the long back-and-forth with the adjuster.</p>
-          <div class="pr-rows">
-            <div class="pr-row"><span class="pr-k">Judged on</span><p class="pr-v">Time from treatment complete to demand sent, and what the case settles for against the first offer.</p></div>
-            <div class="pr-row"><span class="pr-k">In Gideon</span><p class="pr-v">Lives in Settlements. Needs the record trail assembled and the counter history in one place.</p></div>
-            <div class="pr-row"><span class="pr-k">Trusts it when</span><p class="pr-v">Every number in the demand traces back to a document she can open.</p></div>
-            <div class="pr-row"><span class="pr-k">Loses trust when</span><p class="pr-v">A step is locked and nothing tells her what unlocks it.</p></div>
+        </div>
+        <div class="pc is-sky">
+          <div class="pc-art" aria-hidden="true"><svg viewBox="24 70 352 390" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#0E1330" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M120 214C108 132 168 92 210 96 268 100 298 150 288 222 296 270 306 312 290 350 274 372 248 364 242 342H158C152 364 126 372 110 350 94 312 110 266 120 214Z" fill="#0E1330"/><path d="M58 460C68 384 118 340 170 334H230C282 340 332 384 342 460Z" fill="#fff"/><path d="M179 282 177 336H223L221 282" fill="#fff"/><path d="M166 330C176 344 224 344 234 330L236 352C224 368 176 368 164 352Z" fill="#fff"/><path d="M146 198C146 130 254 130 254 198L251 244C246 294 154 294 149 244Z" fill="#fff"/><path d="M142 210C136 148 174 118 206 120 244 122 266 156 258 210 246 178 226 162 202 160 186 174 162 184 142 210Z" fill="#0E1330"/><path d="M131 204C128 100 272 100 269 204" stroke-width="16"/><path d="M131 204C128 100 272 100 269 204" stroke="#fff" stroke-width="7"/><path d="M266 238C271 264 255 280 232 281" stroke-width="12"/><path d="M266 238C271 264 255 280 232 281" stroke="#fff" stroke-width="4.5"/><rect x="120" y="194" width="28" height="44" rx="12" fill="#fff"/><rect x="252" y="194" width="28" height="44" rx="12" fill="#fff"/><rect x="216" y="273" width="18" height="16" rx="7" fill="#fff"/><path d="M166 201 188 198M212 198 234 201"/><circle cx="178" cy="219" r="5.5" fill="#0E1330" stroke="none"/><circle cx="222" cy="219" r="5.5" fill="#0E1330" stroke="none"/><path d="M203 224C211 239 207 247 196 247"/><path d="M185 262C192 267 202 267 209 262"/></svg></div>
+          <div class="pc-body">
+            <h3 class="pc-name">Daniela Ortiz</h3>
+            <p class="pc-role">An overloaded coordinator</p>
+            <p class="pc-quote">“If I have to check everything it does, I’ve just added a task.”</p>
+            <div class="pc-grid">
+              <div><h4 class="pc-h">About</h4><ul class="pc-facts"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>Age 28–45</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5v5M18 9.5v5"/></svg><span>$55–75k a year</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.6"/><path d="M8.5 20h7M12 16v4"/></svg><span>High tech proficiency</span></li></ul></div>
+              <div><h4 class="pc-h">Motivation</h4><p class="pc-p">Keep every client moving, never be the reason a case loses value — and save her hours for the clients who need a person.</p></div>
+              <div><h4 class="pc-h">Story</h4><p class="pc-p">Six years in, she knows every client by name. Mondays start behind: overnight voicemail to clear while new calls land, and the follow-ups nobody chases are the ones that slip.</p></div>
+              <div><h4 class="pc-h">Core Need</h4><p class="pc-p">Overnight leads booked before she arrives, treatment gaps flagged to her rather than found by her — and nothing new to double-check.</p></div>
+              <div><h4 class="pc-h">Pain Points</h4><ul class="pc-pains"><li>Interrupt-driven days across a hundred files.</li><li>Quiet work only surfaces once it’s already cost the case.</li></ul></div>
+              <div><h4 class="pc-h">Daily Tools</h4><ul class="pc-icons"><li><span class="pc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>Filevine</li><li><span class="pc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h3l1.6 4.4-2.1 1.3a12 12 0 0 0 6.3 6.3l1.3-2.1 4.4 1.6v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.7a2 2 0 0 1 2-2.2z"/></svg></span>Phone</li><li><span class="pc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7.5 12 13l8.5-5.5"/></svg></span>Email</li></ul></div>
+            </div>
           </div>
-        </article>
+        </div>
       </div>
     </div>
   </section>
