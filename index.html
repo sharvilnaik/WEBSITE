@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Storytelling Version · Sharvil Naik</title>
-<link rel="icon" type="image/png" href="../favicon.png">
-<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="description" content="Sharvil Naik Portfolio Website">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,14 +18,14 @@
 ------------------------------------------------------------------ */
 @font-face {
   font-family: "Tondu Beta";
-  src: url("../fonts/TonduBeta-Bold.woff2") format("woff2");
+  src: url("fonts/TonduBeta-Bold.woff2") format("woff2");
   font-weight: 900;
   font-display: swap;
 }
 
 /* Aspekta — OFL 1.1, github.com/ivodolenc/aspekta. Embedded so the file works offline. */
-@font-face { font-family: "Aspekta"; font-weight: 300; font-display: swap; src: url("../fonts/Aspekta-300.woff2") format("woff2"); }
-@font-face { font-family: "Aspekta"; font-weight: 400; font-display: swap; src: url("../fonts/Aspekta-400.woff2") format("woff2"); }
+@font-face { font-family: "Aspekta"; font-weight: 300; font-display: swap; src: url("fonts/Aspekta-300.woff2") format("woff2"); }
+@font-face { font-family: "Aspekta"; font-weight: 400; font-display: swap; src: url("fonts/Aspekta-400.woff2") format("woff2"); }
 
 /* ------------------------------------------------------------------
    TOKENS
@@ -51,8 +51,8 @@
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 
   /* the cursor: a pixel hand pointing, which throws up the horns over anything you can press */
-  --cursor-hand: -webkit-image-set(url("../assets/cursors/hand.png") 1x, url("../assets/cursors/hand@2x.png") 2x) 6 0, auto;
-  --cursor-rock: -webkit-image-set(url("../assets/cursors/rock.png") 1x, url("../assets/cursors/rock@2x.png") 2x) 6 0, pointer;
+  --cursor-hand: -webkit-image-set(url("assets/cursors/hand.png") 1x, url("assets/cursors/hand@2x.png") 2x) 6 0, auto;
+  --cursor-rock: -webkit-image-set(url("assets/cursors/rock.png") 1x, url("assets/cursors/rock@2x.png") 2x) 6 0, pointer;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -329,6 +329,13 @@ body.menu-open .menu li:nth-child(3) { transition-delay: 160ms; }
 .gd-role span { display: block; }
 .gd-btns { display: flex; flex-wrap: wrap; gap: 10px; }
 .gd-btns .btn-pill { pointer-events: auto; }
+/* no pointer to hover with: the frame just carries the two pills, and the meta
+   row below it already says the rest */
+@media (hover: none), (pointer: coarse) {
+  .gd-stage .project::before { background: rgba(0, 0, 0, 0.45); }
+  .gd-info { display: none; }
+  .gd-over { justify-content: flex-end; }
+}
 @media (hover: hover) and (pointer: fine) {
   /* with a pointer, the cover reads at full brightness until the card is held */
   .gd-stage .project::before { opacity: 0; }
@@ -3321,7 +3328,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       </div>
     </div>
     <div class="hero-portrait">
-      <img src="../assets/portrait.jpg" alt="Sharvil Naik, in silhouette against a window">
+      <img src="assets/portrait.jpg" alt="Sharvil Naik, in silhouette against a window">
     </div>
     <a class="hero-down" href="#work">
       <span>Scroll down</span>
@@ -3336,7 +3343,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       <div class="gd-stage" data-cursor="View Case Study">
         <a class="project" href="#gideon" aria-label="Gideon, UX case study">
           <div class="project-art art-gideon">
-            <img class="art-img" src="../assets/gideon-cover.jpg" alt="">
+            <img class="art-img" src="assets/gideon-cover.jpg" alt="">
           </div>
         </a>
         <div class="gd-over">
@@ -3359,9 +3366,9 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
     </div>
 
     <div class="work-card">
-      <a class="project" href="#noir" data-reel-hold="850" data-reel="[{&quot;v&quot;: &quot;../assets/nf/blinds.mp4&quot;}, {&quot;i&quot;: &quot;../assets/nf/keywords.jpg&quot;}, {&quot;i&quot;: &quot;../assets/nf/kiosk.jpg&quot;}, {&quot;i&quot;: &quot;../assets/nf/moodboard.jpg&quot;}, {&quot;i&quot;: &quot;../assets/nf/logo.jpg&quot;}, {&quot;i&quot;: &quot;../assets/nf/typostory.jpg&quot;}, {&quot;v&quot;: &quot;../assets/nf/logo-motion.mp4&quot;}, {&quot;i&quot;: &quot;../assets/nf/typelogo.jpg&quot;}, {&quot;i&quot;: &quot;../assets/nf/streetbb.jpg&quot;}, {&quot;i&quot;: &quot;../assets/nf/pattern.jpg&quot;}, {&quot;i&quot;: &quot;../assets/nf/tagline.jpg&quot;}, {&quot;i&quot;: &quot;../assets/nf/logovariations.jpg&quot;}, {&quot;i&quot;: &quot;../assets/nf/billboard.jpg&quot;}, {&quot;i&quot;: &quot;../assets/nf/brochure.jpg&quot;}, {&quot;i&quot;: &quot;../assets/nf/idbadges.jpg&quot;}, {&quot;i&quot;: &quot;../assets/nf/tickets.jpg&quot;}, {&quot;v&quot;: &quot;../assets/nf/social-reel.mp4&quot;}, {&quot;i&quot;: &quot;../assets/nf/social.jpg&quot;}, {&quot;i&quot;: &quot;../assets/nf/fin.jpg&quot;}]" data-cursor="View Project" aria-label="Noir Film Festival 2026">
+      <a class="project" href="#noir" data-reel-hold="850" data-reel="[{&quot;v&quot;: &quot;assets/nf/blinds.mp4&quot;}, {&quot;i&quot;: &quot;assets/nf/keywords.jpg&quot;}, {&quot;i&quot;: &quot;assets/nf/kiosk.jpg&quot;}, {&quot;i&quot;: &quot;assets/nf/moodboard.jpg&quot;}, {&quot;i&quot;: &quot;assets/nf/logo.jpg&quot;}, {&quot;i&quot;: &quot;assets/nf/typostory.jpg&quot;}, {&quot;v&quot;: &quot;assets/nf/logo-motion.mp4&quot;}, {&quot;i&quot;: &quot;assets/nf/typelogo.jpg&quot;}, {&quot;i&quot;: &quot;assets/nf/streetbb.jpg&quot;}, {&quot;i&quot;: &quot;assets/nf/pattern.jpg&quot;}, {&quot;i&quot;: &quot;assets/nf/tagline.jpg&quot;}, {&quot;i&quot;: &quot;assets/nf/logovariations.jpg&quot;}, {&quot;i&quot;: &quot;assets/nf/billboard.jpg&quot;}, {&quot;i&quot;: &quot;assets/nf/brochure.jpg&quot;}, {&quot;i&quot;: &quot;assets/nf/idbadges.jpg&quot;}, {&quot;i&quot;: &quot;assets/nf/tickets.jpg&quot;}, {&quot;v&quot;: &quot;assets/nf/social-reel.mp4&quot;}, {&quot;i&quot;: &quot;assets/nf/social.jpg&quot;}, {&quot;i&quot;: &quot;assets/nf/fin.jpg&quot;}]" data-cursor="View Project" aria-label="Noir Film Festival 2026">
         <div class="project-art art-noir">
-          <img class="art-img" src="../assets/noir.jpg" alt="Noir Film Festival 2026: poster">
+          <img class="art-img" src="assets/noir.jpg" alt="Noir Film Festival 2026: poster">
         </div>
       </a>
       <ul class="work-meta">
@@ -3372,9 +3379,9 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
     </div>
 
     <div class="work-card">
-      <a class="project" href="#apparatus" data-reel="[{&quot;v&quot;: &quot;../assets/ap/ap-flip.mp4&quot;}]" data-cursor="View Magazine" aria-label="Apparatus magazine">
+      <a class="project" href="#apparatus" data-reel="[{&quot;v&quot;: &quot;assets/ap/ap-flip.mp4&quot;}]" data-cursor="View Magazine" aria-label="Apparatus magazine">
         <div class="project-art art-apparatus">
-          <img class="art-img" src="../assets/apparatus.jpg" alt="Apparatus magazine, issue #1, on a wire chair">
+          <img class="art-img" src="assets/apparatus.jpg" alt="Apparatus magazine, issue #1, on a wire chair">
         </div>
       </a>
       <ul class="work-meta">
@@ -3387,7 +3394,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
     <div class="work-card">
       <div class="project project-soon" role="img" data-cursor="Coming Soon" aria-label="ARCHIV., coming soon">
         <div class="project-art">
-          <img class="art-img" src="../assets/arc.jpg" alt="">
+          <img class="art-img" src="assets/arc.jpg" alt="">
         </div>
         <div class="soon-overlay"><span>Coming Soon</span></div>
       </div>
@@ -3411,9 +3418,9 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
     </div>
     <div class="lab-grid" id="labGrid"></div>
   </section>
-  <script defer src="../assets/lab/registry.js?v=5"></script>
-<script defer src="../assets/lab/pacman.js?v=6"></script>
-<script defer src="../assets/lab/slingshot.js?v=9"></script>
+  <script defer src="lab/registry.js?v=5"></script>
+<script defer src="lab/pacman.js?v=6"></script>
+<script defer src="lab/slingshot.js?v=9"></script>
   <script>
     // the Fruit Ninja experiment slices these four instead of the emails on the main site
     window.NINJA_CARDS = [
@@ -3427,21 +3434,21 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
     window.NINJA_PLAIN = true;
     window.NINJA_EMPTY = { title: 'Tasks Completed', line: '+100 aura points', button: 'Add tasks', overlay: true };
     // once all four are cut, play the first five seconds of this clip
-    window.NINJA_CLEAR = { src: '../assets/audio/praise-the-lord.mp3', start: 0, seconds: 5 };
+    window.NINJA_CLEAR = { src: 'audio/praise-the-lord.mp3', start: 0, seconds: 5 };
   </script>
-<script defer src="../assets/lab/ninja.js?v=10"></script>
-<script defer src="../assets/lab/rotary.js?v=3"></script>
-<script defer src="../assets/lab/tempo.js?v=9"></script>
-<script defer src="../assets/lab/balloons.js?v=3"></script>
-<script defer src="../assets/lab/cooperlogout.js?v=6"></script>
-<script defer src="../assets/lab/dock.js?v=5"></script>
-<script defer src="../assets/lab/roulette.js?v=8"></script>
-<!-- <script defer src="../assets/lab/launch.js?v=1"></script> -->
+<script defer src="lab/ninja.js?v=10"></script>
+<script defer src="lab/rotary.js?v=3"></script>
+<script defer src="lab/tempo.js?v=9"></script>
+<script defer src="lab/balloons.js?v=3"></script>
+<script defer src="lab/cooperlogout.js?v=6"></script>
+<script defer src="lab/dock.js?v=5"></script>
+<script defer src="lab/roulette.js?v=8"></script>
+<!-- <script defer src="lab/launch.js?v=1"></script> -->
 <!-- Out of the grid for now: put a line back to bring its tile in -->
-<!-- <script defer src="../assets/lab/flux.js?v=3"></script> -->
-<!-- <script defer src="../assets/lab/chest.js?v=3"></script> -->
-<!-- <script defer src="../assets/lab/shaker.js?v=1"></script> -->
-<script defer src="../assets/lab/lab.js?v=5"></script>
+<!-- <script defer src="lab/flux.js?v=3"></script> -->
+<!-- <script defer src="lab/chest.js?v=3"></script> -->
+<!-- <script defer src="lab/shaker.js?v=1"></script> -->
+<script defer src="lab/lab.js?v=5"></script>
 
 
   <!-- SIDE QUESTS -->
@@ -3452,22 +3459,22 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
     </div>
 
     <div class="bento">
-        <figure class="bt" style="--span: 7; --ar: 16 / 9"><div class="bt-media"><video data-audio="true" src="../assets/sq/handtracking.mp4" poster="../assets/sq/handtracking.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Hand-tracking masks in TouchDesigner"></video></div><figcaption><b>Hand-Tracking Masks</b></figcaption></figure>
-        <figure class="bt" style="--span: 5; --ar: 4 / 3"><div class="bt-media"><video data-audio="true" src="../assets/sq/stopmotion.mp4" poster="../assets/sq/stopmotion.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Hand-drawn stop-motion animation"></video></div><figcaption><b>Stop Motion</b></figcaption></figure>
-        <figure class="bt" style="--span: 4; --ar: 1 / 1"><div class="bt-media"><video data-audio="true" src="../assets/sq/tetris.mp4" poster="../assets/sq/tetris.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Tetris animated inside the calendar"></video></div><figcaption><b>Calendar Tetris</b></figcaption></figure>
-        <figure class="bt" style="--span: 4; --ar: 1280 / 1462"><div class="bt-media"><video data-audio="false" src="../assets/sq/stretchy.mp4" poster="../assets/sq/stretchy.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A word stretched until it stops reading as letters"></video></div><figcaption><b>Stretched Type</b></figcaption></figure>
-        <figure class="bt" style="--span: 4; --ar: 789 / 900"><div class="bt-media"><video data-audio="false" src="../assets/sq/shine.mp4" poster="../assets/sq/shine.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Shine your light, an After Effects expression piece"></video></div><figcaption><b>Shine Your Light</b></figcaption></figure>
-        <figure class="bt" style="--span: 8; --ar: 4 / 3"><div class="bt-media"><video data-audio="true" src="../assets/sq/spotify.mp4" poster="../assets/sq/spotify.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Spotify as it might have looked on a CRT in 1984"></video></div><figcaption><b>Spotify, on a CRT</b></figcaption></figure>
-        <figure class="bt" style="--span: 4; --ar: 1 / 1"><div class="bt-media"><video data-audio="false" src="../assets/sq/pendulum.mp4" poster="../assets/sq/pendulum.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A pendulum left running to test lighting and falloff"></video></div><figcaption><b>Pendulum</b></figcaption></figure>
-        <figure class="bt" style="--span: 4; --ar: 3 / 4"><div class="bt-media bt-flat"><img src="../assets/sq/sketch-tiger-even.jpg" alt="Marker drawing of a flaming skull in a blue jacket" loading="lazy"></div><figcaption><b>Flaming Skull</b></figcaption></figure>
-        <figure class="bt" style="--span: 4; --ar: 3 / 4"><div class="bt-media bt-flat"><img src="../assets/sq/sketch-vader-even.jpg" alt="Ink drawing of a helmet in space, with a rainbow and starfighters" loading="lazy"></div><figcaption><b>Helmet in Space</b></figcaption></figure>
-        <figure class="bt" style="--span: 4; --ar: 3 / 4"><div class="bt-media bt-flat"><img src="../assets/sq/sketch-ghostrider-even.jpg" alt="Marker drawing of a snarling tiger against a blue ground" loading="lazy"></div><figcaption><b>Tiger</b></figcaption></figure>
+        <figure class="bt" style="--span: 7; --ar: 16 / 9"><div class="bt-media"><video data-audio="true" src="assets/sq/handtracking.mp4" poster="assets/sq/handtracking.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Hand-tracking masks in TouchDesigner"></video></div><figcaption><b>Hand-Tracking Masks</b></figcaption></figure>
+        <figure class="bt" style="--span: 5; --ar: 4 / 3"><div class="bt-media"><video data-audio="true" src="assets/sq/stopmotion.mp4" poster="assets/sq/stopmotion.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Hand-drawn stop-motion animation"></video></div><figcaption><b>Stop Motion</b></figcaption></figure>
+        <figure class="bt" style="--span: 4; --ar: 1 / 1"><div class="bt-media"><video data-audio="true" src="assets/sq/tetris.mp4" poster="assets/sq/tetris.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Tetris animated inside the calendar"></video></div><figcaption><b>Calendar Tetris</b></figcaption></figure>
+        <figure class="bt" style="--span: 4; --ar: 1280 / 1462"><div class="bt-media"><video data-audio="false" src="assets/sq/stretchy.mp4" poster="assets/sq/stretchy.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A word stretched until it stops reading as letters"></video></div><figcaption><b>Stretched Type</b></figcaption></figure>
+        <figure class="bt" style="--span: 4; --ar: 789 / 900"><div class="bt-media"><video data-audio="false" src="assets/sq/shine.mp4" poster="assets/sq/shine.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Shine your light, an After Effects expression piece"></video></div><figcaption><b>Shine Your Light</b></figcaption></figure>
+        <figure class="bt" style="--span: 8; --ar: 4 / 3"><div class="bt-media"><video data-audio="true" src="assets/sq/spotify.mp4" poster="assets/sq/spotify.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Spotify as it might have looked on a CRT in 1984"></video></div><figcaption><b>Spotify, on a CRT</b></figcaption></figure>
+        <figure class="bt" style="--span: 4; --ar: 1 / 1"><div class="bt-media"><video data-audio="false" src="assets/sq/pendulum.mp4" poster="assets/sq/pendulum.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A pendulum left running to test lighting and falloff"></video></div><figcaption><b>Pendulum</b></figcaption></figure>
+        <figure class="bt" style="--span: 4; --ar: 3 / 4"><div class="bt-media bt-flat"><img src="assets/sq/sketch-tiger-even.jpg" alt="Marker drawing of a flaming skull in a blue jacket" loading="lazy"></div><figcaption><b>Flaming Skull</b></figcaption></figure>
+        <figure class="bt" style="--span: 4; --ar: 3 / 4"><div class="bt-media bt-flat"><img src="assets/sq/sketch-vader-even.jpg" alt="Ink drawing of a helmet in space, with a rainbow and starfighters" loading="lazy"></div><figcaption><b>Helmet in Space</b></figcaption></figure>
+        <figure class="bt" style="--span: 4; --ar: 3 / 4"><div class="bt-media bt-flat"><img src="assets/sq/sketch-ghostrider-even.jpg" alt="Marker drawing of a snarling tiger against a blue ground" loading="lazy"></div><figcaption><b>Tiger</b></figcaption></figure>
         <figure class="bt bt-photos-row" style="--span: 12">
           <div class="bt-photos">
-            <div class="bt-media" style="--ar: 4 / 3"><img src="../assets/sq/photo-lizard.jpg" alt="A palm squirrel clinging to a tree trunk" loading="lazy"></div>
-            <div class="bt-media" style="--ar: 4 / 3"><img src="../assets/sq/photo-ants.jpg" alt="Ants on a ledge" loading="lazy"></div>
-            <div class="bt-media" style="--ar: 4 / 3"><img src="../assets/sq/photo-phone.jpg" alt="A blue caterpillar on the edge of a phone" loading="lazy"></div>
-            <div class="bt-media" style="--ar: 4 / 3"><img src="../assets/sq/photo-sparrow.jpg" alt="A sparrow on a wall" loading="lazy"></div>
+            <div class="bt-media" style="--ar: 4 / 3"><img src="assets/sq/photo-lizard.jpg" alt="A palm squirrel clinging to a tree trunk" loading="lazy"></div>
+            <div class="bt-media" style="--ar: 4 / 3"><img src="assets/sq/photo-ants.jpg" alt="Ants on a ledge" loading="lazy"></div>
+            <div class="bt-media" style="--ar: 4 / 3"><img src="assets/sq/photo-phone.jpg" alt="A blue caterpillar on the edge of a phone" loading="lazy"></div>
+            <div class="bt-media" style="--ar: 4 / 3"><img src="assets/sq/photo-sparrow.jpg" alt="A sparrow on a wall" loading="lazy"></div>
           </div>
           <figcaption><b>Photography</b></figcaption>
         </figure>
@@ -3476,7 +3483,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
             <h3 class="display">“This is <em>totally</em> going on my blog”</h3>
           </div>
           <a class="project bt-blog-art" href="#blog" data-cursor="Read the Blog" aria-label="Blog: This is totally going on my blog">
-            <div class="bt-media" style="--ar: 4 / 3"><img class="art-img" src="../assets/blog/barney.jpg" alt="Barney Stinson, suited up in a red armchair" loading="lazy"></div>
+            <div class="bt-media" style="--ar: 4 / 3"><img class="art-img" src="assets/blog/barney.jpg" alt="Barney Stinson, suited up in a red armchair" loading="lazy"></div>
           </a>
         </figure>
       </div>
@@ -3520,7 +3527,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 
     <div class="creativity-grid">
       <div class="scope" aria-hidden="true">
-        <img src="../assets/scope.gif" alt="">
+        <img src="assets/scope.gif" alt="">
       </div>
     </div>
   </section>
@@ -3597,7 +3604,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       </div>
 
       <div class="cs-head">
-      <img class="cover-img" src="../assets/gideon-cover.jpg" alt="Gideon">
+      <img class="cover-img" src="assets/gideon-cover.jpg" alt="Gideon">
 
       <dl class="cs-meta">
         <div class="meta-col">
@@ -3606,7 +3613,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
         </div>
         <div class="meta-col">
           <div class="meta"><dt>Role</dt><dd><ul><li>Founding Product Designer</li><li>Design Generalist</li></ul></dd></div>
-          <div class="meta"><dt>Tools</dt><dd><ul><li class="tool"><img class="tool-ic" src="../assets/tools/figma.png" alt="">Figma</li><li class="tool"><img class="tool-ic" src="../assets/tools/claude.png" alt="">Claude Code</li><li class="tool"><img class="tool-ic" src="../assets/tools/claude.png" alt="">Claude Design</li><li class="tool"><img class="tool-ic" src="../assets/tools/figma.png" alt="">FigJam</li></ul></dd></div>
+          <div class="meta"><dt>Tools</dt><dd><ul><li class="tool"><img class="tool-ic" src="assets/tools/figma.png" alt="">Figma</li><li class="tool"><img class="tool-ic" src="assets/tools/claude.png" alt="">Claude Code</li><li class="tool"><img class="tool-ic" src="assets/tools/claude.png" alt="">Claude Design</li><li class="tool"><img class="tool-ic" src="assets/tools/figma.png" alt="">FigJam</li></ul></dd></div>
           <div class="meta"><dt>Timeline</dt><dd><ul><li>July 2026 – Present</li></ul></dd></div>
         </div>
       </dl>
@@ -3891,7 +3898,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
         <h2 class="h-56" id="cs-demo"><span class="sec-n">4.</span>The Flow, End to End</h2>
         <div class="gb-browser">
           <div class="gb-bar"><span class="gb-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="gb-name">Gideon · Appointments</span></div>
-          <div class="gb-screen"><video id="fd-vid" src="../assets/gd/flow-demo.mp4" poster="../assets/gd/flow-demo-poster.jpg" width="1920" height="1078" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="The appointment flow: the list, a new appointment, a logged visit, and an appointment partway through its confirmation calls"></video></div>
+          <div class="gb-screen"><video id="fd-vid" src="assets/gd/flow-demo.mp4" poster="assets/gd/flow-demo-poster.jpg" width="1920" height="1078" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="The appointment flow: the list, a new appointment, a logged visit, and an appointment partway through its confirmation calls"></video></div>
         </div>
         <ol class="fd-notes" data-for="fd-vid" aria-label="Sections">
           <li><button type="button" data-t="0"><span class="fd-run" aria-hidden="true"><i></i></span><span class="fd-n">1</span><span class="fd-c">The Appointments List</span></button></li>
@@ -4028,14 +4035,14 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
           <div class="dsx-chips" hidden><button type="button" class="dsx-chip" data-sx-view="new" aria-pressed="true">Creating Appointments</button></div>
           <div class="ba-stage sx-stage mx-stage">
             <div class="ba-slot show" data-sx-img="a new"><div class="shot is-marked mx-fit" style="--r: 1.763">
-              <img src="../assets/gd/old-new-appointment-full.jpg" alt="The existing Appointments list with the New Appointment modal open over it: an existing or new client toggle, full name and phone, date, time and duration, a fixed type list, an optional location and notes">
+              <img src="assets/gd/old-new-appointment-full.jpg" alt="The existing Appointments list with the New Appointment modal open over it: an existing or new client toggle, full name and phone, date, time and duration, a fixed type list, an optional location and notes">
               <span class="mk" data-say="Why can I only fill in 5 of Ryan’s details here?" style="left:50.5%;top:34.1%">1</span>
               <span class="mk" data-say="Is Ryan new or existing? Why ask me first?" style="left:39.3%;top:23.6%">2</span>
               <span class="mk" data-say="Physio isn’t on the list." style="left:40.8%;top:64.3%">3</span>
               <span class="mk" data-say="Where do I set his calls? And Ryan already went, how do I log that?" style="left:62%;top:85.3%">4</span>
             </div></div>
             <div class="ba-slot" data-sx-img="b new"><div class="shot is-marked mx-fit lm-frame" style="--r: 1.537">
-              <img src="../assets/gd/new-redesign-pair.jpg" alt="The redesigned modal in Create mode, side by side: New Appointment with when, client, clinic, treatment type and confirmation attempts, and Log a Visit with a follow-up call schedule and an outcome" loading="lazy">
+              <img src="assets/gd/new-redesign-pair.jpg" alt="The redesigned modal in Create mode, side by side: New Appointment with when, client, clinic, treatment type and confirmation attempts, and Log a Visit with a follow-up call schedule and an outcome" loading="lazy">
               <span class="mk" style="left:6.8%;top:16.5%">1</span>
               <span class="mk" style="left:6.4%;top:37.5%">2</span>
               <span class="mk" style="left:7.4%;top:48.7%">2</span>
@@ -4046,10 +4053,10 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
               <span class="mk" style="left:4.5%;top:83.2%">4</span>
               <span class="mk" style="left:30.5%;top:76.2%">5</span>
               <span class="mk" style="left:83.5%;top:76.4%">5</span>
-              <span class="mk lm-mk" data-shot="../assets/gd/detail/client.jpg" data-top="34.6" data-left="0.8" data-width="47.7" data-label="Add New Client" style="left:45.5%;top:41.3%" role="button" aria-label="Open the Add New Client close-up">+</span>
-              <span class="mk lm-mk" data-shot="../assets/gd/detail/provider-edit.jpg" data-top="46.6" data-left="0.8" data-width="47.7" data-label="Add or edit a clinic" style="left:45.5%;top:52.5%" role="button" aria-label="Open the Add or edit a clinic close-up">+</span>
-              <span class="mk lm-mk" data-shot="../assets/gd/detail/treatment.jpg" data-top="57.8" data-left="0.8" data-width="47.7" data-label="Custom treatment types" style="left:45.5%;top:63.7%" role="button" aria-label="Open the Custom treatment types close-up">+</span>
-              <span class="mk lm-mk" data-shot="../assets/gd/detail/outcome.jpg" data-top="83.5" data-left="51.3" data-width="47.9" data-label="Outcome" style="left:96.7%;top:90.9%" role="button" aria-label="Open the Outcome close-up">+</span>
+              <span class="mk lm-mk" data-shot="assets/gd/detail/client.jpg" data-top="34.6" data-left="0.8" data-width="47.7" data-label="Add New Client" style="left:45.5%;top:41.3%" role="button" aria-label="Open the Add New Client close-up">+</span>
+              <span class="mk lm-mk" data-shot="assets/gd/detail/provider-edit.jpg" data-top="46.6" data-left="0.8" data-width="47.7" data-label="Add or edit a clinic" style="left:45.5%;top:52.5%" role="button" aria-label="Open the Add or edit a clinic close-up">+</span>
+              <span class="mk lm-mk" data-shot="assets/gd/detail/treatment.jpg" data-top="57.8" data-left="0.8" data-width="47.7" data-label="Custom treatment types" style="left:45.5%;top:63.7%" role="button" aria-label="Open the Custom treatment types close-up">+</span>
+              <span class="mk lm-mk" data-shot="assets/gd/detail/outcome.jpg" data-top="83.5" data-left="51.3" data-width="47.9" data-label="Outcome" style="left:96.7%;top:90.9%" role="button" aria-label="Open the Outcome close-up">+</span>
             </div></div>
           </div>
           <ol class="mx-list mx-one" data-sx-side="a" aria-label="Problems in the existing New Appointment modal">
@@ -4083,7 +4090,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
           <div class="dsx-chips" hidden><button type="button" class="dsx-chip" data-sx-view="edit" aria-pressed="true">Editing Appointments</button></div>
           <div class="ba-stage sx-stage mx-stage mx-wide">
             <div class="ba-slot show" data-sx-img="a edit"><div class="shot is-marked mx-fit" style="--r: 1.618">
-              <img src="../assets/old-edit-appointment.jpg" alt="The existing Edit Appointment modal: around 20 read-only fields in 6 panels, a status tag, an edit icon and a close icon at the top, and 6 buttons along the bottom" loading="lazy">
+              <img src="assets/old-edit-appointment.jpg" alt="The existing Edit Appointment modal: around 20 read-only fields in 6 panels, a status tag, an edit icon and a close icon at the top, and 6 buttons along the bottom" loading="lazy">
               <span class="mk" data-say="All these fields just to change a time?" style="left:13.7%;top:13.8%">1</span>
               <span class="mk" data-say="Half of this is empty. Where is any of it coming from?" style="left:92%;top:60%">1</span>
               <span class="mk" data-say="It says Needs Human. Why, and can I change it?" style="left:60.2%;top:5.1%">2</span>
@@ -4093,7 +4100,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
               <span class="mk" data-say="Two ways to close it?" style="left:97.5%;top:11%">4</span>
             </div></div>
             <div class="ba-slot" data-sx-img="b edit"><div class="shot is-marked mx-fit" style="--r: 1.676">
-              <img src="../assets/gd/edit-final-states.jpg" alt="The redesigned modal in Edit mode, confirmed and escalated: a status select with a banner that says why, when with Reschedule, client, clinic and treatment type, call attempts with View Calls, Send Confirmation Now, and Cancel Appointment and Save Changes" loading="lazy">
+              <img src="assets/gd/edit-final-states.jpg" alt="The redesigned modal in Edit mode, confirmed and escalated: a status select with a banner that says why, when with Reschedule, client, clinic and treatment type, call attempts with View Calls, Send Confirmation Now, and Cancel Appointment and Save Changes" loading="lazy">
               <span class="mk" style="left:27.6%;top:96.7%">1</span>
               <span class="mk" style="left:42.5%;top:35.8%">2</span>
               <span class="mk" style="left:42.5%;top:49%">2</span>
@@ -4194,8 +4201,8 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
               </div>
 
               <span class="jb-tab">Needs Approval</span>
-              <div class="jb-cell"><b>Before</b><div class="crp" style="--x:26.5;--w:49.75;--y:27.2277;--h:32.8383;--ar:1194/398"><img src="../assets/gd/screens/tasks-before-approval.jpg" alt="Needs Approval before: each task boxed inside its client, titled with code like email · demand_cover" loading="lazy"></div></div>
-              <div class="jb-cell"><b>After</b><div class="crp" style="--x:18.9167;--w:78.7917;--y:16.6667;--h:42;--ar:1891/630"><img src="../assets/gd/screens/tasks-after-approval.jpg" alt="Needs Approval after: a row per task, the client first, a plain sentence and Approve" loading="lazy"></div></div>
+              <div class="jb-cell"><b>Before</b><div class="crp" style="--x:26.5;--w:49.75;--y:27.2277;--h:32.8383;--ar:1194/398"><img src="assets/gd/screens/tasks-before-approval.jpg" alt="Needs Approval before: each task boxed inside its client, titled with code like email · demand_cover" loading="lazy"></div></div>
+              <div class="jb-cell"><b>After</b><div class="crp" style="--x:18.9167;--w:78.7917;--y:16.6667;--h:42;--ar:1891/630"><img src="assets/gd/screens/tasks-after-approval.jpg" alt="Needs Approval after: a row per task, the client first, a plain sentence and Approve" loading="lazy"></div></div>
 
               <div class="jb-group">
                 <h5 class="jb-name">Watch</h5>
@@ -4203,12 +4210,12 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
               </div>
 
               <span class="jb-tab">Scheduled</span>
-              <div class="jb-cell"><b>Before</b><div class="crp" style="--x:19.4167;--w:64.6667;--y:14.0741;--h:38.2963;--ar:1552/517"><img src="../assets/gd/screens/tasks-before-scheduled.jpg" alt="Scheduled before: every row titled (body renders at send), with the run time repeated" loading="lazy"></div></div>
-              <div class="jb-cell"><b>After</b><div class="crp" style="--x:18.9167;--w:78.7917;--y:16.6667;--h:42;--ar:1891/630"><img src="../assets/gd/screens/tasks-after-scheduled.jpg" alt="Scheduled after: the same row, with a tag for when it runs and Cancel or Run now" loading="lazy"></div></div>
+              <div class="jb-cell"><b>Before</b><div class="crp" style="--x:19.4167;--w:64.6667;--y:14.0741;--h:38.2963;--ar:1552/517"><img src="assets/gd/screens/tasks-before-scheduled.jpg" alt="Scheduled before: every row titled (body renders at send), with the run time repeated" loading="lazy"></div></div>
+              <div class="jb-cell"><b>After</b><div class="crp" style="--x:18.9167;--w:78.7917;--y:16.6667;--h:42;--ar:1891/630"><img src="assets/gd/screens/tasks-after-scheduled.jpg" alt="Scheduled after: the same row, with a tag for when it runs and Cancel or Run now" loading="lazy"></div></div>
 
               <span class="jb-tab">Ongoing</span>
-              <div class="jb-cell"><b>Before</b><div class="crp" style="--x:19.4167;--w:64.6667;--y:15.4185;--h:37.9589;--ar:1552/517"><img src="../assets/gd/screens/tasks-before-ongoing.jpg" alt="Ongoing before: an empty state sitting above a separate list of every task" loading="lazy"></div></div>
-              <div class="jb-cell"><b>After</b><div class="crp" style="--x:18.9167;--w:78.7917;--y:16.6667;--h:42;--ar:1891/630"><img src="../assets/gd/screens/tasks-after-ongoing.jpg" alt="Ongoing after: the same row, with a tag for how long the call or agent has been running" loading="lazy"></div></div>
+              <div class="jb-cell"><b>Before</b><div class="crp" style="--x:19.4167;--w:64.6667;--y:15.4185;--h:37.9589;--ar:1552/517"><img src="assets/gd/screens/tasks-before-ongoing.jpg" alt="Ongoing before: an empty state sitting above a separate list of every task" loading="lazy"></div></div>
+              <div class="jb-cell"><b>After</b><div class="crp" style="--x:18.9167;--w:78.7917;--y:16.6667;--h:42;--ar:1891/630"><img src="assets/gd/screens/tasks-after-ongoing.jpg" alt="Ongoing after: the same row, with a tag for how long the call or agent has been running" loading="lazy"></div></div>
 
               <div class="jb-group">
                 <h5 class="jb-name">Review</h5>
@@ -4216,12 +4223,12 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
               </div>
 
               <span class="jb-tab">Completed</span>
-              <div class="jb-cell"><b>Before</b><div class="crp" style="--x:19.4167;--w:64.6667;--y:15.1694;--h:38.0707;--ar:1552/517"><img src="../assets/gd/screens/tasks-before-completed.jpg" alt="Completed before: code titles and raw phone numbers, tagged Executed, Declined or Cancelled" loading="lazy"></div></div>
-              <div class="jb-cell"><b>After</b><div class="crp" style="--x:18.9167;--w:78.7917;--y:16.6667;--h:42;--ar:1891/630"><img src="../assets/gd/screens/tasks-after-completed.jpg" alt="Completed after: the same fields as a table, with client, task, who completed it, date, result and outcome in columns" loading="lazy"></div></div>
+              <div class="jb-cell"><b>Before</b><div class="crp" style="--x:19.4167;--w:64.6667;--y:15.1694;--h:38.0707;--ar:1552/517"><img src="assets/gd/screens/tasks-before-completed.jpg" alt="Completed before: code titles and raw phone numbers, tagged Executed, Declined or Cancelled" loading="lazy"></div></div>
+              <div class="jb-cell"><b>After</b><div class="crp" style="--x:18.9167;--w:78.7917;--y:16.6667;--h:42;--ar:1891/630"><img src="assets/gd/screens/tasks-after-completed.jpg" alt="Completed after: the same fields as a table, with client, task, who completed it, date, result and outcome in columns" loading="lazy"></div></div>
 
               <span class="jb-tab">Failed</span>
-              <div class="jb-cell"><b>Before</b><div class="crp" style="--x:19.4167;--w:64.6667;--y:15.1694;--h:38.0707;--ar:1552/517"><img src="../assets/gd/screens/tasks-before-failed.jpg" alt="Failed before: code titles with the reason it failed on a line of its own" loading="lazy"></div></div>
-              <div class="jb-cell"><b>After</b><div class="crp" style="--x:18.9167;--w:78.7917;--y:16.6667;--h:42;--ar:1891/630"><img src="../assets/gd/screens/tasks-after-failed.jpg" alt="Failed after: the same row, with the reason it failed as a red tag and Retry" loading="lazy"></div></div>
+              <div class="jb-cell"><b>Before</b><div class="crp" style="--x:19.4167;--w:64.6667;--y:15.1694;--h:38.0707;--ar:1552/517"><img src="assets/gd/screens/tasks-before-failed.jpg" alt="Failed before: code titles with the reason it failed on a line of its own" loading="lazy"></div></div>
+              <div class="jb-cell"><b>After</b><div class="crp" style="--x:18.9167;--w:78.7917;--y:16.6667;--h:42;--ar:1891/630"><img src="assets/gd/screens/tasks-after-failed.jpg" alt="Failed after: the same row, with the reason it failed as a red tag and Retry" loading="lazy"></div></div>
             </div>
           </figure>
         <div class="sp-56"></div>
@@ -4241,7 +4248,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
               </div>
               <div class="ba-stage sx-stage">
                 <div class="ba-slot" data-sx-img="a list"><div class="shot is-marked fl-shot" style="--r: 2400 / 1362">
-                  <img src="../assets/gd/treatment-before.jpg" alt="Appointments before: a flat list with a Send Reminder button on every row" loading="lazy">
+                  <img src="assets/gd/treatment-before.jpg" alt="Appointments before: a flat list with a Send Reminder button on every row" loading="lazy">
                   <span class="mk" style="left:42.9%;top:25.5%">1</span>
                   <span class="mk" style="left:88%;top:58.8%">2</span>
                   <span class="mk" style="left:28%;top:70.2%">3</span>
@@ -4249,7 +4256,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
                   <span class="mk" style="left:70%;top:26.5%">5</span>
                 </div></div>
                 <div class="ba-slot show" data-sx-img="b list"><div class="shot is-marked fl-shot">
-                  <img src="../assets/gd/screens/appts-final-list.jpg" alt="The final Appointments list: compact cards 4 to a row, each with its time, status colour, a status tag and View calls, grouped by day" loading="lazy">
+                  <img src="assets/gd/screens/appts-final-list.jpg" alt="The final Appointments list: compact cards 4 to a row, each with its time, status colour, a status tag and View calls, grouped by day" loading="lazy">
                   <span class="mk" style="left:31.4%;top:23.81%">1</span>
                   <span class="mk" style="left:21%;top:32.1%">2</span>
                   <span class="mk" style="left:49.5%;top:32.1%">3</span>
@@ -4257,20 +4264,20 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
                   <span class="mk" style="left:12.25%;top:19.14%">5</span>
                 </div></div>
                 <div class="ba-slot" data-sx-img="b month"><div class="shot is-marked fl-shot" style="--r: 2400 / 1500">
-                  <img src="../assets/gd/screens/appts-after-month.jpg" alt="Appointments after: the month calendar for August 2026" loading="lazy">
+                  <img src="assets/gd/screens/appts-after-month.jpg" alt="Appointments after: the month calendar for August 2026" loading="lazy">
                   <span class="mk" style="left:47.8%;top:12.3%">1</span>
                   <span class="mk" style="left:60%;top:39%">2</span>
                   <span class="mk" style="left:39.5%;top:50%">3</span>
                 </div></div>
                 <div class="ba-slot" data-sx-img="b week"><div class="shot is-marked fl-shot" style="--r: 2400 / 1500">
-                  <img src="../assets/gd/screens/appts-after-week.jpg" alt="Appointments after: the week calendar with appointments placed by time" loading="lazy">
+                  <img src="assets/gd/screens/appts-after-week.jpg" alt="Appointments after: the week calendar with appointments placed by time" loading="lazy">
                   <span class="mk" style="left:67%;top:52.5%">1</span>
                   <span class="mk" style="left:42.5%;top:19.1%">2</span>
                   <span class="mk" style="left:82.5%;top:19.1%">3</span>
                   <span class="mk" style="left:50%;top:64%">4</span>
                 </div></div>
                 <div class="ba-slot" data-sx-img="b day"><div class="shot is-marked fl-shot" style="--r: 2400 / 1500">
-                  <img src="../assets/gd/screens/appts-after-day.jpg" alt="Appointments after: the day calendar with one confirmed appointment" loading="lazy">
+                  <img src="assets/gd/screens/appts-after-day.jpg" alt="Appointments after: the day calendar with one confirmed appointment" loading="lazy">
                   <span class="mk" style="left:52.4%;top:47.9%">1</span>
                   <span class="mk" style="left:48%;top:19.1%">2</span>
                 </div></div>
@@ -4332,17 +4339,17 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
           <figcaption class="cp-head"><h4>Before</h4><p>Every screen a case passed through, at the size it opened.</p></figcaption>
           <div class="cp-row">
             <div class="cp-shot" style="--r: 1.617">
-              <button type="button" class="cp-open" aria-label="Open Intake and Onboarding full width"><img src="../assets/gd/lead/orig-intake-onboarding.jpg" alt="The existing Client Profile, Intake and Onboarding as 2 screens, each with 8 tabs, a 6-stage stepper, banners, stat cards and field groups" loading="lazy"></button>
+              <button type="button" class="cp-open" aria-label="Open Intake and Onboarding full width"><img src="assets/gd/lead/orig-intake-onboarding.jpg" alt="The existing Client Profile, Intake and Onboarding as 2 screens, each with 8 tabs, a 6-stage stepper, banners, stat cards and field groups" loading="lazy"></button>
               <span class="cp-lbl">Intake and Onboarding</span>
             </div>
             <div class="cp-shot" style="--r: 0.789">
-              <button type="button" class="cp-open" aria-label="Open Treatment full width"><img src="../assets/gd/lead/orig-treatment-modal.jpg" alt="The existing Client Profile, Treatment: a banner, 4 stat cards, a care plan with visits to confirm, some locked, and locked records" loading="lazy"></button>
+              <button type="button" class="cp-open" aria-label="Open Treatment full width"><img src="assets/gd/lead/orig-treatment-modal.jpg" alt="The existing Client Profile, Treatment: a banner, 4 stat cards, a care plan with visits to confirm, some locked, and locked records" loading="lazy"></button>
               <span class="cp-lbl">Treatment</span>
             </div>
           </div>
           <div class="cp-row">
             <div class="cp-shot" style="--r: 2.444">
-              <button type="button" class="cp-open" aria-label="Open Demand, Negotiation and Settlement full width"><img src="../assets/gd/lead/orig-demand-settlement.jpg" alt="The existing Client Profile, Demand, Negotiation and Settlement as 3 screens, each a banner, stat cards and a locked checklist" loading="lazy"></button>
+              <button type="button" class="cp-open" aria-label="Open Demand, Negotiation and Settlement full width"><img src="assets/gd/lead/orig-demand-settlement.jpg" alt="The existing Client Profile, Demand, Negotiation and Settlement as 3 screens, each a banner, stat cards and a locked checklist" loading="lazy"></button>
               <span class="cp-lbl">Demand, Negotiation and Settlement</span>
             </div>
           </div>
@@ -4352,15 +4359,15 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
           <figcaption class="cp-head"><h4>After</h4><p>The same case, in three stages.</p></figcaption>
           <div class="cp-row">
             <div class="cp-shot" style="--r: 1.163">
-              <button type="button" class="cp-open" aria-label="Open Intake full width"><img src="../assets/gd/lead/final-intake.jpg" alt="The final Client Profile, Intake: 6 tasks, each with an owner, file and note pills, View Calls, a status you set, and Move to Treatment" loading="lazy"></button>
+              <button type="button" class="cp-open" aria-label="Open Intake full width"><img src="assets/gd/lead/final-intake.jpg" alt="The final Client Profile, Intake: 6 tasks, each with an owner, file and note pills, View Calls, a status you set, and Move to Treatment" loading="lazy"></button>
               <span class="cp-lbl">Intake</span>
             </div>
             <div class="cp-shot" style="--r: 1.163">
-              <button type="button" class="cp-open" aria-label="Open Treatment full width"><img src="../assets/gd/lead/final-treatment.jpg" alt="The final Client Profile, Treatment: this client's appointment with attendance, a follow-up attempt, View Calls, an edit button, and Move to Settlements" loading="lazy"></button>
+              <button type="button" class="cp-open" aria-label="Open Treatment full width"><img src="assets/gd/lead/final-treatment.jpg" alt="The final Client Profile, Treatment: this client's appointment with attendance, a follow-up attempt, View Calls, an edit button, and Move to Settlements" loading="lazy"></button>
               <span class="cp-lbl">Treatment</span>
             </div>
             <div class="cp-shot" style="--r: 1.163">
-              <button type="button" class="cp-open" aria-label="Open Settlements full width"><img src="../assets/gd/lead/final-settlements.jpg" alt="The final Client Profile, Settlements: 4 stages, each with an owner, file and note pills and a status you set" loading="lazy"></button>
+              <button type="button" class="cp-open" aria-label="Open Settlements full width"><img src="assets/gd/lead/final-settlements.jpg" alt="The final Client Profile, Settlements: 4 stages, each with an owner, file and note pills and a status you set" loading="lazy"></button>
               <span class="cp-lbl">Settlements</span>
             </div>
           </div>
@@ -4413,7 +4420,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
             </span>
           </div>
           <figure class="dsx-lib" data-cxv="global">
-            <img src="../assets/gd/ds-components-global.png" data-slot="../assets/gd/ds-components-global.png" style="--ratio: 1964 / 2000" alt="The global component board: pills, appointment chips, buttons in every type, size and state, status selects, a checkbox, icon buttons, channel chips, a stepper, fields in 5 states, a mode toggle, entity cards, outcome rows and dropdown rows">
+            <img src="assets/gd/ds-components-global.png" data-slot="assets/gd/ds-components-global.png" style="--ratio: 1964 / 2000" alt="The global component board: pills, appointment chips, buttons in every type, size and state, status selects, a checkbox, icon buttons, channel chips, a stepper, fields in 5 states, a mode toggle, entity cards, outcome rows and dropdown rows">
           </figure>
           <div class="dsx-use" data-cxv="use" hidden>
           <div class="dsx-cx-pick">
@@ -4430,21 +4437,21 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
           <div class="dsx-shots">
             <div class="dsx-col">
               <figure class="dsx-shot" data-shot="lead">
-                <div class="dsx-frame"><img src="../assets/gd/lead/final-intake.jpg" alt="The Client Profile on Intake: 6 task cards, each with pills, a button and a status select" loading="lazy"><div class="dsx-boxes"></div></div>
+                <div class="dsx-frame"><img src="assets/gd/lead/final-intake.jpg" alt="The Client Profile on Intake: 6 task cards, each with pills, a button and a status select" loading="lazy"><div class="dsx-boxes"></div></div>
                 <figcaption><b>Client Profile · Intake</b><span data-count></span></figcaption>
               </figure>
               <figure class="dsx-shot" data-shot="edit">
-                <div class="dsx-frame"><img src="../assets/gd/edit-final.jpg" alt="Edit Appointment: a status select, 4 entity cards, buttons, and pills on each call attempt" loading="lazy"><div class="dsx-boxes"></div></div>
+                <div class="dsx-frame"><img src="assets/gd/edit-final.jpg" alt="Edit Appointment: a status select, 4 entity cards, buttons, and pills on each call attempt" loading="lazy"><div class="dsx-boxes"></div></div>
                 <figcaption><b>Editing Appointments</b><span data-count></span></figcaption>
               </figure>
             </div>
             <div class="dsx-col">
               <figure class="dsx-shot" data-shot="task">
-                <div class="dsx-frame"><img src="../assets/gd/lead/card-intake-2.jpg" alt="A task opened in the Client Profile: a note field, 4 detail fields, buttons, pills and a status select" loading="lazy"><div class="dsx-boxes"></div></div>
+                <div class="dsx-frame"><img src="assets/gd/lead/card-intake-2.jpg" alt="A task opened in the Client Profile: a note field, 4 detail fields, buttons, pills and a status select" loading="lazy"><div class="dsx-boxes"></div></div>
                 <figcaption><b>Client Profile · A Task Opened</b><span data-count></span></figcaption>
               </figure>
               <figure class="dsx-shot" data-shot="new">
-                <div class="dsx-frame"><img src="../assets/gd/final-schedule.jpg" alt="New Appointment: fields, buttons, and a channel chip on each call attempt" loading="lazy"><div class="dsx-boxes"></div></div>
+                <div class="dsx-frame"><img src="assets/gd/final-schedule.jpg" alt="New Appointment: fields, buttons, and a channel chip on each call attempt" loading="lazy"><div class="dsx-boxes"></div></div>
                 <figcaption><b>Creating Appointments</b><span data-count></span></figcaption>
               </figure>
             </div>
@@ -4531,7 +4538,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
   <header class="bl-head">
     <div class="in">
       <h1 class="display">“This is totally going on my blog”</h1>
-      <div class="sq-media"><img src="../assets/blog/barney.jpg" alt="Barney Stinson, suited up in a red armchair"></div>
+      <div class="sq-media"><img src="assets/blog/barney.jpg" alt="Barney Stinson, suited up in a red armchair"></div>
     </div>
   </header>
 
@@ -4541,7 +4548,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 
       <div class="bl-post">
         <a class="project" href="#blog-100-prs" data-cursor="Read Post" aria-label="Read: What I Learned Pushing 100 PRs in a Single Day as a Designer">
-          <div class="project-art"><img class="art-img" src="../assets/blog/100-prs.jpg" alt="" loading="lazy"></div>
+          <div class="project-art"><img class="art-img" src="assets/blog/100-prs.jpg" alt="" loading="lazy"></div>
         </a>
         <div class="bl-post-info">
           <p class="bl-post-meta"><time datetime="2026-09">September 2026</time><span data-read="blog-100-prs">5 min read</span></p>
@@ -4604,7 +4611,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       </div>
 
       <figure class="bp-photo">
-        <img src="../assets/blog/100-prs.jpg" alt="A desk at night: a Claude Code session on the monitor, a MacBook below it and a small Darth Vader figure by the keyboard" loading="lazy">
+        <img src="assets/blog/100-prs.jpg" alt="A desk at night: a Claude Code session on the monitor, a MacBook below it and a small Darth Vader figure by the keyboard" loading="lazy">
       </figure>
     </div>
 
@@ -4636,7 +4643,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 ================================================================ -->
 <article class="cn" id="connect" hidden data-title="Contact" aria-label="Contact">
   <div class="cn-hero">
-    <img src="../assets/connect-hero.jpg" alt="A man in a trench coat, seen through a door peephole, standing in an empty hallway" loading="lazy" decoding="async">
+    <img src="assets/connect-hero.jpg" alt="A man in a trench coat, seen through a door peephole, standing in an empty hallway" loading="lazy" decoding="async">
   </div>
   <div class="cn-title">
     <h1 class="display"><a class="cn-link" href="mailto:sharvilnaik17@gmail.com" data-cursor="Email me" aria-label="Let’s connect! Email sharvilnaik17@gmail.com">Let’s<br>connect!</a></h1>
@@ -4672,7 +4679,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
         <div class="meta"><dt>Team</dt><dd><ul><li>Solo</li></ul></dd></div>
         <div class="meta"><dt>Role</dt><dd><ul><li>Brand Designer</li><li>Web Designer</li></ul></dd></div>
         <div class="meta"><dt>Scope</dt><dd><ul><li>Brand identity</li><li>Website design and build</li><li>Motion design</li><li>AI imagery</li></ul></dd></div>
-        <div class="meta"><dt>Tools</dt><dd><ul><li class="tool"><img class="tool-ic" src="../assets/tools/framer.svg" alt="">Framer</li><li class="tool"><img class="tool-ic" src="../assets/tools/illustrator.png" alt="">Illustrator</li><li class="tool"><img class="tool-ic" src="../assets/tools/after-effects.png" alt="">After Effects</li><li class="tool"><span class="tool-ic tool-txt" aria-hidden="true">fal</span>fal.ai</li></ul></dd></div>
+        <div class="meta"><dt>Tools</dt><dd><ul><li class="tool"><img class="tool-ic" src="assets/tools/framer.svg" alt="">Framer</li><li class="tool"><img class="tool-ic" src="assets/tools/illustrator.png" alt="">Illustrator</li><li class="tool"><img class="tool-ic" src="assets/tools/after-effects.png" alt="">After Effects</li><li class="tool"><span class="tool-ic tool-txt" aria-hidden="true">fal</span>fal.ai</li></ul></dd></div>
         <div class="meta"><dt>Timeline</dt><dd><ul><li>3 weeks</li><li>July 2026</li></ul></dd></div>
       </dl>
     </header>
@@ -4681,7 +4688,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       <h2 class="gb-title">Website Revamp</h2>
       <div class="gb-browser">
         <div class="gb-bar"><span class="gb-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
-        <div class="gb-screen"><video src="../assets/gd/website-new.mp4" poster="../assets/gd/website-new-poster.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="The Gideon website revamp, scrolled top to bottom"></video></div>
+        <div class="gb-screen"><video src="assets/gd/website-new.mp4" poster="assets/gd/website-new-poster.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="The Gideon website revamp, scrolled top to bottom"></video></div>
       </div>
 
       <h2 class="gb-title">Existing Website</h2>
@@ -4689,7 +4696,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
         <div class="gb-bar"><span class="gb-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="gb-hint">Scroll inside to see the whole page</span></div>
         <div class="gb-screen" data-scroll-frame>
           <div class="gb-view" tabindex="0" role="region" aria-label="The existing Gideon website, scrollable">
-            <img src="../assets/gd/website-existing.jpg" srcset="../assets/gd/website-existing-1280.jpg 1280w, ../assets/gd/website-existing.jpg 2240w" sizes="(max-width: 860px) 100vw, 900px" width="2240" height="10600" alt="The existing Gideon website, from the hero down to the integrations and the closing call to action" loading="lazy" decoding="async">
+            <img src="assets/gd/website-existing.jpg" srcset="assets/gd/website-existing-1280.jpg 1280w, assets/gd/website-existing.jpg 2240w" sizes="(max-width: 860px) 100vw, 900px" width="2240" height="10600" alt="The existing Gideon website, from the hero down to the integrations and the closing call to action" loading="lazy" decoding="async">
           </div>
           <span class="gb-rail" aria-hidden="true"><i class="gb-thumb"></i></span>
         </div>
@@ -4699,10 +4706,10 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
     <section class="gb-motion" aria-labelledby="gb-motion">
       <h2 class="gb-title" id="gb-motion">Leveraged AI to Create Motion Graphics for the Brand</h2>
       <div class="gb-mg-grid">
-        <div class="gb-mg"><video src="../assets/gd/motion/browser-agent-mesh.mp4" poster="../assets/gd/motion/browser-agent-mesh.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Browser agent mesh, motion graphic"></video></div>
-        <div class="gb-mg"><video src="../assets/gd/motion/intake.mp4" poster="../assets/gd/motion/intake.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Intake, motion graphic"></video></div>
-        <div class="gb-mg"><video src="../assets/gd/motion/live-call.mp4" poster="../assets/gd/motion/live-call.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Live call, motion graphic"></video></div>
-        <div class="gb-mg"><video src="../assets/gd/motion/settlement.mp4" poster="../assets/gd/motion/settlement.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Settlement, motion graphic"></video></div>
+        <div class="gb-mg"><video src="assets/gd/motion/browser-agent-mesh.mp4" poster="assets/gd/motion/browser-agent-mesh.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Browser agent mesh, motion graphic"></video></div>
+        <div class="gb-mg"><video src="assets/gd/motion/intake.mp4" poster="assets/gd/motion/intake.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Intake, motion graphic"></video></div>
+        <div class="gb-mg"><video src="assets/gd/motion/live-call.mp4" poster="assets/gd/motion/live-call.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Live call, motion graphic"></video></div>
+        <div class="gb-mg"><video src="assets/gd/motion/settlement.mp4" poster="assets/gd/motion/settlement.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Settlement, motion graphic"></video></div>
       </div>
     </section>
 
@@ -4750,7 +4757,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
           <span><b>Type</b>Self-initiated</span>
         </div>
       </div>
-      <img class="nf-img" src="../assets/noir.jpg" alt="Noir Film Festival 2026: key visual">
+      <img class="nf-img" src="assets/noir.jpg" alt="Noir Film Festival 2026: key visual">
     </header>
 
     <section class="nf-text has-vid" aria-label="About">
@@ -4762,23 +4769,23 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
         <h2>Scope of Work</h2>
         <p>The scope of this project focuses on creating a cohesive visual identity and experience for a noir film festival, from concept to execution. It includes developing the festival’s branding, typography, colour palette, and key graphics, along with applications across posters, tickets, social media, and environmental design. The aim is to capture the essence of noir through every touchpoint, ensuring a consistent, immersive experience that reflects its dark, moody, and cinematic character.</p>
       </div>
-      <div class="nf-vid is-portrait"><video src="../assets/nf/blinds.mp4" poster="../assets/nf/blinds.jpg" autoplay muted loop playsinline preload="metadata" data-audio="true" aria-label="See you in the shadows: venetian blinds motion piece"></video></div>
+      <div class="nf-vid is-portrait"><video src="assets/nf/blinds.mp4" poster="assets/nf/blinds.jpg" autoplay muted loop playsinline preload="metadata" data-audio="true" aria-label="See you in the shadows: venetian blinds motion piece"></video></div>
     </section>
 
     <div class="nf-stack">
-      <img class="nf-img" src="../assets/nf/keywords.jpg" alt="Keywords: fedora hat, trenchcoat, banker’s lamp, cigarettes, revolver, polaroids, venetian blinds, telephone, jazz, typewriter, case files, ashtray, silhouette, film reel, neon signs, playing cards, handcuffs" loading="lazy">
-      <img class="nf-img" src="../assets/nf/kiosk.jpg" alt="Festival poster in a street kiosk at night" loading="lazy">
-      <img class="nf-img" src="../assets/nf/moodboard.jpg" alt="Moodboard" loading="lazy">
-      <img class="nf-img" src="../assets/nf/logo.jpg" alt="Logo construction: the film reel and the gun-like shape" loading="lazy">
-      <img class="nf-img" src="../assets/nf/typostory.jpg" alt="Typography (Balboa Extracondensed) and a Drive story post" loading="lazy">
-      <div class="nf-vid is-portrait"><video src="../assets/nf/logo-motion.mp4" poster="../assets/nf/logo-motion.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Film Noir logo motion"></video></div>
-      <img class="nf-img" src="../assets/nf/typelogo.jpg" alt="FILM / NOIR: red diagonal wordmark" loading="lazy">
-      <img class="nf-img" src="../assets/nf/streetbb.jpg" alt="All the animals come out at night: street poster" loading="lazy">
-      <img class="nf-img" src="../assets/nf/pattern.jpg" alt="Film reel pattern" loading="lazy">
-      <img class="nf-img" src="../assets/nf/tagline.jpg" alt="The stuff that dreams are made of" loading="lazy">
-      <img class="nf-img" src="../assets/nf/logovariations.jpg" alt="Lock-ups: Noir Film Festival 2026 on red, NFF mark and wordmark on black" loading="lazy">
-      <img class="nf-img" src="../assets/nf/billboard.jpg" alt="Festival billboard at dusk" loading="lazy">
-      <img class="nf-img" src="../assets/nf/brochure.jpg" alt="Schedule brochure" loading="lazy">
+      <img class="nf-img" src="assets/nf/keywords.jpg" alt="Keywords: fedora hat, trenchcoat, banker’s lamp, cigarettes, revolver, polaroids, venetian blinds, telephone, jazz, typewriter, case files, ashtray, silhouette, film reel, neon signs, playing cards, handcuffs" loading="lazy">
+      <img class="nf-img" src="assets/nf/kiosk.jpg" alt="Festival poster in a street kiosk at night" loading="lazy">
+      <img class="nf-img" src="assets/nf/moodboard.jpg" alt="Moodboard" loading="lazy">
+      <img class="nf-img" src="assets/nf/logo.jpg" alt="Logo construction: the film reel and the gun-like shape" loading="lazy">
+      <img class="nf-img" src="assets/nf/typostory.jpg" alt="Typography (Balboa Extracondensed) and a Drive story post" loading="lazy">
+      <div class="nf-vid is-portrait"><video src="assets/nf/logo-motion.mp4" poster="assets/nf/logo-motion.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Film Noir logo motion"></video></div>
+      <img class="nf-img" src="assets/nf/typelogo.jpg" alt="FILM / NOIR: red diagonal wordmark" loading="lazy">
+      <img class="nf-img" src="assets/nf/streetbb.jpg" alt="All the animals come out at night: street poster" loading="lazy">
+      <img class="nf-img" src="assets/nf/pattern.jpg" alt="Film reel pattern" loading="lazy">
+      <img class="nf-img" src="assets/nf/tagline.jpg" alt="The stuff that dreams are made of" loading="lazy">
+      <img class="nf-img" src="assets/nf/logovariations.jpg" alt="Lock-ups: Noir Film Festival 2026 on red, NFF mark and wordmark on black" loading="lazy">
+      <img class="nf-img" src="assets/nf/billboard.jpg" alt="Festival billboard at dusk" loading="lazy">
+      <img class="nf-img" src="assets/nf/brochure.jpg" alt="Schedule brochure" loading="lazy">
     </div>
 
     <section class="nf-palette" aria-label="Colour palette">
@@ -4793,10 +4800,10 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
     </section>
 
     <div class="nf-stack" style="margin-top:20px">
-      <img class="nf-img" src="../assets/nf/idbadges.jpg" alt="ID badges and lanyard" loading="lazy">
-      <img class="nf-img" src="../assets/nf/tickets.jpg" alt="Tickets and wristbands" loading="lazy">
-      <div class="nf-vid"><video src="../assets/nf/social-reel.mp4" poster="../assets/nf/social-reel.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Social media posts reel"></video></div>
-      <img class="nf-img" src="../assets/nf/social.jpg" alt="Instagram stories: Neo-noir, Classic noir, International" loading="lazy">
+      <img class="nf-img" src="assets/nf/idbadges.jpg" alt="ID badges and lanyard" loading="lazy">
+      <img class="nf-img" src="assets/nf/tickets.jpg" alt="Tickets and wristbands" loading="lazy">
+      <div class="nf-vid"><video src="assets/nf/social-reel.mp4" poster="assets/nf/social-reel.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Social media posts reel"></video></div>
+      <img class="nf-img" src="assets/nf/social.jpg" alt="Instagram stories: Neo-noir, Classic noir, International" loading="lazy">
     </div>
 
     <section class="nf-credits" aria-label="Credits">
@@ -4810,7 +4817,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       </div>
     </section>
 
-    <img class="nf-img" src="../assets/nf/fin.jpg" alt="Fin" loading="lazy">
+    <img class="nf-img" src="assets/nf/fin.jpg" alt="Fin" loading="lazy">
 
     <div class="nf-end">
       <a class="cs-back" href="#work"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4"/></svg>Back</a>
@@ -4852,20 +4859,20 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
           <span><b>Type</b>Self-initiated, Issue #1</span>
         </div>
       </div>
-      <img class="nf-img" src="../assets/ap/ap-cover.jpg" alt="Apparatus Issue #1 on a wire magazine rack">
+      <img class="nf-img" src="assets/ap/ap-cover.jpg" alt="Apparatus Issue #1 on a wire magazine rack">
     </header>
 
     <div class="nf-vid ap-flip">
-      <video src="../assets/ap/ap-flip.mp4" poster="../assets/ap/ap-flip-poster.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Apparatus, flipped through end to end"></video>
+      <video src="assets/ap/ap-flip.mp4" poster="assets/ap/ap-flip-poster.jpg" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="Apparatus, flipped through end to end"></video>
     </div>
 
     <div class="nf-stack">
-      <img class="nf-img" src="../assets/ap/ap-lightsaber.jpg" alt="The lightsaber story: spread on a table" loading="lazy">
-      <img class="nf-img" src="../assets/ap/ap-drive.jpg" alt="Cover beside the Drive scorpion-jacket spread" loading="lazy">
-      <img class="nf-img" src="../assets/ap/ap-bttf.jpg" alt="The Back to the Future DeLorean spread" loading="lazy">
-      <img class="nf-img" src="../assets/ap/ap-batpod-blue.jpg" alt="Nathan Crowley and Chris Corbould: the Batpod spread" loading="lazy">
-      <img class="nf-img" src="../assets/ap/ap-batpod-yellow.jpg" alt="The price of legend: Batpod stunts and auction spread" loading="lazy">
-      <img class="nf-img" src="../assets/ap/ap-spreads.jpg" alt="The issue laid out spread by spread" loading="lazy">
+      <img class="nf-img" src="assets/ap/ap-lightsaber.jpg" alt="The lightsaber story: spread on a table" loading="lazy">
+      <img class="nf-img" src="assets/ap/ap-drive.jpg" alt="Cover beside the Drive scorpion-jacket spread" loading="lazy">
+      <img class="nf-img" src="assets/ap/ap-bttf.jpg" alt="The Back to the Future DeLorean spread" loading="lazy">
+      <img class="nf-img" src="assets/ap/ap-batpod-blue.jpg" alt="Nathan Crowley and Chris Corbould: the Batpod spread" loading="lazy">
+      <img class="nf-img" src="assets/ap/ap-batpod-yellow.jpg" alt="The price of legend: Batpod stunts and auction spread" loading="lazy">
+      <img class="nf-img" src="assets/ap/ap-spreads.jpg" alt="The issue laid out spread by spread" loading="lazy">
     </div>
 
     <section class="nf-credits" aria-label="Credits">
@@ -6264,7 +6271,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       ';--d:' + rnd(0, 180).toFixed(0) + 'ms' +
       ';--v:' + rnd(0, 7).toFixed(0) + 'px';
     const art = f.l
-      ? '<img src="../assets/shelf/logos/' + f.s + '.png" alt="" loading="lazy" decoding="async">'
+      ? '<img src="assets/shelf/logos/' + f.s + '.png" alt="" loading="lazy" decoding="async">'
       : '<span class="dvd-set">' + esc(f.t) + '</span>';
     b.innerHTML = '<span class="dvd-face"><span class="dvd-art">' + art + '</span></span>' +
       '<span class="sr-only">' + esc(f.t) + ', ' + f.y + ', ' + starWords(f.r) +
@@ -6406,7 +6413,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 
   const open = (i) => {
     const f = FILMS[i];
-    art.src = '../assets/shelf/posters/' + f.s + '.jpg';
+    art.src = 'assets/shelf/posters/' + f.s + '.jpg';
     art.alt = 'Poster for ' + f.t;
     cover.querySelector('.cover-rec').hidden = !f.rec;
     cover.querySelector('.cover-rw').hidden = !f.rw;
