@@ -42,6 +42,23 @@
 .x-slingshot .sg-car:active { cursor: grabbing; }
 .x-slingshot .sg-car::after { content: ''; position: absolute; inset: -18px -12px; border-radius: 14px; }
 .x-slingshot .sg-flip { display: block; transform-origin: 50% 50%; }
+/* until it is dragged, the car winds itself back and lets go, and two chevrons show which way */
+.x-slingshot .sg-nudge { display: block; }
+.x-slingshot .sg-wrap.sg-idle .sg-nudge { animation: sg-wind 3s cubic-bezier(.33, 0, .2, 1) infinite; }
+@keyframes sg-wind {
+  0%, 12%   { transform: translateX(0); }
+  40%       { transform: translateX(-13px); }
+  47%       { transform: translateX(-13px); }
+  56%, 100% { transform: translateX(0); }
+}
+.x-slingshot .sg-pull { position: absolute; right: 100%; top: 50%; margin: -5px 9px 0 0; display: flex; gap: 3px; opacity: 0; pointer-events: none; }
+.x-slingshot .sg-pull i { width: 6px; height: 6px; border: 1.5px solid #fff; border-width: 1.5px 0 0 1.5px; transform: rotate(-45deg); }
+.x-slingshot .sg-wrap.sg-idle .sg-pull { animation: sg-point 3s ease-in-out infinite; }
+@keyframes sg-point { 0%, 12% { opacity: 0; } 34%, 47% { opacity: .85; } 60%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .x-slingshot .sg-wrap.sg-idle .sg-nudge { animation: none; }
+  .x-slingshot .sg-wrap.sg-idle .sg-pull { animation: none; opacity: .7; }
+}
 .x-slingshot .sg-car svg { display: block; width: 100%; height: auto; }
 .x-slingshot .sg-car:focus-visible .sg-hull { stroke: #fff; stroke-width: 1.6; stroke-opacity: .9; }
 
@@ -132,7 +149,7 @@
                 <div class="sg-bubble"><b>62</b></div>
                 <div class="sg-car" role="slider" tabindex="0" aria-label="Value"
                      aria-valuemin="0" aria-valuemax="100" aria-valuenow="35">
-                  <span class="sg-flip">${CAR}<span class="sg-lines"><i></i><i></i><i></i></span></span>
+                  <span class="sg-nudge"><span class="sg-pull" aria-hidden="true"><i></i><i></i></span><span class="sg-flip">${CAR}<span class="sg-lines"><i></i><i></i><i></i></span></span></span>
                 </div>
               </div>
             </div>
@@ -144,6 +161,8 @@
       const fill = q('.sg-fill'), prev = q('.sg-prev'), anchorEl = q('.sg-anchor'), band = q('.sg-band');
       const ghost = q('.sg-ghost'), bubble = q('.sg-bubble'), bubbleV = bubble.querySelector('b');
       const car = q('.sg-car'), flip = q('.sg-flip'), numEl = q('.sg-num'), lines = q('.sg-lines'), power = q('.sg-power');
+      const wrap = q('.sg-wrap');
+      wrap.classList.add('sg-idle');
       const hubs = flip.querySelectorAll('.sg-hub');
 
       const dotsBox = q('.sg-dots'), dots = [];
@@ -360,6 +379,7 @@
       // ---- the pull --------------------------------------------------------
 
       function onDown(e) {
+        wrap.classList.remove('sg-idle');
         stopRoll();
         car.setPointerCapture(e.pointerId);
         car.focus();
@@ -520,6 +540,7 @@
       }
 
       function onKey(e) {
+        wrap.classList.remove('sg-idle');
         const step = e.shiftKey ? 10 : 1;
         let next = null;
         if (e.key === 'ArrowRight' || e.key === 'ArrowUp') next = value + step;

@@ -70,6 +70,16 @@
 .x-tempo .tp-cover-go{height:42px;padding:0 26px;border:0;border-radius:0;background:linear-gradient(180deg,#F6C85A,#D99A1E);color:#1A1206;
   font:400 15px/1 var(--body);
   cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:transform .08s ease,background .15s ease}
+.x-tempo .tp-cover-go{position:relative;overflow:hidden}
+/* the brass catches the light every few seconds, so the poster reads as a door you can open */
+.x-tempo .tp-cover-go::after{content:"";position:absolute;top:0;bottom:0;left:0;width:38%;
+  background:linear-gradient(105deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.85) 50%,rgba(255,255,255,0) 100%);
+  transform:translateX(-180%);animation:tp-shine 2.6s ease-in-out infinite;pointer-events:none}
+@keyframes tp-shine{0%{transform:translateX(-180%)}42%,100%{transform:translateX(420%)}}
+.x-tempo .tp-cover-in{animation:tp-glow 2.6s ease-in-out infinite}
+@keyframes tp-glow{0%,100%{filter:drop-shadow(0 0 0 rgba(246,200,90,0))}42%{filter:drop-shadow(0 0 14px rgba(246,200,90,.55))}}
+.x-tempo .tp-cover.off .tp-cover-go::after,.x-tempo .tp-cover.off .tp-cover-in{animation:none}
+@media (prefers-reduced-motion: reduce){.x-tempo .tp-cover-go::after,.x-tempo .tp-cover-in{animation:none}}
 .x-tempo .tp-cover-go:active{transform:scale(.97)}
 .x-tempo .tp-cover-go:focus-visible{box-shadow:0 0 0 3px #0f0d0c,0 0 0 5px #F6C85A}
 @media (hover:hover) and (pointer:fine){.x-tempo .tp-cover-go:hover{background:linear-gradient(180deg,#FFD873,#E9A922)}}

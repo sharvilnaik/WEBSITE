@@ -22,6 +22,14 @@
 .x-dock .dk-spin svg{width:16px;height:16px;display:block}
 .x-dock .dk-spin.dk-held{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.7)}
 .x-dock .dk-hide{display:none}
+/* nothing has happened yet, so Connect keeps a slow pulse going until it is pressed */
+@keyframes dk-call{
+  0%,100%{background:rgba(127,212,255,.10);border-color:rgba(127,212,255,.45);box-shadow:0 0 0 0 rgba(127,212,255,0)}
+  45%{background:rgba(127,212,255,.30);border-color:rgba(127,212,255,1);box-shadow:0 0 0 6px rgba(127,212,255,.10)}
+  75%{background:rgba(127,212,255,.10);border-color:rgba(127,212,255,.45);box-shadow:0 0 0 12px rgba(127,212,255,0)}
+}
+.x-dock .dk-act.dk-call{animation:dk-call 2.2s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.x-dock .dk-act.dk-call{animation:none;border-color:rgba(127,212,255,.8)}}
 `;
   const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
@@ -63,6 +71,7 @@
       const $ = s => stage.querySelector(s);
       const canvas = $('canvas'), g = canvas.getContext('2d');
       const msg = $('.dk-msg'), act = $('.dk-act'), btnL = $('.dk-l'), btnR = $('.dk-r');
+      let touched = false;   // the Connect pulse is only for someone who hasn't pressed it yet
       const rsEl = $('.dk-rs'), rpEl = $('.dk-rp'), dot = $('.dk-dot');
 
       // ---------- world ----------
@@ -154,6 +163,7 @@
         stage.classList.toggle('dk-live', p !== 'deleted' && p !== 'done');
         btnL.classList.toggle('dk-hide', !live); btnR.classList.toggle('dk-hide', !live);
         act.classList.toggle('dk-hide', !(p === 'deleted' || p === 'done'));
+        act.classList.toggle('dk-call', p === 'deleted' && !touched);
         if (p === 'deleted') { say(DEVICE + ' is nearby.'); act.textContent = 'Connect'; }
         if (p === 'approach') say('Searching');
         if (p === 'match') say('Match the spin to pair');
@@ -162,6 +172,7 @@
         if (p === 'done') { say('Connected to ' + DEVICE + '.'); act.textContent = 'Disconnect'; }
       }
       function onAct() {
+        touched = true; act.classList.remove('dk-call');
         if (phase === 'deleted') {
           ensureAudio(); play('swoosh');
           camHold = 0; thP = 0; wP = 0; locked = !R; rangerIn = 0;
