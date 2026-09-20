@@ -116,24 +116,24 @@ body.nav-still .pill, body.nav-still .menu-toggle { transition: none; }
   letter-spacing: -0.01em; text-transform: uppercase; line-height: 1;
   transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 100ms var(--ease-out);
 }
-.pill.pill-name { height: 32px; padding: 0 16px; font-size: 14px; }
+.pill.pill-name { height: 37px; padding: 0 18px; font-size: 16px; }
 /* Contact rides beside the menu button: the name pill's outline, set in Aspekta instead of caps */
 .nav-end { display: flex; align-items: center; gap: 10px; }
-.pill.pill-contact { height: 32px; padding: 0 16px; font-family: var(--font-grotesk); font-weight: 400; font-size: 14px; text-transform: none; }
+.pill.pill-contact { height: 37px; padding: 0 18px; font-family: var(--font-grotesk); font-weight: 400; font-size: 16px; text-transform: none; }
 .pill:active { transform: scale(0.97); }
 @media (hover: hover) and (pointer: fine) {
   .pill:hover { background: var(--nav-accent); color: var(--nav-on); }
 }
 
 .menu-toggle {
-  width: 36px; height: 36px; border-radius: 50%;
+  width: 41px; height: 41px; border-radius: 50%;
   background: var(--nav-accent); color: var(--nav-on-2);
   display: grid; place-items: center;
   transition: background-color 250ms ease, transform 100ms var(--ease-out);
 }
 .menu-toggle:active { transform: scale(0.94); }
 .menu-toggle .glyph {
-  font-family: var(--font-mono); font-size: 16px; line-height: 1;
+  font-family: var(--font-mono); font-size: 18px; line-height: 1;
   display: block;
   transition: transform 250ms var(--ease-out), color 250ms ease;
 }
@@ -276,10 +276,11 @@ body.menu-open .menu li:nth-child(3) { transition-delay: 160ms; }
 /* one project per cell: the thumbnail, and one line of facts under it */
 .work-card { display: flex; flex-direction: column; gap: 14px; }
 /* name on the left, role in the middle, timeline hard right */
-.work-meta { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: baseline; gap: 20px; font-size: clamp(12px, 1.05vw, 14px); line-height: 1.5; color: var(--paper); }
+.work-meta { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: baseline; gap: 0 5px; font-size: clamp(12px, 1.05vw, 14px); line-height: 1.5; color: var(--paper); }
 .work-meta .role, .work-meta .when { color: var(--paper-50); }
-.work-meta .role { text-align: center; }
-.work-meta .role span { display: block; }
+.work-meta .role { text-align: left; }
+/* the role hangs off the name on a dash, so the pair reads as one line */
+.work-meta .role:not(:empty)::before { content: "– "; }
 .work-meta .when { text-align: right; }
 /* the two ways into Gideon */
 .work-links { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -518,18 +519,20 @@ body.menu-open .menu li:nth-child(3) { transition-delay: 160ms; }
 /* everything from Side Quests, on the home page: a bento of tiles, then the shelf */
 .bento {
   display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
-  align-items: start; gap: 20px;
+  align-items: stretch; gap: 20px;
   max-width: 1280px; margin: 0 auto;
 }
 /* each tile keeps its clip's own shape, so nothing is cropped or letterboxed */
-.bt { grid-column: span var(--span, 4); margin: 0; min-width: 0; }
+.bt { grid-column: span var(--span, 4); margin: 0; min-width: 0; display: flex; flex-direction: column; }
 .bt .bt-media { aspect-ratio: var(--ar, 1); border-radius: 14px; overflow: hidden; background: #0c0c0c; }
 /* the drawings are scans, not screens: no rounded corners on them */
 .bt .bt-media.bt-flat { border-radius: 0; }
 .bt .bt-media video, .bt .bt-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.bt figcaption { margin-top: 12px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+.bt figcaption { margin-top: auto; padding-top: 12px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
 .bt figcaption b { font-weight: 400; font-size: 16px; color: var(--paper); }
 .bt figcaption span { font-size: 13px; color: var(--paper-50); text-align: right; }
+/* three rows are set apart: the grid gap plus 60 more, so 80 in all */
+.bento .bt-gap { margin-top: 60px; }
 .bt-photos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 /* the blog: the picture on one half, the line it belongs to on the other */
 .bt-blog { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center; }
@@ -541,7 +544,7 @@ body.menu-open .menu li:nth-child(3) { transition-delay: 160ms; }
 .bt-blog-copy em { font-style: italic; }
 .bt-blog-post { margin: 0; display: flex; flex-direction: column; gap: 6px; font-size: 16px; line-height: 24px; color: var(--paper); }
 .bt-blog-post span { font-size: 13px; color: var(--paper-50); }
-.bt-shelf { max-width: 1280px; margin: 72px auto 0; }
+.bt-shelf { max-width: 1280px; margin: 144px auto 0; }
 .bt-shelf .shelf-head h2 { color: var(--acid); }
 @media (max-width: 1000px) {
   .bento { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
@@ -552,7 +555,7 @@ body.menu-open .menu li:nth-child(3) { transition-delay: 160ms; }
   .bento { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .bt { grid-column: 1 / -1; }
   .bt-blog { grid-template-columns: 1fr; gap: 16px; }
-  .bt-shelf { margin-top: 44px; }
+  .bt-shelf { margin-top: 88px; }
 }
 .quests-reel { display: grid; grid-template-columns: repeat(2, 1fr); gap: 72px 56px; max-width: 1120px; margin: 0 auto; }
 .qv { margin: 0; }
@@ -589,7 +592,7 @@ body.menu-open .menu li:nth-child(3) { transition-delay: 160ms; }
 /* ------------------------------------------------------------------
    CREATIVITY
 ------------------------------------------------------------------ */
-.creativity { padding: 100px 48px 110px; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: clamp(32px, 5vw, 80px); }
+.creativity { padding: 50px 48px 55px; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: clamp(32px, 5vw, 80px); }
 /* the heading and the gif share one line, so Contact comes sooner */
 .creativity h2 {
   text-align: left; color: var(--acid);
@@ -633,7 +636,7 @@ body.menu-open .menu li:nth-child(3) { transition-delay: 160ms; }
 .ft-bar { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 14px var(--gutter); background: var(--c); color: var(--t); font-size: 22px; line-height: 28px; letter-spacing: -0.015em; transition: filter 200ms ease; }
 @media (hover: hover) and (pointer: fine) { .ft-bar:hover { filter: brightness(1.12); } }
 .ft-bar:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
-.ft-meta { font-size: inherit; letter-spacing: inherit; width: 8em; flex: none; text-align: left; white-space: nowrap; }
+.ft-meta { font-size: inherit; letter-spacing: inherit; width: 13em; flex: none; text-align: left; white-space: nowrap; }
 /* the quote on the left and the name on the right, on one line until the screen is too narrow */
 .ft-end { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px; padding: 32px var(--gutter) 0; }
 .ft-quote { margin: 0; font-size: 20px; line-height: 1.35; font-weight: 300; letter-spacing: -0.01em; color: var(--paper); }
@@ -689,6 +692,8 @@ body.menu-open .menu li:nth-child(3) { transition-delay: 160ms; }
 @media (max-width: 1080px) {
   .work-meta { grid-template-columns: minmax(0, 1fr); gap: 2px; }
   .work-meta .role, .work-meta .when { text-align: left; }
+  .work-meta .role:not(:empty)::before { content: none; }
+  .work-meta .role:empty { display: none; }
 }
 
 /* ------------------------------------------------------------------
@@ -726,7 +731,7 @@ body.menu-open .menu li:nth-child(3) { transition-delay: 160ms; }
   .quests-copy h2 { font-size: clamp(44px, 14vw, 64px); }
   .quests-copy .tag { margin-top: 32px; }
   .quests-copy .btn-pill { margin-top: 28px; }
-  .creativity { padding: 80px 20px 100px; grid-template-columns: minmax(0, 1fr); row-gap: 40px; }
+  .creativity { padding: 40px 20px 50px; grid-template-columns: minmax(0, 1fr); row-gap: 40px; }
   .creativity h2 { text-align: center; font-size: clamp(40px, 12.5vw, 60px); }
   .contact-box { width: calc(100% - 40px); font-size: 28px; }
   .contact-box.is-email { width: calc(100% - 40px); padding: 0 16px; font-size: clamp(15px, 5vw, 24px); }
@@ -864,16 +869,32 @@ body.view-gideon { background: var(--cs-bg); }
 .sp-56 { height: 56px; } .sp-52 { height: 52px; } .sp-48 { height: 48px; }
 .sp-36 { height: 36px; } .sp-30 { height: 30px; } .sp-24 { height: 24px; } .sp-18 { height: 18px; } .sp-12 { height: 12px; }
 
-/* type scale */
-.h-56 { font-size: 56px; line-height: 64px; letter-spacing: -0.03em; font-weight: 300; color: var(--cs-text); }
+/* ------------------------------------------------------------------
+   TYPE SCALE — five steps, and nothing on the case study sits between
+   them. Weight carries the levels a size step used to: a figure title is
+   step 4 at 400 against body at 300, a card label is step 5 at 400
+   against small body at 300.
+   Exempt: text drawn inside a simulated product UI (the call panel, the
+   design-system board, browser and video chrome) and any chip, pill, tag
+   or key. Those are depicting a product, not setting page type, so they
+   keep their own 13px and 12px.
+------------------------------------------------------------------ */
+:root {
+  --ts-1: 56px;  --ts-1-lh: 64px;   /* section titles */
+  --ts-2: 40px;  --ts-2-lh: 48px;   /* problem titles */
+  --ts-3: 28px;  --ts-3-lh: 36px;   /* block headings, names, the closing line */
+  --ts-4: 20px;  --ts-4-lh: 28px;   /* body, leads, figure titles */
+  --ts-5: 15px;  --ts-5-lh: 22px;   /* card labels, annotation lists, meta, eyebrows */
+}
+.h-56 { font-size: var(--ts-1); line-height: var(--ts-1-lh); letter-spacing: -0.03em; font-weight: 300; color: var(--cs-text); }
 .sec-n { margin-right: 0.3em; color: var(--cs-dim); font-variant-numeric: tabular-nums; }
-.h-30 { font-size: 30px; line-height: 38px; letter-spacing: -0.02em; font-weight: 300; color: var(--cs-text); }
-.h-40 { font-size: 40px; line-height: 48px; letter-spacing: -0.02em; font-weight: 300; color: var(--cs-text); }
-.h-28 { font-size: 28px; line-height: 36px; letter-spacing: -0.02em; font-weight: 300; color: var(--cs-text); }
+.h-30 { font-size: var(--ts-3); line-height: var(--ts-3-lh); letter-spacing: -0.02em; font-weight: 300; color: var(--cs-text); }
+.h-40 { font-size: var(--ts-2); line-height: var(--ts-2-lh); letter-spacing: -0.02em; font-weight: 300; color: var(--cs-text); }
+.h-28 { font-size: var(--ts-3); line-height: var(--ts-3-lh); letter-spacing: -0.02em; font-weight: 300; color: var(--cs-text); }
 .h-24 { font-size: 24px; line-height: 32px; letter-spacing: -0.01em; font-weight: 300; }
-.t-20 { font-size: 20px; line-height: 28px; letter-spacing: -0.01em; font-weight: 300; color: var(--cs-text-2); }
+.t-20 { font-size: var(--ts-4); line-height: var(--ts-4-lh); letter-spacing: -0.01em; font-weight: 300; color: var(--cs-text-2); }
 .t-20.s { color: var(--cs-text-3); }
-.t-16 { font-size: 16px; line-height: 24px; font-weight: 300; color: var(--cs-text-3); }
+.t-16 { font-size: var(--ts-5); line-height: var(--ts-5-lh); font-weight: 300; color: var(--cs-text-3); }
 .t-12 { font-size: 12px; line-height: 20px; font-weight: 300; color: var(--cs-mute); }
 .eyebrow { font-size: var(--cs-label-size); line-height: 12px; letter-spacing: 0.08em; font-weight: 400; color: var(--cs-blue); }
 .num { font-size: 12px; line-height: 20px; font-weight: 400; color: var(--cs-blue); }
@@ -961,10 +982,10 @@ p.copy.ph { display: block; }
 .gb-name { position: absolute; left: 50%; transform: translateX(-50%); font-size: 13px; line-height: 20px; color: var(--cs-mute); white-space: nowrap; }
 .cs-meta { display: flex; justify-content: space-between; gap: 36px 48px; margin-bottom: 0; }
 .meta { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-.meta dt { font-size: 16px; line-height: 22px; font-weight: 400; color: var(--cs-text); }
+.meta dt { font-size: var(--ts-5); line-height: var(--ts-5-lh); font-weight: 400; color: var(--cs-text); }
 .meta dd { margin: 0; }
 .meta ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
-.meta li { font-size: 16px; line-height: 26px; font-weight: 300; color: var(--cs-text-3); }
+.meta li { font-size: var(--ts-5); line-height: var(--ts-5-lh); font-weight: 300; color: var(--cs-text-3); }
 /* tools: the real app icons where there is one on hand, a plain tile where there isn't */
 .meta .tool { display: flex; align-items: center; gap: 10px; }
 .tool-ic { width: 20px; height: 20px; flex: none; object-fit: contain; }
@@ -1000,7 +1021,7 @@ p.copy.ph { display: block; }
 .did-arrow { width: 22px; height: 22px; transition: transform 320ms var(--ease-out); }
 .did-text { grid-row: 3; display: flex; flex-direction: column; gap: 8px; }
 .did-k { font-size: 20px; line-height: 25px; font-weight: 400; letter-spacing: -0.01em; }
-.did-v { font-size: 14px; line-height: 20px; font-weight: 300; opacity: 0.72; }
+.did-v { font-size: var(--ts-5); line-height: var(--ts-5-lh); line-height: 20px; font-weight: 300; opacity: 0.72; }
 :is(button, a).did-card { cursor: var(--cursor-rock); text-decoration: none; }
 :is(button, a).did-card:active { transform: translateY(var(--y)) rotate(var(--r)) scale(0.98); }
 :is(button, a).did-card:focus-visible { outline: 2px solid var(--g-blue); outline-offset: 4px; }
@@ -1026,11 +1047,11 @@ p.copy.ph { display: block; }
 .cxf-flow > .cxf-box { width: min(100%, 340px); }
 .cxf-flow > .cxf-tasks { width: min(100%, 540px); }
 .cxf-box.is-mine { background: color-mix(in srgb, var(--g-blue) 10%, transparent); border-color: var(--g-blue); }
-.cxf-k { display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 22px; font-weight: 400; color: var(--cs-label); }
+.cxf-k { display: flex; align-items: center; gap: 8px; font-size: var(--ts-5); line-height: var(--ts-5-lh); font-weight: 400; color: var(--cs-label); }
 .is-mine > .cxf-k { color: var(--cs-blue); }
 .cxf-n { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: rgba(255, 255, 255, 0.08); font-style: normal; font-size: 11px; letter-spacing: 0; color: var(--cs-text); }
 .cxf-t { font-size: 20px; line-height: 26px; font-weight: 400; letter-spacing: -0.01em; color: var(--cs-text); }
-.cxf-d { font-size: 14px; line-height: 21px; color: var(--cs-text-3); }
+.cxf-d { font-size: var(--ts-5); line-height: var(--ts-5-lh); line-height: 21px; color: var(--cs-text-3); }
 .cxf-chips { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .cxf-chips li { padding: 3px 10px; border: 1px solid var(--cs-line-2); border-radius: 999px; font-size: 13px; line-height: 18px; color: var(--cs-text-2); }
 .cxf-go { position: relative; margin-top: 6px; padding: 0; border: 0; background: none; font: inherit; font-size: 13px; line-height: 20px; color: var(--cs-blue); cursor: var(--cursor-rock); }
@@ -1184,14 +1205,14 @@ p.copy.ph { display: block; }
 .fd-card-in { position: absolute; left: 24px; right: 24px; top: 0; height: var(--fd-card); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; transition: opacity 140ms ease, transform 140ms ease; }
 .fd-card-in.is-swap { opacity: 0; transform: translateY(6px); }
 .fd-card-t { font-size: 26px; line-height: 32px; font-weight: 400; letter-spacing: -0.01em; color: #fff; }
-.fd-card-s { max-width: 500px; font-size: 16px; line-height: 23px; font-weight: 300; color: rgba(255, 255, 255, 0.55); }
+.fd-card-s { max-width: 500px; font-size: var(--ts-5); line-height: var(--ts-5-lh); font-weight: 300; color: rgba(255, 255, 255, 0.55); }
 
 /* the drawer front: a lip wider than the folders, and a box that narrows towards the bottom */
 .fd-front { position: absolute; left: 0; right: 0; top: var(--fd-front); bottom: 0; z-index: 20; }
 .fd-lip { position: absolute; left: 0; right: 0; top: 0; height: 14px; border: 1px solid var(--fd-line); border-radius: 3px; background: var(--cs-bg); }
 .fd-box { position: absolute; left: 0; top: 13px; width: 100%; height: calc(100% - 14px); overflow: visible; }
 .fd-box path { fill: var(--cs-bg); stroke: var(--fd-line); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.fd-hint { position: absolute; left: 0; right: 0; top: 14px; bottom: 0; display: flex; align-items: center; justify-content: center; margin: 0; padding: 0 40px; font-size: 16px; line-height: 23px; font-weight: 300; color: rgba(255, 255, 255, 0.55); text-align: center; }
+.fd-hint { position: absolute; left: 0; right: 0; top: 14px; bottom: 0; display: flex; align-items: center; justify-content: center; margin: 0; padding: 0 40px; font-size: var(--ts-5); line-height: var(--ts-5-lh); font-weight: 300; color: rgba(255, 255, 255, 0.55); text-align: center; }
 .fd-hint .on-touch { display: none; }
 @media (hover: none), (pointer: coarse) { .fd-hint .on-pointer { display: none; } .fd-hint .on-touch { display: inline; } }
 
@@ -1222,7 +1243,7 @@ p.copy.ph { display: block; }
 .prob-title { display: flex; flex-direction: column; gap: 10px; }
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .prob-eyebrow {
-  font-size: 14px; line-height: 18px;
+  font-size: var(--ts-5); line-height: var(--ts-5-lh);
   font-weight: 400; color: var(--cs-blue);
 }
 /* close: a black circle with a white stroke and X, turning white with a black X on hover */
@@ -1294,7 +1315,7 @@ p.copy.ph { display: block; }
 .iaf[data-when="b"] { --iaf-mark: var(--g-blue); }
 .iaf-bar { display: flex; align-items: center; gap: 20px; padding: 12px 14px 12px 20px; border-bottom: 1px solid var(--cs-line-2); }
 .iaf-name { font-size: 18px; line-height: 26px; color: var(--cs-text); }
-.iaf-key { display: inline-flex; align-items: center; gap: 8px; margin-right: auto; font-size: 16px; line-height: 24px; color: var(--cs-text-3); }
+.iaf-key { display: inline-flex; align-items: center; gap: 8px; margin-right: auto; font-size: var(--ts-5); line-height: var(--ts-5-lh); color: var(--cs-text-3); }
 .iaf-key i { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--iaf-mark); transition: background-color 300ms ease; }
 /* two labels in one place, cross-fading */
 .iaf-swap { display: inline-grid; justify-items: start; }
@@ -1339,7 +1360,7 @@ p.copy.ph { display: block; }
 .iaf .iaf-rail > li.is-off > div { padding-bottom: 0; }
 .iaf-rail > li > div::before { content: ""; position: absolute; z-index: 1; left: 1px; top: 3.5px; width: 7px; height: 7px; border-radius: 50%; background: var(--cs-dim-2); transition: background-color 300ms ease; }
 .iaf-rail .iaf-n { display: block; margin-bottom: 3px; }
-.iaf-rail p { margin: 0; font-size: 14px; line-height: 21px; font-weight: 300; color: var(--cs-text-2); transition: color 300ms ease; }
+.iaf-rail p { margin: 0; font-size: var(--ts-5); line-height: var(--ts-5-lh); font-weight: 300; color: var(--cs-text-2); transition: color 300ms ease; }
 .iaf-rail small { display: block; margin-top: 2px; font-size: 12px; line-height: 18px; font-weight: 300; color: var(--cs-mute); }
 
 /* what changed: red on the Before side, blue on the After side */
@@ -1390,9 +1411,9 @@ p.copy.ph { display: block; }
 @keyframes pcBlink { 0%, 92%, 100% { transform: none; } 95% { transform: scaleY(0.12); } }
 @media (prefers-reduced-motion: reduce) { .pc-look, .pc-blink { animation: none; } }
 .pc .pc-head { padding: 26px 28px 0; }
-.pc .pc-name { margin: 0; font-size: 28px; line-height: 34px; font-weight: 400; letter-spacing: -0.02em; color: #0E1330; }
-.pc .pc-role { margin: 4px 0 0; font-size: 14px; line-height: 20px; }
-.pc .pc-quote { margin: 12px 0 0; font-size: 16px; line-height: 24px; color: var(--cs-blue-3); }
+.pc .pc-name { margin: 0; font-size: var(--ts-3); line-height: var(--ts-3-lh); font-weight: 400; letter-spacing: -0.02em; color: #0E1330; }
+.pc .pc-role { margin: 4px 0 0; font-size: var(--ts-5); line-height: var(--ts-5-lh); }
+.pc .pc-quote { margin: 12px 0 0; font-size: var(--ts-5); line-height: var(--ts-5-lh); color: var(--cs-blue-3); }
 .pc .pc-facts, .pc .pc-pains, .pc .pc-did ul { list-style: none; margin: 0; padding: 0; }
 .pc .pc-facts { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 6px; }
 .pc .pc-facts li { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 11px 0 9px; border-radius: 100px; background: #EEF1F8; font-size: 12px; line-height: 1; white-space: nowrap; }
@@ -1400,14 +1421,14 @@ p.copy.ph { display: block; }
 .pc .pc-sec { padding: 24px 28px 0; }
 .pc .pc-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; }
 @media (max-width: 520px) { .pc .pc-two { grid-template-columns: minmax(0, 1fr); gap: 20px 0; } }
-.pc .pc-h { margin: 0 0 8px; font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -0.01em; color: #0E1330; }
-.pc .pc-pains li { position: relative; padding-left: 16px; font-size: 14px; line-height: 21px; }
+.pc .pc-h { margin: 0 0 8px; font-size: 15px; line-height: 22px; font-weight: 400; letter-spacing: -0.01em; color: #0E1330; }
+.pc .pc-pains li { position: relative; padding-left: 16px; font-size: var(--ts-5); line-height: var(--ts-5-lh); }
 .pc .pc-pains li + li { margin-top: 4px; }
 .pc .pc-pains li::before { content: ""; position: absolute; left: 1px; top: 7.5px; width: 6px; height: 6px; border-radius: 50%; background: #0E1330; }
 .pc .pc-pains.is-goal li::before { background: var(--cs-blue-3); }
 /* the payoff: what each persona's pain turned into */
 .pc .pc-did { margin: 20px 16px 16px; padding: 16px 18px 18px; border-radius: 8px; background: #EEF1F8; }
-.pc .pc-did li { position: relative; padding-left: 22px; font-size: 14px; line-height: 21px; color: #0E1330; }
+.pc .pc-did li { position: relative; padding-left: 22px; font-size: var(--ts-5); line-height: var(--ts-5-lh); color: #0E1330; }
 .pc .pc-did li + li { margin-top: 4px; }
 .pc .pc-did li::before { content: "→"; position: absolute; left: 0; top: 0; color: var(--cs-blue-3); }
 
@@ -2191,7 +2212,7 @@ p.copy.ph { display: block; }
 .uf-go { position: absolute; left: calc(var(--x) * 1px); top: calc(var(--y) * 1px); padding: 0; border: 0; background: none; font: inherit; font-size: 12px; line-height: 18px; color: var(--cs-blue); white-space: nowrap; cursor: var(--cursor-rock); }
 .uf-go::after { content: ""; position: absolute; inset: -8px -6px; }
 .uf-go:hover, .uf-go:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
-.uf-side { position: absolute; left: calc(var(--x) * 1px); top: calc(var(--y) * 1px); width: 440px; margin: 0; padding: 14px 16px; border: 1px dashed var(--cs-line-2); border-radius: 12px; font-size: 13px; line-height: 19px; color: var(--cs-text-2); }
+.uf-side { position: absolute; left: calc(var(--x) * 1px); top: calc(var(--y) * 1px); width: 440px; margin: 0; padding: 14px 16px; border: 1px dashed var(--cs-line-2); border-radius: 12px; font-size: var(--ts-5); line-height: var(--ts-5-lh); color: var(--cs-text-2); }
 .uf-side .uf-go { position: relative; left: auto; top: auto; display: block; margin-top: 6px; }
 .uf-flow:not(.is-in) .uf-go, .uf-flow:not(.is-in) .uf-side { opacity: 0; }
 .uf-flow.is-in .uf-go, .uf-flow.is-in .uf-side { animation: ufFade 240ms ease-out calc(var(--s, 0) * var(--step)) backwards; }
@@ -2216,7 +2237,7 @@ p.copy.ph { display: block; }
 .iao-arrow { position: relative; height: 1px; margin: 0 12px; background: var(--cs-mute); }
 .iao-arrow::after { content: ""; position: absolute; right: 0; top: -3px; width: 7px; height: 7px; border: solid var(--cs-mute); border-width: 1px 1px 0 0; transform: rotate(45deg); }
 .iao-new { padding: 14px 16px; border: 1px solid var(--g-blue); border-radius: 12px; background: color-mix(in srgb, var(--g-blue) 10%, transparent); }
-.iao-new b { display: block; margin-bottom: 4px; font-size: 16px; line-height: 22px; font-weight: 400; color: var(--cs-text); }
+.iao-new b { display: block; margin-bottom: 4px; font-size: var(--ts-5); line-height: var(--ts-5-lh); font-weight: 400; color: var(--cs-text); }
 .iao-result { padding: 22px 24px 24px; }
 .iao-map { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .iao-map > li { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 16px; border: 1px solid var(--cs-line-2); border-radius: 999px; font-size: 14px; line-height: 1; color: var(--cs-text-2); }
@@ -2414,14 +2435,24 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 
 /* 5 — Before / after toggle */
 .cs-ba-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px; border-bottom: 1px solid var(--cs-line-2); }
-.cs-ba-toggle { display: inline-flex; padding: 3px; border-radius: 100px; background: var(--cs-bg); border: 1px solid var(--cs-line-2); }
+/* one dark track with a white pill riding over it, not two pills side by side */
+.cs-ba-toggle { display: inline-flex; padding: 4px; border-radius: 100px; background: #1C1C1F; border: 0; }
 .cs-ba-toggle button {
-  border: 0; background: transparent; cursor: var(--cursor-rock); color: var(--cs-text-3);
-  font-family: var(--font-geist); font-size: 16px; line-height: 1; padding: 12px 20px; border-radius: 100px;
-  transition: background-color 200ms ease, color 200ms ease;
+  position: relative; z-index: 1; border: 0; background: none; cursor: var(--cursor-rock); color: #FFFFFF;
+  font-family: var(--font-geist); font-size: 16px; line-height: 1; font-weight: 400; padding: 12px 22px; border-radius: 100px;
+  transition: color 220ms ease;
 }
-.cs-ba-toggle button[aria-pressed="true"] { background: var(--cs-text); color: var(--cs-bg); }
-.cs-ba-toggle button:focus-visible { outline: 2px solid var(--g-blue); outline-offset: 2px; }
+/* the pill itself: it sits on the track and lifts off it */
+.cs-ba-toggle button::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: 100px;
+  background: #FFFFFF; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  opacity: 0; transform: scale(0.86);
+  transition: opacity 220ms var(--ease-out), transform 280ms var(--ease-out);
+}
+.cs-ba-toggle button[aria-pressed="true"] { color: #0B0B0C; }
+.cs-ba-toggle button[aria-pressed="true"]::before { opacity: 1; transform: none; }
+.cs-ba-toggle button:focus-visible { outline: 2px solid var(--g-blue); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .cs-ba-toggle button::before { transition: none; } }
 
 /* ------------------------------------------------------------------
    GIDEON — IA: a blurred glance at the old app, then the sidebar rebuilt one rule at a time
@@ -2511,7 +2542,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
   display: flex; align-items: center; justify-content: space-between; gap: 20px;
   padding: 22px 26px; border-bottom: 1px solid var(--cs-line-2);
 }
-.ba-head h4 { margin: 0; font-size: 22px; line-height: 30px; font-weight: 400; color: var(--cs-text); }
+.ba-head h4 { margin: 0; font-size: var(--ts-4); line-height: var(--ts-4-lh); font-weight: 400; color: var(--cs-text); }
 .ba-stage { position: relative; aspect-ratio: 16 / 10; background: var(--cs-panel); }
 .ba-slot { position: absolute; inset: 0; opacity: 0; transition: opacity 320ms var(--ease-out); }
 .ba-slot.show { opacity: 1; }
@@ -2557,7 +2588,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 /* one list per side: the existing screen's flaws, or what the redesign does, each numbered on its own screen */
 .mx:not([data-when="b"]) [data-sx-side="b"], .mx:not([data-when="a"]) [data-sx-side="a"], .mx:not([data-when="m"]) [data-sx-side="m"] { display: none; }
 /* the redesigned side splits in two, what got simpler and what it added, so each group says which it is */
-.mx-key { margin: 0; padding: 14px 18px 2px; border-top: 1px solid var(--cs-line-2); font-size: 13px; line-height: 18px; color: var(--cs-mute); }
+.mx-key { margin: 0; padding: 14px 18px 2px; border-top: 1px solid var(--cs-line-2); font-size: var(--ts-5); line-height: var(--ts-5-lh); color: var(--cs-mute); }
 .mx-key + .mx-list > li:first-child { border-top: 0; }
 /* the Edit screens are wide, so their stage is too and the card stays short */
 .mx-stage.mx-wide { aspect-ratio: 8 / 5; }
@@ -2604,13 +2635,13 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 }
 
 /* Problem Two, Tasks: the tabs grouped by the job they do, each shown before and after */
-.jb-lead { margin: 0; padding: 16px 18px 0; font-size: 17px; line-height: 26px; font-weight: 300; color: var(--cs-text-2); }
+.jb-lead { margin: 0; padding: 16px 18px 0; font-size: 20px; line-height: 28px; font-weight: 300; color: var(--cs-text-2); }
 .jb { padding: 14px 18px 18px; display: grid; grid-template-columns: 128px minmax(0, 1fr) minmax(0, 1fr); gap: 10px 16px; align-items: center; }
 .jb-h { font-size: 13px; line-height: 18px; color: var(--cs-mute); }
 /* a job heading runs the width of the sheet and rules off the group above it */
 .jb-group { grid-column: 1 / -1; margin-top: 12px; padding-top: 20px; border-top: 1px solid var(--cs-line); }
 .jb-group.is-first { margin-top: 0; padding-top: 4px; border-top: 0; }
-.jb-name { margin: 0; font-size: 22px; line-height: 30px; font-weight: 400; color: var(--cs-text); }
+.jb-name { margin: 0; font-size: var(--ts-4); line-height: var(--ts-4-lh); font-weight: 400; color: var(--cs-text); }
 .jb-why { margin: 5px 0 0; max-width: 64ch; font-size: 15px; line-height: 22px; font-weight: 300; color: var(--cs-text-3); }
 .jb-tab { font-size: 14px; line-height: 20px; font-weight: 300; color: var(--cs-text-2); }
 .jb-cell b { display: none; }
@@ -2631,6 +2662,12 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 .cp-head h4 { margin: 0; font-size: 20px; line-height: 28px; font-weight: 400; color: var(--cs-text); }
 .cp-head p { margin: 3px 0 0; font-size: 15px; line-height: 22px; color: var(--cs-text-3); }
 .cp-row { display: flex; align-items: flex-start; gap: 16px; }
+/* the three After screens are the ones worth reading, so they go two up instead
+   of three across: same column, half again the width. The problem fold clips
+   anything wider, so they cannot break out of it. */
+.cp-set.is-now .cp-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+.cp-set.is-now .cp-shot { flex: none; }
+@media (max-width: 700px) { .cp-set.is-now .cp-row { grid-template-columns: minmax(0, 1fr); } }
 .cp-row + .cp-row { margin-top: 16px; }
 /* flex-grow is the image's own ratio, so widths differ and the heights come out equal */
 .cp-shot { flex: var(--r) 1 0; min-width: 0; }
@@ -2642,7 +2679,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 .cp-open img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
 @media (hover: hover) and (pointer: fine) { .cp-open:hover { border-color: var(--cs-text-3); } }
 .cp-open:focus-visible { outline: 2px solid var(--g-blue); outline-offset: 2px; }
-.cp-lbl { display: block; margin-top: 8px; font-size: 13px; line-height: 18px; color: var(--cs-text-3); }
+.cp-lbl { display: block; margin-top: 8px; font-size: var(--ts-5); line-height: var(--ts-5-lh); color: var(--cs-text-3); }
 /* the one it opened, full width under its row */
 .cp-big { margin-top: 16px; border: 1px solid var(--cs-line-2); border-radius: 10px; overflow: hidden; background: #FFFFFF; }
 .cp-big img { display: block; width: 100%; height: auto; }
@@ -2655,6 +2692,9 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 .cp-big-close:hover { color: var(--cs-text); }
 .cp-shot.is-open .cp-open { border-color: var(--g-blue); }
 .cp-list { list-style: none; margin: 26px 0 0; padding: 0; border-top: 1px solid var(--cs-line); }
+/* in the After set the list is the fourth cell of the grid, beside Settlements */
+.cp-set.is-now .cp-list { margin: 0; align-self: center; border-top: 0; }
+.cp-set.is-now .cp-list li:first-child { border-top: 1px solid var(--cs-line); }
 .cp-list li {
   position: relative; padding: 12px 0 12px 26px; border-bottom: 1px solid var(--cs-line);
   font-size: 15px; line-height: 22px; font-weight: 300; color: var(--cs-text);
@@ -2736,22 +2776,19 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 .st .dial { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; margin-top: 40px; }
 .st .dial-col { display: flex; flex-direction: column; gap: 14px; padding: 26px 26px 28px; border: 1px solid var(--line-2); border-radius: 16px; }
 .st .dial-art { display: grid; place-items: center; padding: 4px 0 2px; }
-.st .dial-svg { display: block; width: 100%; max-width: 268px; height: auto; }
-.st .dial-track { fill: none; stroke: #1B1B1F; stroke-width: 11; }
-.st .dial-open { fill: none; stroke: #4E4E57; stroke-width: 11; stroke-linecap: round; }
-.st .dial-mid { font-family: "Aspekta", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 300; fill: var(--mute); text-anchor: middle; }
-.st .dial-mid.is-b { font-size: 21px; fill: var(--text); }
-.st .dial-svg.is-full .dial-mid.is-b { fill: #fff; }
-.st .dial-svg.is-full .dial-open { stroke: var(--blue); stroke-linecap: butt; }
-.st .dial-ticks text { font-family: "Aspekta", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 300; fill: var(--mute); text-anchor: middle; }
-.st .dial-col h3 { margin-top: 14px; font-size: 20px; line-height: 26px; font-weight: 400; color: var(--text-3); }
-.st .dial-t { font-size: 22px; line-height: 31px; letter-spacing: -0.015em; color: var(--text); }
+/* Context: one frame above the cards, on the cards' own columns so each
+   grid sits over the card it belongs to */
+.st .ctx-frame { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; padding: 8px 0 30px; }
+.st .ctx-art { display: block; width: 100%; max-width: 300px; height: auto; margin: 0 auto; }
+.st .dial-art { display: none; }
+.st .dial-col h3 { margin-top: 14px; font-size: 15px; line-height: 22px; font-weight: 400; color: var(--text-3); }
+.st .dial-t { font-size: 20px; line-height: 28px; letter-spacing: -0.015em; color: var(--text); }
 /* my part is the one that carries the colour */
 .st .ctx-mine { display: grid; grid-template-columns: minmax(0, 210px) minmax(0, 1fr); gap: 8px 40px; margin-top: 20px; padding: 24px 26px 26px; border-radius: 16px; background: var(--blue); }
 .st .ctx-mine h3 { font-size: 15px; line-height: 22px; font-weight: 400; color: rgba(255,255,255,0.75); }
 .st .ctx-mine p { font-size: 20px; line-height: 28px; letter-spacing: -0.015em; color: #fff; }
 @media (max-width: 760px) {
-  .st .dial { grid-template-columns: minmax(0, 1fr); }
+  .st .dial, .st .ctx-frame { grid-template-columns: minmax(0, 1fr); }
   .st .ctx-mine { grid-template-columns: minmax(0, 1fr); gap: 10px; }
   .st .dial-t, .st .ctx-mine p { font-size: 18px; line-height: 26px; }
 }
@@ -2760,7 +2797,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 .st .kn { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .st .kn-card { display: flex; flex-direction: column; gap: 16px; padding: 22px 24px 26px; border: 1px solid var(--line-2); border-radius: 16px; }
 .st .kn-card h3 { font-size: 15px; line-height: 20px; font-weight: 400; color: var(--text-3); }
-.st .kn-card p { font-size: 19px; line-height: 27px; letter-spacing: -0.015em; color: var(--text); }
+.st .kn-card p { font-size: var(--ts-4); line-height: var(--ts-4-lh); letter-spacing: -0.015em; color: var(--text); }
 .st .kn-card.is-me { background: var(--blue); border-color: var(--blue); }
 .st .kn-card.is-me h3 { color: rgba(255,255,255,0.75); }
 .st .kn-card.is-me p { color: #fff; }
@@ -2774,9 +2811,9 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 .st .rc-art { display: flex; align-items: flex-end; justify-content: center; height: 250px; background: var(--orange); overflow: hidden; }
 .st .rc-art svg { display: block; height: 96%; width: auto; }
 .st .rc-head { padding: 24px 26px 26px; }
-.st .rc-name { font-size: 28px; line-height: 34px; font-weight: 400; letter-spacing: -0.02em; color: #0E1330; }
-.st .rc-role { margin-top: 4px; font-size: 14px; line-height: 20px; }
-.st .rc-quote { margin-top: 12px; font-size: 16px; line-height: 24px; }
+.st .rc-name { font-size: var(--ts-3); line-height: var(--ts-3-lh); font-weight: 400; letter-spacing: -0.02em; color: #0E1330; }
+.st .rc-role { margin-top: 4px; font-size: var(--ts-5); line-height: var(--ts-5-lh); }
+.st .rc-quote { margin-top: 12px; font-size: var(--ts-5); line-height: var(--ts-5-lh); }
 .st .rc-facts { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .st .rc-facts li { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 11px 0 9px; border-radius: 100px; font-size: 12px; line-height: 1; white-space: nowrap; }
 .st .rc-facts svg { flex: none; width: 14px; height: 14px; color: #0E1330; }
@@ -2900,7 +2937,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 .mk-tip .st-say-was { display: block; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--cs-line-2); font-size: 13px; line-height: 19px; color: var(--cs-text-3); }
 .st-tap-tip { position: fixed; z-index: 90; max-width: min(300px, calc(100vw - 32px)); padding: 12px 14px; background: #14141a; border: 1px solid var(--cs-line-2); border-radius: 10px; box-shadow: 0 18px 46px rgba(0,0,0,0.6); font-size: 14px; line-height: 20px; color: var(--cs-text); pointer-events: none; opacity: 0; transition: opacity 160ms ease; }
 .st-tap-tip.is-on { opacity: 1; }
-.st-hint { display: flex; align-items: center; gap: 10px; margin: 0; padding: 14px 18px; font-size: 13px; line-height: 20px; color: var(--cs-mute); }
+.st-hint { display: flex; align-items: center; gap: 10px; margin: 0; padding: 14px 18px; font-size: var(--ts-5); line-height: var(--ts-5-lh); color: var(--cs-mute); }
 .st-hint i { flex: none; width: 7px; height: 7px; margin-top: 1px; border-radius: 50%; background: #FF5FA8; }
 .mx:not([data-when="a"]) .st-hint { display: none; }
 .st-more { border-top: 1px solid var(--cs-line); }
@@ -2921,7 +2958,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 .st-quiz-cols { display: grid; grid-template-columns: 1.5fr 1fr; }
 .st-quiz-col { padding: 20px 22px 22px; }
 .st-quiz-col + .st-quiz-col { border-left: 1px solid var(--cs-line-2); }
-.st-quiz-k { display: block; margin-bottom: 12px; font-size: 14px; line-height: 20px; color: var(--cs-text-3); }
+.st-quiz-k { display: block; margin-bottom: 12px; font-size: var(--ts-5); line-height: var(--ts-5-lh); color: var(--cs-text-3); }
 .st-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .st-chips li { padding: 5px 10px; border-radius: 100px; border: 1px solid var(--cs-line-2); font-size: 13px; line-height: 18px; color: var(--cs-mute); transition: background-color 260ms ease, color 260ms ease, border-color 260ms ease, opacity 260ms ease, transform 260ms var(--ease-out); }
 .st-chips.has-pick li { opacity: 0.45; }
@@ -3058,13 +3095,86 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 .st-uf-btn[aria-expanded="true"] .st-uf-chev { transform: rotate(180deg); }
 .st-uf-part.is-collapsed > :not(.st-uf-h) { display: none; }
 /* each problem: the scene in small type, the problem and fix as the lead */
-.st-scene { margin: 0; max-width: 880px; font-size: 16px; line-height: 24px; font-weight: 300; color: var(--cs-text-3); }
+.st-scene { margin: 0; max-width: 880px; font-size: var(--ts-5); line-height: var(--ts-5-lh); font-weight: 300; color: var(--cs-text-3); }
 /* Behind the Scenes: one block per problem */
+/* Problem Two, Tasks: one card taken apart, then every tab turning over on its own clock */
+.tk-all { padding: 28px 18px 0; }
+.tk-h { margin: 0; font-size: var(--ts-4); line-height: var(--ts-4-lh); font-weight: 400; color: var(--cs-text); }
+.tk-why { margin: 6px 0 0; max-width: 64ch; font-size: var(--ts-5); line-height: var(--ts-5-lh); font-weight: 300; color: var(--cs-text-3); }
+
+/* every tab, two up, each turning over on the shared clock */
+.tk-all-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; }
+.tk-grid { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 20px; }
+.tk-cell-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 10px; }
+.tk-cell-head b { font-size: 15px; line-height: 22px; font-weight: 400; color: var(--cs-text); }
+/* one dark track with a white pill riding over it, not two pills side by side */
+.tk-sw { display: inline-flex; margin-left: auto; padding: 3px; border-radius: 100px; border: 0; background: #1C1C1F; }
+.tk-sw button { position: relative; z-index: 1; height: 28px; padding: 0 15px; border: 0; border-radius: 100px; background: none; cursor: var(--cursor-hand);
+  font-family: inherit; font-size: 13px; line-height: 1; font-weight: 400; color: #FFFFFF;
+  transition: color 220ms ease; }
+/* the pill itself: it sits on the track and lifts off it */
+.tk-sw button::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: 100px;
+  background: #FFFFFF; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  opacity: 0; transform: scale(0.86);
+  transition: opacity 220ms var(--ease-out), transform 260ms var(--ease-out);
+}
+.tk-sw button[aria-pressed="true"] { color: #0B0B0C; }
+.tk-sw button[aria-pressed="true"]::before { opacity: 1; transform: none; }
+@media (hover: hover) and (pointer: fine) { .tk-sw button[aria-pressed="false"]:hover { color: rgba(255,255,255,0.7); } }
+.tk-sw button:focus-visible { outline: 2px solid var(--g-blue); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .tk-sw button::before { transition: none; } }
+.tk-cell.is-held .tk-sw { border-color: var(--g-blue); }
+/* the two screens share one window, so only the picture changes under the label */
+.tk-stage { position: relative; overflow: hidden; border: 1px solid var(--cs-line-2); border-radius: 8px; background: var(--cs-panel); aspect-ratio: 2400 / 1212; }
+.tk-slot { position: absolute; inset: 0; opacity: 0; transition: opacity 420ms ease; }
+.tk-slot.is-on { opacity: 1; }
+.tk-slot img { position: absolute; left: 0; top: 0; display: block; width: 100%; height: auto; }
+.tk-note { align-self: start; padding: 2px 0 0; }
+.tk-note h6 { margin: 0 0 12px; font-size: 15px; line-height: 22px; font-weight: 400; color: var(--cs-text); }
+.tk-note ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.tk-note li { position: relative; padding-left: 18px; font-size: 15px; line-height: 23px; font-weight: 300; color: var(--cs-text-3); }
+.tk-note li::before { content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: var(--g-blue); }
+.tk-job { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; font-size: 13px; line-height: 20px; color: var(--cs-text-2); }
+.tk-job::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--g-blue); }
+.tk-job.is-watch::before { background: rgba(0, 79, 255, 0.55); }
+.tk-job.is-review::before { background: none; box-shadow: inset 0 0 0 1.5px var(--cs-text-3); }
+.tk .jb-lead { padding-top: 18px; }
+@media (prefers-reduced-motion: reduce) { .tk-slot { transition: none; } }
+@media (max-width: 1020px) {
+}
+@media (max-width: 860px) {
+  .tk-all { padding-left: 14px; padding-right: 14px; padding-top: 26px; }
+  .tk-h { font-size: 19px; line-height: 26px; }
+  .tk-grid { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .tk-sw { margin-left: 0; }
+}
+/* Reflection: one drawn panel — noise in, the record reading it, order out — and three notes under it */
+.rf { border: 1px solid var(--cs-line-2); background: var(--cs-panel); padding: 40px 40px 36px; }
+.rf-top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px 40px; align-items: start; }
+.rf-h { margin: 0; font-size: var(--ts-3); line-height: var(--ts-3-lh); letter-spacing: -0.02em; font-weight: 300; color: var(--cs-text); }
+.rf-lead { margin: 6px 0 0; font-size: 20px; line-height: 28px; font-weight: 300; color: var(--cs-text-3); max-width: 46ch; }
+.rf-art { margin: 34px 0 30px; }
+.rf-svg { display: block; width: 100%; height: auto; }
+.rf-pill { fill: var(--g-blue); }
+.rf-disc, .rf-core { fill: var(--cs-panel); }
+.rf-core { fill: var(--g-blue); }
+.rf-notes { list-style: none; margin: 0; padding: 26px 0 0; border-top: 1px solid var(--cs-line-2);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 40px; }
+.rf-notes b { display: block; margin-bottom: 8px; font-size: 15px; line-height: 22px; font-weight: 400; color: var(--cs-text); }
+.rf-notes p { margin: 0; font-size: 15px; line-height: 23px; font-weight: 300; color: var(--cs-text-3); }
+@media (max-width: 860px) {
+  .rf { padding: 26px 22px 24px; }
+  .rf-top { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .rf-h { font-size: 32px; line-height: 40px; }
+  .rf-art { margin: 24px 0 22px; }
+  .rf-notes { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-top: 20px; }
+}
 /* Trade-Offs: the call, what it cost, what comes next */
 .tr { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 .tr-card { display: flex; flex-direction: column; gap: 10px; padding: 22px 22px 24px; border: 1px solid var(--cs-line-2); }
-.tr-mark { font-size: 13px; line-height: 20px; color: var(--cs-mute); }
-.tr-d { margin: 0; font-size: 19px; line-height: 27px; letter-spacing: -0.01em; font-weight: 300; color: var(--cs-text); }
+.tr-mark { font-size: var(--ts-5); line-height: var(--ts-5-lh); line-height: 20px; color: var(--cs-mute); }
+.tr-d { margin: 0; font-size: var(--ts-4); line-height: var(--ts-4-lh); letter-spacing: -0.01em; font-weight: 300; color: var(--cs-text); }
 .tr-line { margin: 0; font-size: 15px; line-height: 22px; font-weight: 300; color: var(--cs-text-3); }
 .tr-line b { display: block; font-size: 12px; line-height: 18px; font-weight: 400; color: var(--cs-mute); }
 @media (max-width: 860px) { .tr { grid-template-columns: minmax(0, 1fr); gap: 16px; } }
@@ -3087,7 +3197,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 .cs-tags rect { fill: none; stroke: #3A3A41; stroke-width: 1; }
 .cs-row rect { fill: none; stroke: var(--cs-line); stroke-width: 1; }
 .cs-ln rect { fill: #232327; }
-.cmp-take { margin: 0; max-width: 880px; font-size: 19px; line-height: 27px; letter-spacing: -0.01em; font-weight: 300; color: var(--cs-text); }
+.cmp-take { margin: 0; max-width: 880px; font-size: var(--ts-4); line-height: var(--ts-4-lh); letter-spacing: -0.01em; font-weight: 300; color: var(--cs-text); }
 @media (max-width: 700px) { .cmp-stage { padding: 14px 14px 4px; } }
 
 /* the competitor screen, redrawn and blurred */
@@ -3115,9 +3225,6 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 .fv-chip.is-greenline { fill: #ECFDF3; stroke: #86EFAC; }
 .fv-z { fill: #E8412F; }
 /* Impact: what shipped, one line each */
-.im { list-style: none; margin: 0; padding: 0; max-width: 880px; border-top: 1px solid var(--cs-line); }
-.im li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; padding: 16px 0; border-bottom: 1px solid var(--cs-line); font-size: 16px; line-height: 24px; font-weight: 300; color: var(--cs-text-3); }
-.im b { font-weight: 400; font-size: 19px; line-height: 27px; letter-spacing: -0.01em; color: var(--cs-text); }
 /* Problem Solving: the rule on a line of its own */
 .st-rule { margin: 0; max-width: 880px; font-size: 32px; line-height: 40px; letter-spacing: -0.02em; font-weight: 300; color: var(--cs-text); }
 /* the rule reads as Daniela's words, at the same size as the copy around it */
@@ -3127,11 +3234,11 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 @media (max-width: 620px) { .st-rule { font-size: 24px; line-height: 31px; } }
 .bts-block > * + * { margin-top: 32px; }
 .bts-block + .bts-block { margin-top: 72px; }
-.bts-link { font-size: 16px; line-height: 24px; color: var(--cs-text-2); }
+.bts-link { font-size: var(--ts-5); line-height: var(--ts-5-lh); line-height: 24px; color: var(--cs-text-2); }
 .bts-link a { color: var(--cs-text); text-decoration: underline; text-underline-offset: 3px; }
 /* where a problem sits in Ryan's case */
 .st-where { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); max-width: 880px; margin: 0; padding: 0; list-style: none; }
-.st-where li { position: relative; display: flex; flex-direction: column; gap: 2px; padding-top: 22px; font-size: 14px; line-height: 19px; color: var(--cs-mute); }
+.st-where li { position: relative; display: flex; flex-direction: column; gap: 2px; padding-top: 22px; font-size: var(--ts-5); line-height: var(--ts-5-lh); color: var(--cs-mute); }
 .st-where li::after { content: ""; position: absolute; left: 12px; right: 0; top: 5.5px; height: 1px; background: var(--cs-line-2); }
 .st-where li:last-child::after { display: none; }
 .st-where li i { position: absolute; left: 0; top: 0; width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--cs-mute); }
@@ -3213,16 +3320,18 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
 }
 
 /* the two halves of a before/after are both buttons, so both look like one */
-.cs-ba-toggle button[aria-pressed="false"] { box-shadow: inset 0 0 0 1px var(--cs-line-2); color: var(--cs-text-2); }
 @media (hover: hover) and (pointer: fine) {
-  .cs-ba-toggle button[aria-pressed="false"]:hover { background: rgba(255, 255, 255, 0.12); color: var(--cs-text); box-shadow: inset 0 0 0 1px var(--cs-text-3); }
+  .cs-ba-toggle button[aria-pressed="false"]:hover { color: rgba(255, 255, 255, 0.65); }
 }
 .cs-ba-toggle button:active { transform: scale(0.97); }
-/* and the first time one scrolls into view, the side you are not on breathes three times */
-.cs-ba-toggle:not(.is-used) button[aria-pressed="false"] { animation: ba-nudge 1.15s ease-in-out infinite; }
+/* and until it is used, the side you are not on keeps asking: it lights up, lifts and throws a ring */
+.cs-ba-toggle:not(.is-used) button[aria-pressed="false"] { animation: ba-nudge 0.75s ease-in-out infinite; }
+/* it stays clearly the side you are NOT on: a ring and a lift carry it, never a fill that reads as selected */
+/* until it is used, the side you are NOT on blinks hard: full white down to
+   almost nothing and back, fast enough to catch the eye rather than sit behind it */
 @keyframes ba-nudge {
-  0%, 100% { background: rgba(255, 255, 255, 0); box-shadow: inset 0 0 0 1px var(--cs-line-2); }
-  50% { background: rgba(255, 255, 255, 0.16); box-shadow: inset 0 0 0 1px var(--cs-text-3); }
+  0%, 100% { color: #FFFFFF; text-shadow: 0 0 10px rgba(255, 255, 255, 0.55); }
+  50%      { color: rgba(255, 255, 255, 0.12); text-shadow: 0 0 0 rgba(255, 255, 255, 0); }
 }
 .cs-ba-toggle.is-used button[aria-pressed="false"], .cs-ba-toggle:hover button[aria-pressed="false"] { animation: none; }
 
@@ -3349,7 +3458,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
         <div class="gd-over">
           <div class="gd-info" aria-hidden="true">
             <p class="gd-who">Gideon AI</p>
-            <p class="gd-role">Founding Product Designer<span>Design Generalist</span></p>
+            <p class="gd-role">Founding Product Designer</p>
             <p class="gd-when">July ’26 – Present</p>
           </div>
           <div class="gd-btns">
@@ -3360,7 +3469,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       </div>
       <ul class="work-meta">
         <li class="who">Gideon AI</li>
-        <li class="role">Founding Product Designer<span>Design Generalist</span></li>
+        <li class="role">Founding Product Designer</li>
         <li class="when">July ’26 – Present</li>
       </ul>
     </div>
@@ -3400,7 +3509,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       </div>
       <ul class="work-meta">
         <li class="who">ARCHIV.</li>
-        <li class="role">Founder</li>
+        <li class="role"></li>
         <li class="when">April ’26 – Present</li>
       </ul>
     </div>
@@ -3420,7 +3529,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
   </section>
   <script defer src="lab/registry.js?v=5"></script>
 <script defer src="lab/pacman.js?v=6"></script>
-<script defer src="lab/slingshot.js?v=9"></script>
+<script defer src="lab/slingshot.js?v=10"></script>
   <script>
     // the Fruit Ninja experiment slices these four instead of the emails on the main site
     window.NINJA_CARDS = [
@@ -3434,15 +3543,17 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
     window.NINJA_PLAIN = true;
     window.NINJA_EMPTY = { title: 'Tasks Completed', line: '+100 aura points', button: 'Add tasks', overlay: true };
     // once all four are cut, play the first five seconds of this clip
-    window.NINJA_CLEAR = { src: 'audio/praise-the-lord.mp3', start: 0, seconds: 5 };
+    window.NINJA_CLEAR = { src: 'assets/audio/praise-the-lord.mp3', start: 0, seconds: 5 };
   </script>
 <script defer src="lab/ninja.js?v=10"></script>
 <script defer src="lab/rotary.js?v=3"></script>
-<script defer src="lab/tempo.js?v=9"></script>
+<script defer src="lab/tempo.js?v=10"></script>
 <script defer src="lab/balloons.js?v=3"></script>
 <script defer src="lab/cooperlogout.js?v=6"></script>
-<script defer src="lab/dock.js?v=5"></script>
+<script defer src="lab/dock.js?v=6"></script>
 <script defer src="lab/roulette.js?v=8"></script>
+<!-- <script defer src="lab/refine.js?v=1"></script> -->
+<!-- <script defer src="lab/elevator.js?v=1"></script> -->
 <!-- <script defer src="lab/launch.js?v=1"></script> -->
 <!-- Out of the grid for now: put a line back to bring its tile in -->
 <!-- <script defer src="lab/flux.js?v=3"></script> -->
@@ -3464,12 +3575,12 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
         <figure class="bt" style="--span: 4; --ar: 1 / 1"><div class="bt-media"><video data-audio="true" src="assets/sq/tetris.mp4" poster="assets/sq/tetris.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Tetris animated inside the calendar"></video></div><figcaption><b>Calendar Tetris</b></figcaption></figure>
         <figure class="bt" style="--span: 4; --ar: 1280 / 1462"><div class="bt-media"><video data-audio="false" src="assets/sq/stretchy.mp4" poster="assets/sq/stretchy.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A word stretched until it stops reading as letters"></video></div><figcaption><b>Stretched Type</b></figcaption></figure>
         <figure class="bt" style="--span: 4; --ar: 789 / 900"><div class="bt-media"><video data-audio="false" src="assets/sq/shine.mp4" poster="assets/sq/shine.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Shine your light, an After Effects expression piece"></video></div><figcaption><b>Shine Your Light</b></figcaption></figure>
-        <figure class="bt" style="--span: 8; --ar: 4 / 3"><div class="bt-media"><video data-audio="true" src="assets/sq/spotify.mp4" poster="assets/sq/spotify.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Spotify as it might have looked on a CRT in 1984"></video></div><figcaption><b>Spotify, on a CRT</b></figcaption></figure>
-        <figure class="bt" style="--span: 4; --ar: 1 / 1"><div class="bt-media"><video data-audio="false" src="assets/sq/pendulum.mp4" poster="assets/sq/pendulum.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A pendulum left running to test lighting and falloff"></video></div><figcaption><b>Pendulum</b></figcaption></figure>
-        <figure class="bt" style="--span: 4; --ar: 3 / 4"><div class="bt-media bt-flat"><img src="assets/sq/sketch-tiger-even.jpg" alt="Marker drawing of a flaming skull in a blue jacket" loading="lazy"></div><figcaption><b>Flaming Skull</b></figcaption></figure>
-        <figure class="bt" style="--span: 4; --ar: 3 / 4"><div class="bt-media bt-flat"><img src="assets/sq/sketch-vader-even.jpg" alt="Ink drawing of a helmet in space, with a rainbow and starfighters" loading="lazy"></div><figcaption><b>Helmet in Space</b></figcaption></figure>
-        <figure class="bt" style="--span: 4; --ar: 3 / 4"><div class="bt-media bt-flat"><img src="assets/sq/sketch-ghostrider-even.jpg" alt="Marker drawing of a snarling tiger against a blue ground" loading="lazy"></div><figcaption><b>Tiger</b></figcaption></figure>
-        <figure class="bt bt-photos-row" style="--span: 12">
+        <figure class="bt bt-gap" style="--span: 7; --ar: 4 / 3"><div class="bt-media"><video data-audio="true" src="assets/sq/spotify.mp4" poster="assets/sq/spotify.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Spotify as it might have looked on a CRT in 1984"></video></div><figcaption><b>Spotify, on a CRT</b></figcaption></figure>
+        <figure class="bt bt-gap" style="--span: 5; --ar: 1 / 1"><div class="bt-media"><video data-audio="false" src="assets/sq/pendulum.mp4" poster="assets/sq/pendulum.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A pendulum left running to test lighting and falloff"></video></div><figcaption><b>3D Render</b></figcaption></figure>
+        <figure class="bt bt-gap" style="--span: 4; --ar: 3 / 4"><div class="bt-media bt-flat"><img src="assets/sq/sketch-tiger-even.jpg" alt="Marker drawing of a flaming skull in a blue jacket" loading="lazy"></div><figcaption><b>Ghost Rider</b></figcaption></figure>
+        <figure class="bt bt-gap" style="--span: 4; --ar: 3 / 4"><div class="bt-media bt-flat"><img src="assets/sq/sketch-vader-even.jpg" alt="Ink drawing of a helmet in space, with a rainbow and starfighters" loading="lazy"></div><figcaption><b>Darth Side of the Moon</b></figcaption></figure>
+        <figure class="bt bt-gap" style="--span: 4; --ar: 3 / 4"><div class="bt-media bt-flat"><img src="assets/sq/sketch-ghostrider-even.jpg" alt="Marker drawing of a snarling tiger against a blue ground" loading="lazy"></div><figcaption><b>The Predator</b></figcaption></figure>
+        <figure class="bt bt-photos-row bt-gap" style="--span: 12">
           <div class="bt-photos">
             <div class="bt-media" style="--ar: 4 / 3"><img src="assets/sq/photo-lizard.jpg" alt="A palm squirrel clinging to a tree trunk" loading="lazy"></div>
             <div class="bt-media" style="--ar: 4 / 3"><img src="assets/sq/photo-ants.jpg" alt="Ants on a ledge" loading="lazy"></div>
@@ -3556,14 +3667,14 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       <a class="contact-box display" href="mailto:sharvilnaik17@gmail.com">Contact</a>
     </div>
     <ul class="ft-links">
-      <li><a class="ft-bar" style="--c: #1769FF; --t: #FFFFFF" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener"><span>Behance</span><span class="ft-meta">@sharvilnaik</span></a></li>
-      <li><a class="ft-bar" style="--c: #0A66C2; --t: #FFFFFF" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener"><span>LinkedIn</span><span class="ft-meta">Sharvil Naik</span></a></li>
-      <li><a class="ft-bar" style="--c: #1DA1F2; --t: #07121B" href="https://x.com/sharvil_naik" target="_blank" rel="noopener"><span>Twitter</span><span class="ft-meta">@sharvil_naik</span></a></li>
-      <li><a class="ft-bar" style="--c: #E4405F; --t: #1A0509" href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener"><span>Instagram</span><span class="ft-meta">@noiksarchives</span></a></li>
+      <li><a class="ft-bar" style="--c: #1769FF; --t: #FFFFFF" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener"><span>Behance</span><span class="ft-meta">Every project, in full</span></a></li>
+      <li><a class="ft-bar" style="--c: #0A66C2; --t: #FFFFFF" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener"><span>LinkedIn</span><span class="ft-meta">The formal version</span></a></li>
+      <li><a class="ft-bar" style="--c: #1DA1F2; --t: #07121B" href="https://x.com/sharvil_naik" target="_blank" rel="noopener"><span>Twitter</span><span class="ft-meta">Thinking out loud</span></a></li>
+      <li><a class="ft-bar" style="--c: #E4405F; --t: #1A0509" href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener"><span>Instagram</span><span class="ft-meta">Photos and sketches</span></a></li>
     </ul>
     <div class="ft-end">
       <p class="ft-quote">Made while listening to Tame Impala, Daft Punk and Led Zeppelin 🤙🏻</p>
-      <p class="copy">© 2026 SHARVIL NAIK</p>
+      <p class="copy">© 2026 Sharvil Naik</p>
     </div>
   </footer>
 
@@ -3579,15 +3690,14 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
     <a href="#cs-context" data-sec="cs-context"><span class="tick"></span><span class="lbl">1. Context</span></a>
     <a href="#cs-personas" data-sec="cs-personas"><span class="tick"></span><span class="lbl">2. User Personas</span></a>
     <a href="#cs-flow" data-sec="cs-flow"><span class="tick"></span><span class="lbl">3. User Flows</span></a>
-    <a href="#cs-demo" data-sec="cs-demo"><span class="tick"></span><span class="lbl">4. The Flow, End to End</span></a>
+    <a href="#cs-demo" data-sec="cs-demo"><span class="tick"></span><span class="lbl">4. The Flow</span></a>
     <a href="#cs-research" data-sec="cs-research"><span class="tick"></span><span class="lbl">5. Competitor Study</span></a>
     <a href="#cs-problems" data-sec="cs-problems"><span class="tick"></span><span class="lbl">6. Problem Solving</span></a>
     <a href="#cs-p1" data-sec="cs-p1"><span class="tick"></span><span class="lbl">Problem One</span></a>
     <a href="#cs-p2" data-sec="cs-p2"><span class="tick"></span><span class="lbl">Problem Two</span></a>
     <a href="#cs-p3" data-sec="cs-p3"><span class="tick"></span><span class="lbl">Problem Three</span></a>
     <a href="#cs-ds" data-sec="cs-ds"><span class="tick"></span><span class="lbl">7. Design System</span></a>
-    <a href="#cs-impact" data-sec="cs-impact"><span class="tick"></span><span class="lbl">8. Impact</span></a>
-    <a href="#cs-reflect" data-sec="cs-reflect"><span class="tick"></span><span class="lbl">9. Reflection</span></a>
+    <a href="#cs-reflect" data-sec="cs-reflect"><span class="tick"></span><span class="lbl">8. Reflection</span></a>
   </nav>
   <div class="st-nav" hidden>
     <div class="st-menu" id="st-menu" hidden></div>
@@ -3622,14 +3732,13 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       <h1 class="h-56" id="cs-context"><span class="sec-n">1.</span>Context</h1>
 
       <div class="st">
+        <div class="ctx-frame"><svg class="ctx-art" viewBox="0 0 360 270" role="img" aria-label="Twenty-four dots for the hours of a day; the firm covers nine of them" focusable="false"><circle cx="95" cy="40" r="12.5" fill="#FFFFFF"/><circle cx="129" cy="40" r="12.5" fill="#FFFFFF"/><circle cx="163" cy="40" r="12.5" fill="#FFFFFF"/><circle cx="197" cy="40" r="12.5" fill="#FFFFFF"/><circle cx="231" cy="40" r="12.5" fill="#FFFFFF"/><circle cx="265" cy="40" r="12.5" fill="#FFFFFF"/><circle cx="95" cy="74" r="12.5" fill="#FFFFFF"/><circle cx="129" cy="74" r="12.5" fill="#FFFFFF"/><circle cx="163" cy="74" r="12.5" fill="#FFFFFF"/><circle cx="197" cy="74" r="12.5" fill="#2B2B30"/><circle cx="231" cy="74" r="12.5" fill="#2B2B30"/><circle cx="265" cy="74" r="12.5" fill="#2B2B30"/><circle cx="95" cy="108" r="12.5" fill="#2B2B30"/><circle cx="129" cy="108" r="12.5" fill="#2B2B30"/><circle cx="163" cy="108" r="12.5" fill="#2B2B30"/><circle cx="197" cy="108" r="12.5" fill="#2B2B30"/><circle cx="231" cy="108" r="12.5" fill="#2B2B30"/><circle cx="265" cy="108" r="12.5" fill="#2B2B30"/><circle cx="95" cy="142" r="12.5" fill="#2B2B30"/><circle cx="129" cy="142" r="12.5" fill="#2B2B30"/><circle cx="163" cy="142" r="12.5" fill="#2B2B30"/><circle cx="197" cy="142" r="12.5" fill="#2B2B30"/><circle cx="231" cy="142" r="12.5" fill="#2B2B30"/><circle cx="265" cy="142" r="12.5" fill="#2B2B30"/><text x="94" y="238" font-family='"Aspekta", "Helvetica Neue", Helvetica, Arial, sans-serif' font-size="62" font-weight="300" fill="#FFFFFF">9</text><text x="142" y="218" font-family='"Aspekta", "Helvetica Neue", Helvetica, Arial, sans-serif' font-size="20" font-weight="300" fill="#FFFFFF">hours the firm</text><text x="142" y="244"  font-family='"Aspekta", "Helvetica Neue", Helvetica, Arial, sans-serif' font-size="20" font-weight="300" fill="#FFFFFF">is open</text></svg><svg class="ctx-art" viewBox="0 0 360 270" role="img" aria-label="Twenty-four dots for the hours of a day; Gideon covers all of them" focusable="false"><circle cx="95" cy="40" r="12.5" fill="#004FFF"/><circle cx="129" cy="40" r="12.5" fill="#004FFF"/><circle cx="163" cy="40" r="12.5" fill="#004FFF"/><circle cx="197" cy="40" r="12.5" fill="#004FFF"/><circle cx="231" cy="40" r="12.5" fill="#004FFF"/><circle cx="265" cy="40" r="12.5" fill="#004FFF"/><circle cx="95" cy="74" r="12.5" fill="#004FFF"/><circle cx="129" cy="74" r="12.5" fill="#004FFF"/><circle cx="163" cy="74" r="12.5" fill="#004FFF"/><circle cx="197" cy="74" r="12.5" fill="#004FFF"/><circle cx="231" cy="74" r="12.5" fill="#004FFF"/><circle cx="265" cy="74" r="12.5" fill="#004FFF"/><circle cx="95" cy="108" r="12.5" fill="#004FFF"/><circle cx="129" cy="108" r="12.5" fill="#004FFF"/><circle cx="163" cy="108" r="12.5" fill="#004FFF"/><circle cx="197" cy="108" r="12.5" fill="#004FFF"/><circle cx="231" cy="108" r="12.5" fill="#004FFF"/><circle cx="265" cy="108" r="12.5" fill="#004FFF"/><circle cx="95" cy="142" r="12.5" fill="#004FFF"/><circle cx="129" cy="142" r="12.5" fill="#004FFF"/><circle cx="163" cy="142" r="12.5" fill="#004FFF"/><circle cx="197" cy="142" r="12.5" fill="#004FFF"/><circle cx="231" cy="142" r="12.5" fill="#004FFF"/><circle cx="265" cy="142" r="12.5" fill="#004FFF"/><text x="79" y="238" font-family='"Aspekta", "Helvetica Neue", Helvetica, Arial, sans-serif' font-size="62" font-weight="300" fill="#004FFF">24</text><text x="163" y="218" font-family='"Aspekta", "Helvetica Neue", Helvetica, Arial, sans-serif' font-size="20" font-weight="300" fill="#FFFFFF">hours Gideon</text><text x="163" y="244"  font-family='"Aspekta", "Helvetica Neue", Helvetica, Arial, sans-serif' font-size="20" font-weight="300" fill="#FFFFFF">answers</text></svg></div>
         <div class="dial">
           <div class="dial-col">
-            <div class="dial-art"><svg class="dial-svg" viewBox="-16 -16 272 272" aria-hidden="true"><circle class="dial-track" cx="120" cy="120" r="90"/><path class="dial-open" d="M183.6 183.6 A90 90 0 0 1 30.0 120.0"/><text class="dial-mid" x="120" y="110">The Firm Is Open</text><text class="dial-mid is-b" x="120" y="140">9 – 6</text><g class="dial-ticks"><text x="120.0" y="9.0">12am</text><text x="234.0" y="123.0">6am</text><text x="120.0" y="237.0">12pm</text><text x="6.0" y="123.0">6pm</text></g></svg></div>
             <h3>The Problem</h3>
             <p class="dial-t">Injured people call law firms at night and hit voicemail. The ones who do sign up miss doctor’s visits, which weakens their case.</p>
           </div>
           <div class="dial-col">
-            <div class="dial-art"><svg class="dial-svg is-full" viewBox="-16 -16 272 272" aria-hidden="true"><circle class="dial-track" cx="120" cy="120" r="90"/><circle class="dial-open" cx="120" cy="120" r="90"/><text class="dial-mid" x="120" y="110">Gideon Is Open</text><text class="dial-mid is-b" x="120" y="140">All Day, All Night</text><g class="dial-ticks"><text x="120.0" y="9.0">12am</text><text x="234.0" y="123.0">6am</text><text x="120.0" y="237.0">12pm</text><text x="6.0" y="123.0">6pm</text></g></svg></div>
             <h3>What Gideon Does</h3>
             <p class="dial-t">An AI receptionist that answers every call, keeps each client’s treatment on track, and holds the whole case in one CRM.</p>
           </div>
@@ -3644,15 +3753,15 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       <h3 class="h-30" id="cs-know">What I Knew, and What I Didn’t</h3>
       <div class="st"><div class="kn">
         <div class="kn-card">
-          <h3>What I Was Working From</h3>
+          <h3>What I Had</h3>
           <p>I sat in on the calls our CEO had with law firms, and listened back to Gideon’s own recorded calls, so I knew how a case sounds before it reaches a screen.</p>
         </div>
         <div class="kn-card">
-          <h3>What I Was Missing</h3>
+          <h3>What Was Missing</h3>
           <p>No coordinator was using Gideon yet, so I never watched a real one work. Marcus and Daniela came out of those calls, not out of interviews.</p>
         </div>
         <div class="kn-card is-me">
-          <h3>How I Covered the Gap</h3>
+          <h3>The Workaround</h3>
           <p>I designed from the calls, checked every crowded screen against both personas, and shipped in small pieces so our first firm could correct me.</p>
         </div>
       </div></div>
@@ -3895,7 +4004,7 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
   <section aria-labelledby="cs-demo">
     <div class="in">
       <div class="cs-demo">
-        <h2 class="h-56" id="cs-demo"><span class="sec-n">4.</span>The Flow, End to End</h2>
+        <h2 class="h-56" id="cs-demo"><span class="sec-n">4.</span>The Flow</h2>
         <div class="gb-browser">
           <div class="gb-bar"><span class="gb-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="gb-name">Gideon · Appointments</span></div>
           <div class="gb-screen"><video id="fd-vid" src="assets/gd/flow-demo.mp4" poster="assets/gd/flow-demo-poster.jpg" width="1920" height="1078" autoplay muted loop playsinline preload="metadata" data-audio="false" aria-label="The appointment flow: the list, a new appointment, a logged visit, and an appointment partway through its confirmation calls"></video></div>
@@ -4185,50 +4294,92 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
         <div class="sp-18"></div>
         <p class="t-20 copy st-open">Neither list said where its work stood or what to do next, and Appointments sat under Tasks even though coordinators open them first and most often. I gave Appointments a tab of its own in Treatment, and made every item in both lists show its state with the next action beside it.</p>
         <div class="sp-18"></div>        <div class="sp-48"></div>
-          <figure class="ba-card is-wide" id="p2-tasks">
+          <figure class="ba-card is-wide tk" id="p2-tasks">
             <figcaption class="ba-head">
               <h4>Tasks</h4>
             </figcaption>
             <p class="jb-lead">The tabs stayed as they are, because that is what the pipeline has. What I changed is what each one is for: a coordinator is only ever deciding something, watching something run, or reviewing what happened, and each tab now takes the shape its job needs.</p>
-            <div class="jb">
-              <span class="jb-h"></span>
-              <span class="jb-h">Before</span>
-              <span class="jb-h">After</span>
 
-              <div class="jb-group is-first">
-                <h5 class="jb-name">Decide</h5>
-                <p class="jb-why">Nothing here can move without a person, so I put the whole decision on the row.</p>
+            <div class="tk-all" data-tk-all>
+              <div class="tk-all-head">
+                <h5 class="tk-h">All 5 Tabs</h5>
               </div>
-
-              <span class="jb-tab">Needs Approval</span>
-              <div class="jb-cell"><b>Before</b><div class="crp" style="--x:26.5;--w:49.75;--y:27.2277;--h:32.8383;--ar:1194/398"><img src="assets/gd/screens/tasks-before-approval.jpg" alt="Needs Approval before: each task boxed inside its client, titled with code like email · demand_cover" loading="lazy"></div></div>
-              <div class="jb-cell"><b>After</b><div class="crp" style="--x:18.9167;--w:78.7917;--y:16.6667;--h:42;--ar:1891/630"><img src="assets/gd/screens/tasks-after-approval.jpg" alt="Needs Approval after: a row per task, the client first, a plain sentence and Approve" loading="lazy"></div></div>
-
-              <div class="jb-group">
-                <h5 class="jb-name">Watch</h5>
-                <p class="jb-why">Nothing here needs deciding, only a glance, so each row says what is happening and when.</p>
-              </div>
-
-              <span class="jb-tab">Scheduled</span>
-              <div class="jb-cell"><b>Before</b><div class="crp" style="--x:19.4167;--w:64.6667;--y:14.0741;--h:38.2963;--ar:1552/517"><img src="assets/gd/screens/tasks-before-scheduled.jpg" alt="Scheduled before: every row titled (body renders at send), with the run time repeated" loading="lazy"></div></div>
-              <div class="jb-cell"><b>After</b><div class="crp" style="--x:18.9167;--w:78.7917;--y:16.6667;--h:42;--ar:1891/630"><img src="assets/gd/screens/tasks-after-scheduled.jpg" alt="Scheduled after: the same row, with a tag for when it runs and Cancel or Run now" loading="lazy"></div></div>
-
-              <span class="jb-tab">Ongoing</span>
-              <div class="jb-cell"><b>Before</b><div class="crp" style="--x:19.4167;--w:64.6667;--y:15.4185;--h:37.9589;--ar:1552/517"><img src="assets/gd/screens/tasks-before-ongoing.jpg" alt="Ongoing before: an empty state sitting above a separate list of every task" loading="lazy"></div></div>
-              <div class="jb-cell"><b>After</b><div class="crp" style="--x:18.9167;--w:78.7917;--y:16.6667;--h:42;--ar:1891/630"><img src="assets/gd/screens/tasks-after-ongoing.jpg" alt="Ongoing after: the same row, with a tag for how long the call or agent has been running" loading="lazy"></div></div>
-
-              <div class="jb-group">
-                <h5 class="jb-name">Review</h5>
-                <p class="jb-why">Nothing here gets acted on, it gets scanned, so Completed became a table and Failed says why.</p>
-              </div>
-
-              <span class="jb-tab">Completed</span>
-              <div class="jb-cell"><b>Before</b><div class="crp" style="--x:19.4167;--w:64.6667;--y:15.1694;--h:38.0707;--ar:1552/517"><img src="assets/gd/screens/tasks-before-completed.jpg" alt="Completed before: code titles and raw phone numbers, tagged Executed, Declined or Cancelled" loading="lazy"></div></div>
-              <div class="jb-cell"><b>After</b><div class="crp" style="--x:18.9167;--w:78.7917;--y:16.6667;--h:42;--ar:1891/630"><img src="assets/gd/screens/tasks-after-completed.jpg" alt="Completed after: the same fields as a table, with client, task, who completed it, date, result and outcome in columns" loading="lazy"></div></div>
-
-              <span class="jb-tab">Failed</span>
-              <div class="jb-cell"><b>Before</b><div class="crp" style="--x:19.4167;--w:64.6667;--y:15.1694;--h:38.0707;--ar:1552/517"><img src="assets/gd/screens/tasks-before-failed.jpg" alt="Failed before: code titles with the reason it failed on a line of its own" loading="lazy"></div></div>
-              <div class="jb-cell"><b>After</b><div class="crp" style="--x:18.9167;--w:78.7917;--y:16.6667;--h:42;--ar:1891/630"><img src="assets/gd/screens/tasks-after-failed.jpg" alt="Failed after: the same row, with the reason it failed as a red tag and Retry" loading="lazy"></div></div>
+              <ul class="tk-grid">
+                <li class="tk-cell" data-tk-cell>
+                  <div class="tk-cell-head">
+                    <b>Needs Approval</b><span class="tk-job is-decide">Decide</span>
+                    <span class="tk-sw" role="group" aria-label="Needs Approval, before and after">
+                      <button type="button" data-w="a" aria-pressed="false">Before</button>
+                      <button type="button" data-w="b" aria-pressed="true">After</button>
+                    </span>
+                  </div>
+                  <div class="tk-stage">
+                    <div class="tk-slot" data-w="a"><img src="assets/gd/screens/tasks-before-approval.jpg" alt="Needs Approval before: every task boxed inside its client, titled with code like email · demand_cover" loading="lazy"></div>
+                    <div class="tk-slot is-on" data-w="b"><img src="assets/gd/screens/tasks-after-approval.jpg" alt="Needs Approval after: a row per task, the client first, a plain sentence and Approve" loading="lazy"></div>
+                  </div>
+                </li>
+                <li class="tk-cell" data-tk-cell>
+                  <div class="tk-cell-head">
+                    <b>Scheduled</b><span class="tk-job is-watch">Watch</span>
+                    <span class="tk-sw" role="group" aria-label="Scheduled, before and after">
+                      <button type="button" data-w="a" aria-pressed="false">Before</button>
+                      <button type="button" data-w="b" aria-pressed="true">After</button>
+                    </span>
+                  </div>
+                  <div class="tk-stage">
+                    <div class="tk-slot" data-w="a"><img src="assets/gd/screens/tasks-before-scheduled.jpg" alt="Scheduled before: every row titled (body renders at send), with the run time repeated" loading="lazy"></div>
+                    <div class="tk-slot is-on" data-w="b"><img src="assets/gd/screens/tasks-after-scheduled.jpg" alt="Scheduled after: the same row, with a tag for when it runs and Cancel or Run now" loading="lazy"></div>
+                  </div>
+                </li>
+                <li class="tk-cell" data-tk-cell>
+                  <div class="tk-cell-head">
+                    <b>Ongoing</b><span class="tk-job is-watch">Watch</span>
+                    <span class="tk-sw" role="group" aria-label="Ongoing, before and after">
+                      <button type="button" data-w="a" aria-pressed="false">Before</button>
+                      <button type="button" data-w="b" aria-pressed="true">After</button>
+                    </span>
+                  </div>
+                  <div class="tk-stage">
+                    <div class="tk-slot" data-w="a"><img src="assets/gd/screens/tasks-before-ongoing.jpg" alt="Ongoing before: an empty state sitting above a separate list of every task" loading="lazy"></div>
+                    <div class="tk-slot is-on" data-w="b"><img src="assets/gd/screens/tasks-after-ongoing.jpg" alt="Ongoing after: the same row, with a tag for how long the call or agent has been running" loading="lazy"></div>
+                  </div>
+                </li>
+                <li class="tk-cell" data-tk-cell>
+                  <div class="tk-cell-head">
+                    <b>Completed</b><span class="tk-job is-review">Review</span>
+                    <span class="tk-sw" role="group" aria-label="Completed, before and after">
+                      <button type="button" data-w="a" aria-pressed="false">Before</button>
+                      <button type="button" data-w="b" aria-pressed="true">After</button>
+                    </span>
+                  </div>
+                  <div class="tk-stage">
+                    <div class="tk-slot" data-w="a"><img src="assets/gd/screens/tasks-before-completed.jpg" alt="Completed before: code titles and raw phone numbers, tagged Executed, Declined or Cancelled" loading="lazy"></div>
+                    <div class="tk-slot is-on" data-w="b"><img src="assets/gd/screens/tasks-after-completed.jpg" alt="Completed after: the same fields as a table, with client, task, who completed it, date, result and outcome in columns" loading="lazy"></div>
+                  </div>
+                </li>
+                <li class="tk-cell" data-tk-cell>
+                  <div class="tk-cell-head">
+                    <b>Failed</b><span class="tk-job is-review">Review</span>
+                    <span class="tk-sw" role="group" aria-label="Failed, before and after">
+                      <button type="button" data-w="a" aria-pressed="false">Before</button>
+                      <button type="button" data-w="b" aria-pressed="true">After</button>
+                    </span>
+                  </div>
+                  <div class="tk-stage">
+                    <div class="tk-slot" data-w="a"><img src="assets/gd/screens/tasks-before-failed.jpg" alt="Failed before: code titles with the reason it failed on a line of its own" loading="lazy"></div>
+                    <div class="tk-slot is-on" data-w="b"><img src="assets/gd/screens/tasks-after-failed.jpg" alt="Failed after: the same row, with the reason it failed as a red tag and Retry" loading="lazy"></div>
+                  </div>
+                </li>
+                <li class="tk-note">
+                  <h6>What Structurally Changed</h6>
+                  <ul>
+                    <li>Every tab became one flat list. A task used to sit in a card, inside a client group, inside the tab.</li>
+                    <li>The client leads every card, so the list is scanned by name instead of by code.</li>
+                    <li>The next action sits on the card it belongs to, and everything rarer moved behind More options.</li>
+                    <li>Completed stopped being a list and became a table, because nobody acts on it, they read down it.</li>
+                  </ul>
+                </li>
+              </ul>
             </div>
           </figure>
         <div class="sp-56"></div>
@@ -4370,17 +4521,16 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
               <button type="button" class="cp-open" aria-label="Open Settlements full width"><img src="assets/gd/lead/final-settlements.jpg" alt="The final Client Profile, Settlements: 4 stages, each with an owner, file and note pills and a status you set" loading="lazy"></button>
               <span class="cp-lbl">Settlements</span>
             </div>
+            <ul class="cp-list" aria-label="What the redesign changed">
+              <li>Simplified the sections to only the important ones.</li>
+              <li>Overlapping stages were generalized.</li>
+              <li>A status on every task.</li>
+              <li>Call transcripts give each task its context.</li>
+              <li>Note and file counts on the task.</li>
+              <li>Complete a stage and move on in one step.</li>
+              <li>Global components, so one flow is learned once.</li>
+            </ul>
           </div>
-          <ul class="cp-list" aria-label="What the redesign changed">
-            <li>Overview, Preview, Activity and the seven other sections, down to the ones coordinators actually open</li>
-            <li>Intake and Onboarding as one screen, and one list of tasks instead of field groups opened one by one</li>
-            <li>A status on every task, so a coordinator sets where it stands instead of working through each step by hand</li>
-            <li>View Calls opens the AI’s transcripts on the task that made them</li>
-            <li>Pills on each task count its notes and files, so you know what is already there before you open it</li>
-            <li>One button at the bottom moves the whole stage on, with tasks still open</li>
-            <li>This client’s appointments read and edited from the profile, in the same modal used everywhere else</li>
-            <li>Settlements works the same way as Intake, so there is one pattern to learn rather than three</li>
-          </ul>
         </figure>
 
         
@@ -4463,41 +4613,51 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
   </section>
 
 
-  <section class="lg" aria-labelledby="cs-impact">
-    <div class="in">
-      <h2 class="h-56" id="cs-impact"><span class="sec-n">8.</span>Impact</h2>
-      <div class="sp-30"></div>
-      <ul class="im" aria-label="What shipped">
-        <li><b>Design system set</b>tokens, global and local components, on every screen I redesigned</li>
-        <li><b>Design foundations set</b>the information architecture, the user journey and the UX patterns the app follows</li>
-        <li><b>Major product flows simplified</b>first call to signed client, booking a visit, and the client profile</li>
-        <li><b>The 3 screens coordinators live in</b>rebuilt, and merged into the live app in code</li>
-        <li><b>One status model</b>one status that says where a visit stands and who acts next</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 09 · Reflection and the way out -->
+  <!-- 08 · Reflection: what shipped, and what it taught me -->
   <section class="lg st-thanks" aria-labelledby="cs-reflect">
     <div class="in">
-      <h2 class="h-56" id="cs-reflect"><span class="sec-n">9.</span>Reflection</h2>
+      <h2 class="h-56" id="cs-reflect"><span class="sec-n">8.</span>Reflection</h2>
       <div class="sp-30"></div>
-      <div class="copy"><p class="t-20">The redesign never met a real caseload, and 3 things would have to hold up first.</p></div>
-      <div class="sp-48"></div>
-      <ul class="tr" aria-label="What I would change">
-        <li class="tr-card">
-          <span class="tr-mark">Fewer statuses, less reason</span>
-          <p class="tr-d">A visit stalled by a quiet clinic now reads the same as one stalled by a quiet client. The reason only lives in the call notes, and it needs a line under Escalated.</p>
-        </li>
-        <li class="tr-card">
-          <span class="tr-mark">Moving on with tasks open</span>
-          <p class="tr-d">A case can reach Settlements with records still missing, and nothing warns anyone. It needs a check on the stage move that lists what is open, without blocking it.</p>
-        </li>
-        <li class="tr-card">
-          <span class="tr-mark">A calendar I couldn’t test</span>
-          <p class="tr-d">I only ever saw Month, Week and Day with a handful of visits. On a real firm’s week they will be too dense to read, and I never designed that state.</p>
-        </li>
-      </ul>
+      <div class="rf">
+        <div class="rf-top">
+          <h3 class="rf-h">What I Learned<br>and Built</h3>
+          <p class="rf-lead">I had two months on a product that already worked and was hard to read. This is what I changed, and what it taught me.</p>
+        </div>
+        <div class="rf-art">
+          <svg class="rf-svg" viewBox="0 0 1200 520" role="img" aria-labelledby="rf-alt">
+    <title id="rf-alt">Scattered noise on the left, a record reading it in the middle, and steady waves coming out on the right</title>
+    <defs>
+      <pattern id="rf-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="#FFF" stroke-width="1"/></pattern>
+      <clipPath id="rf-clip"><rect x="40" y="60" width="1120" height="400" rx="200"/></clipPath>
+    </defs>
+    <rect width="1200" height="520" fill="url(#rf-grid)" stroke="none" opacity=".07"/>
+    <rect class="rf-pill" x="40" y="60" width="1120" height="400" rx="200"/>
+    <rect width="1200" height="520" fill="url(#rf-grid)" clip-path="url(#rf-clip)" opacity=".10"/>
+    <g class="rf-noise" fill="#FFF"><rect x="207" y="277" width="9" height="9" transform="rotate(42 207 277)" opacity="0.55"/><rect x="264" y="158" width="6" height="6" transform="rotate(57 264 158)" opacity="0.44"/><rect x="99" y="224" width="4" height="4" transform="rotate(73 99 224)" opacity="0.78"/><rect x="91" y="346" width="10" height="10" transform="rotate(59 91 346)" opacity="0.79"/><rect x="113" y="165" width="19" height="1.4" transform="rotate(5 113 165)" opacity="0.75"/><rect x="135" y="159" width="6" height="6" transform="rotate(40 135 159)" opacity="0.7"/><rect x="235" y="302" width="6" height="6" transform="rotate(60 235 302)" opacity="0.5"/><rect x="146" y="372" width="10" height="10" transform="rotate(76 146 372)" opacity="0.68"/><rect x="157" y="197" width="5" height="5" transform="rotate(6 157 197)" opacity="0.66"/><rect x="187" y="350" width="6" height="6" transform="rotate(86 187 350)" opacity="0.59"/><rect x="88" y="209" width="10" height="10" transform="rotate(42 88 209)" opacity="0.8"/><rect x="186" y="149" width="19" height="1.4" transform="rotate(70 186 149)" opacity="0.6"/><rect x="98" y="229" width="27" height="2.0" transform="rotate(68 98 229)" opacity="0.78"/><rect x="136" y="174" width="10" height="1.2" transform="rotate(72 136 174)" opacity="0.7"/><rect x="252" y="243" width="11" height="1.2" transform="rotate(66 252 243)" opacity="0.47"/><rect x="290" y="135" width="14" height="1.2" transform="rotate(19 290 135)" opacity="0.39"/><rect x="154" y="349" width="5" height="5" transform="rotate(35 154 349)" opacity="0.66"/><rect x="290" y="130" width="23" height="1.7" transform="rotate(19 290 130)" opacity="0.39"/><rect x="354" y="204" width="11" height="1.2" transform="rotate(7 354 204)" opacity="0.27"/><rect x="262" y="177" width="7" height="7" transform="rotate(33 262 177)" opacity="0.45"/><rect x="259" y="378" width="4" height="4" transform="rotate(14 259 378)" opacity="0.45"/><rect x="378" y="179" width="4" height="4" transform="rotate(67 378 179)" opacity="0.23"/><rect x="122" y="352" width="9" height="9" transform="rotate(54 122 352)" opacity="0.73"/><rect x="101" y="174" width="10" height="10" transform="rotate(21 101 174)" opacity="0.77"/><rect x="139" y="331" width="20" height="1.5" transform="rotate(26 139 331)" opacity="0.69"/><rect x="328" y="120" width="4" height="4" transform="rotate(50 328 120)" opacity="0.32"/><rect x="277" y="189" width="22" height="1.6" transform="rotate(18 277 189)" opacity="0.42"/><rect x="143" y="248" width="4" height="4" transform="rotate(16 143 248)" opacity="0.69"/><rect x="258" y="142" width="5" height="5" transform="rotate(80 258 142)" opacity="0.46"/><rect x="297" y="322" width="17" height="1.2" transform="rotate(13 297 322)" opacity="0.38"/><rect x="89" y="332" width="23" height="1.7" transform="rotate(87 89 332)" opacity="0.8"/><rect x="287" y="254" width="7" height="7" transform="rotate(29 287 254)" opacity="0.4"/><rect x="96" y="268" width="9" height="9" transform="rotate(81 96 268)" opacity="0.78"/><rect x="319" y="355" width="8" height="8" transform="rotate(32 319 355)" opacity="0.34"/><rect x="423" y="381" width="4" height="4" transform="rotate(71 423 381)" opacity="0.16"/><rect x="258" y="300" width="5" height="5" transform="rotate(52 258 300)" opacity="0.45"/><rect x="97" y="285" width="10" height="10" transform="rotate(79 97 285)" opacity="0.78"/><rect x="183" y="320" width="7" height="7" transform="rotate(40 183 320)" opacity="0.6"/><rect x="98" y="306" width="4" height="4" transform="rotate(54 98 306)" opacity="0.78"/><rect x="131" y="302" width="7" height="7" transform="rotate(55 131 302)" opacity="0.71"/><rect x="139" y="153" width="14" height="1.2" transform="rotate(61 139 153)" opacity="0.69"/><rect x="115" y="341" width="8" height="8" transform="rotate(40 115 341)" opacity="0.74"/><rect x="161" y="299" width="5" height="5" transform="rotate(39 161 299)" opacity="0.65"/><rect x="431" y="384" width="12" height="1.2" transform="rotate(52 431 384)" opacity="0.15"/><rect x="108" y="259" width="9" height="9" transform="rotate(76 108 259)" opacity="0.76"/><rect x="115" y="250" width="5" height="5" transform="rotate(19 115 250)" opacity="0.74"/><rect x="282" y="258" width="5" height="5" transform="rotate(76 282 258)" opacity="0.41"/><rect x="207" y="142" width="9" height="1.2" transform="rotate(79 207 142)" opacity="0.55"/><rect x="322" y="283" width="12" height="1.2" transform="rotate(71 322 283)" opacity="0.33"/><rect x="108" y="251" width="10" height="1.2" transform="rotate(75 108 251)" opacity="0.76"/><rect x="109" y="173" width="8" height="8" transform="rotate(40 109 173)" opacity="0.76"/><rect x="296" y="360" width="22" height="1.7" transform="rotate(62 296 360)" opacity="0.38"/><rect x="216" y="168" width="3" height="3" transform="rotate(42 216 168)" opacity="0.54"/><rect x="118" y="214" width="6" height="6" transform="rotate(63 118 214)" opacity="0.74"/><rect x="277" y="343" width="5" height="5" transform="rotate(71 277 343)" opacity="0.42"/><rect x="98" y="339" width="8" height="8" transform="rotate(12 98 339)" opacity="0.78"/><rect x="282" y="393" width="5" height="5" transform="rotate(51 282 393)" opacity="0.41"/><rect x="367" y="404" width="14" height="1.2" transform="rotate(59 367 404)" opacity="0.25"/><rect x="328" y="363" width="17" height="1.3" transform="rotate(65 328 363)" opacity="0.32"/><rect x="423" y="416" width="7" height="7" transform="rotate(48 423 416)" opacity="0.16"/><rect x="159" y="357" width="24" height="1.8" transform="rotate(31 159 357)" opacity="0.65"/><rect x="203" y="274" width="22" height="1.6" transform="rotate(44 203 274)" opacity="0.56"/><rect x="373" y="118" width="18" height="1.4" transform="rotate(16 373 118)" opacity="0.24"/><rect x="362" y="143" width="3" height="3" transform="rotate(46 362 143)" opacity="0.26"/><rect x="390" y="322" width="7" height="7" transform="rotate(44 390 322)" opacity="0.21"/><rect x="98" y="209" width="7" height="7" transform="rotate(26 98 209)" opacity="0.78"/><rect x="288" y="267" width="21" height="1.5" transform="rotate(50 288 267)" opacity="0.4"/><rect x="180" y="348" width="9" height="9" transform="rotate(19 180 348)" opacity="0.61"/><rect x="258" y="164" width="6" height="6" transform="rotate(45 258 164)" opacity="0.45"/><rect x="90" y="343" width="7" height="7" transform="rotate(36 90 343)" opacity="0.8"/><rect x="254" y="257" width="7" height="7" transform="rotate(6 254 257)" opacity="0.46"/><rect x="192" y="381" width="9" height="9" transform="rotate(24 192 381)" opacity="0.58"/><rect x="106" y="247" width="9" height="9" transform="rotate(81 106 247)" opacity="0.76"/><rect x="158" y="187" width="20" height="1.5" transform="rotate(83 158 187)" opacity="0.65"/><rect x="358" y="105" width="4" height="4" transform="rotate(20 358 105)" opacity="0.27"/><rect x="160" y="226" width="7" height="7" transform="rotate(9 160 226)" opacity="0.65"/><rect x="105" y="262" width="5" height="5" transform="rotate(18 105 262)" opacity="0.76"/><rect x="201" y="226" width="16" height="1.2" transform="rotate(48 201 226)" opacity="0.57"/><rect x="124" y="287" width="8" height="8" transform="rotate(48 124 287)" opacity="0.72"/><rect x="276" y="376" width="4" height="4" transform="rotate(67 276 376)" opacity="0.42"/><rect x="424" y="200" width="11" height="1.2" transform="rotate(83 424 200)" opacity="0.16"/><rect x="479" y="386" width="3" height="3" transform="rotate(22 479 386)" opacity="0.08"/><rect x="140" y="172" width="9" height="9" transform="rotate(38 140 172)" opacity="0.69"/><rect x="106" y="242" width="22" height="1.6" transform="rotate(2 106 242)" opacity="0.76"/><rect x="309" y="394" width="8" height="8" transform="rotate(10 309 394)" opacity="0.36"/><rect x="347" y="261" width="17" height="1.3" transform="rotate(17 347 261)" opacity="0.29"/><rect x="102" y="174" width="7" height="7" transform="rotate(46 102 174)" opacity="0.77"/><rect x="110" y="199" width="5" height="5" transform="rotate(76 110 199)" opacity="0.75"/><rect x="438" y="128" width="3" height="3" transform="rotate(86 438 128)" opacity="0.14"/><rect x="350" y="204" width="5" height="5" transform="rotate(46 350 204)" opacity="0.28"/><rect x="271" y="102" width="19" height="1.4" transform="rotate(76 271 102)" opacity="0.43"/><rect x="208" y="326" width="15" height="1.2" transform="rotate(18 208 326)" opacity="0.55"/><rect x="232" y="115" width="8" height="8" transform="rotate(72 232 115)" opacity="0.51"/><rect x="401" y="302" width="5" height="5" transform="rotate(54 401 302)" opacity="0.19"/><rect x="139" y="350" width="8" height="8" transform="rotate(70 139 350)" opacity="0.69"/><rect x="189" y="364" width="9" height="9" transform="rotate(63 189 364)" opacity="0.59"/><rect x="350" y="229" width="18" height="1.3" transform="rotate(6 350 229)" opacity="0.28"/><rect x="214" y="122" width="5" height="5" transform="rotate(57 214 122)" opacity="0.54"/><rect x="132" y="355" width="8" height="8" transform="rotate(30 132 355)" opacity="0.71"/><rect x="257" y="271" width="5" height="5" transform="rotate(90 257 271)" opacity="0.46"/><rect x="318" y="345" width="8" height="8" transform="rotate(2 318 345)" opacity="0.34"/><rect x="337" y="181" width="13" height="1.2" transform="rotate(5 337 181)" opacity="0.31"/><rect x="178" y="159" width="5" height="5" transform="rotate(82 178 159)" opacity="0.61"/><rect x="230" y="399" width="7" height="7" transform="rotate(90 230 399)" opacity="0.51"/><rect x="374" y="122" width="15" height="1.2" transform="rotate(68 374 122)" opacity="0.24"/><rect x="440" y="149" width="5" height="5" transform="rotate(15 440 149)" opacity="0.13"/><rect x="275" y="117" width="8" height="8" transform="rotate(38 275 117)" opacity="0.42"/><rect x="269" y="216" width="5" height="5" transform="rotate(59 269 216)" opacity="0.43"/><rect x="147" y="309" width="14" height="1.2" transform="rotate(1 147 309)" opacity="0.68"/><rect x="91" y="199" width="9" height="9" transform="rotate(35 91 199)" opacity="0.79"/><rect x="342" y="114" width="22" height="1.6" transform="rotate(85 342 114)" opacity="0.3"/><rect x="426" y="237" width="13" height="1.2" transform="rotate(88 426 237)" opacity="0.15"/><rect x="236" y="392" width="7" height="7" transform="rotate(42 236 392)" opacity="0.5"/><rect x="377" y="294" width="3" height="3" transform="rotate(56 377 294)" opacity="0.23"/><rect x="124" y="168" width="7" height="7" transform="rotate(11 124 168)" opacity="0.72"/><rect x="302" y="246" width="4" height="4" transform="rotate(52 302 246)" opacity="0.37"/><rect x="357" y="270" width="8" height="8" transform="rotate(86 357 270)" opacity="0.27"/><rect x="134" y="177" width="9" height="9" transform="rotate(71 134 177)" opacity="0.7"/><rect x="172" y="203" width="8" height="8" transform="rotate(51 172 203)" opacity="0.62"/><rect x="285" y="342" width="4" height="4" transform="rotate(22 285 342)" opacity="0.4"/><rect x="432" y="383" width="7" height="1.2" transform="rotate(5 432 383)" opacity="0.15"/><rect x="197" y="293" width="10" height="1.2" transform="rotate(49 197 293)" opacity="0.58"/><rect x="98" y="292" width="7" height="7" transform="rotate(57 98 292)" opacity="0.78"/><rect x="218" y="177" width="5" height="5" transform="rotate(67 218 177)" opacity="0.53"/><rect x="96" y="191" width="9" height="9" transform="rotate(56 96 191)" opacity="0.78"/><rect x="127" y="244" width="5" height="5" transform="rotate(73 127 244)" opacity="0.72"/><rect x="295" y="419" width="5" height="5" transform="rotate(49 295 419)" opacity="0.38"/><rect x="176" y="159" width="24" height="1.8" transform="rotate(7 176 159)" opacity="0.62"/><rect x="254" y="255" width="7" height="7" transform="rotate(27 254 255)" opacity="0.46"/><rect x="96" y="208" width="22" height="1.6" transform="rotate(7 96 208)" opacity="0.78"/><rect x="330" y="323" width="12" height="1.2" transform="rotate(13 330 323)" opacity="0.32"/><rect x="330" y="217" width="3" height="3" transform="rotate(64 330 217)" opacity="0.32"/><rect x="433" y="403" width="7" height="7" transform="rotate(39 433 403)" opacity="0.14"/><rect x="154" y="218" width="6" height="6" transform="rotate(84 154 218)" opacity="0.66"/><rect x="137" y="230" width="6" height="6" transform="rotate(33 137 230)" opacity="0.7"/><rect x="183" y="182" width="7" height="7" transform="rotate(72 183 182)" opacity="0.6"/><rect x="388" y="280" width="3" height="3" transform="rotate(68 388 280)" opacity="0.22"/><rect x="147" y="152" width="7" height="7" transform="rotate(49 147 152)" opacity="0.68"/><rect x="371" y="118" width="15" height="1.2" transform="rotate(71 371 118)" opacity="0.25"/><rect x="97" y="303" width="10" height="10" transform="rotate(8 97 303)" opacity="0.78"/><rect x="109" y="308" width="21" height="1.6" transform="rotate(22 109 308)" opacity="0.76"/><rect x="350" y="267" width="18" height="1.4" transform="rotate(35 350 267)" opacity="0.28"/><rect x="224" y="271" width="8" height="8" transform="rotate(64 224 271)" opacity="0.52"/><rect x="191" y="346" width="7" height="7" transform="rotate(77 191 346)" opacity="0.59"/><rect x="386" y="386" width="7" height="7" transform="rotate(58 386 386)" opacity="0.22"/><rect x="323" y="358" width="14" height="1.2" transform="rotate(38 323 358)" opacity="0.33"/><rect x="338" y="420" width="13" height="1.2" transform="rotate(15 338 420)" opacity="0.3"/><rect x="197" y="204" width="25" height="1.9" transform="rotate(5 197 204)" opacity="0.58"/><rect x="103" y="288" width="24" height="1.8" transform="rotate(16 103 288)" opacity="0.77"/><rect x="210" y="283" width="24" height="1.8" transform="rotate(3 210 283)" opacity="0.55"/><rect x="119" y="203" width="5" height="5" transform="rotate(65 119 203)" opacity="0.73"/><rect x="130" y="194" width="5" height="5" transform="rotate(16 130 194)" opacity="0.71"/><rect x="156" y="271" width="23" height="1.7" transform="rotate(43 156 271)" opacity="0.66"/><rect x="416" y="395" width="4" height="4" transform="rotate(49 416 395)" opacity="0.17"/><rect x="219" y="180" width="3" height="3" transform="rotate(85 219 180)" opacity="0.53"/><rect x="182" y="267" width="7" height="7" transform="rotate(25 182 267)" opacity="0.61"/><rect x="297" y="175" width="3" height="3" transform="rotate(43 297 175)" opacity="0.38"/><rect x="367" y="329" width="16" height="1.2" transform="rotate(14 367 329)" opacity="0.25"/><rect x="160" y="203" width="9" height="9" transform="rotate(46 160 203)" opacity="0.65"/><rect x="241" y="153" width="8" height="8" transform="rotate(0 241 153)" opacity="0.49"/><rect x="393" y="365" width="3" height="3" transform="rotate(24 393 365)" opacity="0.21"/><rect x="100" y="256" width="7" height="7" transform="rotate(86 100 256)" opacity="0.77"/><rect x="399" y="196" width="7" height="7" transform="rotate(38 399 196)" opacity="0.2"/><rect x="99" y="320" width="5" height="5" transform="rotate(49 99 320)" opacity="0.78"/><rect x="113" y="325" width="15" height="1.2" transform="rotate(28 113 325)" opacity="0.75"/><rect x="154" y="252" width="8" height="8" transform="rotate(32 154 252)" opacity="0.66"/><rect x="101" y="240" width="7" height="7" transform="rotate(87 101 240)" opacity="0.77"/><rect x="295" y="102" width="14" height="1.2" transform="rotate(64 295 102)" opacity="0.38"/><rect x="254" y="247" width="3" height="3" transform="rotate(89 254 247)" opacity="0.46"/><rect x="125" y="284" width="5" height="5" transform="rotate(34 125 284)" opacity="0.72"/><rect x="152" y="223" width="16" height="1.2" transform="rotate(60 152 223)" opacity="0.67"/><rect x="123" y="307" width="6" height="6" transform="rotate(85 123 307)" opacity="0.73"/><rect x="329" y="205" width="20" height="1.5" transform="rotate(8 329 205)" opacity="0.32"/><rect x="99" y="293" width="8" height="8" transform="rotate(16 99 293)" opacity="0.78"/><rect x="388" y="290" width="8" height="1.2" transform="rotate(20 388 290)" opacity="0.22"/><rect x="105" y="242" width="4" height="4" transform="rotate(83 105 242)" opacity="0.76"/><rect x="231" y="304" width="8" height="8" transform="rotate(74 231 304)" opacity="0.51"/><rect x="163" y="239" width="3" height="3" transform="rotate(36 163 239)" opacity="0.64"/><rect x="298" y="295" width="8" height="1.2" transform="rotate(30 298 295)" opacity="0.38"/><rect x="294" y="132" width="5" height="5" transform="rotate(46 294 132)" opacity="0.39"/><rect x="382" y="296" width="3" height="3" transform="rotate(69 382 296)" opacity="0.23"/><rect x="247" y="214" width="6" height="6" transform="rotate(13 247 214)" opacity="0.48"/><rect x="325" y="369" width="4" height="4" transform="rotate(85 325 369)" opacity="0.33"/><rect x="123" y="175" width="5" height="5" transform="rotate(52 123 175)" opacity="0.73"/><rect x="162" y="362" width="15" height="1.2" transform="rotate(42 162 362)" opacity="0.65"/><rect x="465" y="142" width="7" height="7" transform="rotate(49 465 142)" opacity="0.1"/><rect x="252" y="186" width="8" height="8" transform="rotate(89 252 186)" opacity="0.47"/><rect x="271" y="137" width="8" height="8" transform="rotate(26 271 137)" opacity="0.43"/><rect x="134" y="276" width="9" height="9" transform="rotate(17 134 276)" opacity="0.7"/><rect x="96" y="175" width="5" height="5" transform="rotate(89 96 175)" opacity="0.78"/><rect x="297" y="197" width="7" height="7" transform="rotate(66 297 197)" opacity="0.38"/><rect x="267" y="359" width="3" height="3" transform="rotate(18 267 359)" opacity="0.44"/><rect x="109" y="238" width="7" height="7" transform="rotate(16 109 238)" opacity="0.76"/><rect x="141" y="275" width="15" height="1.2" transform="rotate(58 141 275)" opacity="0.69"/><rect x="303" y="145" width="8" height="8" transform="rotate(54 303 145)" opacity="0.37"/><rect x="191" y="293" width="8" height="8" transform="rotate(68 191 293)" opacity="0.59"/><rect x="221" y="403" width="8" height="8" transform="rotate(77 221 403)" opacity="0.53"/><rect x="200" y="278" width="9" height="9" transform="rotate(47 200 278)" opacity="0.57"/><rect x="199" y="369" width="5" height="5" transform="rotate(5 199 369)" opacity="0.57"/><rect x="423" y="335" width="15" height="1.2" transform="rotate(68 423 335)" opacity="0.16"/><rect x="267" y="120" width="4" height="4" transform="rotate(40 267 120)" opacity="0.44"/><rect x="186" y="144" width="21" height="1.5" transform="rotate(47 186 144)" opacity="0.6"/><rect x="154" y="236" width="5" height="5" transform="rotate(6 154 236)" opacity="0.66"/><rect x="404" y="234" width="7" height="7" transform="rotate(20 404 234)" opacity="0.19"/><rect x="255" y="388" width="10" height="1.2" transform="rotate(71 255 388)" opacity="0.46"/></g>
+    <g fill="none" stroke="#FFF" stroke-width="2.4" stroke-linecap="round" stroke-opacity=".85"><path d="M752 260L758 270L764 280L770 288L776 297L782 304L789 310L795 314L801 317L807 319L813 320L819 318L825 316L831 312L837 307L844 301L850 293L856 286L862 277L868 269L874 260L880 251L886 243L892 236L898 229L904 223L911 218L917 214L923 211L929 210L935 209L941 211L947 213L953 216L959 221L966 226L972 232L978 238L984 245L990 253L996 260L1002 267L1008 274L1014 280L1020 286L1026 291L1033 295L1039 298L1045 300L1051 302L1057 302L1063 301L1069 299L1075 296L1081 292L1088 288L1094 283L1100 277L1106 272L1112 266L1118 260"/><path d="M752 301L758 298L764 294L770 290L776 286L782 281L789 276L795 271L801 266L807 260L813 255L819 250L825 245L831 240L837 236L844 232L850 228L856 225L862 223L868 221L874 219L880 218L886 218L892 218L898 219L904 220L911 222L917 224L923 227L929 230L935 233L941 237L947 241L953 245L959 250L966 254L972 259L978 263L984 267L990 272L996 276L1002 279L1008 283L1014 286L1020 288L1026 291L1033 293L1039 294L1045 295L1051 295L1057 295L1063 295L1069 294L1075 292L1081 291L1088 288L1094 286L1100 283L1106 280L1112 277L1118 273"/><path d="M752 234L758 230L764 228L770 227L776 227L782 229L789 232L795 237L801 242L807 248L813 254L819 261L825 267L831 273L837 278L844 282L850 286L856 288L862 289L868 288L874 287L880 284L886 280L892 276L898 270L904 265L911 259L917 254L923 249L929 245L935 241L941 238L947 236L953 236L959 236L966 238L972 240L978 243L984 247L990 251L996 256L1002 260L1008 265L1014 269L1020 273L1026 276L1033 278L1039 279L1045 280L1051 279L1057 278L1063 276L1069 274L1075 270L1081 267L1088 263L1094 260L1100 256L1106 253L1112 250L1118 248"/></g>
+    <circle class="rf-disc" cx="600" cy="260" r="162"/>
+    <g fill="none" stroke="#FFF" stroke-width="1" stroke-opacity=".13"><circle cx="600" cy="260" r="150"/><circle cx="600" cy="260" r="139"/><circle cx="600" cy="260" r="128"/><circle cx="600" cy="260" r="117"/><circle cx="600" cy="260" r="106"/><circle cx="600" cy="260" r="95"/><circle cx="600" cy="260" r="84"/><circle cx="600" cy="260" r="73"/><circle cx="600" cy="260" r="62"/></g>
+    <circle class="rf-core" cx="600" cy="260" r="36"/>
+    <g fill="none" stroke="#FFF" stroke-width="1.4" stroke-opacity=".4">
+      <path d="M14 46V14H46"/><path d="M1154 14H1186V46"/><path d="M1186 474V506H1154"/><path d="M46 506H14V474"/>
+    </g>
+  </svg>
+        </div>
+        <ul class="rf-notes" aria-label="What I learned and built">
+          <li>
+            <b>Design Foundations Set</b>
+            <p>I learned that I could not fix a screen while the thing around it was still wrong, so I redrew the information architecture first and every redesign after that came faster.</p>
+          </li>
+          <li>
+            <b>Design System Built</b>
+            <p>I built the tokens and components before I needed them, and by the third screen I was assembling parts I already trusted instead of drawing the same button again.</p>
+          </li>
+          <li>
+            <b>Building in Code</b>
+            <p>I learned to build my own screens in code with Claude Code and merge them into the app myself, so nothing got lost in the gap between a Figma file and the product.</p>
+          </li>
+        </ul>
+      </div>
       <div class="sp-56"></div>
       <p class="st-rule">Thank you for reading.</p>
       <div class="sp-36"></div>
@@ -4512,14 +4672,14 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       <a class="contact-box display" href="mailto:sharvilnaik17@gmail.com">Contact</a>
     </div>
     <ul class="ft-links">
-      <li><a class="ft-bar" style="--c: #1769FF; --t: #FFFFFF" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener"><span>Behance</span><span class="ft-meta">@sharvilnaik</span></a></li>
-      <li><a class="ft-bar" style="--c: #0A66C2; --t: #FFFFFF" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener"><span>LinkedIn</span><span class="ft-meta">Sharvil Naik</span></a></li>
-      <li><a class="ft-bar" style="--c: #1DA1F2; --t: #07121B" href="https://x.com/sharvil_naik" target="_blank" rel="noopener"><span>Twitter</span><span class="ft-meta">@sharvil_naik</span></a></li>
-      <li><a class="ft-bar" style="--c: #E4405F; --t: #1A0509" href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener"><span>Instagram</span><span class="ft-meta">@noiksarchives</span></a></li>
+      <li><a class="ft-bar" style="--c: #1769FF; --t: #FFFFFF" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener"><span>Behance</span><span class="ft-meta">Every project, in full</span></a></li>
+      <li><a class="ft-bar" style="--c: #0A66C2; --t: #FFFFFF" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener"><span>LinkedIn</span><span class="ft-meta">The formal version</span></a></li>
+      <li><a class="ft-bar" style="--c: #1DA1F2; --t: #07121B" href="https://x.com/sharvil_naik" target="_blank" rel="noopener"><span>Twitter</span><span class="ft-meta">Thinking out loud</span></a></li>
+      <li><a class="ft-bar" style="--c: #E4405F; --t: #1A0509" href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener"><span>Instagram</span><span class="ft-meta">Photos and sketches</span></a></li>
     </ul>
     <div class="ft-end">
       <p class="ft-quote">Made while listening to Tame Impala, Daft Punk and Led Zeppelin 🤙🏻</p>
-      <p class="copy">© 2026 SHARVIL NAIK</p>
+      <p class="copy">© 2026 Sharvil Naik</p>
     </div>
   </footer>
 </article>
@@ -4626,14 +4786,14 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       <a class="contact-box display" href="mailto:sharvilnaik17@gmail.com">Contact</a>
     </div>
     <ul class="ft-links">
-      <li><a class="ft-bar" style="--c: #1769FF; --t: #FFFFFF" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener"><span>Behance</span><span class="ft-meta">@sharvilnaik</span></a></li>
-      <li><a class="ft-bar" style="--c: #0A66C2; --t: #FFFFFF" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener"><span>LinkedIn</span><span class="ft-meta">Sharvil Naik</span></a></li>
-      <li><a class="ft-bar" style="--c: #1DA1F2; --t: #07121B" href="https://x.com/sharvil_naik" target="_blank" rel="noopener"><span>Twitter</span><span class="ft-meta">@sharvil_naik</span></a></li>
-      <li><a class="ft-bar" style="--c: #E4405F; --t: #1A0509" href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener"><span>Instagram</span><span class="ft-meta">@noiksarchives</span></a></li>
+      <li><a class="ft-bar" style="--c: #1769FF; --t: #FFFFFF" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener"><span>Behance</span><span class="ft-meta">Every project, in full</span></a></li>
+      <li><a class="ft-bar" style="--c: #0A66C2; --t: #FFFFFF" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener"><span>LinkedIn</span><span class="ft-meta">The formal version</span></a></li>
+      <li><a class="ft-bar" style="--c: #1DA1F2; --t: #07121B" href="https://x.com/sharvil_naik" target="_blank" rel="noopener"><span>Twitter</span><span class="ft-meta">Thinking out loud</span></a></li>
+      <li><a class="ft-bar" style="--c: #E4405F; --t: #1A0509" href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener"><span>Instagram</span><span class="ft-meta">Photos and sketches</span></a></li>
     </ul>
     <div class="ft-end">
       <p class="ft-quote">Made while listening to Tame Impala, Daft Punk and Led Zeppelin 🤙🏻</p>
-      <p class="copy">© 2026 SHARVIL NAIK</p>
+      <p class="copy">© 2026 Sharvil Naik</p>
     </div>
   </footer>
 </article>
@@ -4650,14 +4810,14 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
   </div>
   <footer class="footer">
     <ul class="ft-links">
-      <li><a class="ft-bar" style="--c: #1769FF; --t: #FFFFFF" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener"><span>Behance</span><span class="ft-meta">@sharvilnaik</span></a></li>
-      <li><a class="ft-bar" style="--c: #0A66C2; --t: #FFFFFF" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener"><span>LinkedIn</span><span class="ft-meta">Sharvil Naik</span></a></li>
-      <li><a class="ft-bar" style="--c: #1DA1F2; --t: #07121B" href="https://x.com/sharvil_naik" target="_blank" rel="noopener"><span>Twitter</span><span class="ft-meta">@sharvil_naik</span></a></li>
-      <li><a class="ft-bar" style="--c: #E4405F; --t: #1A0509" href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener"><span>Instagram</span><span class="ft-meta">@noiksarchives</span></a></li>
+      <li><a class="ft-bar" style="--c: #1769FF; --t: #FFFFFF" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener"><span>Behance</span><span class="ft-meta">Every project, in full</span></a></li>
+      <li><a class="ft-bar" style="--c: #0A66C2; --t: #FFFFFF" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener"><span>LinkedIn</span><span class="ft-meta">The formal version</span></a></li>
+      <li><a class="ft-bar" style="--c: #1DA1F2; --t: #07121B" href="https://x.com/sharvil_naik" target="_blank" rel="noopener"><span>Twitter</span><span class="ft-meta">Thinking out loud</span></a></li>
+      <li><a class="ft-bar" style="--c: #E4405F; --t: #1A0509" href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener"><span>Instagram</span><span class="ft-meta">Photos and sketches</span></a></li>
     </ul>
     <div class="ft-end">
       <p class="ft-quote">Made while listening to Tame Impala, Daft Punk and Led Zeppelin 🤙🏻</p>
-      <p class="copy">© 2026 SHARVIL NAIK</p>
+      <p class="copy">© 2026 Sharvil Naik</p>
     </div>
   </footer>
 </article>
@@ -4729,14 +4889,14 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       <a class="contact-box display" href="mailto:sharvilnaik17@gmail.com">Contact</a>
     </div>
     <ul class="ft-links">
-      <li><a class="ft-bar" style="--c: #1769FF; --t: #FFFFFF" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener"><span>Behance</span><span class="ft-meta">@sharvilnaik</span></a></li>
-      <li><a class="ft-bar" style="--c: #0A66C2; --t: #FFFFFF" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener"><span>LinkedIn</span><span class="ft-meta">Sharvil Naik</span></a></li>
-      <li><a class="ft-bar" style="--c: #1DA1F2; --t: #07121B" href="https://x.com/sharvil_naik" target="_blank" rel="noopener"><span>Twitter</span><span class="ft-meta">@sharvil_naik</span></a></li>
-      <li><a class="ft-bar" style="--c: #E4405F; --t: #1A0509" href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener"><span>Instagram</span><span class="ft-meta">@noiksarchives</span></a></li>
+      <li><a class="ft-bar" style="--c: #1769FF; --t: #FFFFFF" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener"><span>Behance</span><span class="ft-meta">Every project, in full</span></a></li>
+      <li><a class="ft-bar" style="--c: #0A66C2; --t: #FFFFFF" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener"><span>LinkedIn</span><span class="ft-meta">The formal version</span></a></li>
+      <li><a class="ft-bar" style="--c: #1DA1F2; --t: #07121B" href="https://x.com/sharvil_naik" target="_blank" rel="noopener"><span>Twitter</span><span class="ft-meta">Thinking out loud</span></a></li>
+      <li><a class="ft-bar" style="--c: #E4405F; --t: #1A0509" href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener"><span>Instagram</span><span class="ft-meta">Photos and sketches</span></a></li>
     </ul>
     <div class="ft-end">
       <p class="ft-quote">Made while listening to Tame Impala, Daft Punk and Led Zeppelin 🤙🏻</p>
-      <p class="copy">© 2026 SHARVIL NAIK</p>
+      <p class="copy">© 2026 Sharvil Naik</p>
     </div>
   </footer>
 </article>
@@ -4830,14 +4990,14 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       <a class="contact-box display" href="mailto:sharvilnaik17@gmail.com">Contact</a>
     </div>
     <ul class="ft-links">
-      <li><a class="ft-bar" style="--c: #1769FF; --t: #FFFFFF" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener"><span>Behance</span><span class="ft-meta">@sharvilnaik</span></a></li>
-      <li><a class="ft-bar" style="--c: #0A66C2; --t: #FFFFFF" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener"><span>LinkedIn</span><span class="ft-meta">Sharvil Naik</span></a></li>
-      <li><a class="ft-bar" style="--c: #1DA1F2; --t: #07121B" href="https://x.com/sharvil_naik" target="_blank" rel="noopener"><span>Twitter</span><span class="ft-meta">@sharvil_naik</span></a></li>
-      <li><a class="ft-bar" style="--c: #E4405F; --t: #1A0509" href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener"><span>Instagram</span><span class="ft-meta">@noiksarchives</span></a></li>
+      <li><a class="ft-bar" style="--c: #1769FF; --t: #FFFFFF" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener"><span>Behance</span><span class="ft-meta">Every project, in full</span></a></li>
+      <li><a class="ft-bar" style="--c: #0A66C2; --t: #FFFFFF" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener"><span>LinkedIn</span><span class="ft-meta">The formal version</span></a></li>
+      <li><a class="ft-bar" style="--c: #1DA1F2; --t: #07121B" href="https://x.com/sharvil_naik" target="_blank" rel="noopener"><span>Twitter</span><span class="ft-meta">Thinking out loud</span></a></li>
+      <li><a class="ft-bar" style="--c: #E4405F; --t: #1A0509" href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener"><span>Instagram</span><span class="ft-meta">Photos and sketches</span></a></li>
     </ul>
     <div class="ft-end">
       <p class="ft-quote">Made while listening to Tame Impala, Daft Punk and Led Zeppelin 🤙🏻</p>
-      <p class="copy">© 2026 SHARVIL NAIK</p>
+      <p class="copy">© 2026 Sharvil Naik</p>
     </div>
   </footer>
 </article>
@@ -4897,14 +5057,14 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       <a class="contact-box display" href="mailto:sharvilnaik17@gmail.com">Contact</a>
     </div>
     <ul class="ft-links">
-      <li><a class="ft-bar" style="--c: #1769FF; --t: #FFFFFF" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener"><span>Behance</span><span class="ft-meta">@sharvilnaik</span></a></li>
-      <li><a class="ft-bar" style="--c: #0A66C2; --t: #FFFFFF" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener"><span>LinkedIn</span><span class="ft-meta">Sharvil Naik</span></a></li>
-      <li><a class="ft-bar" style="--c: #1DA1F2; --t: #07121B" href="https://x.com/sharvil_naik" target="_blank" rel="noopener"><span>Twitter</span><span class="ft-meta">@sharvil_naik</span></a></li>
-      <li><a class="ft-bar" style="--c: #E4405F; --t: #1A0509" href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener"><span>Instagram</span><span class="ft-meta">@noiksarchives</span></a></li>
+      <li><a class="ft-bar" style="--c: #1769FF; --t: #FFFFFF" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener"><span>Behance</span><span class="ft-meta">Every project, in full</span></a></li>
+      <li><a class="ft-bar" style="--c: #0A66C2; --t: #FFFFFF" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener"><span>LinkedIn</span><span class="ft-meta">The formal version</span></a></li>
+      <li><a class="ft-bar" style="--c: #1DA1F2; --t: #07121B" href="https://x.com/sharvil_naik" target="_blank" rel="noopener"><span>Twitter</span><span class="ft-meta">Thinking out loud</span></a></li>
+      <li><a class="ft-bar" style="--c: #E4405F; --t: #1A0509" href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener"><span>Instagram</span><span class="ft-meta">Photos and sketches</span></a></li>
     </ul>
     <div class="ft-end">
       <p class="ft-quote">Made while listening to Tame Impala, Daft Punk and Led Zeppelin 🤙🏻</p>
-      <p class="copy">© 2026 SHARVIL NAIK</p>
+      <p class="copy">© 2026 Sharvil Naik</p>
     </div>
   </footer>
 </article>
@@ -5911,6 +6071,65 @@ body.view-gideon .cs-toc.is-end { opacity: 0; pointer-events: none; }
       window.addEventListener('hashchange', () => tip.classList.remove('is-on'));
     }
   }
+
+  /* ---- Tasks, every tab: the five screens turn over together every 3 seconds.
+         Clicking Before or After holds that one still, and it rejoins the clock a minute later. ---- */
+  (() => {
+    const all = document.querySelector('[data-tk-all]');
+    if (!all) return;
+    const cells = [...all.querySelectorAll('[data-tk-cell]')];
+    if (!cells.length) return;
+    const TURN = 3000, HOLD = 60000;
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const show = (cell, w) => {
+      cell.querySelectorAll('.tk-slot').forEach(sl => sl.classList.toggle('is-on', sl.dataset.w === w));
+      cell.querySelectorAll('.tk-sw button').forEach(bt => bt.setAttribute('aria-pressed', String(bt.dataset.w === w)));
+      cell.dataset.w = w;
+    };
+    cells.forEach(c => { c.dataset.w = 'b'; c.dataset.held = ''; c.timer = 0; });
+
+    const anyHeld = () => cells.some(c => c.dataset.held === '1');
+    const paintStatus = () => all.classList.toggle('is-held', anyHeld());
+
+    const hold = cell => {
+      cell.dataset.held = '1';
+      cell.classList.add('is-held');
+      clearTimeout(cell.timer);
+      cell.timer = setTimeout(() => {           // a minute later it rejoins the others
+        cell.dataset.held = '';
+        cell.classList.remove('is-held');
+        paintStatus();
+      }, HOLD);
+      paintStatus();
+    };
+
+    cells.forEach(cell => {
+      cell.querySelectorAll('.tk-sw button').forEach(bt => {
+        bt.addEventListener('click', () => { show(cell, bt.dataset.w); hold(cell); });
+      });
+    });
+
+    if (still) return;                          // no clock when motion is turned down; the buttons still work
+
+    let tick = 0, live = false, onScreen = false;
+    const turn = () => {
+      cells.forEach(c => { if (c.dataset.held !== '1') show(c, c.dataset.w === 'b' ? 'a' : 'b'); });
+    };
+    const vh = () => innerHeight || document.documentElement.clientHeight || 0;
+    const inView = () => { const h = vh(); if (!h) return true; const r = all.getBoundingClientRect(); return r.bottom > 0 && r.top < h; };
+    const sync = () => {                        // it only runs while it is on screen and the tab is open
+      if (!onScreen) onScreen = inView();       // the observer stays quiet while the tab is hidden, so check by hand too
+      const want = onScreen && !document.hidden;
+      if (want === live) return;
+      live = want;
+      if (want) tick = setInterval(turn, TURN);
+      else { clearInterval(tick); tick = 0; }
+    };
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; sync(); }, { threshold: 0 }).observe(all);
+    document.addEventListener('visibilitychange', sync);
+    sync();                                     // and start it now, rather than waiting for the observer's first call
+  })();
 
   // ---- The list under a screen: touch or hover a line and its number grows on the screen ----
   document.querySelectorAll('.mx').forEach(fig => {
