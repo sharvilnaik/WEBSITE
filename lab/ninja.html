@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ninja</title>
+<style>
+  @font-face { font-family:"Aspekta"; font-weight:300; font-display:swap; src:url("../fonts/Aspekta-300.woff2") format("woff2"); }
+  @font-face { font-family:"Aspekta"; font-weight:400; font-display:swap; src:url("../fonts/Aspekta-400.woff2") format("woff2"); }
+
+  /* the same tokens the home page hands the experiments, so this page is not a different world */
+  :root{
+    --ink:#000000;
+    --paper:#FFFFF7;
+    --paper-50:rgba(255,255,247,.5);
+    --font-grotesk:"Aspekta","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --display:var(--font-grotesk); --body:var(--font-grotesk); --mono:var(--font-grotesk);
+    --ease-out:cubic-bezier(.23,1,.32,1);
+    --tile:520px;                 /* wider than the home tile: this page is only the board */
+  }
+  *{box-sizing:border-box}
+  body{margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:48px 24px;
+       background:var(--ink); color:var(--paper); font:300 16px/1.5 var(--font-grotesk);
+       -webkit-font-smoothing:antialiased}
+  main{width:100%; max-width:var(--tile)}
+
+  /* lifted from the site so the experiment sits in exactly the box it was built for */
+  .lab-stage{position:relative; height:420px; border-radius:14px; overflow:hidden; background:#0D0D11;
+             box-shadow:inset 0 0 0 1px rgba(255,255,247,.07); touch-action:none;
+             user-select:none; -webkit-user-select:none; font-family:var(--font-grotesk)}
+  .lab-stage :is(button,input,textarea,select){font-family:var(--font-grotesk)}
+
+  .tools{display:flex; gap:10px; align-items:center; margin-top:18px}
+  .tools button{font:300 14px/1 var(--font-grotesk); color:var(--paper); background:transparent;
+                border:1px solid var(--paper-50); border-radius:50px; height:36px; padding:0 16px;
+                cursor:pointer; transition:border-color .2s ease, color .2s ease}
+  .tools button:hover{border-color:var(--paper)}
+  .tools button[aria-pressed="false"]{color:var(--paper-50)}
+  .tools button:focus-visible{outline:2px solid var(--paper); outline-offset:3px}
+
+  @media (max-width:640px){ body{padding:32px 20px} }
+</style>
+</head>
+<body>
+<main>
+  <div class="lab-stage x-ninja" id="stage"></div>
+  <div class="tools">
+    <button type="button" id="reset">Reset</button>
+    <button type="button" id="sound" aria-pressed="true">Sound on</button>
+  </div>
+</main>
+
+<script>
+  // the Fruit Ninja experiment slices these four, same as the home page does
+  window.NINJA_CARDS = [
+    { from: 'Praise da lord', col: '#ff5470', ini: 'P' },
+    { from: 'Break da Law', col: '#ffa63a', ini: 'B' },
+    { from: 'Take what’s mine', col: '#9ee34a', ini: 'T' },
+    { from: 'Take some more', col: '#b58cff', ini: 'T' }
+  ];
+  // the cleared board: what you finished, what it earned, and a way to start again
+  window.NINJA_EMPTY = { title: 'Tasks Completed', line: '+100 aura points', button: 'Add tasks', overlay: true };
+  // a full yellow board with normal cards on it, sized as they were on the home tile
+  window.NINJA_BG = '#FFD400';
+  window.NINJA_PLAIN = true;
+  window.NINJA_CARD_W = 312;
+  // once all four are cut, play the first five seconds of this clip
+  window.NINJA_CLEAR = { src: '../assets/audio/praise-the-lord.mp3', start: 0, seconds: 5 };
+</script>
+
+<script src="../assets/lab/registry.js"></script>
+<script src="../assets/lab/ninja.js"></script>
+<script>
+(function(){
+  'use strict';
+  // one experiment on its own page, mounted through the same contract lab.js uses on the home page
+  var ID = 'ninja';
+  var stage = document.getElementById('stage');
+  var list = window.EXPERIMENTS || [];
+  var x = null;
+  for (var i = 0; i < list.length; i++) if (list[i].id === ID) x = list[i];
+  if (!x){ stage.textContent = 'Nothing registered for ' + ID; return; }
+
+  document.title = x.name + ' · ' + x.source;
+
+  var api = null;
+  function mount(){ stage.innerHTML = ''; try { api = x.mount(stage) || null; } catch (e){ console.error(ID, e); } }
+  function unmount(){ if (api && api.destroy) api.destroy(); api = null; stage.innerHTML = ''; }
+  document.getElementById('reset').addEventListener('click', function(){ unmount(); mount(); });
+
+  var sfx = window.LAB_SFX, btn = document.getElementById('sound');
+  if (sfx && sfx.isOn){
+    var sync = function(on){
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.textContent = on ? 'Sound on' : 'Sound off';
+    };
+    sync(sfx.isOn());
+    if (sfx.onChange) sfx.onChange(sync);
+    btn.addEventListener('click', function(){ sfx.set(!sfx.isOn()); });
+  } else {
+    btn.parentNode.removeChild(btn);
+  }
+
+  mount();
+})();
+</script>
+</body>
+</html>

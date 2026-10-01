@@ -1,0 +1,1157 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>arc — Sharvil Naik</title>
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="description" content="arc keeps your images, videos, fonts, links, notes and voice ideas in one place, and helps you find them again. A case study by Sharvil Naik.">
+<!-- Website copy of VISUAL ARCHIVE/site/arc-case-study-short.html (dark only; built by to-website.py). The short version of arc-case-study.html. (The film-* clips come from arc's launch film; the page doesn't label them, by the owner's choice.) Pictures and the mi-* clips are real captures of arc (hero-2, board-2, accent and
+     mi-develop/peek/fly were taken 2026-09-30 in a throwaway copy of the current app, library = the "visual-archive" Pinterest pins).
+     The film-* clips are cut from arc's launch film (promo/renders/review3-1080p30.mp4, round 3); re-cut them from the final master when it lands. -->
+
+<style>
+@font-face { font-family: "Aspekta"; src: url("assets/fonts/Aspekta-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Aspekta"; src: url("assets/fonts/Aspekta-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Aspekta"; src: url("assets/fonts/Aspekta-650.woff2") format("woff2"); font-weight: 650; font-display: swap; }
+
+/* ── Tokens ───────────────────────────────────────────── */
+:root {
+  --bg: #ffffff;
+  --panel: #f2f2f2;
+  --card: #ffffff;
+  --text: rgba(0, 0, 0, 0.94);
+  --muted: rgba(0, 0, 0, 0.42);
+  --faint: rgba(0, 0, 0, 0.18);
+  --line: rgba(0, 0, 0, 0.08);
+  --hover: rgba(0, 0, 0, 0.03);
+  --glow: 58%;          /* how strong the stage gradients are */
+  --stage-base: #f4f3f1;
+  --orange: #fe4801;
+  --app: #0a0a0a;       /* the product is dark in both themes */
+
+  --col: 600px;
+  --wide: 900px;
+  --gap: 10px;
+  --r: 11px;
+  --pad: 25px;
+
+  /* One typeface, one weight, everywhere. Hierarchy comes from size and colour. */
+  --fw: 650;
+  --fs: 15.5px;
+  --ls: -0.02em;
+  --lh: 1.1;
+  --small: 11.5px;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #000000; --panel: #111111; --card: #1b1b1b;
+    --text: rgba(255, 255, 255, 0.93); --muted: rgba(255, 255, 255, 0.44);
+    --faint: rgba(255, 255, 255, 0.2); --line: rgba(255, 255, 255, 0.09);
+    --hover: rgba(255, 255, 255, 0.035);
+    --glow: 34%; --stage-base: #0e0e0e;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #000000; --panel: #111111; --card: #1b1b1b;
+  --text: rgba(255, 255, 255, 0.93); --muted: rgba(255, 255, 255, 0.44);
+  --faint: rgba(255, 255, 255, 0.2); --line: rgba(255, 255, 255, 0.09);
+  --hover: rgba(255, 255, 255, 0.035);
+  --glow: 34%; --stage-base: #0e0e0e;
+  color-scheme: dark;
+}
+
+/* ── Base ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scrollbar-gutter: stable; }
+html.lb-open { overflow: hidden; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: var(--fw) var(--fs)/var(--lh) "Aspekta", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  letter-spacing: var(--ls);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+p, h1, h2, h3, ul, figure, blockquote { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; letter-spacing: inherit; color: inherit; cursor: pointer; }
+img, video { display: block; max-width: 100%; }
+.m { color: var(--muted); }
+.s { font-size: var(--small); line-height: 1.25; letter-spacing: -0.01em; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+kbd {
+  font: var(--fw) 10.5px/1 "Aspekta", system-ui, sans-serif; letter-spacing: 0;
+  display: inline-block; padding: 3px 5px; border-radius: 5px; vertical-align: 1px;
+  background: var(--card); color: var(--text);
+  box-shadow: inset 0 -1px 0 var(--line), inset 0 0 0 1px var(--line);
+}
+
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 280ms; }
+
+/* ── Layout ───────────────────────────────────────────── */
+.col  { width: min(var(--col), 100% - 32px); margin-inline: auto; }
+.wide { width: min(var(--wide), 100% - 32px); margin-inline: auto; }
+main { padding: 92px 0 60px; }
+section { margin-top: 200px; }
+.block { margin-top: 140px; }
+.gap-l { margin-top: 44px; }
+.gap-xl { margin-top: 96px; }
+.eyebrow { font-size: 11px; letter-spacing: -0.005em; color: var(--muted); margin-bottom: 14px; }
+
+/* The title: name on the left, one line on the right */
+.head { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); margin-bottom: 44px; }
+.head .d p + p { margin-top: 0.9em; }
+
+/* A section's opening: a small label, one big line, at most one grey line */
+.sec { margin-bottom: 40px; }
+.sec .eyebrow { font-size: 13px; margin-bottom: 14px; }
+.sec h2 { font-size: clamp(28px, 4.2vw, 42px); line-height: 1.04; letter-spacing: -0.042em; max-width: 20ch; text-wrap: balance; }
+.sec h2 + .m { margin-top: 16px; max-width: 48ch; line-height: 1.3; }
+
+/* Feature clips: a heading and a line, with the clip beside or below */
+.features > * + * { margin-top: 88px; }
+.gap-feat { margin-top: 88px; }
+.ft h3 { font-size: clamp(20px, 2.4vw, 24px); line-height: 1.1; letter-spacing: -0.03em; }
+.ft h3 + .m { margin-top: 10px; line-height: 1.3; max-width: 44ch; }
+.film .ft { margin-bottom: 18px; }
+.row2 { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: clamp(20px, 4vw, 44px); align-items: center; }
+.row2.flip { grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr); }
+.arc-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
+.arc-pills li { padding: 6px 10px 7px; border-radius: 99px; background: var(--panel); font-size: 12px; line-height: 1; letter-spacing: -0.01em; }
+
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+.card { background: var(--panel); border-radius: var(--r); padding: var(--pad); }
+.card .lab { color: var(--muted); margin-bottom: 1.35em; }
+
+/* ── Title: the name, the promise and one line on the left; the facts stacked on the right, level with its foot ── */
+.hero { padding-top: clamp(28px, 7vw, 88px); display: grid; grid-template-columns: minmax(0, 1fr) 264px; gap: 32px 56px; align-items: end; }
+/* the name is set in the page's own Aspekta, not the logo drawing */
+.hero h1 { font-size: clamp(48px, 5.6vw, 72px); line-height: 0.86; letter-spacing: -0.05em; margin-left: -0.04em; }
+.hero .tag { margin-top: clamp(14px, 1.8vw, 20px); font-size: clamp(18px, 1.9vw, 21px); line-height: 1.15; letter-spacing: -0.03em; }
+.hero .tag em { font-style: italic; padding-right: 0.04em; }
+.hero .lede { margin-top: 10px; max-width: 46ch; font-size: 14px; color: var(--muted); line-height: 1.4; }
+.facts { margin: 0; display: grid; gap: 14px; }
+.facts dt { color: var(--muted); font-size: var(--small); margin-bottom: 0.35em; }
+.facts dd { margin: 0; line-height: 1.25; text-wrap: pretty; }
+.facts dd span { white-space: nowrap; }   /* a deliverable never splits across lines */
+
+/* The launch film, a little wider than the text column */
+.hero-film { width: min(1120px, 100% - 32px); margin: clamp(40px, 6vw, 64px) auto 0; }
+.hero-film video {
+  width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 14px; background: #000; cursor: pointer;
+  box-shadow: 0 0 0 1px var(--line), 0 40px 90px -40px rgba(0, 0, 0, 0.55);
+}
+.hero-film .vplay { display: none; } /* the corner control does this job here */
+.film-ctl, .film-snd {
+  position: absolute; right: 14px; bottom: 14px; width: 36px; height: 36px; border: 0; border-radius: 50%;
+  display: grid; place-items: center; color: #fff;
+  background: rgba(20, 20, 20, 0.55); -webkit-backdrop-filter: blur(12px) saturate(1.4); backdrop-filter: blur(12px) saturate(1.4);
+  box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.18);
+  opacity: 0.85; transition: opacity 150ms ease, scale 140ms var(--ease-out);
+}
+.film-ctl svg { width: 11px; height: 13px; fill: currentColor; }
+.film-snd { right: 58px; width: auto; min-width: 36px; padding: 0 11px; gap: 7px; grid-auto-flow: column; border-radius: 99px; }
+.film-snd .snd-t { display: none; font-size: 12px; letter-spacing: -0.01em; white-space: nowrap; }
+.hero-film.forced .film-snd .snd-t { display: inline; }
+.film-snd svg { width: 15px; height: 13px; fill: currentColor; }
+.film-snd .w { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+.film-snd .i-off, .hero-film.muted .film-snd .i-on { display: none; }
+.hero-film.muted .film-snd .i-off { display: block; }
+.film-ctl .i-play { display: none; margin-left: 2px; }
+.clip.paused .film-ctl .i-pause { display: none; }
+.clip.paused .film-ctl .i-play { display: block; }
+.film-ctl:active, .film-snd:active { scale: 0.94; }
+.film-ctl:focus-visible, .film-snd:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .film-ctl:hover, .film-snd:hover { opacity: 1; } }
+
+/* The three problems, side by side; subgrid keeps their lines level */
+.probs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 var(--gap); }
+.pcard {
+  display: grid; grid-row: span 3; grid-template-rows: subgrid;
+  background: var(--panel); border-radius: 14px; padding: 20px 22px 24px;
+}
+.pcard .pn { color: var(--muted); margin-bottom: 72px; }
+.pcard h3 { font-size: 20px; line-height: 1.12; letter-spacing: -0.03em; margin-bottom: 0.65em; }
+
+/* Ethan's words */
+.quote { margin-top: var(--gap); padding: 32px 30px 28px; }
+.quote blockquote { font-size: calc(var(--fs) * 1.35); line-height: 1.14; letter-spacing: -0.028em; max-width: 30ch; }
+.quote figcaption { margin-top: 1.4em; color: var(--muted); text-align: left; font-size: var(--small); }
+
+/* ── Stages: real screenshots on a soft light gradient ── */
+.stage {
+  --g1: #fe4801; --g2: #459cf4;
+  position: relative; isolation: isolate; overflow: hidden;
+  border-radius: var(--r); background: var(--stage-base);
+  padding: clamp(22px, 5vw, 56px) clamp(16px, 5vw, 56px);
+  display: flex; flex-direction: column; align-items: center; gap: clamp(18px, 3vw, 30px);
+  min-width: 0;
+}
+.stage:has(figcaption) { padding-bottom: 16px; }
+.stage::before {
+  content: ""; position: absolute; inset: -10%; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(60% 65% at 18% 8%, color-mix(in srgb, var(--g1) var(--glow), transparent), transparent 78%),
+    radial-gradient(60% 70% at 88% 96%, color-mix(in srgb, var(--g2) var(--glow), transparent), transparent 78%),
+    radial-gradient(45% 45% at 70% 20%, color-mix(in srgb, #ffffff 40%, transparent), transparent 75%);
+}
+.stage > .inner { width: 100%; flex: 1; display: flex; align-items: center; justify-content: center; min-width: 0; }
+figcaption { font-size: 11px; letter-spacing: -0.005em; line-height: 1.35; text-align: center; }
+.stage figcaption { color: color-mix(in srgb, var(--text) 58%, transparent); max-width: 52ch; }
+
+/* A full app window */
+.win {
+  width: 100%; height: auto; border-radius: 10px; cursor: zoom-in;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 2px 4px rgba(0, 0, 0, 0.12),
+    0 28px 60px -20px rgba(0, 0, 0, 0.5);
+}
+/* A panel cut out of the app, already rounded, on transparency */
+.cut {
+  width: min(100%, var(--w, 480px)); height: auto; cursor: zoom-in;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.18)) drop-shadow(0 24px 34px rgba(0, 0, 0, 0.32));
+}
+.win:focus-visible, .cut:focus-visible { outline: 2px solid var(--text); outline-offset: 4px; }
+.duo { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: clamp(16px, 3vw, 32px); align-items: center; justify-items: center; }
+.duo > * { min-width: 0; }
+.fadeb { -webkit-mask-image: linear-gradient(#000 86%, transparent); mask-image: linear-gradient(#000 86%, transparent); }
+.win, .cut { -webkit-tap-highlight-color: transparent; transition: transform 300ms var(--ease-out), scale 140ms var(--ease-out); }
+.win:active, .cut:active { scale: 0.99; }
+@media (hover: hover) and (pointer: fine) {
+  .win:hover, .cut:hover { transform: translateY(-2px); }
+}
+
+/* ── Reveal on scroll (only when JS runs) ─────────────── */
+.js [data-reveal] {
+  opacity: 0; transform: translateY(14px); filter: blur(4px);
+  transition:
+    opacity 700ms var(--ease-out) var(--d, 0ms),
+    transform 700ms var(--ease-out) var(--d, 0ms),
+    filter 700ms var(--ease-out) var(--d, 0ms);
+}
+.js [data-reveal].in { opacity: 1; transform: none; filter: none; }
+.js .stage[data-reveal] { filter: none; }
+/* The screenshot rises a beat after its stage */
+.js .stage[data-reveal] .win, .js .stage[data-reveal] .cut {
+  opacity: 0; translate: 0 18px;
+  transition:
+    opacity 800ms var(--ease-out) calc(var(--d, 0ms) + 140ms),
+    translate 900ms var(--ease-out) calc(var(--d, 0ms) + 140ms),
+    transform 300ms var(--ease-out),
+    scale 140ms var(--ease-out);
+}
+.js .stage[data-reveal].in .win, .js .stage[data-reveal].in .cut { opacity: 1; translate: 0 0; }
+
+/* ── Research table ───────────────────────────────────── */
+.panel { background: var(--panel); border-radius: var(--r); padding: 36px 22px 16px; display: flex; flex-direction: column; align-items: center; gap: 26px; min-width: 0; }
+.panel figcaption { color: var(--muted); }
+.hscroll { position: relative; width: 100%; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.hscroll::-webkit-scrollbar { display: none; }
+/* Sideways-scrolling content says so: the far edge fades, and a hint shows until you first scroll */
+.hwrap { position: relative; width: 100%; min-width: 0; }
+.hwrap.can-scroll:not(.at-end) .hscroll {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent);
+}
+.hhint {
+  position: absolute; right: 4px; top: 50%; translate: 0 -50%; pointer-events: none;
+  font: var(--fw) 11px/1 "Aspekta", system-ui, sans-serif; letter-spacing: 0;
+  padding: 7px 10px; border-radius: 99px; background: var(--text); color: var(--bg);
+  opacity: 0; transition: opacity 220ms ease;
+}
+.hwrap.can-scroll:not(.used) .hhint { opacity: 1; }
+.cmp { width: 100%; min-width: 660px; border-collapse: separate; border-spacing: 0; font-size: 12.5px; letter-spacing: -0.01em; }
+.cmp th, .cmp td { padding: 9px 8px; text-align: center; font-weight: var(--fw); }
+.cmp thead th { padding-bottom: 12px; }
+.cmp tbody th { text-align: left; padding-left: 12px; }
+.cmp .grp th { color: var(--muted); padding-top: 22px; font-size: 11px; }
+/* arc's column sits in an orange frame so it reads first */
+.cmp .arc { background: var(--orange); color: #000; }
+.cmp thead .arc { border-radius: 10px 10px 0 0; }
+.cmp tbody tr:last-child .arc { border-radius: 0 0 10px 10px; }
+.cmp .arc .mk.y { background: #000; }
+.cmp .arc .mk.p { background: linear-gradient(90deg, #000 50%, transparent 50%); box-shadow: inset 0 0 0 1.25px #000; }
+.cmp .na { color: var(--muted); }
+.cmp tbody tr:not(.grp) th { border-radius: 6px 0 0 6px; }
+@media (hover: hover) and (pointer: fine) {
+  .cmp tbody tr:not(.grp) > * { transition: background-color 150ms ease; }
+  .cmp tbody tr:not(.grp):hover > *:not(.arc) { background: var(--hover); }
+}
+.cmp .price td { font-size: 11px; color: var(--muted); }
+.cmp .price .arc { color: #000; }
+.mk { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: middle; }
+.mk.y { background: var(--text); }
+.mk.p { background: linear-gradient(90deg, var(--text) 50%, transparent 50%); box-shadow: inset 0 0 0 1.25px var(--text); }
+.mk.n { box-shadow: inset 0 0 0 1.25px var(--faint); }
+.legend { display: flex; gap: 16px; justify-content: center; }
+.legend span { display: inline-flex; gap: 6px; align-items: center; }
+@media (max-width: 700px) {
+  .cmp th:first-child { position: sticky; left: 0; z-index: 1; background: var(--panel); }
+}
+
+/* ── Design style ─────────────────────────────────────── */
+.dark-card { background: var(--app); color: #ededed; border-radius: var(--r); padding: var(--pad); }
+.dark-card .lab { color: #8a8a8a; margin-bottom: 1.35em; }
+/* The app's own typeface, shown on purpose as a sample */
+.sf { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro", "Aspekta", system-ui, sans-serif; letter-spacing: -0.01em; }
+.vl-aa { font-size: 104px; line-height: 0.9; font-weight: 600; letter-spacing: -0.04em; margin-bottom: 0.2em; }
+.vl-scale { margin-top: 1.6em; border-top: 1px solid #272727; }
+.vl-scale li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px 0; border-bottom: 1px solid #1c1c1c; }
+.vl-scale .s { color: #8a8a8a; text-align: right; }
+.chips-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.chip-c { border-radius: 8px; padding: 34px 10px 9px; font-size: 11px; letter-spacing: -0.005em; line-height: 1.3; box-shadow: inset 0 0 0 1px #272727; }
+.chip-c span { display: block; opacity: 0.6; }
+.accent-row { margin-top: 6px; display: grid; }
+/* The accent, in use: a real crop of the Archive's Format filter */
+.accent-use { margin-top: 1.4em; }
+.accent-use img { width: 100%; height: auto; border-radius: 8px; box-shadow: inset 0 0 0 1px #272727; }
+.accent-use figcaption { margin-top: 10px; text-align: left; color: #8a8a8a; }
+
+/* Any looping clip: plays while on screen, a play button shows when paused */
+.clip .vwrap { position: relative; }
+.clip .vplay {
+  position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 44px; height: 44px; border-radius: 50%; border: 0;
+  display: grid; place-items: center; background: rgba(255, 255, 255, 0.9); color: #000; opacity: 0; pointer-events: none;
+  transition: opacity 180ms ease, scale 140ms var(--ease-out);
+}
+.clip .vplay svg { width: 12px; height: 14px; fill: currentColor; margin-left: 2px; }
+.clip.paused .vplay { opacity: 1; pointer-events: auto; }
+.clip .vplay:active { scale: 0.94; }
+
+/* ── Feature clips (launch film + real app recordings) ── */
+.clip video {
+  width: 100%; height: auto; border-radius: var(--r);
+  background: var(--app); cursor: pointer; box-shadow: 0 0 0 1px var(--line);
+}
+.ft { text-align: left; font-size: var(--fs); line-height: var(--lh); letter-spacing: var(--ls); color: var(--text); }
+.js .clip[data-reveal] { filter: none; }
+
+/* Closing: still being built */
+.wip { display: inline-flex; align-items: center; gap: 8px; }
+.wip i { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 4px color-mix(in srgb, var(--orange) 22%, transparent); }
+
+/* ── Lightbox: the screenshot grows out of where it sits ── */
+.lb {
+  position: fixed; inset: 0; z-index: 70; cursor: zoom-out;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+}
+.lb:focus { outline: none; }
+.lb-x, .zoom {
+  display: grid; place-items: center; border: 0; padding: 0; border-radius: 50%; color: var(--text);
+  background: color-mix(in srgb, var(--card) 72%, transparent);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4); backdrop-filter: blur(12px) saturate(1.4);
+  box-shadow: 0 0 0 0.5px var(--line), 0 2px 10px rgba(0, 0, 0, 0.14);
+  -webkit-tap-highlight-color: transparent;
+  transition: scale 140ms var(--ease-out), opacity 180ms ease;
+}
+.lb-x svg, .zoom svg { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.lb-x { position: fixed; top: 16px; right: 16px; width: 36px; height: 36px; cursor: pointer; }
+.lb-x svg { width: 12px; height: 12px; }
+.lb-x:active, .zoom:active { scale: 0.92; }
+.lb-x:focus-visible, .zoom:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.lb-hint {
+  position: fixed; left: 50%; bottom: 20px; translate: -50% 0; white-space: nowrap;
+  font: var(--fw) 11px/1 "Aspekta", system-ui, sans-serif; letter-spacing: 0; color: var(--text);
+  padding: 8px 12px; border-radius: 99px;
+  background: color-mix(in srgb, var(--card) 72%, transparent);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  box-shadow: 0 0 0 0.5px var(--line);
+}
+.zoom {
+  position: absolute; top: 12px; right: 12px; z-index: 2; width: 30px; height: 30px; cursor: zoom-in;
+  opacity: 0; scale: 0.9;
+}
+.zoom svg { width: 12px; height: 12px; }
+.stage:focus-within .zoom { opacity: 1; scale: 1; }
+@media (hover: hover) and (pointer: fine) { .stage:hover .zoom { opacity: 1; scale: 1; } }
+@media (hover: none) { .zoom { opacity: 1; scale: 1; } }
+.lb img { position: fixed; transform-origin: 0 0; max-width: none; }
+.lb img.w { border-radius: 10px; box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.55); }
+.lb img.c { filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.4)); }
+
+/* Footer */
+
+/* ── Small screens ────────────────────────────────────── */
+@media (max-width: 700px) {
+  :root { --fs: 16px; --pad: 20px; }
+  section { margin-top: 140px; }
+  .block { margin-top: 90px; }
+  .head, .grid2, .duo { grid-template-columns: 1fr; }
+  .head { gap: 18px; }
+  .probs { grid-template-columns: 1fr; gap: var(--gap); }
+  .pcard { grid-row: auto; grid-template-rows: auto; }
+  .pcard .pn { margin-bottom: 40px; }
+  .quote { padding: 24px 20px; }
+  .panel { padding: 28px 14px 14px; }
+  .chips-row { grid-template-columns: repeat(2, 1fr); }
+  .row2, .row2.flip { grid-template-columns: 1fr; gap: 16px; }
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .facts { grid-template-columns: 1fr 1fr; gap: 16px var(--gap); }
+  .facts .full { grid-column: 1 / -1; }
+  .row2.flip .ft { order: 2; }
+  .features > * + * { margin-top: 64px; }
+}
+
+/* ── Accessibility preferences ────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js [data-reveal] { transform: none; filter: none; transition: opacity 300ms ease; }
+  .js .stage[data-reveal] .win, .js .stage[data-reveal] .cut { translate: none; transition: opacity 300ms ease; }
+  .win:hover, .cut:hover { transform: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .lb { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--bg); }
+  .lb-x, .zoom, .lb-hint { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--card); }
+}
+@media (prefers-contrast: more) {
+  :root { --muted: rgba(0, 0, 0, 0.62); --faint: rgba(0, 0, 0, 0.45); }
+  :root[data-theme="dark"] { --muted: rgba(255, 255, 255, 0.72); --faint: rgba(255, 255, 255, 0.45); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --muted: rgba(255, 255, 255, 0.72); --faint: rgba(255, 255, 255, 0.45); } }
+  .card, .panel, .stage, .pcard { box-shadow: inset 0 0 0 1px var(--faint); }
+}
+</style>
+<style id="site-chrome">
+/* ── The website's header and footer (copied from index.html by to-website.py) ── */
+@font-face { font-family: "Tondu Beta"; src: url("fonts/TonduBeta-Bold.woff2") format("woff2"); font-weight: 900; font-display: swap; }
+@font-face { font-family: "Aspekta"; font-weight: 300; font-display: swap; src: url("fonts/Aspekta-300.woff2") format("woff2"); }
+:root {
+  --ink: #000000; --ink-2: #0f0f0f; --paper: #fffff7; --paper-50: rgba(255, 255, 247, 0.5); --acid: #ffff29;
+  --font-sf: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-aspekta: "Aspekta", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: "Tondu Beta", "Archivo Black", "Arial Black", sans-serif;
+  --font-grotesk: var(--font-aspekta);
+  --gutter: 48px; --r-pill: 999px;
+}
+@media (min-width: 901px) { :root { --gutter: 120px; } body.menu-open :is(.nav, .menu) { --gutter: 37px; } }
+/* the site's body type, so the header and footer don't take the case study's heavier weight */
+.nav, .menu, .footer { font-family: var(--font-aspekta); font-weight: 400; font-size: 13px; line-height: 1.2; letter-spacing: -0.01em; color: var(--paper); }
+:where(.nav) button { border: 0; padding: 0; }
+.display { font-family: var(--font-display); font-weight: 900; text-transform: uppercase; }
+/* ------------------------------------------------------------------
+   NAV
+------------------------------------------------------------------ */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 60;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 28px var(--gutter) 0;
+  pointer-events: none;
+  transition: padding 450ms var(--ease-out);
+}
+.nav > * { pointer-events: auto; }
+@media (prefers-reduced-motion: reduce) { .nav { transition: none; } }
+
+/* the nav takes each project's colour: Gideon blue on its two pages, Noir red on the festival, yellow everywhere else */
+body { --nav-accent: var(--acid); --nav-on: var(--ink); --nav-on-2: var(--ink-2); }
+body.view-gideon, body.view-gideon-brand { --nav-accent: var(--g-blue); --nav-on: #fff; --nav-on-2: #fff; }
+body.view-noir { --nav-accent: var(--nf-red); --nav-on: var(--ink); --nav-on-2: #fff; }
+/* on first load the nav takes the page's colour at once, instead of fading in from yellow */
+body.nav-still .pill, body.nav-still .menu-toggle { transition: none; }
+
+.pills { display: flex; gap: 7px; }
+
+.pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 26px; padding: 0 12px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--nav-accent);
+  background: transparent;   /* stroke + text only — no fill */
+  color: var(--nav-accent);
+  font-family: var(--font-display); font-weight: 900; font-size: 12px;
+  /* small uppercase opens up; only the display sizes tighten */
+  letter-spacing: 0.01em; text-transform: uppercase; line-height: 1;
+  /* glass, not a fill: the pill blurs whatever it floats over so it stays legible on an image */
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 100ms var(--ease-out);
+}
+.pill.pill-name { height: 37px; padding: 0 18px; font-size: 16px; letter-spacing: 0; }
+/* Contact rides beside the menu button: the name pill's outline, set in Aspekta instead of caps */
+.nav-end { display: flex; align-items: center; gap: 10px; }
+.pill.pill-contact { height: 37px; padding: 0 18px; font-family: var(--font-grotesk); font-weight: 400; font-size: 16px; text-transform: none; }
+.pill:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .pill:hover { background: var(--nav-accent); color: var(--nav-on); }
+}
+
+.menu-toggle {
+  width: 41px; height: 41px; border-radius: 50%;
+  background: var(--nav-accent); color: var(--nav-on-2);
+  display: grid; place-items: center;
+  transition: background-color 250ms ease, transform 100ms var(--ease-out);
+}
+.menu-toggle:active { transform: scale(0.95); }
+.menu-toggle .glyph {
+  width: 14px; height: 14px;
+  display: block;
+  transition: transform 250ms var(--ease-out), color 250ms ease;
+}
+
+/* Menu-open state: pills invert to black-on-yellow, toggle inverts, glyph rotates to × */
+body.menu-open .pill { border-color: var(--ink); background: transparent; color: var(--ink); text-transform: none; font-family: var(--font-grotesk); font-weight: 400; }
+body.menu-open .menu-toggle { background: var(--ink); }
+body.menu-open .menu-toggle .glyph { color: var(--acid); transform: rotate(45deg); }
+.menu-toggle .glyph svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+
+/* the two sets of pills: default names, and social links when menu is open */
+.pills-social { display: none; }
+body.menu-open .pills-name { display: none; }
+body.menu-open .pills-social { display: flex; }
+/* the social pills in the open menu, at a size that reads on the yellow */
+body.menu-open .pills-social { gap: 10px; }
+body.menu-open .pills-social .pill { height: 40px; padding: 0 22px; font-size: 16px; }
+@media (max-width: 720px) {
+  body.menu-open .pills-social .pill { height: 34px; padding: 0 14px; font-size: 14px; }
+  /* the open menu already lists Contact, so its pill steps aside and the close button stays on screen */
+  body.menu-open .pill-contact { display: none; }
+}
+
+/* ------------------------------------------------------------------
+   MENU OVERLAY
+------------------------------------------------------------------ */
+.menu {
+  position: fixed; inset: 0; z-index: 50;
+  background: var(--acid);
+  display: flex; align-items: flex-end;
+  padding: 0 var(--gutter) 56px;
+  opacity: 0; visibility: hidden;
+  transition: opacity 260ms var(--ease-out), visibility 0s linear 260ms;
+}
+body.menu-open .menu {
+  opacity: 1; visibility: visible;
+  transition: opacity 320ms var(--ease-out), visibility 0s;
+}
+.menu ul { list-style: none; margin: 0; padding: 0; }
+.menu li {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out);
+}
+body.menu-open .menu li {
+  opacity: 1; transform: none;
+  transition: opacity 480ms var(--ease-out), transform 560ms var(--ease-out);
+}
+body.menu-open .menu li:nth-child(1) { transition-delay: 60ms; }
+body.menu-open .menu li:nth-child(2) { transition-delay: 110ms; }
+body.menu-open .menu li:nth-child(3) { transition-delay: 160ms; }
+.menu a {
+  display: block;
+  font-family: var(--font-grotesk); font-weight: 400; text-transform: uppercase;
+  font-size: clamp(56px, 9.4vw, 136px); line-height: 0.9; letter-spacing: -0.045em;
+  color: var(--ink);
+}
+@media (hover: hover) and (pointer: fine) {
+  .menu a { transition: transform 300ms var(--ease-out); }
+  .menu a:hover { transform: translateX(14px); }
+}
+
+/* ------------------------------------------------------------------
+   FOOTER
+------------------------------------------------------------------ */
+
+/* footer: the links as bars in each app's own colour, then a quote and the name */
+.footer { display: block; padding: 0 0 28px; }
+.ft-links { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
+.ft-bar { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 14px var(--gutter); background: var(--c); color: var(--t); font-size: 22px; line-height: 28px; letter-spacing: -0.015em; transition: filter 200ms ease; }
+.ft-bar > span { display: inline-flex; align-items: center; gap: 0.32em; transition: transform 380ms var(--ease-out); }
+.ft-bar > span::after {
+  content: ""; width: 0.6em; height: 0.6em; flex: none; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 13'%3E%3Cpath d='M3 10 10 3M4.5 3H10v5.5' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 13'%3E%3Cpath d='M3 10 10 3M4.5 3H10v5.5' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  opacity: 0; transform: translate(-6px, 6px); transition: opacity 200ms ease, transform 380ms var(--ease-out);
+}
+.ft-bar .ft-ico { transition: transform 380ms var(--ease-out); }
+.ft-bar:active { filter: brightness(0.94); }
+@media (hover: hover) and (pointer: fine) {
+  .ft-bar:hover { filter: brightness(1.12); }
+  .ft-bar[style*="--c: #FFFFFF"]:hover { filter: brightness(0.92); }
+  .ft-bar:hover > span { transform: translateX(14px); }
+  .ft-bar:hover > span::after { opacity: 1; transform: none; }
+  .ft-bar:hover .ft-ico { transform: scale(1.18); }
+}
+.ft-bar:focus-visible > span { transform: translateX(14px); }
+.ft-bar:focus-visible > span::after { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .ft-bar > span, .ft-bar .ft-ico { transition: none; }
+  .ft-bar:is(:hover, :focus-visible) > span, .ft-bar:hover .ft-ico { transform: none; }
+  .ft-bar > span::after { transform: none; transition: opacity 200ms ease; }
+}
+.ft-bar:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+.ft-meta { font-size: inherit; letter-spacing: inherit; width: 13em; flex: none; text-align: left; white-space: nowrap; }
+/* each bar carries the brand's own mark (Font Awesome Free 6.7.2 brand icons, CC BY 4.0) */
+.ft-ico { display: block; height: 26px; width: auto; }
+/* the quote on the left and the name on the right, on one line until the screen is too narrow */
+.ft-end { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px; padding: 32px var(--gutter) 0; }
+.ft-quote { margin: 0; font-size: 20px; line-height: 1.35; font-weight: 300; letter-spacing: -0.01em; color: var(--paper); }
+.footer .copy { margin: 0 0 0 auto; font-family: "Aspekta", var(--font-sf); font-weight: 400; font-size: 14px; color: var(--paper-50); letter-spacing: -0.01em; }
+
+
+
+/* arc's colour on the nav, like Gideon's blue and Noir's red on theirs */
+body { --nav-accent: #fe4801; --nav-on: #000000; --nav-on-2: #000000; }
+.footer { margin-top: 160px; }
+@media (max-width: 720px) {
+  :root { --gutter: 20px; }
+  .ft-bar { padding-top: 12px; padding-bottom: 12px; font-size: 17px; line-height: 24px; }
+  .ft-ico { height: 21px; }
+  .ft-quote { font-size: 17px; }
+  .menu { padding-bottom: 40px; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <nav class="pills pills-name" aria-label="Name">
+    <a class="pill pill-name" href="index.html#top">SHARVIL</a>
+  </nav>
+  <nav class="pills pills-social" aria-label="Social">
+    <a class="pill" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener">Behance</a>
+    <a class="pill" href="https://x.com/sharvil_naik" target="_blank" rel="noopener">Twitter</a>
+    <a class="pill" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener">LinkedIn</a>
+  </nav>
+  <div class="nav-end">
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+      <span class="glyph" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M7 1.5v11M1.5 7h11"/></svg></span>
+    </button>
+  </div>
+</header>
+
+<div class="menu" id="menu" aria-hidden="true">
+  <ul>
+    <li><a href="index.html#work" data-close>Work</a></li>
+    <li><a href="index.html#connect" data-close>Contact</a></li>
+    <li><a href="index.html#quests" data-close>Side Quests</a></li>
+  </ul>
+</div>
+
+<main>
+
+<!-- ═══ 1 · Title ══════════════════════════════════════ -->
+<header class="wide hero">
+  <div class="hero-main" data-reveal>
+    <h1>arc</h1>
+    <p class="tag">Save, remember and <em>use</em> your ideas.</p>
+    <p class="lede">A desktop app for everything you save. I started it for myself, then researched, designed and built it alone, from first idea to a working app.</p>
+  </div>
+  <dl class="facts" data-reveal style="--d: 90ms">
+    <div><dt>Role</dt><dd>Solo, end to end</dd></div>
+    <div><dt>Timeline</dt><dd>June 2026 – Present</dd></div>
+    <div><dt>Tools</dt><dd>Figma, Claude Code</dd></div>
+    <div><dt>Status</dt><dd>Launching soon</dd></div>
+    <div class="full"><dt>Deliverables</dt><dd><span>Research</span>&nbsp;· <span>Competitor analysis</span>&nbsp;· <span>UX</span>&nbsp;· <span>UI</span>&nbsp;· <span>Interaction design</span>&nbsp;· <span>Front-end build</span></dd></div>
+  </dl>
+</header>
+
+<figure class="hero-film clip" data-sound data-reveal>
+  <div class="vwrap"><video muted loop playsinline preload="auto" width="1600" height="900" poster="assets/arc/film-full.jpg" aria-label="arc in use: saving a picture from Pinterest in Chrome, sending a whole board, a voice note, keeping a quote from Medium, dropping in every kind of file, and more"><source src="assets/arc/film-full.mp4" type="video/mp4"></video><button class="vplay" type="button" aria-label="Play"><svg viewBox="0 0 12 14"><path d="M0 0l12 7-12 7z"/></svg></button><button class="film-snd" type="button" aria-label="Turn sound on"><span class="snd-t">Tap for sound</span><svg class="i-on" viewBox="0 0 16 14" aria-hidden="true"><path d="M1 4.5h3L8 1v12L4 9.5H1z"/><path class="w" d="M10.5 4.2a4 4 0 0 1 0 5.6M12.6 2.1a7 7 0 0 1 0 9.8"/></svg><svg class="i-off" viewBox="0 0 16 14" aria-hidden="true"><path d="M1 4.5h3L8 1v12L4 9.5H1z"/><path class="w" d="M10.5 4.8l4 4.4M14.5 4.8l-4 4.4"/></svg></button><button class="film-ctl" type="button" aria-label="Pause the film"><svg class="i-pause" viewBox="0 0 12 14" aria-hidden="true"><path d="M1.5 1h3v12h-3zM7.5 1h3v12h-3z"/></svg><svg class="i-play" viewBox="0 0 12 14" aria-hidden="true"><path d="M1 0l11 7-11 7z"/></svg></button></div>
+</figure>
+
+<!-- ═══ 2 · Problem ════════════════════════════════════ -->
+<section id="problem">
+  <header class="wide sec" data-reveal>
+    <p class="eyebrow">The problem</p>
+    <h2>Saving takes a second. Finding takes an afternoon.</h2>
+  </header>
+
+  <div class="wide">
+    <div class="probs">
+      <article class="pcard" data-reveal>
+        <p class="pn">01</p>
+        <h3>Every kind of thing has its own app.</h3>
+        <p class="m">Pictures in Pinterest, notes in Notion, fonts in a folder. You have to guess where to look.</p>
+      </article>
+      <article class="pcard" data-reveal>
+        <p class="pn">02</p>
+        <h3>You remember saving it. Not why, or where.</h3>
+        <p class="m">A week later it's one more picture in a pile of thousands.</p>
+      </article>
+      <article class="pcard" data-reveal>
+        <p class="pn">03</p>
+        <h3>Good ideas don't wait for an app.</h3>
+        <p class="m">If saving takes more than a few seconds, they're gone.</p>
+      </article>
+    </div>
+
+    <figure class="card quote" data-reveal>
+      <blockquote>"I save inspiration for every project. When the deadline hits, I end up using whatever I can find right then, or whatever I saved last week."</blockquote>
+      <figcaption>Ethan, freelance brand designer. A composite of my own habits and designers I work with.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ═══ 3 · Research ═══════════════════════════════════ -->
+<section id="research">
+  <header class="wide sec" data-reveal>
+    <p class="eyebrow">Research</p>
+    <h2>Each app does part of the job. None does all of it.</h2>
+    <p class="m">Five apps people already use to save things, side by side.</p>
+  </header>
+
+  <!-- Double-check every mark against each app's current version before publishing. -->
+  <figure class="wide panel" data-reveal>
+    <div class="hscroll">
+      <table class="cmp" id="cmp">
+        <caption class="sr">How arc compares with Pinterest, Are.na, Eagle, Refern and mymind</caption>
+      </table>
+    </div>
+    <figcaption>
+      <span class="legend"><span><i class="mk y"></i>Yes</span><span><i class="mk p"></i>Partly</span><span><i class="mk n"></i>No</span></span>
+      <br>Only one column is full. A snapshot from September 2026: these apps change often.
+    </figcaption>
+  </figure>
+</section>
+
+<!-- ═══ 4 · Solution, in the same order as the problems ═ -->
+<section id="solution">
+  <header class="wide sec" data-reveal>
+    <p class="eyebrow">01 · Saving</p>
+    <h2>Save anything, from anywhere.</h2>
+  </header>
+
+  <div class="wide features">
+    <figure class="film clip" data-reveal>
+      <figcaption class="ft"><h3>A picture from the web</h3><p class="m">Right-click, Add to arc. It's saved at once; the reason and tags can come after.</p></figcaption>
+      <div class="vwrap"><video muted loop playsinline preload="none" width="1600" height="900" poster="assets/arc/film-web.jpg" aria-label="On Pinterest in Chrome, a poster is right-clicked and added to arc. A small card says Saved to arc, a reason and tags are added, and the poster appears in arc's library with its tags and colours"><source src="assets/arc/film-web.mp4" type="video/mp4"></video><button class="vplay" type="button" aria-label="Play"><svg viewBox="0 0 12 14"><path d="M0 0l12 7-12 7z"/></svg></button></div>
+    </figure>
+
+    <figure class="film clip" data-reveal>
+      <figcaption class="ft"><h3>A collection of images from the web</h3><p class="m">Right-click a Pinterest board and every image on it lands in arc, all at once.</p></figcaption>
+      <div class="vwrap"><video muted loop playsinline preload="none" width="1600" height="900" poster="assets/arc/film-board.jpg" aria-label="A Pinterest board called Brand identity is right-clicked; its pins gather into a stack and arrive in arc's library, filling in one by one"><source src="assets/arc/film-board.mp4" type="video/mp4"></video><button class="vplay" type="button" aria-label="Play"><svg viewBox="0 0 12 14"><path d="M0 0l12 7-12 7z"/></svg></button></div>
+    </figure>
+
+    <figure class="row2 clip" data-reveal>
+      <div class="vwrap"><video muted loop playsinline preload="none" width="1600" height="900" poster="assets/arc/film-quote.jpg" aria-label="A line in a Medium article is highlighted and added to arc with a reason, then opens in arc as a note"><source src="assets/arc/film-quote.mp4" type="video/mp4"></video><button class="vplay" type="button" aria-label="Play"><svg viewBox="0 0 12 14"><path d="M0 0l12 7-12 7z"/></svg></button></div>
+      <figcaption class="ft"><h3>Words from any page</h3><p class="m">Highlight a line on any website, right-click, and it's kept as a note, with the page it came from.</p></figcaption>
+    </figure>
+
+    <figure class="row2 flip clip" data-reveal>
+      <figcaption class="ft">
+        <h3>Supports multiple file types</h3>
+        <p class="m">arc supports more than 20 file types, from images and fonts to Photoshop files and 3D models, and helps you manage and sort them all in one place.</p>
+        <ul class="arc-pills" aria-label="File types arc takes">
+          <li>Images</li><li>GIFs</li><li>Videos</li><li>PDFs</li><li>Fonts</li><li>Audio</li><li>Notes</li><li>Links</li>
+          <li>Photoshop</li><li>Illustrator</li><li>Figma</li><li>Sketch</li><li>InDesign</li><li>Procreate</li><li>Affinity</li>
+          <li>Keynote</li><li>PowerPoint</li><li>Word</li><li>3D models</li><li>Lottie</li><li>HEIC</li><li>Camera RAW</li>
+        </ul>
+      </figcaption>
+      <div class="vwrap"><video muted loop playsinline preload="none" width="1600" height="900" poster="assets/arc/film-files.jpg" aria-label="Files are dropped into arc and appear as tiles: a GIF, a video, a PDF, a font specimen, an audio waveform and a note; a video then plays in a quick preview"><source src="assets/arc/film-files.mp4" type="video/mp4"></video><button class="vplay" type="button" aria-label="Play"><svg viewBox="0 0 12 14"><path d="M0 0l12 7-12 7z"/></svg></button></div>
+    </figure>
+  </div>
+
+  <header class="wide sec block" data-reveal>
+    <p class="eyebrow">02 · Retrieval</p>
+    <h2>Find it the way you remember it.</h2>
+    <p class="m">An idea is clearest the moment you save it, so arc asks why. Later, search that reason, a tag arc added, or a colour.</p>
+  </header>
+  <figure class="wide stage" data-reveal style="--g1:#fe4801; --g2:#459cf4">
+    <div class="inner duo">
+      <img class="win" src="assets/arc/re-search.jpg" width="2080" height="1600" alt="arc's Archive searched for tour merch: one result, the Detective poster, with the search in the dock at the bottom">
+      <img class="cut" style="--w:300px" src="assets/arc/re-card.png" width="830" height="1600" alt="The Detective's card in arc: the reason Orange + black for the tour merch, tags added for it, the Tee graphics collection, its colours, palette and similar pictures">
+    </div>
+    <figcaption>Search the reason you wrote, "tour merch", and the one picture you saved for it comes up, with its tags, collection and colours.</figcaption>
+  </figure>
+  <div class="wide features gap-feat">
+    <figure class="row2 clip" data-reveal>
+      <div class="vwrap"><video muted loop playsinline preload="none" width="1280" height="800" poster="assets/arc/re-colour.jpg" aria-label="The colour filter opens from the dock as a ring; dragging round it filters the grid colour by colour, from blue through violet and pink to red, then yellow is picked"><source src="assets/arc/re-colour.mp4" type="video/mp4"></video><button class="vplay" type="button" aria-label="Play"><svg viewBox="0 0 12 14"><path d="M0 0l12 7-12 7z"/></svg></button></div>
+      <figcaption class="ft"><h3>By colour</h3><p class="m">Drag round the ring and the grid filters as you go. The centre shows how many match.</p></figcaption>
+    </figure>
+    <figure class="row2 flip clip" data-reveal>
+      <figcaption class="ft"><h3>By a word or a tag</h3><p class="m">One box searches names, the tags arc added, and the reason you gave when you saved it.</p></figcaption>
+      <div class="vwrap"><video muted loop playsinline preload="none" width="1280" height="800" poster="assets/arc/re-words.jpg" aria-label="poster is typed into the search box and the grid shows every poster, then neon is typed and the neon pieces show"><source src="assets/arc/re-words.mp4" type="video/mp4"></video><button class="vplay" type="button" aria-label="Play"><svg viewBox="0 0 12 14"><path d="M0 0l12 7-12 7z"/></svg></button></div>
+    </figure>
+    <figure class="row2 clip" data-reveal>
+      <div class="vwrap"><video muted loop playsinline preload="none" width="1280" height="800" poster="assets/arc/re-filters.jpg" aria-label="The date menu opens, a collection is picked and cleared, the grid is sorted by colour, then switched to Freeform and back to Grid"><source src="assets/arc/re-filters.mp4" type="video/mp4"></video><button class="vplay" type="button" aria-label="Play"><svg viewBox="0 0 12 14"><path d="M0 0l12 7-12 7z"/></svg></button></div>
+      <figcaption class="ft"><h3>By date, collection or order</h3><p class="m">Narrow it to a date or a collection, sort by colour, and switch between Grid and Freeform.</p></figcaption>
+    </figure>
+  </div>
+
+  <header class="wide sec block" data-reveal>
+    <p class="eyebrow">03 · Ideas stay</p>
+    <h2>Never lose an idea.</h2>
+    <p class="m">Press <kbd>⌘⇧V</kbd> in any app and speak. It works offline, and your voice never leaves your computer.</p>
+  </header>
+  <figure class="wide film clip" data-reveal>
+    <div class="vwrap"><video muted loop playsinline preload="none" width="1600" height="900" poster="assets/arc/film-voice.jpg" aria-label="While working on a Brew and Co design, a voice pill opens at the bottom of the screen; the spoken idea is written out as text, then saved to a collection"><source src="assets/arc/film-voice.mp4" type="video/mp4"></video><button class="vplay" type="button" aria-label="Play"><svg viewBox="0 0 12 14"><path d="M0 0l12 7-12 7z"/></svg></button></div>
+  </figure>
+
+  <header class="wide sec block" data-reveal>
+    <p class="eyebrow">And more</p>
+    <h2>Turn your saves into a moodboard.</h2>
+    <p class="m">Drag pictures onto a board, add notes, arrows and to-dos, and export a PNG or PDF for the client.</p>
+  </header>
+  <figure class="wide stage" data-reveal style="--g1:#fe4801; --g2:#d0d140">
+    <div class="inner"><img class="win" src="assets/arc/board-2.jpg" width="2400" height="1500" alt="A Tour merch moodboard in arc: seven pins, two sticky notes, an orange arrow and a to-do list, with the tools on the left and one picture selected"></div>
+  </figure>
+</section>
+
+<!-- ═══ 5 · Design style ═══════════════════════════════ -->
+<section id="design">
+  <header class="wide sec" data-reveal>
+    <p class="eyebrow">Design style</p>
+    <h2>Mostly black, with one orange.</h2>
+    <p class="m">Dark greys keep the focus on what you save. SF Pro for all the text, and orange for what's selected.</p>
+  </header>
+
+  <div class="wide grid2">
+    <div class="dark-card" data-reveal>
+      <p class="lab">Typography</p>
+      <p class="vl-aa sf">Aa</p>
+      <p class="sf">SF Pro</p>
+      <p class="s" style="color:#8a8a8a; margin-top:.5em">The Mac's own typeface. Display for headings, Text for everything else.</p>
+      <ul class="vl-scale">
+        <li><span class="sf" style="font-size:21px; font-weight:600; letter-spacing:-0.015em">The Detective</span><span class="s">Heading · Display Semibold</span></li>
+        <li><span class="sf" style="font-size:14px; font-weight:400">Orange + black for the Brew &amp; Co deck</span><span class="s">Body · Text Regular</span></li>
+        <li><span class="sf" style="font-size:13px; font-weight:500; color:#9b9b9b">128 results</span><span class="s">Label · Text Medium</span></li>
+        <li><span class="sf" style="font-size:14px; font-weight:600; color:#fe4801">Format</span><span class="s">Menu title · Semibold</span></li>
+      </ul>
+    </div>
+    <div class="dark-card" data-reveal>
+      <p class="lab">Colour</p>
+      <div class="chips-row">
+        <div class="chip-c" style="background:#000">Page<span>#000000</span></div>
+        <div class="chip-c" style="background:#0a0a0a">Surface<span>#0A0A0A</span></div>
+        <div class="chip-c" style="background:#131313">Field<span>#131313</span></div>
+        <div class="chip-c" style="background:#1c1c1c">Button<span>#1C1C1C</span></div>
+        <div class="chip-c" style="background:#272727">Border<span>#272727</span></div>
+        <div class="chip-c" style="background:#6e6e6e; color:#000">Muted<span>#6E6E6E</span></div>
+        <div class="chip-c" style="background:#9b9b9b; color:#000">Secondary<span>#9B9B9B</span></div>
+        <div class="chip-c" style="background:#ededed; color:#000">Text<span>#EDEDED</span></div>
+      </div>
+      <div class="accent-row">
+        <div class="chip-c" style="background:#fe4801; color:#000">Accent<span>#FE4801</span></div>
+      </div>
+      <figure class="accent-use">
+        <img src="assets/arc/accent.jpg" width="1460" height="612" loading="lazy" alt="arc's Format filter with Image, GIF and Video chosen: the chosen chips are orange with a tick, and the Format icon in the dock below turns orange with a dot">
+        <figcaption>Chosen filters turn orange, and so does the dock icon that holds them.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══ 6 · Close ══════════════════════════════════════ -->
+<section id="close">
+  <div class="col" data-reveal style="text-align:center">
+    <p class="wip"><i aria-hidden="true"></i>Still being built</p>
+    <p class="m" style="margin:0.9em auto 0; line-height:1.35">arc hasn't launched yet.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer nf-footer">
+    <ul class="ft-links">
+      <li><a class="ft-bar" style="--c: #1769FF; --t: #FFFFFF" href="https://www.behance.net/sharvilnaik" target="_blank" rel="noopener"><span>Behance</span><svg class="ft-ico" aria-hidden="true" focusable="false" fill="currentColor" viewBox="0 0 576 512"><path d="M232 237.2c31.8-15.2 48.4-38.2 48.4-74 0-70.6-52.6-87.8-113.3-87.8H0v354.4h171.8c64.4 0 124.9-30.9 124.9-102.9 0-44.5-21.1-77.4-64.7-89.7zM77.9 135.9H151c28.1 0 53.4 7.9 53.4 40.5 0 30.1-19.7 42.2-47.5 42.2h-79v-82.7zm83.3 233.7H77.9V272h84.9c34.3 0 56 14.3 56 50.6 0 35.8-25.9 47-57.6 47zm358.5-240.7H376V94h143.7v34.9zM576 305.2c0-75.9-44.4-139.2-124.9-139.2-78.2 0-131.3 58.8-131.3 135.8 0 79.9 50.3 134.7 131.3 134.7 61.3 0 101-27.6 120.1-86.3H509c-6.7 21.9-34.3 33.5-55.7 33.5-41.3 0-63-24.2-63-65.3h185.1c.3-4.2.6-8.7.6-13.2zM390.4 274c2.3-33.7 24.7-54.8 58.5-54.8 35.4 0 53.2 20.8 56.2 54.8H390.4z"/></svg></a></li>
+      <li><a class="ft-bar" style="--c: #0A66C2; --t: #FFFFFF" href="https://www.linkedin.com/in/sharvil-naik-348a332b0/" target="_blank" rel="noopener"><span>LinkedIn</span><svg class="ft-ico" aria-hidden="true" focusable="false" fill="currentColor" viewBox="0 0 448 512"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a></li>
+      <li><a class="ft-bar" style="--c: #FFFFFF; --t: #000000" href="https://x.com/sharvil_naik" target="_blank" rel="noopener"><span>Twitter (X)</span><svg class="ft-ico" aria-hidden="true" focusable="false" fill="currentColor" viewBox="0 0 512 512"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg></a></li>
+      <li><a class="ft-bar" style="--c: #E4405F; --t: #FFFFFF" href="https://www.instagram.com/noiksarchives/" target="_blank" rel="noopener"><span>Instagram</span><svg class="ft-ico" aria-hidden="true" focusable="false" fill="currentColor" viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a></li>
+    </ul>
+    <div class="ft-end">
+      <p class="ft-quote">Made while listening to Tame Impala, Daft Punk and Led Zeppelin 🤙🏻</p>
+      <p class="copy">© 2026 Sharvil Naik</p>
+    </div>
+  </footer>
+
+<script>
+(() => {
+  document.documentElement.classList.add('js');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+
+
+  /* ── Reveal on scroll, staggered among siblings ── */
+  const revs = [...document.querySelectorAll('[data-reveal]')];
+  revs.forEach(el => {
+    const sibs = [...el.parentElement.children].filter(c => c.hasAttribute('data-reveal'));
+    const i = sibs.indexOf(el);
+    if (i > 0) el.style.setProperty('--d', Math.min(i, 6) * 60 + 'ms');
+  });
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  revs.forEach(el => io.observe(el));
+
+  /* ── Research table ──
+     y = yes, p = partly, n = no, - = not applicable. Order: Pinterest, Are.na, Eagle, Refern, mymind, arc.
+     Re-checked 2026-09-30 against each app's site, help centre and changelog (Refern is now local-first, $35 once).
+     Double-check each mark against the apps' current versions before publishing. */
+  const APPS = ['Pinterest', 'Are.na', 'Eagle', 'Refern', 'mymind', 'arc'];
+  const ROWS = [
+    ['Can I save everything?'],
+    ['Pictures, video, GIFs', 'yyyyyy'],
+    ['Text notes', 'nyynyy'],
+    ['Links and web pages', 'pyynyy'],
+    ['Fonts, shown as type', 'nnynny'],
+    ['Design files, with a preview', 'nnynpy'],
+    ['3D models and Lottie', 'nnynny'],
+    ['Voice notes', 'nnnnny'],
+    ['Save without opening the app', 'yyyyyy'],
+    ['A whole Pinterest board at once', '-nyyny'],
+    ['Quotes from any web page', 'nynnyy'],
+    ['Watch a folder for new files', 'nnypny'],
+    ['Can I find it again?'],
+    ['Tags added for me', 'nnpyyy'],
+    ['Write why you saved it', 'pyyyyy'],
+    ['Search by colour', 'pnyyyy'],
+    ['Search by an exact colour (hex)', 'nnyypy'],
+    ["Search by what's in the picture", 'pnpyyy'],
+    ['Filter by date added', 'nnyyyy'],
+    ['Find similar pictures', 'ynpypy'],
+    ['Find duplicates', 'nnyypy'],
+    ['Brings back things you forgot', 'nnnnyy'],
+    ['Can I use it?'],
+    ['Moodboard canvas', 'pnpyny'],
+    ['Group by project', 'yyyyyy'],
+    ['Can I trust it?'],
+    ['Works without internet', 'nnyypy'],
+    ['No account needed', 'nnyyny'],
+    ['Files stay on my computer', 'nnyyny'],
+    ['How you pay', ['Free, with ads', 'Free, paid plan', 'One-time fee', 'One-time fee', 'Subscription', 'No subscription']]
+  ];
+  const WORD = { y: 'Yes', p: 'Partly', n: 'No', '-': 'Not applicable' };
+  const tbl = document.getElementById('cmp');
+  let html = '<thead><tr><th scope="col"><span class="sr">Feature</span></th>' +
+    APPS.map(a => `<th scope="col"${a === 'arc' ? ' class="arc"' : ''}>${a}</th>`).join('') + '</tr></thead><tbody>';
+  ROWS.forEach(r => {
+    if (r.length === 1) { html += `<tr class="grp"><th colspan="6" scope="colgroup">${r[0]}</th><td class="arc"></td></tr>`; return; }
+    const [label, v] = r;
+    const price = Array.isArray(v);
+    html += `<tr${price ? ' class="price"' : ''}><th scope="row">${label}</th>`;
+    APPS.forEach((a, i) => {
+      const cls = a === 'arc' ? ' class="arc"' : '';
+      html += price ? `<td${cls}>${v[i]}</td>`
+        : v[i] === '-' ? `<td${cls}><span class="na" aria-hidden="true">–</span><span class="sr">${WORD[v[i]]}</span></td>`
+        : `<td${cls}><i class="mk ${v[i]}" aria-hidden="true"></i><span class="sr">${WORD[v[i]]}</span></td>`;
+    });
+    html += '</tr>';
+  });
+  tbl.insertAdjacentHTML('beforeend', html + '</tbody>');
+
+  /* ── Clips: play while on screen, pause when not ── */
+  const clips = [...document.querySelectorAll('.clip')];
+  // The film (data-sound) starts with sound. Most browsers only allow that after the visitor has
+  // clicked or pressed a key on the page, so if the browser says no it plays muted, and the first
+  // click or key press turns the sound on, unless the visitor has turned it off themselves.
+  let soundOff = false;
+  const start = (tile, v) => {
+    if (!('sound' in tile.dataset) || soundOff) return v.play();
+    v.muted = false;
+    return v.play().catch(() => { v.muted = true; tile.classList.add('forced'); return v.play(); });
+  };
+  const vio = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const tile = e.target, v = tile.querySelector('video');
+      if (reduce.matches) { tile.classList.add('paused'); return; }
+      if (e.isIntersecting && !tile.dataset.stopped) { v.preload = 'auto'; start(tile, v).then(() => tile.classList.remove('paused')).catch(() => tile.classList.add('paused')); }
+      else { v.pause(); }
+    });
+  }, { threshold: 0.4 });
+  // The film waits until it reaches the middle of the screen (a one-line strip across the centre),
+  // plays with sound from there, and pauses as soon as it scrolls off that line in either direction.
+  const fio = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const tile = e.target, v = tile.querySelector('video');
+      if (reduce.matches) { tile.classList.add('paused'); return; }
+      if (e.isIntersecting && !tile.dataset.stopped) { v.preload = 'auto'; start(tile, v).catch(() => {}); }
+      else { v.pause(); }
+    });
+  }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+  clips.forEach(tile => {
+    const v = tile.querySelector('video');
+    const toggle = () => {
+      if (v.paused) { delete tile.dataset.stopped; v.preload = 'auto'; start(tile, v).then(() => tile.classList.remove('paused')).catch(() => {}); }
+      else { v.pause(); tile.dataset.stopped = '1'; tile.classList.add('paused'); }
+    };
+    v.addEventListener('click', toggle);
+    tile.querySelector('.vplay').addEventListener('click', toggle);
+    // The play/pause look always follows the video itself
+    v.addEventListener('play', () => tile.classList.remove('paused'));
+    v.addEventListener('pause', () => tile.classList.add('paused'));
+    const ctl = tile.querySelector('.film-ctl');
+    if (ctl) {
+      ctl.addEventListener('click', toggle);
+      const label = () => ctl.setAttribute('aria-label', v.paused ? 'Play the film' : 'Pause the film');
+      v.addEventListener('play', label); v.addEventListener('pause', label);
+    }
+    ('sound' in tile.dataset ? fio : vio).observe(tile);
+  });
+  const film = document.querySelector('.hero-film');
+  if (film) {
+    const v = film.querySelector('video'), snd = film.querySelector('.film-snd');
+    const paint = () => {
+      film.classList.toggle('muted', v.muted);
+      if (!v.muted) film.classList.remove('forced');
+      snd.setAttribute('aria-label', v.muted ? 'Turn sound on' : 'Turn sound off');
+    };
+    v.addEventListener('volumechange', paint);
+    paint();
+    snd.addEventListener('click', (e) => {
+      e.stopPropagation();
+      v.muted = !v.muted;
+      soundOff = v.muted;
+      film.classList.remove('forced');
+      if (!v.muted && v.paused) { delete film.dataset.stopped; v.play().catch(() => {}); }
+    });
+    const unlock = (e) => {
+      if (e.target.closest && e.target.closest('.film-snd')) return;   // that button decides for itself
+      removeEventListener('pointerdown', unlock, true); removeEventListener('keydown', unlock, true);
+      if (!soundOff && v.muted) v.muted = false;
+    };
+    addEventListener('pointerdown', unlock, true);
+    addEventListener('keydown', unlock, true);
+  }
+
+  /* ── Lightbox: a screenshot grows out of where it sits, and back ── */
+  const EASE = 'cubic-bezier(0.32, 0.72, 0, 1)';
+  let open = null, closing = null;
+  function target(img) {
+    const pad = Math.max(16, Math.min(56, innerWidth * 0.05));
+    const w = img.naturalWidth, h = img.naturalHeight;
+    const s = Math.min((innerWidth - pad * 2) / w, (innerHeight - pad * 2) / h, 1);
+    return { x: (innerWidth - w * s) / 2, y: (innerHeight - h * s) / 2, w: w * s, h: h * s };
+  }
+  function flip(src, to) {
+    const f = src.getBoundingClientRect();
+    return `translate(${f.left - to.x}px, ${f.top - to.y}px) scale(${f.width / to.w})`;
+  }
+  function show(src) {
+    if (open || !src.naturalWidth) return;
+    if (closing) closing();            // reopened mid-close: settle the old one at once
+    const lb = document.createElement('div');
+    lb.className = 'lb';
+    lb.tabIndex = -1;
+    lb.setAttribute('role', 'dialog');
+    lb.setAttribute('aria-modal', 'true');
+    lb.setAttribute('aria-label', src.alt);
+    const img = new Image();
+    img.src = src.currentSrc || src.src;
+    img.alt = src.alt;
+    img.className = src.classList.contains('cut') ? 'c' : 'w';
+    const to = target(src);
+    Object.assign(img.style, { left: to.x + 'px', top: to.y + 'px', width: to.w + 'px', height: to.h + 'px' });
+    lb.appendChild(img);
+    document.body.appendChild(lb);
+    const from = flip(src, to);
+    src.style.visibility = 'hidden';
+    if (!reduce.matches) img.animate([{ transform: from }, { transform: 'none' }], { duration: 440, easing: EASE });
+    lb.animate([{ opacity: 0 }, { opacity: 1 }], { duration: reduce.matches ? 150 : 240, easing: 'ease' });
+    const x = document.createElement('button');
+    x.type = 'button';
+    x.className = 'lb-x';
+    x.setAttribute('aria-label', 'Close');
+    x.innerHTML = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2l8 8M10 2l-8 8"/></svg>';
+    lb.appendChild(x);
+    // Say how to get out the first two times, then trust the visitor.
+    let seen = 0;
+    try { seen = +localStorage.getItem('arc-cs-enlarged') || 0; localStorage.setItem('arc-cs-enlarged', seen + 1); } catch (e) {}
+    if (seen < 2) {
+      const hint = document.createElement('p');
+      hint.className = 'lb-hint';
+      hint.textContent = matchMedia('(hover: none)').matches ? 'Tap anywhere to close' : 'Click anywhere or press Esc to close';
+      lb.appendChild(hint);
+    }
+    document.documentElement.classList.add('lb-open');
+    open = { lb, img, src, to };
+    lb.addEventListener('click', close);
+    x.focus({ preventScroll: true });
+  }
+  function close() {
+    if (!open) return;
+    const { lb, img, src, to } = open;
+    open = null;
+    // Start from wherever it is on screen right now, so closing mid-open reverses smoothly.
+    const t = getComputedStyle(img).transform;
+    const o = getComputedStyle(lb).opacity;
+    img.getAnimations().forEach(a => a.cancel());
+    lb.getAnimations().forEach(a => a.cancel());
+    let settled = false;
+    const done = () => {
+      if (settled) return;
+      settled = true;
+      closing = null;
+      src.style.visibility = '';
+      lb.remove();
+      if (!open) document.documentElement.classList.remove('lb-open');
+      src.focus({ preventScroll: true });
+    };
+    closing = done;
+    // Exit is quicker than entry: the system is responding, not the user deciding.
+    lb.animate([{ opacity: o }, { opacity: 0 }], { duration: reduce.matches ? 120 : 220, easing: 'ease', fill: 'forwards' });
+    if (reduce.matches) { setTimeout(done, 120); return; }
+    img.animate([{ transform: t }, { transform: flip(src, to) }], { duration: 300, easing: EASE, fill: 'forwards' }).onfinish = done;
+    setTimeout(done, 380);             // finish events wait for a visible tab; don't strand the overlay
+  }
+  document.querySelectorAll('.stage').forEach(stage => {
+    const first = stage.querySelector('.win, .cut');
+    if (!first) return;
+    const z = document.createElement('button');
+    z.type = 'button';
+    z.className = 'zoom';
+    z.tabIndex = -1;                    // the screenshot itself is the keyboard stop
+    z.setAttribute('aria-hidden', 'true');
+    z.innerHTML = '<svg viewBox="0 0 12 12"><path d="M7 1.5h3.5V5M5 10.5H1.5V7M10.5 1.5L7 5M1.5 10.5L5 7"/></svg>';
+    z.addEventListener('click', () => show(first));
+    stage.appendChild(z);
+  });
+  document.querySelectorAll('.win, .cut').forEach(img => {
+    img.tabIndex = 0;
+    img.setAttribute('role', 'button');
+    img.setAttribute('aria-label', 'Enlarge: ' + img.alt);
+    img.addEventListener('click', () => show(img));
+    img.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(img); } });
+  });
+  addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  addEventListener('wheel', close, { passive: true });
+
+  /* ── Sideways scrolling: fade the far edge, hint until the first scroll ── */
+  document.querySelectorAll('.hscroll').forEach(sc => {
+    const wrap = document.createElement('div');
+    wrap.className = 'hwrap';
+    sc.parentNode.insertBefore(wrap, sc);
+    wrap.appendChild(sc);
+    const hint = document.createElement('span');
+    hint.className = 'hhint';
+    hint.setAttribute('aria-hidden', 'true');
+    hint.textContent = 'Scroll →';
+    wrap.appendChild(hint);
+    const update = () => {
+      const max = sc.scrollWidth - sc.clientWidth;
+      wrap.classList.toggle('can-scroll', max > 4);
+      wrap.classList.toggle('at-end', sc.scrollLeft >= max - 4);
+    };
+    sc.addEventListener('scroll', () => {
+      update();
+      if (sc.scrollLeft > 8) wrap.classList.add('used');
+    }, { passive: true });
+    new ResizeObserver(update).observe(sc);
+    update();
+  });
+})();
+</script>
+<script>
+// the website's menu (same behaviour as index.html)
+(() => {
+  const body = document.body, toggle = document.getElementById('menuToggle'), menu = document.getElementById('menu');
+  const setMenu = (open) => {
+    body.classList.toggle('menu-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    menu.setAttribute('aria-hidden', String(!open));
+    body.style.overflow = open ? 'hidden' : '';
+  };
+  toggle.addEventListener('click', () => setMenu(!body.classList.contains('menu-open')));
+  menu.querySelectorAll('[data-close]').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && body.classList.contains('menu-open')) setMenu(false); });
+})();
+</script>
+</body>
+</html>
